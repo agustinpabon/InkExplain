@@ -1,0 +1,13 @@
+# Keep every text file LF on all platforms. The validator hashes, parses and
+# diffs Markdown, YAML, JSON and JavaScript, so line endings must be stable.
+* text=auto eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+
+# SVG is text, but it must never be rewritten by merge drivers.
+*.svg text eol=lf -diff

@@ -1,0 +1,18 @@
+.DS_Store
+Thumbs.db
+
+# Local generated outputs
+generated/
+outputs/
+dist/
+
+# Local editor files
+.idea/
+.vscode/
+
+# Local agent installs
+.agents/
+skills-lock.json
+
+# Logs
+*.log
