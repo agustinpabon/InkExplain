@@ -1,0 +1,6 @@
+interface:
+  display_name: "InkExplain"
+  short_description: "Turn complex ideas into consistent hand-drawn illustrations."
+  default_prompt: "Use $inkexplain to plan and create explanatory illustrations for this article."
+policy:
+  allow_implicit_invocation: true
