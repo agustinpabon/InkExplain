@@ -2,5 +2,5 @@
 
 > Turn complex ideas into beautiful, consistent hand-drawn illustrations with AI.
 
-## Why Hand-Drawn Sketches?
-Technical diagrams are often stiff...
+## Architecture
+InkExplain uses progressive disclosure to keep agent context tight and responsive.
