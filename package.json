@@ -5,6 +5,9 @@
   "description": "Turn complex ideas into beautiful, consistent hand-drawn illustrations with AI.",
   "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "validate": "node scripts/validate.mjs",
     "build:docs": "node scripts/build-docs.mjs"
