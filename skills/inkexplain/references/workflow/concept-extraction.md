@@ -90,5 +90,3 @@ Ask one short question instead of guessing when:
 - a requested archetype name is not recognized (see `references/routing.md`);
 - a gated archetype is requested for a use its restrictions clearly rule out;
 - the request needs a realistic depiction of a real person.
-
-<!-- entity minimization -->
