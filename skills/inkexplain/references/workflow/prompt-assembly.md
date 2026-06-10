@@ -54,5 +54,3 @@ Before generating or delivering, confirm that:
 - there is no title, structure-type text, or paragraph text;
 - the archetype's style and character blocks are intact;
 - the rights note is present when the archetype requires one.
-
-<!-- negative tokens -->
