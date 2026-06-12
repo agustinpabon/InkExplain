@@ -1,6 +1,12 @@
 {
   "$schema": "./registry.schema.json",
   "version": "1.0.0",
-  "description": "Single source of truth for InkExplain archetypes",
-  "archetypes": []
+  "archetypes": [
+    {
+      "id": "ink",
+      "name": "InkExplain Sketch",
+      "category": "style",
+      "status": "active"
+    }
+  ]
 }
