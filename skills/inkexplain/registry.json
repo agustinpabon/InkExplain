@@ -6,7 +6,17 @@
       "id": "ink",
       "name": "InkExplain Sketch",
       "category": "style",
-      "status": "active"
+      "status": "active",
+      "outputFolder": "assets/{slug}-ink",
+      "aliases": [
+        "sketch",
+        "ink",
+        "classic",
+        "editorial"
+      ],
+      "sampleGates": {
+        "status": "approved"
+      }
     }
   ]
 }
