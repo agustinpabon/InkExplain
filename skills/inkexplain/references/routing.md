@@ -1,5 +1,5 @@
 # Archetype Routing Table
 
-| Archetype | Category | Aliases |
-|---|---|---|
-| InkExplain Sketch (`ink`) | style | sketch, ink, classic, editorial |
+| Archetype | Category | Aliases | Description |
+|---|---|---|---|
+| InkExplain Sketch (`ink`) | style | sketch, ink, classic, editorial | Original editorial ink style |
