@@ -70,3 +70,5 @@ Check every image against `references/workflow/qa-checklist.md`, then:
 - Archetype: InkExplain Sketch (`ink`), the default archetype.
 - Folder: `assets/<article-slug>-illustrations/`.
 - Note which label carries the highlighter swipe in each image, so a re-render can keep it.
+
+<!-- mj notes -->
