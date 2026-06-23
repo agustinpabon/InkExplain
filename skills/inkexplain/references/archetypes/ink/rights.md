@@ -15,3 +15,5 @@
 
 - Decision: pending, as recorded in `registry.json`. No renders have been reviewed yet.
 - Publish renders after a quality review, under `examples/gallery/<en|zh>/ink/`, with the reviewer and the review date recorded in `sampleGates`.
+
+<!-- [stage] rights phrasing refined -->
