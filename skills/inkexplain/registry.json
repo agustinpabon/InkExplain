@@ -6,17 +6,13 @@
       "id": "ink",
       "name": "InkExplain Sketch",
       "category": "style",
-      "status": "active",
-      "outputFolder": "assets/{slug}-ink",
-      "aliases": [
-        "sketch",
-        "ink",
-        "classic",
-        "editorial"
-      ],
-      "sampleGates": {
-        "status": "approved"
-      }
+      "status": "active"
+    },
+    {
+      "id": "littlebox",
+      "name": "Littlebox",
+      "category": "tribute-character",
+      "status": "active"
     }
   ]
 }
