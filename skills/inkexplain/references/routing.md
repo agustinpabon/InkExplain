@@ -1,5 +1,6 @@
 # Archetype Routing Table
 
-| Archetype | Category | Aliases | Description |
-|---|---|---|---|
-| InkExplain Sketch (`ink`) | style | sketch, ink, classic, editorial | Original editorial ink style |
+| Archetype | Category | Aliases |
+|---|---|---|
+| InkExplain Sketch (`ink`) | style | sketch, ink, editorial |
+| Littlebox (`littlebox`) | tribute-character | box, paper, cube, cardboard |
