@@ -62,4 +62,4 @@ Littlebox plus two to four supporting elements. Add a low-tech object only when 
 - Vary the action across a set: sealing, stamping, carrying, sorting external slips, tying a bundle, blocking a path, handing off a parcel, folding a sheet, bracing a pile, redirecting a curved path.
 - Change the surrounding objects before deforming Littlebox; keep the front-left three-quarter box readable.
 
-<!-- [stage] initial motion -->
+<!-- [stage] cable sorting acting -->
