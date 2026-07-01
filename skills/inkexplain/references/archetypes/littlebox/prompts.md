@@ -104,5 +104,3 @@ Append this note to every generation and edit prompt, attach it to every plan, a
 ```text
 Littlebox is adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commit 37cd93e. Credit okooo5km or the 5km Littlebox Illustrations project in any documentation derived from it. The credit belongs in plans, reports, and documentation, not in the image: draw no credit text, signature, or logo.
 ```
-
-<!-- [stage] cardboard texture tags -->
