@@ -68,4 +68,4 @@ Examples of the method, not scenes to reuse:
 
 Across a set, vary Ferris's action and change the low-tech object before changing any identity cue. Never trace, pose-match, or recreate artwork from rustacean.net, public mascot asset sheets, or official logo arrangements; draw a new pose for each scene.
 
-<!-- [stage] initial motion -->
+<!-- [stage] claw poses -->
