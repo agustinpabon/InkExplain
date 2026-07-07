@@ -6,19 +6,22 @@
       "id": "ink",
       "name": "InkExplain Sketch",
       "category": "style",
-      "status": "active"
+      "status": "active",
+      "outputFolder": "assets/{slug}-ink"
     },
     {
       "id": "littlebox",
       "name": "Littlebox",
       "category": "tribute-character",
-      "status": "active"
+      "status": "active",
+      "outputFolder": "assets/{slug}-littlebox"
     },
     {
       "id": "ferris",
       "name": "Ferris the Crab",
       "category": "mascot",
-      "status": "active"
+      "status": "active",
+      "outputFolder": "assets/{slug}-ferris"
     }
   ]
 }
