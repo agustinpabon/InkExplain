@@ -107,5 +107,3 @@ Append this note to every generation and edit prompt, attach it to every plan, a
 ```text
 Ferris the Rustacean was created by Karen Rustad Tolva and dedicated to the public domain (CC0) via rustacean.net; keep this credit with published images. No Rust or Cargo logos, and no claims of official Rust project affiliation or endorsement.
 ```
-
-<!-- [stage] midjourney parameters -->
