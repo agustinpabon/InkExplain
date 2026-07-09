@@ -35,5 +35,3 @@ Sparse article illustrations in which Ferris performs one action inside an origi
 - Official Rust diagram layouts, code screenshots, and IDE, terminal, or UI scenes.
 - Rust or Cargo logos and logo-forward compositions.
 - A beach crab, seafood icon, random red animal, or generic crab mascot in place of Ferris.
-
-<!-- [stage] initial style -->
