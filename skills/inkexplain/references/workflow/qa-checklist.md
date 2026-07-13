@@ -49,3 +49,5 @@ The edit prompts are in `references/workflow/editing.md`. After three attempts o
 ## Delivery judgment
 
 A strong illustration makes the reader pause for a moment, a little surprised and slightly amused, and then understand the idea at once. Deliver the strongest images and mark weaker ones as optional rather than hiding them.
+
+<!-- [stage] numbering clarity -->
