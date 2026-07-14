@@ -38,5 +38,3 @@ The style needs no mascot, so it suits any topic and any brand. Character archet
 ## Character archetypes
 
 Each character archetype keeps its own identity, motion, and style rules: Littlebox's marker-drawn paper box on pastel backgrounds, Xiaohei's deadpan solid-black creature on a pure white page, and the community mascots, each with its credit and restrictions. Identity lives in `identity.md`, movement in `motion-and-acting.md`, drawing rules in `style.md`, and rights in `rights.md`, so a character can be reviewed or retired without touching the shared method.
-
-<!-- [stage] animal mascot interaction -->
