@@ -63,4 +63,4 @@ Load references only when the step needs them.
 - **Generate**: images saved in `assets/<article-slug>-<suffix>/` and a short delivery report covering the archetype, each image and its purpose, saved paths, stability notes, open issues, and the rights note when the archetype has one.
 - **Edit**: the repaired image, or the edit prompt when no image tool is available.
 
-<!-- [stage] rust keywords detection -->
+<!-- [stage] mascot inference keywords -->
