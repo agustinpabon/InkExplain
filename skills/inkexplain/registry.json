@@ -6,29 +6,31 @@
       "id": "ink",
       "name": "InkExplain Sketch",
       "category": "style",
-      "status": "active",
-      "outputFolder": "assets/{slug}-ink"
+      "status": "active"
     },
     {
       "id": "littlebox",
       "name": "Littlebox",
       "category": "tribute-character",
-      "status": "active",
-      "outputFolder": "assets/{slug}-littlebox"
+      "status": "active"
     },
     {
       "id": "ferris",
       "name": "Ferris the Crab",
       "category": "mascot",
-      "status": "active",
-      "outputFolder": "assets/{slug}-ferris"
+      "status": "active"
     },
     {
       "id": "seal",
       "name": "Seal",
       "category": "mascot",
-      "status": "active",
-      "outputFolder": "assets/{slug}-seal"
+      "status": "active"
+    },
+    {
+      "id": "openclaw",
+      "name": "OpenClaw",
+      "category": "mascot",
+      "status": "active"
     }
   ]
 }
