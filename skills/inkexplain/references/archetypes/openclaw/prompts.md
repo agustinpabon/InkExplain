@@ -104,4 +104,4 @@ Append this note to every generation and edit prompt, attach it to every plan, a
 The OpenClaw mascot comes from the OpenClaw project (https://github.com/openclaw/openclaw), MIT License, Copyright (c) 2026 OpenClaw Foundation, reviewed at commit c14793d. These are independent article illustrations: no claims of official OpenClaw affiliation or endorsement, and no product posters, UI screenshots, terminal scenes, or code screenshots.
 ```
 
-<!-- [stage] initial prompts -->
+<!-- [stage] suppress sci-fi armor -->
