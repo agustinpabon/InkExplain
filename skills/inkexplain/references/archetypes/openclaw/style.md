@@ -32,4 +32,4 @@ Sparse hand-drawn article sketches in which the red OpenClaw mascot performs one
 - Formal diagrams, dense PPT-like infographics, and poster layouts.
 - Top-left titles and title cards.
 
-<!-- [stage] initial style -->
+<!-- [stage] enhanced joints -->
