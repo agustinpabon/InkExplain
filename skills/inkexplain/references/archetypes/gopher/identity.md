@@ -47,4 +47,4 @@ Keep all eleven markers together, simplified for an article sketch:
 
 Imagine the gopher removed. If the metaphor still works, the gopher is decoration: rewrite the prompt so it performs the decisive action.
 
-<!-- [stage] initial identity -->
+<!-- [stage] proportions -->
