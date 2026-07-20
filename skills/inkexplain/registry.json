@@ -36,6 +36,13 @@
       "category": "mascot",
       "status": "active",
       "outputFolder": "assets/{slug}-openclaw"
+    },
+    {
+      "id": "gopher",
+      "name": "Go Gopher",
+      "category": "mascot",
+      "status": "active",
+      "outputFolder": "assets/{slug}-gopher"
     }
   ]
 }
