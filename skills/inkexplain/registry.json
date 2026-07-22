@@ -43,6 +43,13 @@
       "category": "mascot",
       "status": "active",
       "outputFolder": "assets/{slug}-gopher"
+    },
+    {
+      "id": "tux",
+      "name": "Tux Linux Penguin",
+      "category": "mascot",
+      "status": "active",
+      "outputFolder": "assets/{slug}-tux"
     }
   ]
 }
