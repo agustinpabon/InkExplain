@@ -8,3 +8,4 @@
 | Seal (`seal`) | mascot | zig, seal, ziggy |
 | OpenClaw (`openclaw`) | mascot | claw, robot, mechanical, gripper, bot |
 | Go Gopher (`gopher`) | mascot | go, golang, gopher |
+| Tux Linux Penguin (`tux`) | mascot | linux, kernel, penguin, tux, sysadmin |
