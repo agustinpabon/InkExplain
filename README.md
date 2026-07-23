@@ -2,7 +2,14 @@
 
 > Turn complex ideas into beautiful, consistent hand-drawn illustrations with AI.
 
-## Example Concepts
-- Memory safety & concurrency -> **Ferris** (`ferris`)
-- Compilers & build systems -> **Seal** (`seal`)
-- CI/CD & automation -> **OpenClaw** (`openclaw`)
+## Available Archetypes
+
+| Archetype | Category | Summary |
+|---|---|---|
+| InkExplain Sketch (`ink`) | style | Default editorial hand-drawn ink sketch style |
+| Littlebox (`littlebox`) | tribute-character | Expressive cardboard box character for playful explainers |
+| Ferris the Crab (`ferris`) | mascot | Rust community crab mascot for systems and memory safety |
+| Seal (`seal`) | mascot | Zig community seal mascot for compiler and systems design |
+| OpenClaw (`openclaw`) | mascot | Robotic mechanical gripper for automation, pipelines, and CI/CD |
+| Go Gopher (`gopher`) | mascot | Go community mascot for concurrency, networking, and microservices |
+| Tux Linux Penguin (`tux`) | mascot | Classic Linux penguin for operating systems, kernels, and infrastructure |
