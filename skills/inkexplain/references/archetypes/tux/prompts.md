@@ -98,4 +98,4 @@ Append this note to every generation and edit prompt, attach it to every plan, a
 Tux was created by Larry Ewing using The GIMP; credit Larry Ewing and The GIMP when asked. Linux is the registered trademark of Linus Torvalds in the U.S. and other countries. No distro logos and no Linux Foundation logos; no claims of endorsement, certification, compatibility, affiliation, sponsorship, or approval; no product posters, CLI screenshots, web hero graphics, kernel dashboards, or operating-system marketing graphics.
 ```
 
-<!-- [stage] initial prompts -->
+<!-- [stage] silhouette tags -->
