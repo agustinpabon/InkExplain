@@ -19,3 +19,7 @@ InkExplain builds upon community-created mascots and original artwork.
 ### OpenClaw
 - Creator: OpenClaw Foundation
 - License: MIT License
+
+### Tux Penguin
+- Creator: Larry Ewing
+- License: Permissive with attribution
