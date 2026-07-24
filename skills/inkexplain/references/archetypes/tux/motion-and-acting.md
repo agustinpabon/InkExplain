@@ -69,4 +69,4 @@ Linux-flavored props, such as a small terminal shape, a tiny source tag, a signp
 - Keep metaphors low-tech, sparse, and physical.
 - Never copy a reference pose or an earlier composition, and use nothing from other archetypes.
 
-<!-- [stage] initial motion -->
+<!-- [stage] refactor(archetypes/tux): add command-line terminal props to motion guide -->
