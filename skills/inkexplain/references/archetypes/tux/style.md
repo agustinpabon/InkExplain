@@ -35,4 +35,4 @@ Sparse hand-drawn article sketches in which Tux performs one cognitive action in
 - Logos and badges of any kind: distro logos, distro badges, package-manager marks, or Linux Foundation logos.
 - Generic tech-mascot or stock-illustration rendering.
 
-<!-- [stage] initial style -->
+<!-- [stage] docs(archetypes/tux): specify yellow beak and webbed feet watercolor accents -->
