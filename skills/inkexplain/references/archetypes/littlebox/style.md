@@ -64,4 +64,4 @@ On top of the shared failure signals in `references/workflow/qa-checklist.md`:
 - Children's-book scenes.
 - Any open or cutaway box (see `identity.md`).
 
-<!-- [stage] initial style -->
+<!-- [stage] docs(archetypes/littlebox): specify corrugated paper edge rendering -->
