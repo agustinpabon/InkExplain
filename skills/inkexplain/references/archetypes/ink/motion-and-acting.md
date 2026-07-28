@@ -42,3 +42,5 @@ Use one or two per image, and prefer objects with obvious physical behavior: thi
 - Invent a new metaphor for each source; do not reuse a scene from earlier images.
 - Two images in one series never share both the structure type and the main object.
 - When an idea repeats across articles, keep the idea and change the object and the action.
+
+<!-- [stage] docs(archetypes/ink): add whiteboard drawing and presentation poses -->
