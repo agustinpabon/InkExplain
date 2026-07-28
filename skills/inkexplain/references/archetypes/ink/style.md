@@ -43,3 +43,5 @@ The palette is fixed and restrained: at least 85% of every image is black ink on
 - Cute cartoon, chibi, or children's-book treatment.
 - Textured or tinted paper, watercolor washes, gradients, or drop shadows.
 - Dense diagrams with more than six labels or more than one main arrow.
+
+<!-- [stage] docs(archetypes/ink): refine cross-hatching density for technical shadows -->
