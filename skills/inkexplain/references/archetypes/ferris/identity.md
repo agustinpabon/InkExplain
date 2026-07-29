@@ -34,3 +34,5 @@ Keep Ferris simple enough for article explanation and recognizable enough that n
 ## Participation test
 
 If removing Ferris leaves the metaphor intact, Ferris is decoration. Rewrite the prompt so Ferris performs the action.
+
+<!-- [stage] docs(archetypes/ferris): specify claw hinge dimensions and eye spacing -->
