@@ -35,4 +35,4 @@ This marker list is the identity authority (see `rights.md`). Keep enough of eac
 
 Imagine OpenClaw removed. If the metaphor still works, OpenClaw is decoration: rewrite the prompt so OpenClaw performs the decisive action.
 
-<!-- [stage] initial identity -->
+<!-- [stage] docs(archetypes/openclaw): specify robotic joint axis mobility -->
