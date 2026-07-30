@@ -23,4 +23,4 @@
 - The approved renders live in the repository gallery, `examples/gallery/en/gopher/`, with the credit kept in `ATTRIBUTIONS.md` and next to the gallery. They are not part of the installed skill.
 - Any new public sample carries the credit line above and is recorded in `sampleGates` before it is published.
 
-<!-- [stage] initial rights -->
+<!-- [stage] docs(archetypes/gopher): verify CC BY 4.0 license link and attribution format -->
