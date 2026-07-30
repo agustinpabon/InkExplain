@@ -32,4 +32,4 @@ Markers: box body, dot eyes, front-left three-quarter view, closed top flaps, ti
 - Thin, smooth, ruler-straight, auto-traced, thresholded, posterized, or clean vector linework.
 - A smiling cute mascot, accessories, or a delivery-company icon look.
 
-<!-- [stage] initial identity -->
+<!-- [stage] docs(archetypes/littlebox): document flap movement ranges -->
