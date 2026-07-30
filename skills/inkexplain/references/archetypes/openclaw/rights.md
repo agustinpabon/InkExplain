@@ -22,4 +22,4 @@
 - The approved samples live in the InkExplain repository under `examples/gallery/en/openclaw/`, outside the skill package.
 - New samples need their own review, with the reviewer and the review date recorded in `sampleGates`. They keep all six identity markers, the credit above, and the restrictions above.
 
-<!-- [stage] initial rights -->
+<!-- [stage] docs(archetypes/openclaw): verify MIT license text in rights reference -->
