@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640" role="img" aria-labelledby="title desc">
+  <title id="title">InkExplain: ideas made visual</title>
+  <desc id="desc">A hand-drawn explainer scene. A tangled scribble labeled "messy idea" travels along a blue arrow into a funnel. A minimal ink figure turns the funnel's crank, and a clean light-bulb sketch labeled "clear picture" drops out onto a card, marked with a yellow highlighter swipe.</desc>
+  <defs>
+    <style>
+      .ink { fill: none; stroke: #1F1F1F; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+      .ink-thin { fill: none; stroke: #1F1F1F; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+      .flow { fill: none; stroke: #2F6FED; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+      .hand { font-family: "Segoe Print", "Bradley Hand", "Comic Neue", "Comic Sans MS", cursive; fill: #1F1F1F; }
+      .word { font-family: "Inter", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif; fill: #1F1F1F; }
+      .tagline { fill: #2F6FED; }
+      .note { fill: #4A4A4A; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="640" fill="#FFFFFF"/>
+
+  <!-- Wordmark -->
+  <path d="M90 234 C 230 220, 420 218, 556 226 L 553 272 C 420 266, 236 268, 93 280 Z" fill="#FFD84D" fill-opacity="0.85"/>
+  <text class="word" x="92" y="262" font-size="92" font-weight="800" letter-spacing="-2">InkExplain</text>
+  <text class="word tagline" x="96" y="330" font-size="38" font-weight="600">Ideas made visual.</text>
+  <text class="word note" x="96" y="384" font-size="22" font-weight="400">Turn complex ideas into consistent</text>
+  <text class="word note" x="96" y="414" font-size="22" font-weight="400">hand-drawn illustrations with AI.</text>
+
+  <!-- Messy idea: a tangle of crossing scribbles -->
+  <path class="ink" d="M694 318 C 700 270, 752 250, 772 282 C 790 312, 744 344, 716 324 C 690 306, 720 262, 752 280 C 778 296, 760 336, 730 338 C 700 340, 688 300, 724 284"/>
+  <path class="ink-thin" d="M704 262 C 728 300, 752 318, 784 320 M 760 258 C 740 286, 722 312, 698 336 M 736 254 C 742 290, 748 320, 744 350"/>
+  <path class="ink-thin" d="M716 300 C 730 290, 760 296, 752 312 C 744 326, 720 320, 726 306"/>
+  <text class="hand" x="684" y="390" font-size="22">messy idea</text>
+
+  <!-- Flow into the funnel -->
+  <path class="flow" d="M786 300 C 806 296, 826 296, 846 298"/>
+  <path class="flow" d="M834 288 L 848 298 L 834 309"/>
+
+  <!-- The funnel press -->
+  <path class="ink" d="M862 226 C 905 222, 960 222, 1004 226"/>
+  <path class="ink" d="M862 226 C 878 262, 902 296, 918 330"/>
+  <path class="ink" d="M1004 226 C 988 262, 964 296, 950 330"/>
+  <path class="ink" d="M918 330 L 919 364 M 950 330 L 949 364"/>
+  <path class="ink-thin" d="M880 250 C 912 247, 954 247, 986 250"/>
+  <!-- Crank -->
+  <path class="ink-thin" d="M998 262 L 1030 262"/>
+  <circle class="ink" cx="1042" cy="262" r="13"/>
+  <path class="ink-thin" d="M1042 262 L 1056 236 L 1070 236"/>
+
+  <!-- The ink figure turning the crank -->
+  <circle class="ink" cx="1118" cy="258" r="16"/>
+  <path class="ink" d="M1118 275 C 1117 300, 1116 322, 1115 344"/>
+  <path class="ink" d="M1117 290 C 1100 270, 1086 248, 1071 238"/>
+  <path class="ink" d="M1117 296 C 1130 306, 1140 318, 1146 330"/>
+  <path class="ink" d="M1115 344 C 1108 362, 1100 378, 1094 394"/>
+  <path class="ink" d="M1115 344 C 1124 362, 1132 378, 1140 394"/>
+  <path class="flow" d="M1060 216 C 1072 208, 1086 210, 1094 220" />
+
+  <!-- Clear picture: a neat light-bulb sketch on a card -->
+  <path class="flow" d="M934 372 L 934 398"/>
+  <path class="flow" d="M926 390 L 934 402 L 942 390"/>
+  <path d="M870 486 C 900 478, 966 477, 1002 484 L 1000 512 C 964 507, 902 508, 872 514 Z" fill="#FFD84D" fill-opacity="0.85"/>
+  <path class="ink-thin" d="M878 412 L 990 410 L 992 478 L 880 480 Z"/>
+  <path class="ink" d="M922 466 L 922 458 C 922 452, 914 450, 914 440 C 914 428, 923 420, 934 420 C 945 420, 954 428, 954 440 C 954 450, 946 452, 946 458 L 946 466"/>
+  <path class="ink-thin" d="M925 472 L 943 472"/>
+  <path class="ink-thin" d="M926 448 L 930 440 L 934 448 L 938 440 L 942 448"/>
+  <path class="ink-thin" d="M904 424 L 896 418 M 964 424 L 972 418 M 934 412 L 934 404"/>
+  <text class="hand" x="872" y="506" font-size="22">clear picture</text>
+</svg>
