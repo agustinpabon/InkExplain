@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-labelledby="title">
+  <title id="title">InkExplain mark: an ink drop holding a light-bulb filament over a highlighter swipe</title>
+  <!-- Highlighter swipe: the one thing worth underlining. -->
+  <path d="M14 86 C 34 79, 70 77, 114 80 L 112 100 C 76 98, 40 99, 16 104 Z" fill="#FFD84D" fill-opacity="0.85"/>
+  <!-- Ink drop -->
+  <path d="M64 10 C 58 24, 31 52, 31 77 C 31 96, 46 111, 64 111 C 82 111, 97 96, 97 77 C 97 52, 70 24, 64 10 Z"
+        fill="#1F1F1F" stroke="#1F1F1F" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Filament: an idea inside the ink -->
+  <path d="M52 90 L 52 78 C 52 72, 46 70, 46 62 C 46 52, 54 46, 64 46 C 74 46, 82 52, 82 62 C 82 70, 76 72, 76 78 L 76 90"
+        fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M56 76 L 60 68 L 64 76 L 68 68 L 72 76" fill="none" stroke="#FFD84D" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M54 97 L 74 97" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <!-- Explainer-blue motion marks -->
+  <path d="M104 40 C 110 46, 112 54, 111 62" fill="none" stroke="#2F6FED" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M112 30 C 120 38, 123 50, 121 60" fill="none" stroke="#2F6FED" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
