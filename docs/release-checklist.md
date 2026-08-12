@@ -53,4 +53,4 @@ Sample images are published only where `registry.json` records an approved sampl
 - [ ] Release commits are authored with the maintainer's own identity and the date they were made.
 - [ ] Remotes point where you intend to publish; nothing is pushed anywhere by accident.
 
-<!-- [stage] seal image resolution -->
+<!-- [stage] openclaw dimension checks -->
