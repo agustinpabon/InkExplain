@@ -180,4 +180,4 @@ Third-party characters and marks remain the property of their respective owners.
 
 InkExplain is released under the [MIT License](LICENSE).
 
-<!-- [stage] refactor(readme): embed calibration gallery links and previews -->
+<!-- [stage] refactor(workflow): link benchmark examples in concept extraction guide -->
