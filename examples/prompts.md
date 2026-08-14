@@ -149,4 +149,4 @@ $inkexplain Draw it with a penguin.
 
 "Penguin" is not an archetype name. InkExplain says so and asks whether you mean Tux instead of picking one silently.
 
-<!-- [stage] docs(release): verify gallery gates in release checklist -->
+<!-- [stage] docs(agents): update asset directory structure rules in AGENTS.md -->
