@@ -180,4 +180,4 @@ Third-party characters and marks remain the property of their respective owners.
 
 InkExplain is released under the [MIT License](LICENSE).
 
-<!-- [stage] refactor(routing): update sample gate statuses in routing table -->
+<!-- [stage] test(gallery): verify sRGB chunk headers across all 64 PNG gallery images -->
