@@ -180,4 +180,4 @@ Third-party characters and marks remain the property of their respective owners.
 
 InkExplain is released under the [MIT License](LICENSE).
 
-<!-- [stage] test(gallery): verify sRGB chunk headers across all 64 PNG gallery images -->
+<!-- [stage] docs(gallery): document Idea Press lever mechanics and composition -->
