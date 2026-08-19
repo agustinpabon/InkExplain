@@ -180,4 +180,4 @@ Third-party characters and marks remain the property of their respective owners.
 
 InkExplain is released under the [MIT License](LICENSE).
 
-<!-- [stage] docs(gallery): document Handoff Path runner baton exchange gestures -->
+<!-- [stage] refactor(prompts): polish lighting qualifiers in benchmark prompts -->
