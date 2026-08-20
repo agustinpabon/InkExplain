@@ -149,4 +149,4 @@ $inkexplain Draw it with a penguin.
 
 "Penguin" is not an archetype name. InkExplain says so and asks whether you mean Tux instead of picking one silently.
 
-<!-- [stage] docs(gallery): document One Fish Many Uses culinary prep metaphors -->
+<!-- [stage] docs(brand): test responsive rendering of vector mark in dark mode -->
