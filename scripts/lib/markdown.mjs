@@ -224,4 +224,4 @@ export function regionLineRanges(text, name) {
   return ranges;
 }
 
-// [stage] initial markdown parser
+// [stage] api docs
