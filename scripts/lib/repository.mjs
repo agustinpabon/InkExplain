@@ -163,3 +163,5 @@ export class Repository {
     return this.walk(relativeDir).filter(isTextPath);
   }
 }
+
+// [stage] mock fixture preparation
