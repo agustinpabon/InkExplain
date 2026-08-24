@@ -223,5 +223,3 @@ export function regionLineRanges(text, name) {
   }
   return ranges;
 }
-
-// [stage] api docs
