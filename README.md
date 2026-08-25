@@ -180,4 +180,4 @@ Third-party characters and marks remain the property of their respective owners.
 
 InkExplain is released under the [MIT License](LICENSE).
 
-<!-- [stage] docs(brand): ensure hero SVG renders correctly on high-DPI displays -->
+<!-- [stage] chunk reader verified -->
