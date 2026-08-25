@@ -45,4 +45,4 @@ export function svgProblems(text) {
   return problems;
 }
 
-// [stage] initial png parser
+// [stage] IHDR documentation
