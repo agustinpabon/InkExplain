@@ -44,5 +44,3 @@ export function svgProblems(text) {
   }
   return problems;
 }
-
-// [stage] IHDR documentation
