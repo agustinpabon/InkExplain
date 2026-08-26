@@ -488,5 +488,3 @@ export function findAliasMentions(registry, text) {
   }
   return mentions.sort((a, b) => a.index - b.index || a.archetypeId.localeCompare(b.archetypeId));
 }
-
-// [stage] pack validation logic
