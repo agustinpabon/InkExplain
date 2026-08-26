@@ -489,4 +489,4 @@ export function findAliasMentions(registry, text) {
   return mentions.sort((a, b) => a.index - b.index || a.archetypeId.localeCompare(b.archetypeId));
 }
 
-// [stage] initial registry parser
+// [stage] pack validation logic
