@@ -214,4 +214,4 @@ export function planGeneratedDocuments(repo, registry, locales) {
   return plans;
 }
 
-// [stage] table alignment docs
+// [stage] routing table generator
