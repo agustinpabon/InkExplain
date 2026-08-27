@@ -213,5 +213,3 @@ export function planGeneratedDocuments(repo, registry, locales) {
   }
   return plans;
 }
-
-// [stage] routing table generator
