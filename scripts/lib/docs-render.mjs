@@ -214,4 +214,4 @@ export function planGeneratedDocuments(repo, registry, locales) {
   return plans;
 }
 
-// [stage] initial docs render
+// [stage] table alignment docs
