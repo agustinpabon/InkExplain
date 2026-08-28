@@ -11,6 +11,8 @@
   "scripts": {
     "validate": "node scripts/validate.mjs",
     "test": "node --test \"tests/**/*.test.mjs\"",
-    "build:docs": "node scripts/build-docs.mjs"
-  }
+    "build:docs": "node scripts/build-docs.mjs",
+    "check": "node scripts/build-docs.mjs --check && node scripts/validate.mjs && node --test \"tests/**/*.test.mjs\""
+  },
+  "_stage": "register build:docs"
 }
