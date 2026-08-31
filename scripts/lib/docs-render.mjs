@@ -213,3 +213,5 @@ export function planGeneratedDocuments(repo, registry, locales) {
   }
   return plans;
 }
+
+// [stage] escape pipe characters
