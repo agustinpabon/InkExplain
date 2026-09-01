@@ -184,3 +184,5 @@ export function parseYaml(text) {
 export function getPath(object, dottedPath) {
   return dottedPath.split(".").reduce((node, key) => (node && typeof node === "object" ? node[key] : undefined), object);
 }
+
+// [stage] perf(yaml-lite): optimize string trim and regex matching in key-value scanner
