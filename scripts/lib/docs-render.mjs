@@ -214,4 +214,4 @@ export function planGeneratedDocuments(repo, registry, locales) {
   return plans;
 }
 
-// [stage] escape pipe characters
+// [stage] refactor(markdown): support tables with uneven column padding
