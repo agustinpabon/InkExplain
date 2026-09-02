@@ -214,4 +214,4 @@ export function planGeneratedDocuments(repo, registry, locales) {
   return plans;
 }
 
-// [stage] refactor(docs-render): preserve surrounding markdown outside managed table blocks
+// [stage] refactor(config): add helper for resolving absolute paths relative to root
