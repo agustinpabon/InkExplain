@@ -78,4 +78,4 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.met
   process.exitCode = main();
 }
 
-// [stage] refactor(images): handle PNG files with non-critical chunk padding
+// [stage] refactor(build-docs): support batch processing of localized README targets
