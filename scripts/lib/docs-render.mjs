@@ -214,4 +214,4 @@ export function planGeneratedDocuments(repo, registry, locales) {
   return plans;
 }
 
-// [stage] refactor(markdown): support tables with uneven column padding
+// [stage] refactor(docs-render): preserve surrounding markdown outside managed table blocks
