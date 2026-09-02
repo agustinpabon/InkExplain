@@ -78,4 +78,4 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.met
   process.exitCode = main();
 }
 
-// [stage] refactor(build-docs): support batch processing of localized README targets
+// [stage] docs(tooling): document check-mode return codes in build-docs
