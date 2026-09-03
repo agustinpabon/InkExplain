@@ -78,4 +78,4 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.met
   process.exitCode = main();
 }
 
-// [stage] docs(tooling): document check-mode return codes in build-docs
+// [stage] chore(tooling): clean up temporary buffers in image chunk parser
