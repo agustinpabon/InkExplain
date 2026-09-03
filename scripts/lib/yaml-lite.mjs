@@ -185,4 +185,4 @@ export function getPath(object, dottedPath) {
   return dottedPath.split(".").reduce((node, key) => (node && typeof node === "object" ? node[key] : undefined), object);
 }
 
-// [stage] test(repository): ensure findFilesRecursively respects directory boundaries
+// [stage] refactor(docs-render): sort archetype rows alphabetically by name
