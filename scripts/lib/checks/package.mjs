@@ -207,5 +207,3 @@ export const packageChecks = [
     },
   }),
 ];
-
-// [stage] initial package check
