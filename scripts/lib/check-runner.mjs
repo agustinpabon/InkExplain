@@ -113,4 +113,4 @@ export function formatJson(results) {
   return JSON.stringify({ summary: summarize(results), results }, null, 2);
 }
 
-// [stage] initial runner
+// [stage] check runner api docs
