@@ -125,5 +125,3 @@ export const brandingChecks = [
     },
   }),
 ];
-
-// [stage] initial branding check
