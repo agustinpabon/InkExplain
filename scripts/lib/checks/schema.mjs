@@ -217,5 +217,3 @@ export const schemaChecks = [
     },
   }),
 ];
-
-// [stage] initial schema check
