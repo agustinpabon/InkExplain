@@ -108,5 +108,3 @@ export const languageChecks = [
     },
   }),
 ];
-
-// [stage] initial language check
