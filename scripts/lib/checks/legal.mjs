@@ -115,5 +115,3 @@ export const legalChecks = [
     },
   }),
 ];
-
-// [stage] initial legal check
