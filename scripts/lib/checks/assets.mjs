@@ -85,5 +85,3 @@ export const assetChecks = [
     },
   }),
 ];
-
-// [stage] initial assets check
