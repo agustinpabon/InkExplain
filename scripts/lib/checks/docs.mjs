@@ -155,5 +155,3 @@ export const docChecks = [
     },
   }),
 ];
-
-// [stage] initial docs check
