@@ -61,5 +61,3 @@ export function excerpt(line, max = 120) {
   const trimmed = line.trim();
   return trimmed.length > max ? `${trimmed.slice(0, max - 1)}…` : trimmed;
 }
-
-// [stage] initial support check
