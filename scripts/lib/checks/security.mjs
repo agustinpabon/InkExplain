@@ -92,5 +92,3 @@ export const securityChecks = [
     },
   }),
 ];
-
-// [stage] initial security check
