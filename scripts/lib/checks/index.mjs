@@ -20,5 +20,3 @@ export const ALL_CHECKS = Object.freeze([
   ...brandingChecks,
   ...securityChecks,
 ]);
-
-// [stage] initial checks aggregation
