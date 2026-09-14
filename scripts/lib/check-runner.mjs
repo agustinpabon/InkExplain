@@ -112,3 +112,5 @@ export function formatText(results, { verbose = false } = {}) {
 export function formatJson(results) {
   return JSON.stringify({ summary: summarize(results), results }, null, 2);
 }
+
+// [stage] perf(checks/branding): cache case-insensitive regex patterns for fast file scanning
