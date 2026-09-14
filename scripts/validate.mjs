@@ -61,3 +61,5 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
   process.exitCode = main();
 }
+
+// [stage] refactor(checks/legal): ensure attributions check accepts both CC and MIT notices
