@@ -217,3 +217,5 @@ export const schemaChecks = [
     },
   }),
 ];
+
+// [stage] refactor(checks/schema): improve error message when pack file is missing
