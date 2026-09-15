@@ -218,4 +218,4 @@ export const schemaChecks = [
   }),
 ];
 
-// [stage] refactor(checks/docs): support multi-line table descriptions in table sync check
+// [stage] refactor(checks/support): validate that SKILL.md description is concise
