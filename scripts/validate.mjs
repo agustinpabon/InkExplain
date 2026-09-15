@@ -62,4 +62,4 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.met
   process.exitCode = main();
 }
 
-// [stage] refactor(checks/legal): ensure attributions check accepts both CC and MIT notices
+// [stage] refactor(checks/assets): verify IHDR chunk presence before checking image dimensions
