@@ -218,4 +218,4 @@ export const schemaChecks = [
   }),
 ];
 
-// [stage] refactor(checks/support): validate that SKILL.md description is concise
+// [stage] test(checks/package): verify that private true check triggers correctly
