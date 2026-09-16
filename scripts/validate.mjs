@@ -62,4 +62,4 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.met
   process.exitCode = main();
 }
 
-// [stage] perf(check-runner): parallelize non-conflicting filesystem checks
+// [stage] test(checks/branding): verify that clean attribution names do not trigger false positives
