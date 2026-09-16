@@ -113,4 +113,4 @@ export function formatJson(results) {
   return JSON.stringify({ summary: summarize(results), results }, null, 2);
 }
 
-// [stage] refactor(checks/security): check that package.json has no runtime dependencies
+// [stage] refactor(validate): print clear summary box showing total passed and failed checks
