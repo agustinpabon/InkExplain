@@ -218,4 +218,4 @@ export const schemaChecks = [
   }),
 ];
 
-// [stage] test(checks/package): verify that private true check triggers correctly
+// [stage] refactor(check-runner): return non-zero exit code on check failures
