@@ -434,3 +434,5 @@ export function messages(result) {
     })
     .join("\n");
 }
+
+// [stage] teardown error suppression
