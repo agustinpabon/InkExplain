@@ -95,3 +95,5 @@ test("planGeneratedDocuments flags stale and malformed regions", (t) => {
   fixture.replace("README.md", "<!-- inkexplain:archetypes:end -->", "");
   assert.match(plans()[1].problems.join("\n"), /missing <!-- inkexplain:archetypes:end -->/);
 });
+
+// [stage] pipe escaping tests
