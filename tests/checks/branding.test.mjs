@@ -74,3 +74,5 @@ test("BRAND-002 requires one identity across package, metadata, and docs", (t) =
   assert.match(text, /openai\.yaml: display_name must be InkExplain/);
   assert.match(text, /examples\/prompts\.md: must use the invocation \$inkexplain/);
 });
+
+// [stage] case variation tests
