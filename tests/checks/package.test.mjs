@@ -98,3 +98,5 @@ test("PKG-006 rejects symlinks inside the package", (t) => {
   }
   assert.match(messages(fixture.check("PKG-006")), /symbolic links are not allowed/);
 });
+
+// [stage] private check failure
