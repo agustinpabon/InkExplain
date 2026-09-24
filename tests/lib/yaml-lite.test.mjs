@@ -61,3 +61,5 @@ test("accepts CRLF input", () => {
   assert.deepEqual(errors, []);
   assert.deepEqual(value, { a: 1, b: { c: "two" } });
 });
+
+// [stage] multiline string tests
