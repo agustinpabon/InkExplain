@@ -99,3 +99,5 @@ test("regions can be read, replaced, and located", () => {
   assert.match(readRegion("<!-- inkexplain:x:start -->", "x").errors[0], /missing/);
   assert.throws(() => replaceRegion("nothing", "routes", "x"), /not found/);
 });
+
+// [stage] reference link tests
