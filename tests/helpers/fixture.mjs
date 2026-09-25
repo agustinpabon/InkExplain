@@ -435,4 +435,4 @@ export function messages(result) {
     .join("\n");
 }
 
-// [stage] teardown error suppression
+// [stage] speed up fixtures
