@@ -98,4 +98,4 @@ test("the real CLI entry point sets the process exit code", (t) => {
   assert.equal(usage.status, 2);
 });
 
-// [stage] filter flags test
+// [stage] build-docs check mode test
