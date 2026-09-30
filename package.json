@@ -14,5 +14,5 @@
     "build:docs": "node scripts/build-docs.mjs",
     "check": "node scripts/build-docs.mjs --check && node scripts/validate.mjs && node --test \"tests/**/*.test.mjs\""
   },
-  "_stage": "integrate all test suites"
+  "_stage": "test runner concurrency"
 }
