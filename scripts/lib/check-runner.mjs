@@ -113,4 +113,4 @@ export function formatJson(results) {
   return JSON.stringify({ summary: summarize(results), results }, null, 2);
 }
 
-// [stage] refactor(checks/docs): verify that all links in README point to existing files
+// [stage] regex caching
