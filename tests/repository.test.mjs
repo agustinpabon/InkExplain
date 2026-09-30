@@ -93,3 +93,5 @@ test("output folders are deterministic and unique", () => {
   assert.equal(outputDirectory(registry.defaultArchetype), "assets/<article-slug>-illustrations/");
   assert.equal(outputDirectory(registry.byId.get("tux"), "my-post"), "assets/my-post-tux/");
 });
+
+// [stage] full repo verification
