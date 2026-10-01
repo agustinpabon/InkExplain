@@ -56,3 +56,5 @@ test("SEC-004 keeps repository scripts offline and shell-free", (t) => {
   assert.match(text, /scripts\/tool\.mjs:2: network access/);
   assert.doesNotMatch(text, /:3:/);
 });
+
+// [stage] test(checks/security): assert offline check detects fetch and http imports
