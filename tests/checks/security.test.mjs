@@ -57,4 +57,4 @@ test("SEC-004 keeps repository scripts offline and shell-free", (t) => {
   assert.doesNotMatch(text, /:3:/);
 });
 
-// [stage] test(checks/security): assert offline check detects fetch and http imports
+// [stage] test(checks/docs): assert broken internal links are reported with file line numbers
