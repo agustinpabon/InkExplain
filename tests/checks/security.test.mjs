@@ -57,4 +57,4 @@ test("SEC-004 keeps repository scripts offline and shell-free", (t) => {
   assert.doesNotMatch(text, /:3:/);
 });
 
-// [stage] test(checks/docs): assert broken internal links are reported with file line numbers
+// [stage] test(lib/registry): test registry error handling when JSON is malformed
