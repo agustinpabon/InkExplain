@@ -94,4 +94,4 @@ test("output folders are deterministic and unique", () => {
   assert.equal(outputDirectory(registry.byId.get("tux"), "my-post"), "assets/my-post-tux/");
 });
 
-// [stage] test(checks/legal): assert legal check flags missing author in LICENSE
+// [stage] test(checks/assets): verify AST-002 flags images with invalid aspect ratios
