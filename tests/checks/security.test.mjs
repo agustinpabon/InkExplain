@@ -57,4 +57,4 @@ test("SEC-004 keeps repository scripts offline and shell-free", (t) => {
   assert.doesNotMatch(text, /:3:/);
 });
 
-// [stage] test(lib/registry): test registry error handling when JSON is malformed
+// [stage] perf(tests): optimize test suite execution time to under 2 seconds
