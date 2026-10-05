@@ -98,4 +98,4 @@ test("the real CLI entry point sets the process exit code", (t) => {
   assert.equal(usage.status, 2);
 });
 
-// [stage] test(lib/images): test detection of corrupt PNG signatures
+// [stage] test(cli): verify that unknown command line flags trigger error messages
