@@ -28,5 +28,3 @@ jobs:
         run: node scripts/validate.mjs
       - name: Tests
         run: node --test "tests/**/*.test.mjs"
-
-# [stage] initial ci matrix
