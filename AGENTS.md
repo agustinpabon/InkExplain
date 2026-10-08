@@ -45,5 +45,3 @@ Run `npm run build:docs` after editing `registry.json` or `readmes/locales.json`
 ## Commit style
 
 Conventional commits (`feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`, `ci:`) with an imperative summary under 72 characters and a body that explains why.
-
-<!-- [stage] updated test instructions -->
