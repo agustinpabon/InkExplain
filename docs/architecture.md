@@ -141,5 +141,3 @@ Fixtures are built in temporary directories by `tests/helpers/fixture.mjs`, incl
 - **Safe paths**: every path from data or links is resolved inside the repository; symlinks are never followed.
 - **Stable line endings**: `.gitattributes` keeps text files LF; readers also normalize CRLF.
 - **Honest capabilities**: the skill states when it cannot generate images and falls back to prompt mode.
-
-<!-- [stage] test strategy -->
