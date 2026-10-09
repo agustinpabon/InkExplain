@@ -64,5 +64,3 @@ Prefer objects everyone has touched over technical icons. Explain software with 
 - Two competing ideas in one frame.
 - An actor standing still while the objects do all the work.
 - The focal point pushed to an edge, or the canvas filled from corner to corner.
-
-<!-- ascii diagrams -->
