@@ -39,5 +39,3 @@ Report one block per archetype: the shared core idea, that archetype's images, i
 ## Publishing reminder
 
 Generated images belong to the user's project. When the user intends to publish images made with a third-party archetype, remind them of that archetype's credit and restrictions from `references/routing.md`.
-
-<!-- [stage] littlebox delivery example -->
