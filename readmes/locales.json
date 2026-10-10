@@ -1,0 +1,83 @@
+{
+  "$comment": "Locale data for generated README regions: the language selector and the archetype gallery table headings. Order sets the language selector order. Edit, then run `npm run build:docs`.",
+  "locales": [
+    {
+      "code": "en",
+      "label": "English",
+      "file": "README.md",
+      "strings": { "archetype": "Archetype", "category": "Category", "summary": "Style summary", "legalStatus": "Legal status", "default": "default" }
+    },
+    {
+      "code": "es",
+      "label": "Español",
+      "file": "readmes/README.es.md",
+      "strings": { "archetype": "Arquetipo", "category": "Categoría", "summary": "Resumen del estilo", "legalStatus": "Estado legal", "default": "predeterminado" }
+    },
+    {
+      "code": "pt",
+      "label": "Português",
+      "file": "readmes/README.pt.md",
+      "strings": { "archetype": "Arquétipo", "category": "Categoria", "summary": "Resumo do estilo", "legalStatus": "Situação legal", "default": "padrão" }
+    },
+    {
+      "code": "de",
+      "label": "Deutsch",
+      "file": "readmes/README.de.md",
+      "strings": { "archetype": "Archetyp", "category": "Kategorie", "summary": "Stilbeschreibung", "legalStatus": "Rechtsstatus", "default": "Standard" }
+    },
+    {
+      "code": "fr",
+      "label": "Français",
+      "file": "readmes/README.fr.md",
+      "strings": { "archetype": "Archétype", "category": "Catégorie", "summary": "Résumé du style", "legalStatus": "Statut juridique", "default": "par défaut" }
+    },
+    {
+      "code": "zh",
+      "label": "简体中文",
+      "file": "readmes/README.zh.md",
+      "strings": { "archetype": "原型", "category": "类别", "summary": "风格概要", "legalStatus": "法律状态", "default": "默认" }
+    },
+    {
+      "code": "zh-Hant",
+      "label": "繁體中文",
+      "file": "readmes/README.zh-Hant.md",
+      "strings": { "archetype": "原型", "category": "類別", "summary": "風格概要", "legalStatus": "法律狀態", "default": "預設" }
+    },
+    {
+      "code": "ko",
+      "label": "한국어",
+      "file": "readmes/README.ko.md",
+      "strings": { "archetype": "아키타입", "category": "카테고리", "summary": "스타일 요약", "legalStatus": "법적 상태", "default": "기본값" }
+    },
+    {
+      "code": "ja",
+      "label": "日本語",
+      "file": "readmes/README.ja.md",
+      "strings": { "archetype": "アーキタイプ", "category": "カテゴリ", "summary": "スタイルの概要", "legalStatus": "法的ステータス", "default": "デフォルト" }
+    },
+    {
+      "code": "ar",
+      "label": "العربية",
+      "file": "readmes/README.ar.md",
+      "strings": { "archetype": "النموذج", "category": "الفئة", "summary": "ملخص الأسلوب", "legalStatus": "الوضع القانوني", "default": "الافتراضي" }
+    },
+    {
+      "code": "ru",
+      "label": "Русский",
+      "file": "readmes/README.ru.md",
+      "strings": { "archetype": "Архетип", "category": "Категория", "summary": "Описание стиля", "legalStatus": "Правовой статус", "default": "по умолчанию" }
+    },
+    {
+      "code": "tr",
+      "label": "Türkçe",
+      "file": "readmes/README.tr.md",
+      "strings": { "archetype": "Arketip", "category": "Kategori", "summary": "Stil özeti", "legalStatus": "Hukuki durum", "default": "varsayılan" }
+    },
+    {
+      "code": "uk",
+      "label": "Українська",
+      "file": "readmes/README.uk.md",
+      "strings": { "archetype": "Архетип", "category": "Категорія", "summary": "Опис стилю", "legalStatus": "Правовий статус", "default": "за замовчуванням" }
+    }
+  ]
+}
