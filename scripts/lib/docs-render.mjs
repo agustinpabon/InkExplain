@@ -214,4 +214,4 @@ export function planGeneratedDocuments(repo, registry, locales) {
   return plans;
 }
 
-// [stage] test(build-docs): verify idempotency when run repeatedly without registry changes
+// [stage] validate locale table headers
