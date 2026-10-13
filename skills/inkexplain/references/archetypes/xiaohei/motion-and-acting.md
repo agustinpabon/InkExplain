@@ -1,0 +1,59 @@
+# Xiaohei Motion and Acting
+
+How Xiaohei moves, and how the shared structure types from `references/workflow/composition-grid.md` look with Xiaohei: each image takes one of the patterns below, with one core idea and one Xiaohei action at its decisive moment.
+
+## Actions
+
+Sort, weigh, press, connect, carry, stamp; pull a lever, haul material, gather threads, filter, slice, hold up a warning sign, open a gate, lay a bridge, record.
+
+Xiaohei treats a cognitive operation as manual labor and does it with complete seriousness:
+
+- sorting: Xiaohei drops pieces into labeled bins, or becomes the funnel that filters them;
+- weighing: Xiaohei loads one side of a scale and watches it tip;
+- pressing: Xiaohei leans its whole body on a press until a pile becomes one clean sheet;
+- connecting: Xiaohei pulls threads from several sources into one knot, or walks a cable across a gap;
+- carrying: Xiaohei hauls raw material from one place to the next;
+- stamping: Xiaohei stamps the approved version, or the handoff note.
+
+### Poses and acting
+
+- Effort lives in the whole black body and the thin legs: leaning into a lever, braced under a load, mid-step along a path.
+- Deadpan acting: the white dot eyes stay blank and calm whatever happens. The humor is a small serious creature doing a slightly absurd job.
+- Point Xiaohei's body and gaze at the object it is changing, so the eye travels from Xiaohei to the action.
+
+### Timing
+
+- A single image shows the decisive moment: the stamp landing, the lever pulled, the scale tipping, not the setup or the aftermath.
+- Mini comics use two or three beats at most, one action each, with Xiaohei drawn the same way in every panel.
+
+## Patterns
+
+- **Breakpoint** (bugs, handoff failures, missing context): Xiaohei is stuck in the gap where the process breaks, holding both ends apart or together.
+- **Machine operator** (decisions, judgment, automation): Xiaohei sits inside a simple machine and pulls the one lever labeled with the decision.
+- **Funnel and sort** (prioritization, filtering, triage): Xiaohei becomes the funnel or stands at its mouth, sorting what passes.
+- **Gather the sources** (research, synthesis, inputs): Xiaohei pulls threads from three or four sources into one bundle.
+- **Slice the material** (repurposing, one source many uses): Xiaohei cuts one large object into useful parts for different jobs.
+- **Warning sign** (pitfalls, common mistakes): Xiaohei holds up a red warning sign beside the hole others are about to fall into.
+- **Reach and miss** (lost attention, dropped content): Xiaohei reaches out of a hole for content that slips past.
+- **Mini comic** (failure-to-fix sequences, dry operational humor): two or three loose panels, one action each.
+
+### Metaphor invention
+
+Turn the idea into a physical job for Xiaohei:
+
+- too many inputs: carry them to a funnel and sort them;
+- a hard trade-off: weigh both options on a scale;
+- compressing context: press a tall stack into one sheet;
+- integrating tools: connect loose cables into one plug;
+- approval or commitment: stamp the final version.
+
+## Supporting objects
+
+Xiaohei plus two to four supporting elements, drawn in thin line art with minimal fill. Add a low-tech object only when it clarifies the idea: lever, scale, press, funnel, rope, cable, bin, stamp, sign, gate, bridge, hole, conveyor, or small machine.
+
+## Originality
+
+- The shared originality rules in `references/workflow/composition-grid.md` apply.
+- Vary the action across a set: sorting, weighing, pressing, connecting, carrying, stamping, pulling a lever, holding a sign.
+- Invent the scene from the article's idea; never trace or recreate an existing Xiaohei illustration or composition.
+- Change the surrounding objects before deforming Xiaohei; keep the solid-black body and white dot eyes readable.
