@@ -49,5 +49,3 @@ Each archetype's rights record, `skills/inkexplain/references/archetypes/<id>/ri
 ## Trademarks
 
 Names, characters, and marks of third parties belong to their owners. Their use in archetype names and reference material identifies the subject of an archetype; it does not imply that InkExplain is affiliated with, sponsored by, or endorsed by any of them. InkExplain's own name and its house style, InkExplain Sketch, use no third-party characters.
-
-<!-- [stage] direct project URLs -->
