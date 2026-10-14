@@ -162,5 +162,3 @@ Tux, the Linux penguin created by Larry Ewing, performing the idea in sparse art
   - No product posters, CLI screenshots, web hero graphics, kernel dashboards, or operating-system marketing graphics.
 - Never selects: `penguin`, `server`, `kernel`, `distro`, `distro logo`, `Linux Foundation`, `operating system`, `CLI`, `terminal`, `brand campaign`, `mascot`
 - Public samples: pending. No public samples have been reviewed yet.
-
-<!-- [stage] routing verified -->
