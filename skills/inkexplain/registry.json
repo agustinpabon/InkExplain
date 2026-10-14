@@ -78,6 +78,85 @@
       }
     },
     {
+      "id": "xiaohei",
+      "name": "Xiaohei",
+      "category": "mascot",
+      "status": "active",
+      "summary": "Ian's Xiaohei, a small solid-black creature with white dot eyes and thin legs, doing serious, slightly absurd work inside sparse black-ink sketches on a pure white page.",
+      "aliases": [
+        "Xiaohei",
+        "小黑",
+        "Ian Xiaohei"
+      ],
+      "outputSuffix": "xiaohei",
+      "motionDna": {
+        "actor": "Xiaohei, the solid-black creature, as the serious operator inside the idea",
+        "signatureActions": [
+          "sort",
+          "weigh",
+          "press",
+          "connect",
+          "carry",
+          "stamp"
+        ],
+        "poses": [
+          "the whole black body leaning into a lever, a rope, or a press",
+          "thin legs braced under a load or mid-step along a path",
+          "white dot eyes fixed on the work, deadpan whatever happens"
+        ],
+        "timing": "One decisive moment per image; mini comics use two or three beats with Xiaohei drawn the same way in every panel"
+      },
+      "styleSheet": {
+        "medium": "A sparse hand-drawn explainer sketch in black ink",
+        "canvas": "16:9 on a pure white page, at least 35% empty; the main subject fills about 40-60%",
+        "linework": "Thin black hand-drawn lines with a slight wobble; never vector, mechanical, or heavy outlines",
+        "palette": [
+          "black",
+          "pure white",
+          "red",
+          "orange",
+          "blue"
+        ],
+        "avoid": [
+          "cute mascot, sticker, or children's-cartoon looks",
+          "commercial illustration, PPT infographics, and formal flowcharts",
+          "beige, textured, gradient, or shaded backgrounds",
+          "3D shading, glossy eyes, and costumes"
+        ]
+      },
+      "legalNotice": {
+        "credit": "Xiaohei is the recurring character of Ian Xiaohei Illustrations by Ian (https://github.com/helloianneo/ian-xiaohei-illustrations), MIT License, Copyright (c) 2026 Ian, inspected at commit 4102eb8",
+        "rightsHolder": "Ian",
+        "license": "MIT",
+        "attributionTerms": [
+          "Ian Xiaohei Illustrations",
+          "https://github.com/helloianneo/ian-xiaohei-illustrations",
+          "4102eb807f03bcb6e538a16e8b31b41db8b5b954"
+        ],
+        "restrictions": [
+          "Keep the Ian Xiaohei Illustrations name or credit Ian in any documentation derived from this archetype.",
+          "No claims that Ian created, endorses, or is affiliated with InkExplain or the generated images."
+        ]
+      },
+      "sampleGates": {
+        "status": "pending",
+        "decision": "No InkExplain renders have been reviewed yet, and Ian's own example images are not bundled.",
+        "directories": []
+      },
+      "contract": {
+        "identityMarkers": [
+          "solid black body",
+          "white dot eyes",
+          "thin legs",
+          "deadpan expression"
+        ],
+        "isolationMarkers": [
+          "Xiaohei",
+          "Ian Xiaohei Illustrations"
+        ]
+      }
+    },
+    {
       "id": "littlebox",
       "name": "Littlebox",
       "category": "tribute-character",
@@ -597,5 +676,5 @@
       }
     }
   ],
-  "_stage": "7 archetypes verified"
+  "_stage": "xiaohei registered"
 }
