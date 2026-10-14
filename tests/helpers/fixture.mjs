@@ -434,5 +434,3 @@ export function messages(result) {
     })
     .join("\n");
 }
-
-// [stage] speed up fixtures

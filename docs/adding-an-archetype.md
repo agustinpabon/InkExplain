@@ -115,5 +115,3 @@ Then try the archetype for real: one planning request and one generation or prom
 ## Publishing samples
 
 Keep `sampleGates.status` at `pending` until someone reviews real renders. To publish, set it to `approved`, add the reviewer, the review date, the reasoning, and the gallery directories, then add the images under `examples/gallery/<en|zh>/<id>/` with names like `01-topic-slug.png`. Gated archetypes also need `sampleGates.authorization`, recorded from the rights holder.
-
-<!-- [stage] legal notice template -->

@@ -217,5 +217,3 @@ export const schemaChecks = [
     },
   }),
 ];
-
-// [stage] refactor(check-runner): return non-zero exit code on check failures

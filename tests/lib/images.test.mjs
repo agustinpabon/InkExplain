@@ -34,5 +34,3 @@ test("svgProblems rejects scripts, handlers, external references, and missing vi
   ];
   for (const [svg, pattern] of cases) assert.match(svgProblems(svg).join("\n"), pattern, svg);
 });
-
-// [stage] corrupt buffer tests

@@ -31,5 +31,3 @@ Sparse hand-drawn article sketches in which the red OpenClaw mascot performs one
 - UI screenshots, IDE or terminal scenes, and code screenshots.
 - Formal diagrams, dense PPT-like infographics, and poster layouts.
 - Top-left titles and title cards.
-
-<!-- [stage] enhanced joints -->

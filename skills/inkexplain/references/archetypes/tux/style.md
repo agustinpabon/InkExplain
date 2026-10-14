@@ -34,5 +34,3 @@ Sparse hand-drawn article sketches in which Tux performs one cognitive action in
 - UI screenshots, CLI screenshots, kernel dashboards, web hero graphics, product posters, and operating-system marketing graphics.
 - Logos and badges of any kind: distro logos, distro badges, package-manager marks, or Linux Foundation logos.
 - Generic tech-mascot or stock-illustration rendering.
-
-<!-- [stage] docs(archetypes/tux): specify yellow beak and webbed feet watercolor accents -->

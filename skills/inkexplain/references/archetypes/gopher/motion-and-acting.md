@@ -65,5 +65,3 @@ Go-themed cues are allowed only as low-key context that keeps the gopher as the 
 - Never reuse the front-facing pose or centered layout of `gopher.png`; draw a new pose for every scene.
 - Change the main object before repeating an earlier composition, and change the gopher's action before repeating an earlier action.
 - Keep metaphors low-tech, sparse, and physical.
-
-<!-- [stage] refactor(archetypes/gopher): detail concurrent channel passing acting poses -->

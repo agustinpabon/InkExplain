@@ -40,5 +40,3 @@ Preserve all eight markers together. No reference image is bundled; this list is
 ## Participation test
 
 Cover Tux with your thumb. If the image still explains the idea, Tux is decoration: rewrite the prompt so Tux performs the decisive action.
-
-<!-- [stage] docs(archetypes/tux): refine character personality traits and demeanor -->

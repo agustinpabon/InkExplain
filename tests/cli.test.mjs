@@ -97,5 +97,3 @@ test("the real CLI entry point sets the process exit code", (t) => {
   const usage = spawnSync(process.execPath, ["scripts/validate.mjs", "--nope"], { cwd: REPO_ROOT, encoding: "utf8" });
   assert.equal(usage.status, 2);
 });
-
-// [stage] test(cli): verify that unknown command line flags trigger error messages

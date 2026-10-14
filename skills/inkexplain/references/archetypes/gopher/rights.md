@@ -22,5 +22,3 @@
 - Decision: approved on 2026-06-17, as recorded in `registry.json`, with the Renee French attribution and the CC BY 4.0 terms.
 - The approved renders live in the repository gallery, `examples/gallery/en/gopher/`, with the credit kept in `ATTRIBUTIONS.md` and next to the gallery. They are not part of the installed skill.
 - Any new public sample carries the credit line above and is recorded in `sampleGates` before it is published.
-
-<!-- [stage] docs(archetypes/gopher): verify CC BY 4.0 license link and attribution format -->

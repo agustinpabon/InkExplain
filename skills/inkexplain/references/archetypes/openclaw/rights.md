@@ -21,5 +21,3 @@
 - Decision: approved, as recorded in `registry.json`. The review of 2026-06-17 confirmed the logo identity, the source and license review, archetype isolation, and article-metaphor quality; the OpenClaw project is MIT-licensed.
 - The approved samples live in the InkExplain repository under `examples/gallery/en/openclaw/`, outside the skill package.
 - New samples need their own review, with the reviewer and the review date recorded in `sampleGates`. They keep all six identity markers, the credit above, and the restrictions above.
-
-<!-- [stage] docs(archetypes/openclaw): verify MIT license text in rights reference -->

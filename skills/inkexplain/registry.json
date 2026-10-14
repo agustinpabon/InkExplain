@@ -10,25 +10,11 @@
       "category": "house-style",
       "status": "active",
       "summary": "InkExplain's own brand-neutral style: black ink line art, one explainer-blue flow accent, a single highlighter-yellow emphasis, and a neutral ink figure or hands that perform the idea.",
-      "aliases": [
-        "InkExplain Sketch",
-        "ink sketch",
-        "ink and highlighter",
-        "house style",
-        "no mascot",
-        "no character"
-      ],
+      "aliases": ["InkExplain Sketch", "ink sketch", "ink and highlighter", "house style", "no mascot", "no character"],
       "outputSuffix": "illustrations",
       "motionDna": {
         "actor": "The ink figure, a pair of hands entering the frame, or the working object itself",
-        "signatureActions": [
-          "carry",
-          "sort",
-          "weigh",
-          "pull a lever",
-          "bridge a gap",
-          "untangle"
-        ],
+        "signatureActions": ["carry", "sort", "weigh", "pull a lever", "bridge a gap", "untangle"],
         "poses": [
           "the whole body leans into the load",
           "an arc of the body reaches across the gap the idea crosses",
@@ -40,18 +26,8 @@
         "medium": "An explainer's hand-drawn ink sketch",
         "canvas": "16:9 by default on a clean white background, at least 35% empty",
         "linework": "Medium-thin black ink with a slight wobble, rounded ends, and sparse hatching",
-        "palette": [
-          "black ink",
-          "explainer blue",
-          "highlighter yellow",
-          "signal red"
-        ],
-        "avoid": [
-          "mascots, logos, and franchise characters",
-          "slides, infographics, and UI",
-          "textures, gradients, and shadows",
-          "3D or glossy vector art"
-        ]
+        "palette": ["black ink", "explainer blue", "highlighter yellow", "signal red"],
+        "avoid": ["mascots, logos, and franchise characters", "slides, infographics, and UI", "textures, gradients, and shadows", "3D or glossy vector art"]
       },
       "legalNotice": {
         "credit": "Original to InkExplain",
@@ -66,15 +42,8 @@
         "directories": []
       },
       "contract": {
-        "identityMarkers": [
-          "ink figure",
-          "round head",
-          "single-stroke body"
-        ],
-        "isolationMarkers": [
-          "ink figure",
-          "highlighter yellow"
-        ]
+        "identityMarkers": ["ink figure", "round head", "single-stroke body"],
+        "isolationMarkers": ["ink figure", "highlighter yellow"]
       }
     },
     {
@@ -83,22 +52,11 @@
       "category": "mascot",
       "status": "active",
       "summary": "Ian's Xiaohei, a small solid-black creature with white dot eyes and thin legs, doing serious, slightly absurd work inside sparse black-ink sketches on a pure white page.",
-      "aliases": [
-        "Xiaohei",
-        "小黑",
-        "Ian Xiaohei"
-      ],
+      "aliases": ["Xiaohei", "小黑", "Ian Xiaohei"],
       "outputSuffix": "xiaohei",
       "motionDna": {
         "actor": "Xiaohei, the solid-black creature, as the serious operator inside the idea",
-        "signatureActions": [
-          "sort",
-          "weigh",
-          "press",
-          "connect",
-          "carry",
-          "stamp"
-        ],
+        "signatureActions": ["sort", "weigh", "press", "connect", "carry", "stamp"],
         "poses": [
           "the whole black body leaning into a lever, a rope, or a press",
           "thin legs braced under a load or mid-step along a path",
@@ -110,13 +68,7 @@
         "medium": "A sparse hand-drawn explainer sketch in black ink",
         "canvas": "16:9 on a pure white page, at least 35% empty; the main subject fills about 40-60%",
         "linework": "Thin black hand-drawn lines with a slight wobble; never vector, mechanical, or heavy outlines",
-        "palette": [
-          "black",
-          "pure white",
-          "red",
-          "orange",
-          "blue"
-        ],
+        "palette": ["black", "pure white", "red", "orange", "blue"],
         "avoid": [
           "cute mascot, sticker, or children's-cartoon looks",
           "commercial illustration, PPT infographics, and formal flowcharts",
@@ -128,11 +80,7 @@
         "credit": "Xiaohei is the recurring character of Ian Xiaohei Illustrations by Ian (https://github.com/helloianneo/ian-xiaohei-illustrations), MIT License, Copyright (c) 2026 Ian, inspected at commit 4102eb8",
         "rightsHolder": "Ian",
         "license": "MIT",
-        "attributionTerms": [
-          "Ian Xiaohei Illustrations",
-          "https://github.com/helloianneo/ian-xiaohei-illustrations",
-          "4102eb807f03bcb6e538a16e8b31b41db8b5b954"
-        ],
+        "attributionTerms": ["Ian Xiaohei Illustrations", "https://github.com/helloianneo/ian-xiaohei-illustrations", "4102eb807f03bcb6e538a16e8b31b41db8b5b954"],
         "restrictions": [
           "Keep the Ian Xiaohei Illustrations name or credit Ian in any documentation derived from this archetype.",
           "No claims that Ian created, endorses, or is affiliated with InkExplain or the generated images."
@@ -144,16 +92,8 @@
         "directories": []
       },
       "contract": {
-        "identityMarkers": [
-          "solid black body",
-          "white dot eyes",
-          "thin legs",
-          "deadpan expression"
-        ],
-        "isolationMarkers": [
-          "Xiaohei",
-          "Ian Xiaohei Illustrations"
-        ]
+        "identityMarkers": ["solid black body", "white dot eyes", "thin legs", "deadpan expression"],
+        "isolationMarkers": ["Xiaohei", "Ian Xiaohei Illustrations"]
       }
     },
     {
@@ -162,41 +102,19 @@
       "category": "tribute-character",
       "status": "active",
       "summary": "A closed paper-box character in thick rough marker on pale sky-blue or lavender backgrounds that turns ideas into collecting, packaging, sorting, and delivering.",
-      "aliases": [
-        "Littlebox",
-        "小盒",
-        "纸盒",
-        "paper-box",
-        "carton"
-      ],
+      "aliases": ["Littlebox", "小盒", "纸盒", "paper-box", "carton"],
       "outputSuffix": "littlebox",
       "motionDna": {
         "actor": "Littlebox, a closed paper box that acts through two side-seam twig arms",
-        "signatureActions": [
-          "collect",
-          "seal",
-          "sort",
-          "fold",
-          "carry",
-          "stamp"
-        ],
-        "poses": [
-          "twig arms and tiny legs carry the effort while the box stays closed",
-          "both arms bracing an external pile",
-          "deadpan dot eyes whatever happens"
-        ],
+        "signatureActions": ["collect", "seal", "sort", "fold", "carry", "stamp"],
+        "poses": ["twig arms and tiny legs carry the effort while the box stays closed", "both arms bracing an external pile", "deadpan dot eyes whatever happens"],
         "timing": "One decisive moment per image, such as the tape pressed down or the stamp landing; mini comics use two or three beats with Littlebox closed throughout"
       },
       "styleSheet": {
         "medium": "Bold rough marker illustration with a handmade dry-brush feel",
         "canvas": "16:9 on one flat pale sky-blue or lavender background; Littlebox fills 35-55%",
         "linework": "Thick, rough black marker with dry-brush gaps and wobbly folds",
-        "palette": [
-          "black",
-          "amber",
-          "coral",
-          "pale sky blue or lavender"
-        ],
+        "palette": ["black", "amber", "coral", "pale sky blue or lavender"],
         "avoid": [
           "an open, half-open, or cutaway box",
           "realistic cardboard or a clean vector box icon",
@@ -208,35 +126,19 @@
         "credit": "Adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commit 37cd93e",
         "rightsHolder": "okooo5km",
         "license": "MIT",
-        "attributionTerms": [
-          "okooo5km",
-          "5km Littlebox Illustrations",
-          "37cd93ee516da0324577b7bbc8ca3146e5c8d8d7"
-        ],
-        "restrictions": [
-          "Credit okooo5km or the 5km Littlebox Illustrations project in derived documentation."
-        ]
+        "attributionTerms": ["okooo5km", "5km Littlebox Illustrations", "37cd93ee516da0324577b7bbc8ca3146e5c8d8d7"],
+        "restrictions": ["Credit okooo5km or the 5km Littlebox Illustrations project in derived documentation."]
       },
       "sampleGates": {
         "status": "approved",
         "decision": "Approved when these renders were first published; the character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.",
         "reviewer": "Agustin Pabon",
         "date": "2026-06-16",
-        "directories": [
-          "examples/gallery/en/littlebox",
-          "examples/gallery/zh/littlebox"
-        ]
+        "directories": ["examples/gallery/en/littlebox", "examples/gallery/zh/littlebox"]
       },
       "contract": {
-        "identityMarkers": [
-          "closed paper-box",
-          "side-seam twig arms",
-          "amber seam tape"
-        ],
-        "isolationMarkers": [
-          "Littlebox",
-          "okooo5km"
-        ]
+        "identityMarkers": ["closed paper-box", "side-seam twig arms", "amber seam tape"],
+        "isolationMarkers": ["Littlebox", "okooo5km"]
       }
     },
     {
@@ -245,41 +147,19 @@
       "category": "mascot",
       "status": "active",
       "summary": "Ferris the Rustacean, the Rust community crab, performing the idea in sparse hand-drawn article sketches without Rust logos or endorsement cues.",
-      "aliases": [
-        "Ferris",
-        "Rust mascot",
-        "Rust crab",
-        "Rustacean",
-        "Rust 吉祥物",
-        "Rust 螃蟹"
-      ],
+      "aliases": ["Ferris", "Rust mascot", "Rust crab", "Rustacean", "Rust 吉祥物", "Rust 螃蟹"],
       "outputSuffix": "ferris",
       "motionDna": {
         "actor": "Ferris, who performs the central action with its claws",
-        "signatureActions": [
-          "clamp",
-          "sort",
-          "borrow",
-          "stamp",
-          "untangle",
-          "release"
-        ],
-        "poses": [
-          "claws, eyes, and shell angle aimed at the action",
-          "one claw clamped on a compiler gate",
-          "legs braced wide while balancing a load"
-        ],
+        "signatureActions": ["clamp", "sort", "borrow", "stamp", "untangle", "release"],
+        "poses": ["claws, eyes, and shell angle aimed at the action", "one claw clamped on a compiler gate", "legs braced wide while balancing a load"],
         "timing": "One decisive moment per image; mini comics use two or three beats with Ferris drawn the same way in every panel"
       },
       "styleSheet": {
         "medium": "A sparse hand-drawn article sketch",
         "canvas": "16:9 on a clean white or near-white page; Ferris's action fills 35-55%",
         "linework": "Rough black linework with visible human looseness",
-        "palette": [
-          "black",
-          "orange or rust-red",
-          "red"
-        ],
+        "palette": ["black", "orange or rust-red", "red"],
         "avoid": [
           "Rust or Cargo logos and official badges",
           "official Rust diagram layouts, code, and UI scenes",
@@ -291,36 +171,19 @@
         "credit": "Ferris the Rustacean was created by Karen Rustad Tolva and dedicated to the public domain (CC0) via rustacean.net",
         "rightsHolder": "Karen Rustad Tolva",
         "license": "CC0 public-domain dedication",
-        "attributionTerms": [
-          "Karen Rustad Tolva",
-          "rustacean.net"
-        ],
-        "restrictions": [
-          "No Rust or Cargo logos.",
-          "No claims of official Rust project affiliation or endorsement."
-        ]
+        "attributionTerms": ["Karen Rustad Tolva", "rustacean.net"],
+        "restrictions": ["No Rust or Cargo logos.", "No claims of official Rust project affiliation or endorsement."]
       },
       "sampleGates": {
         "status": "approved",
         "decision": "Approved with trademark-safe wording when these renders were first published; Ferris is CC0, credited to Karen Rustad Tolva.",
         "reviewer": "Agustin Pabon",
         "date": "2026-06-15",
-        "directories": [
-          "examples/gallery/en/ferris",
-          "examples/gallery/zh/ferris"
-        ]
+        "directories": ["examples/gallery/en/ferris", "examples/gallery/zh/ferris"]
       },
       "contract": {
-        "identityMarkers": [
-          "rust-red crab body",
-          "broad crab shell silhouette",
-          "two visible claws",
-          "eyestalk"
-        ],
-        "isolationMarkers": [
-          "Ferris",
-          "Rustacean"
-        ]
+        "identityMarkers": ["rust-red crab body", "broad crab shell silhouette", "two visible claws", "eyestalk"],
+        "isolationMarkers": ["Ferris", "Rustacean"]
       }
     },
     {
@@ -329,27 +192,11 @@
       "category": "mascot",
       "status": "active",
       "summary": "A product-neutral white seal in a plain navy cap and deep-blue hoodie, always logo-free, performing the idea in sparse article sketches.",
-      "aliases": [
-        "Seal",
-        "hoodie seal",
-        "white seal",
-        "blue hoodie seal",
-        "海豹",
-        "连帽衫海豹",
-        "白色海豹",
-        "蓝色连帽衫海豹"
-      ],
+      "aliases": ["Seal", "hoodie seal", "white seal", "blue hoodie seal", "海豹", "连帽衫海豹", "白色海豹", "蓝色连帽衫海豹"],
       "outputSuffix": "seal",
       "motionDna": {
         "actor": "Seal, the product-neutral hoodie seal, as the central operator",
-        "signatureActions": [
-          "inspect",
-          "repair",
-          "shield",
-          "bridge",
-          "weigh",
-          "untangle"
-        ],
+        "signatureActions": ["inspect", "repair", "shield", "bridge", "weigh", "untangle"],
         "poses": [
           "flippers, eyes, body, cap, hoodie, and tail turned toward the action",
           "compact legs planted under a lift or a carry",
@@ -361,12 +208,7 @@
         "medium": "A sparse hand-drawn article sketch",
         "canvas": "16:9 on a clean white or near-white page; Seal's action fills 35-55%",
         "linework": "Loose black hand-drawn lines with visible human looseness",
-        "palette": [
-          "black",
-          "white",
-          "navy and deep blue",
-          "red/orange"
-        ],
+        "palette": ["black", "white", "navy and deep blue", "red/orange"],
         "avoid": [
           "logos, emblems, wave or cloud marks, and badges",
           "brand or product names and endorsement cues",
@@ -378,10 +220,7 @@
         "credit": "A product-neutral hoodie seal derived from a historical Sealos mascot image, which is not bundled",
         "rightsHolder": "Sealos (original mascot image)",
         "license": "No separate character license recorded; the pack text is MIT as part of InkExplain",
-        "attributionTerms": [
-          "Sealos",
-          "product-neutral hoodie seal"
-        ],
+        "attributionTerms": ["Sealos", "product-neutral hoodie seal"],
         "restrictions": [
           "Keep the seal logo-free: no cap, chest, or body logos, emblems, wave marks, or text badges.",
           "Do not present the seal as an official Sealos mascot or as a product endorsement."
@@ -392,22 +231,11 @@
         "decision": "Approved for preserved hoodie identity and logo-free output when these renders were first published.",
         "reviewer": "Agustin Pabon",
         "date": "2026-06-15",
-        "directories": [
-          "examples/gallery/en/seal",
-          "examples/gallery/zh/seal"
-        ]
+        "directories": ["examples/gallery/en/seal", "examples/gallery/zh/seal"]
       },
       "contract": {
-        "identityMarkers": [
-          "white rounded seal body",
-          "plain navy cap",
-          "plain deep-blue hoodie",
-          "logo-free"
-        ],
-        "isolationMarkers": [
-          "hoodie seal",
-          "Sealos"
-        ]
+        "identityMarkers": ["white rounded seal body", "plain navy cap", "plain deep-blue hoodie", "logo-free"],
+        "isolationMarkers": ["hoodie seal", "Sealos"]
       }
     },
     {
@@ -416,24 +244,11 @@
       "category": "mascot",
       "status": "active",
       "summary": "The OpenClaw mascot, a red round character with claw-like arms, two antennae, and cyan pupils, performing the idea in sparse hand-drawn article sketches.",
-      "aliases": [
-        "OpenClaw",
-        "OpenClaw logo",
-        "OpenClaw mascot",
-        "OpenClaw 助手",
-        "OpenClaw 吉祥物"
-      ],
+      "aliases": ["OpenClaw", "OpenClaw logo", "OpenClaw mascot", "OpenClaw 助手", "OpenClaw 吉祥物"],
       "outputSuffix": "openclaw",
       "motionDna": {
         "actor": "OpenClaw, the red logo mascot, as the active operator of the concept",
-        "signatureActions": [
-          "grip",
-          "sort",
-          "bridge",
-          "stamp",
-          "untangle",
-          "repair"
-        ],
+        "signatureActions": ["grip", "sort", "bridge", "stamp", "untangle", "repair"],
         "poses": [
           "one claw grips the loose idea, thread, or key",
           "both claw-like arms hold two parts together",
@@ -445,11 +260,7 @@
         "medium": "A sparse hand-drawn article sketch",
         "canvas": "16:9 on a clean white or near-white background with generous whitespace",
         "linework": "Loose black linework with visible hand-drawn looseness",
-        "palette": [
-          "black",
-          "red",
-          "cyan"
-        ],
+        "palette": ["black", "red", "cyan"],
         "avoid": [
           "product posters, launch graphics, and logo showcases",
           "UI screenshots, IDE or terminal scenes, and code screenshots",
@@ -461,34 +272,19 @@
         "credit": "The OpenClaw mascot comes from the OpenClaw project (https://github.com/openclaw/openclaw), MIT License, Copyright (c) 2026 OpenClaw Foundation, reviewed at commit c14793d",
         "rightsHolder": "OpenClaw Foundation",
         "license": "MIT",
-        "attributionTerms": [
-          "OpenClaw Foundation",
-          "https://github.com/openclaw/openclaw"
-        ],
-        "restrictions": [
-          "No claims of official OpenClaw affiliation or endorsement.",
-          "No product posters, UI screenshots, terminal scenes, or code screenshots."
-        ]
+        "attributionTerms": ["OpenClaw Foundation", "https://github.com/openclaw/openclaw"],
+        "restrictions": ["No claims of official OpenClaw affiliation or endorsement.", "No product posters, UI screenshots, terminal scenes, or code screenshots."]
       },
       "sampleGates": {
         "status": "approved",
         "decision": "Approved for logo identity, source and license review, and archetype isolation when these renders were first published; the OpenClaw project is MIT-licensed.",
         "reviewer": "Agustin Pabon",
         "date": "2026-06-17",
-        "directories": [
-          "examples/gallery/en/openclaw"
-        ]
+        "directories": ["examples/gallery/en/openclaw"]
       },
       "contract": {
-        "identityMarkers": [
-          "red round body",
-          "claw-like arms",
-          "two antennae",
-          "cyan pupils"
-        ],
-        "isolationMarkers": [
-          "OpenClaw"
-        ]
+        "identityMarkers": ["red round body", "claw-like arms", "two antennae", "cyan pupils"],
+        "isolationMarkers": ["OpenClaw"]
       }
     },
     {
@@ -497,31 +293,12 @@
       "category": "mascot",
       "status": "active",
       "summary": "The Go gopher designed by Renee French performing the idea in sparse hand-drawn article sketches, credited and free of Go logos or endorsement claims.",
-      "aliases": [
-        "Go Gopher",
-        "Gopher",
-        "golang gopher",
-        "Go mascot",
-        "Go 吉祥物",
-        "Gopher 吉祥物"
-      ],
-      "excludedTerms": [
-        "go",
-        "blue mascot",
-        "animal",
-        "logo"
-      ],
+      "aliases": ["Go Gopher", "Gopher", "golang gopher", "Go mascot", "Go 吉祥物", "Gopher 吉祥物"],
+      "excludedTerms": ["go", "blue mascot", "animal", "logo"],
       "outputSuffix": "gopher",
       "motionDna": {
         "actor": "The Go gopher, who performs the central action",
-        "signatureActions": [
-          "inspect",
-          "point",
-          "sort",
-          "bridge",
-          "shield",
-          "weigh"
-        ],
+        "signatureActions": ["inspect", "point", "sort", "bridge", "shield", "weigh"],
         "poses": [
           "the friendly standing posture turned toward the action",
           "a pointing paw stretched toward the useful turn",
@@ -533,12 +310,7 @@
         "medium": "A sparse hand-drawn article sketch",
         "canvas": "16:9 on a white or very light background; the gopher's action fills 35-55%",
         "linework": "Rough black outlines with visible human looseness; the gopher keeps its black outline and white sticker-like border",
-        "palette": [
-          "black",
-          "gopher blue",
-          "beige",
-          "red, orange, or blue accents"
-        ],
+        "palette": ["black", "gopher blue", "beige", "red, orange, or blue accents"],
         "avoid": [
           "the Go logo and logo-forward layouts",
           "UI, IDE, terminal, and code screenshots",
@@ -550,11 +322,7 @@
         "credit": "The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0",
         "rightsHolder": "Renee French",
         "license": "CC BY 4.0",
-        "attributionTerms": [
-          "Renee French",
-          "Creative Commons Attribution 4.0",
-          "https://go.dev/blog/gopher"
-        ],
+        "attributionTerms": ["Renee French", "Creative Commons Attribution 4.0", "https://go.dev/blog/gopher"],
         "restrictions": [
           "Credit Renee French whenever generated images are published.",
           "No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement."
@@ -565,20 +333,11 @@
         "decision": "Approved with the Renee French attribution and the CC BY 4.0 terms when these renders were first published; the credit is kept in ATTRIBUTIONS.md and next to the gallery.",
         "reviewer": "Agustin Pabon",
         "date": "2026-06-17",
-        "directories": [
-          "examples/gallery/en/gopher"
-        ]
+        "directories": ["examples/gallery/en/gopher"]
       },
       "contract": {
-        "identityMarkers": [
-          "blue rounded upright body",
-          "buck teeth",
-          "beige muzzle and paws"
-        ],
-        "isolationMarkers": [
-          "Go Gopher",
-          "Renee French"
-        ]
+        "identityMarkers": ["blue rounded upright body", "buck teeth", "beige muzzle and paws"],
+        "isolationMarkers": ["Go Gopher", "Renee French"]
       }
     },
     {
@@ -587,37 +346,12 @@
       "category": "mascot",
       "status": "active",
       "summary": "Tux, the Linux penguin created by Larry Ewing, performing the idea in sparse article sketches without distro logos, product graphics, or endorsement claims.",
-      "aliases": [
-        "Tux",
-        "Linux Mascot",
-        "Linux",
-        "Linux penguin",
-        "Tux penguin"
-      ],
-      "excludedTerms": [
-        "penguin",
-        "server",
-        "kernel",
-        "distro",
-        "distro logo",
-        "Linux Foundation",
-        "operating system",
-        "CLI",
-        "terminal",
-        "brand campaign",
-        "mascot"
-      ],
+      "aliases": ["Tux", "Linux Mascot", "Linux", "Linux penguin", "Tux penguin"],
+      "excludedTerms": ["penguin", "server", "kernel", "distro", "distro logo", "Linux Foundation", "operating system", "CLI", "terminal", "brand campaign", "mascot"],
       "outputSuffix": "tux",
       "motionDna": {
         "actor": "Tux, the only mascot in the frame, who performs the central action",
-        "signatureActions": [
-          "point",
-          "carry",
-          "sort",
-          "bridge",
-          "repair",
-          "stamp"
-        ],
+        "signatureActions": ["point", "carry", "sort", "bridge", "repair", "stamp"],
         "poses": [
           "the seated, rounded body turned toward the work",
           "a long black flipper pointing, pressing, or stamping on the object",
@@ -629,12 +363,7 @@
         "medium": "A sparse hand-drawn article sketch",
         "canvas": "16:9 on a white or very light background; Tux's action fills 35-55%",
         "linework": "Rough black hand-drawn linework with visible human looseness",
-        "palette": [
-          "black",
-          "white",
-          "yellow-orange",
-          "red, orange, or blue"
-        ],
+        "palette": ["black", "white", "yellow-orange", "red, orange, or blue"],
         "avoid": [
           "distro logos, badges, and Linux Foundation logos",
           "CLI screenshots, kernel dashboards, and product posters",
@@ -646,11 +375,7 @@
         "credit": "Tux was created by Larry Ewing using The GIMP (https://isc.tamu.edu/~lewing/linux/); Linux is the registered trademark of Linus Torvalds in the U.S. and other countries",
         "rightsHolder": "Larry Ewing",
         "license": "Free to use and modify with credit to Larry Ewing and The GIMP when asked",
-        "attributionTerms": [
-          "Larry Ewing",
-          "The GIMP",
-          "Linus Torvalds"
-        ],
+        "attributionTerms": ["Larry Ewing", "The GIMP", "Linus Torvalds"],
         "restrictions": [
           "No distro logos and no Linux Foundation logos.",
           "No claims of endorsement, certification, compatibility, affiliation, sponsorship, or approval.",
@@ -663,18 +388,9 @@
         "directories": []
       },
       "contract": {
-        "identityMarkers": [
-          "glossy black rounded penguin head and body",
-          "yellow-orange beak",
-          "white oval belly",
-          "yellow-orange webbed feet"
-        ],
-        "isolationMarkers": [
-          "Tux",
-          "Larry Ewing"
-        ]
+        "identityMarkers": ["glossy black rounded penguin head and body", "yellow-orange beak", "white oval belly", "yellow-orange webbed feet"],
+        "isolationMarkers": ["Tux", "Larry Ewing"]
       }
     }
-  ],
-  "_stage": "xiaohei registered"
+  ]
 }

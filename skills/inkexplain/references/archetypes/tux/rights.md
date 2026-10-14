@@ -27,5 +27,3 @@
 - Keep Tux renders out of InkExplain examples, READMEs, galleries, and release materials until `registry.json` records a review.
 - After a review, approved renders live under `examples/gallery/<en|zh>/tux/`, with the reviewer and the review date recorded in `sampleGates`. New samples keep the credit line above, every restriction, and all eight identity markers.
 - Users' own renders stay in `assets/<article-slug>-tux/` with the credit and restrictions above.
-
-<!-- [stage] docs(archetypes/tux): clarify commercial use within user authorization -->

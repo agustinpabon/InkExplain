@@ -68,5 +68,3 @@ Linux-flavored props, such as a small terminal shape, a tiny source tag, a signp
 - Before repeating an earlier composition, change the main object; before repeating an action, change Tux's action.
 - Keep metaphors low-tech, sparse, and physical.
 - Never copy a reference pose or an earlier composition, and use nothing from other archetypes.
-
-<!-- [stage] refactor(archetypes/tux): add command-line terminal props to motion guide -->

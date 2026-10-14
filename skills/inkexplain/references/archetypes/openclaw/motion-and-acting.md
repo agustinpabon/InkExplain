@@ -76,5 +76,3 @@ They stand for judgment, review, sequencing, handoff, hidden coupling, failure m
 - Use the source and logo facts for identity only. Never copy official OpenClaw screenshots, product UI, logo-poster layouts, or repository visuals, and never trace a pose from a source image.
 - Before repeating an earlier composition, change the main object; before repeating an action, change OpenClaw's action.
 - The approved gallery samples (see `rights.md`) calibrate density and attitude only. Do not reproduce their scenes (two breakpoints, sorting by purpose, one fish with many uses, a handoff path, an information well, an idea press, content fermentation, a trust bridge) unless the user asks for that specific image.
-
-<!-- [stage] initial motion -->

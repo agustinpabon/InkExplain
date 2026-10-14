@@ -35,5 +35,3 @@ Sparse article sketches in which the Go gopher performs one cognitive action ins
 - Poster layouts, polished mascot-poster rendering, mascot asset sheets, language posters, and programming-ad framing.
 - The Go logo or any logo-forward composition.
 - Top-left title artifacts, clean digital labels, and dense text.
-
-<!-- [stage] initial style -->

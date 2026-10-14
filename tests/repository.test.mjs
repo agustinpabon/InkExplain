@@ -93,5 +93,3 @@ test("output folders are deterministic and unique", () => {
   assert.equal(outputDirectory(registry.defaultArchetype), "assets/<article-slug>-illustrations/");
   assert.equal(outputDirectory(registry.byId.get("tux"), "my-post"), "assets/my-post-tux/");
 });
-
-// [stage] test(repository): assert repository working tree is clean during test execution

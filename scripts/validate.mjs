@@ -61,5 +61,3 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
   process.exitCode = main();
 }
-
-// [stage] test(checks/branding): verify that clean attribution names do not trigger false positives

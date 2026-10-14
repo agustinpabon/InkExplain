@@ -179,5 +179,3 @@ Third-party characters and marks remain the property of their respective owners.
 <!-- inkexplain:credits:end -->
 
 InkExplain is released under the [MIT License](LICENSE).
-
-<!-- [stage] regenerate routing tables -->

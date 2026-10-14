@@ -63,5 +63,3 @@ On top of the shared failure signals in `references/workflow/qa-checklist.md`:
 - Realistic cardboard, polished vector infographics, thin-line icon art, or a clean geometric box icon.
 - Children's-book scenes.
 - Any open or cutaway box (see `identity.md`).
-
-<!-- [stage] docs(archetypes/littlebox): specify corrugated paper edge rendering -->

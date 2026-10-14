@@ -123,5 +123,3 @@ test("a new archetype needs only a registry entry, a pack, and regenerated docs"
   assert.match(fixture.read("README.md"), /Paper Fox \(`paper-fox`\)/);
   assert.match(fixture.read("skills/inkexplain/references/routing.md"), /### Paper Fox \(`paper-fox`\)/);
 });
-
-// [stage] parameterized fixtures

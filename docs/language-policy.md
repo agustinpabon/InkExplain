@@ -46,5 +46,3 @@ The README translations were produced with AI assistance and have not been revie
 - translate the prose naturally rather than word by word;
 - keep the credits region; attribution must survive translation;
 - do not edit the generated regions by hand; run `npm run build:docs` instead.
-
-<!-- [stage] unicode character handling -->

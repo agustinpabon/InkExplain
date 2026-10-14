@@ -31,5 +31,3 @@ Markers: box body, dot eyes, front-left three-quarter view, closed top flaps, ti
 - A tan, brown, beige, or cardboard body; a box that reads as another object or stretches into a carton, tray, bridge, machine, pipe, or anonymous package.
 - Thin, smooth, ruler-straight, auto-traced, thresholded, posterized, or clean vector linework.
 - A smiling cute mascot, accessories, or a delivery-company icon look.
-
-<!-- [stage] docs(archetypes/littlebox): document flap movement ranges -->

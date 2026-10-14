@@ -107,5 +107,3 @@ Append this note to every generation and edit prompt, attach it to every plan, a
 ```text
 The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0; credit Renee French whenever these images are published. No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement.
 ```
-
-<!-- [stage] docs(archetypes/gopher): balance prompt weights between character and network diagrams -->
