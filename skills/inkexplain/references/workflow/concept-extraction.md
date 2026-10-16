@@ -64,7 +64,7 @@ Plan before generating. For each image, give:
 2. **Core idea**: one sentence the image must make obvious.
 3. **Structure type**: one type from `references/workflow/composition-grid.md`.
 4. **Actor and action**: who or what performs the central action, and the physical action itself.
-5. **Supporting objects**: one to four low-tech objects that carry the metaphor.
+5. **Supporting objects**: one to four low-tech objects that carry the metaphor (a pack may allow fewer).
 6. **Visible labels**: two to six short labels in the user's language.
 7. **File name**: `NN-topic-slug.png`.
 

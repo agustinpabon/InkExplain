@@ -44,7 +44,7 @@ Load references only when the step needs them.
 3. **Plan the shot list.** One idea, one structure type, and one actor action per image. Use `references/workflow/composition-grid.md` and `references/archetypes/<id>/motion-and-acting.md`.
 4. **Write the prompts.** Fill the pack's generation prompt following `references/workflow/prompt-assembly.md`.
 5. **Generate** (Generate mode only): one image per tool call.
-6. **Review and repair** every image against `references/workflow/qa-checklist.md` and the pack's "Review and repair". Repair with `references/workflow/editing.md`, and stop after three attempts on one image.
+6. **Review and repair** (Generate and Edit modes) every image against `references/workflow/qa-checklist.md` and the pack's "Review and repair". Repair with `references/workflow/editing.md`, and stop after three attempts on one image. In Prompt mode, check each prompt against the prompt checklist in `references/workflow/prompt-assembly.md` instead.
 7. **Save and report** as described in `references/workflow/delivery.md`.
 
 ## Rules
@@ -61,6 +61,6 @@ Load references only when the step needs them.
 ## Output
 
 - **Plan**: the shot list: placement, core idea, structure type, actor and action, objects, labels, and file name.
-- **Prompt**: the shot list plus one complete prompt per image; inside a project, also saved as `assets/<article-slug>-<suffix>/prompts.md`.
+- **Prompt**: the shot list plus one complete prompt per image, then the short delivery report ("not generated: prompt mode"); inside a project, the prompts are also saved as `assets/<article-slug>-<suffix>/prompts.md`.
 - **Generate**: images saved in `assets/<article-slug>-<suffix>/` and a short delivery report covering the archetype, each image and its purpose, saved paths, stability notes, open issues, and the rights note when the archetype has one.
 - **Edit**: the repaired image, or the edit prompt when no image tool is available.

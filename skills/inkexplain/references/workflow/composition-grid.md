@@ -6,13 +6,13 @@ Character-independent rules for turning one idea into one readable picture: fram
 
 - The default canvas is 16:9 landscape. Follow the user's ratio when they ask for another (1:1 for social posts, 4:5 or 9:16 for mobile).
 - Think of the canvas as a three-by-three grid. The decisive action sits in the center cell or on one of the four inner intersections, never against an edge.
-- The main action fills about 40–60% of the canvas; keep at least 35% empty.
+- The main action fills about 40–60% of the canvas; keep at least 35% empty. Percentages here and in a pack are rough guides to how far the subject and its action extend, not measurements; when a pack gives its own figure for its character, aim for that figure and keep the whitespace rule.
 - Leave one quiet cell, usually a corner, so the eye can rest.
 
 ## Focal point and flow
 
 - One focal point per image: the place where the actor touches the object that carries the idea.
-- Flow reads in one direction, usually left to right, along one main arrow or path that runs through the focal point.
+- Flow reads in one direction, usually left to right, along one main arrow, path, or row of objects that runs through the focal point.
 - Inputs enter from the left third, results leave through the right third; problems and warnings sit where the flow breaks.
 - Labels sit next to what they name, outside the actor's face and hands, and never across the top as a title.
 
@@ -20,7 +20,7 @@ Character-independent rules for turning one idea into one readable picture: fram
 
 - Balance the large actor or machine with open space, not with more objects.
 - Three to six drawn elements and two to six labels; every element earns its place.
-- Group supporting objects in one cluster rather than scattering them.
+- Group supporting objects in one cluster rather than scattering them, unless the archetype's template says how widely to spread them.
 - In comparisons, give each side the same width and line weight so the difference reads as content, not emphasis.
 
 ## Structure types
@@ -32,7 +32,7 @@ Pick exactly one per image.
 | Workflow | input to output, pipelines, automation | inputs on the left, the actor transforming them in the middle, output on the right, one main flow arrow |
 | System close-up | one part of a larger system: a filter, gate, or store | three to five parts; the actor works inside the decisive one |
 | Before and after | chaos to order, manual to automated, stuck to moving | unstable on the left, stable on the right, the cause in the middle |
-| State change | conditions such as overloaded, focused, blocked, flowing | two to four small states, one short label each |
+| State change | conditions such as overloaded, focused, blocked, flowing, or two to four alternatives compared side by side | two to four small states, one short label each |
 | Concept metaphor | an abstract idea as one strange, memorable object | one large object or machine, a few inputs, one result |
 | Layers | stacks, foundations, capability levels | an informal stack; the actor builds, props up, or inspects one layer |
 | Route map | journeys, roadmaps, learning paths | one curved path with three to five stops; the actor walks it or pulls the line |

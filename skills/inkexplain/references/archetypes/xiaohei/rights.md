@@ -12,7 +12,7 @@
 ## Rights and restrictions
 
 - Rights holder: Ian, under the MIT license of the source repository. The source's notice asks that redistributions and adaptations keep the `Ian Xiaohei Illustrations` name or credit Ian in derived documentation.
-- Credit `Ian` or the `Ian Xiaohei Illustrations` project in any redistribution or adaptation of Xiaohei-derived documentation. The credit is also recorded in `ATTRIBUTIONS.md` at the repository root, and Ian's copyright line stays in `LICENSE`.
+- Credit `Ian` or the `Ian Xiaohei Illustrations` project in any redistribution or adaptation of Xiaohei-derived documentation. The credit is also recorded in `ATTRIBUTIONS.md` at the repository root, and Ian's copyright line stays in `LICENSE.md` in this skill folder and in `LICENSE` at the repository root.
 - No claims that Ian created, endorses, or is affiliated with InkExplain or the generated images.
 - Every plan, prompt, and delivery report for this archetype carries the rights note in `prompts.md`.
 

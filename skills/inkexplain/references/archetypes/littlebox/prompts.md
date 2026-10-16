@@ -14,7 +14,7 @@ Use the shared shot list from `references/workflow/concept-extraction.md`, plus:
 
 ## Generation prompt
 
-Replace every bracketed field; one prompt per image. The background field already holds the default, pure white: keep it as written unless the user named another background, and then write that background in the same form, such as `pale lavender background #E6E6FA`.
+Replace every bracketed field; one prompt per image. The background field already holds the default, pure white: keep it as written unless the user named another background, and then write that background in the same form, such as `pale lavender background #E6E6FA`. On any page color other than white, also end the composition field with a sentence that keeps the body white, such as: "Littlebox's body stays white, separated from the pale lavender page by its thick black outline alone."
 
 ```text
 Generate one standalone [16:9] horizontal article illustration.

@@ -16,7 +16,7 @@ Every pose keeps the identity contract: asymmetrical, the spine leaning into the
 |---|---|---|
 | Carry | spine leans back under the load, both arms bent beneath the object, knees soft | workflows, handoffs, ownership, load |
 | Pull | spine leans away from the object, arms extended along the rope or lever, back foot braced | effort, dependencies, cause and effect |
-| Push | spine leans into the object, arms straight against it, rear leg driving | momentum, resistance, releases |
+| Push | spine leans into the object, arms straight against it, rear leg driving; the same pose presses a stamp or a button home | momentum, resistance, releases, renewing or approving something |
 | Point | one arm in a straight line at the key object, the other relaxed, head turned along the arm | explaining, locating a breakpoint |
 | Weigh | one arm out holding a balance, head tilted toward the heavier side | trade-offs, comparisons |
 | Sort | one arm reaching to a pile, the other placing a card in a slot, head turned between them | classification, filtering, routing |
@@ -50,7 +50,7 @@ Only the brows, the head tilt, and the body change. The dot eyes never do, and t
 - **Workflow**: material enters on the left as loose scribbles, passes through one hand-built machine that Stickman works, and leaves on the right as a few clean shapes.
 - **System close-up**: draw only the decisive part, large, with Stickman working at it; suggest the rest of the system with two or three faint outlines.
 - **Before and after**: a tangle on the left, the same material in order on the right, and Stickman making the change in the middle.
-- **State change**: two to four small Stickman figures in different poses and expressions, one short label each; the state that matters gets the vermilion accent.
+- **State change**: two small Stickman figures, the same Stickman in a different pose and expression in each, one short label each; the state that matters gets the vermilion accent. For three or four states, plan a mini comic instead.
 - **Comparison**: two figures only, both the same Stickman, each handling one option with the same effort and line weight, so the difference reads as content.
 - **Concept metaphor**: one large, slightly absurd object, such as a scale weighing two clouds or a funnel the size of a room, worked by Stickman.
 - **Layers**: a hand-drawn stack with slightly uneven layers; Stickman props up, inspects, or adds one.
