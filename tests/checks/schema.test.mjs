@@ -209,11 +209,34 @@ test("SCHEMA-010 reads a claim about the status and the marker's colon, not the 
   // Prose that merely uses the words is not a stale claim, so a promoted pack may keep it.
   fixture.append(`${PACK}/demo/style.md`, "\nLoose, experimental linework is welcome here, a to-do list is a fine prop, and a sign that reads TODO needs no colon.\n");
   assert.equal(fixture.check("SCHEMA-010").status, "pass", messages(fixture.check("SCHEMA-010")));
-  for (const claim of ["The look remains experimental.", "This pack is still experimental.", "It is an experimental archetype.", "Status: `experimental`."]) {
+  const claims = [
+    "The look remains experimental.",
+    "This pack is still experimental.",
+    "It is an experimental archetype.",
+    "Status: `experimental`.",
+    "Status: experimental.",
+    "This archetype is **experimental**.",
+    "Still experimental!",
+    "Marked as experimental until the renders are reviewed.",
+    "It is considered experimental.",
+    "An experimental pack, so say so in the report.",
+  ];
+  for (const claim of claims) {
     const pack = createFixture(t);
     pack.append(`${PACK}/demo/style.md`, `\n${claim}\n`);
     assert.match(messages(pack.check("SCHEMA-010")), /demo\/style\.md:\d+: archetype demo is active but still says it is experimental/, claim);
   }
+});
+
+test("SCHEMA-010 also reads the registry entry's own text for the status wording", (t) => {
+  const fixture = createFixture(t).updateRegistry((data) => {
+    data.archetypes[1].summary = "An experimental pack of crabs.";
+  });
+  assert.match(messages(fixture.check("SCHEMA-010")), /registry\.json: archetype demo is active but still says it is experimental: .*experimental pack/);
+  fixture.updateRegistry((data) => {
+    data.archetypes[1].summary = "A crab with loose, experimental linework.";
+  });
+  assert.equal(fixture.check("SCHEMA-010").status, "pass", "the word in other prose is not a claim about the status");
 });
 
 test("SCHEMA-010 also reads the archetype's own credit and example prompt", (t) => {

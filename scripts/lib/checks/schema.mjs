@@ -21,10 +21,12 @@ const MARKER_CONTRACTS = Object.freeze([
   { label: "signature action", values: (archetype) => archetype.motionDna.signatureActions, files: ["motion-and-acting.md"] },
 ]);
 
-// A promoted archetype must stop saying it is experimental. This matches the ways a status is
-// written (the status value in backticks, "is experimental", "stays experimental", "an experimental
-// pack"), not the word in other prose such as "experimental hatching".
-const STALE_STATUS = /`experimental`|\bexperimental (?:archetype|pack)\b|\b(?:is|are|stays?|remains?)\s+(?:still\s+)?experimental\b/i;
+// A promoted archetype must stop saying it is experimental. This matches the ways a status is written
+// (the status value in backticks or bold, "status: experimental", "is experimental", "stays experimental",
+// "still experimental", "marked as experimental", "considered experimental", "an experimental pack"),
+// not the word in other prose such as "loose, experimental hatching". It reads one line at a time, so a
+// claim wrapped across two lines is not seen.
+const STALE_STATUS = /`experimental`|\*\*experimental\*\*|\bexperimental (?:archetype|pack|status)\b|\b(?:is|are|stays?|remains?|still|status|marked as|considered)\W{0,3}(?:still\W{1,3})?experimental\b/i;
 
 function packDir(archetype) {
   return `${PATHS.packageDir}/references/archetypes/${archetype.id}`;
@@ -277,7 +279,7 @@ export const schemaChecks = [
       for (const archetype of registry.archetypes.filter((candidate) => candidate.status !== "experimental")) {
         // The registry entry, the five pack files, and the archetype's own section in ATTRIBUTIONS.md and in the example prompts.
         const sources = [
-          { path: PATHS.registryFile, text: JSON.stringify(archetype, null, 1), says: [] },
+          { path: PATHS.registryFile, text: JSON.stringify(archetype, null, 1), says: [STALE_STATUS] },
           ...PACK_FILES.map((file) => ({ path: packFilePath(archetype, file), text: repo.readTextIfExists(packFilePath(archetype, file)), says: [STALE_STATUS] })),
           { path: PATHS.attributions, text: attributions === null ? null : sectionBody(attributions, archetype.name), says: [STALE_STATUS] },
           { path: PATHS.promptExamples, text: examples === null ? null : sectionBody(examples, archetype.name), says: [STALE_STATUS] },
