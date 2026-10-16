@@ -10,7 +10,7 @@ This document states what InkExplain does and does not do, how each claim is enf
 
 | Property | What it means | Enforced by |
 |---|---|---|
-| **Offline by design** | The skill package contains no code. It never asks the agent to contact a service, and it has no telemetry, analytics, or update checks. Repository scripts make no network calls and start no processes. The command-line helper (`scripts/explain.mjs`) only reads the registry and the packs and prints text. The gallery page (`examples/gallery/index.html`) is one file that loads nothing and sends nothing. | `SEC-004` fails on `child_process`, network modules, `fetch(`, `eval(`, and `new Function(` in `scripts/`. `PKG-006` limits the package to Markdown, JSON, YAML, PNG, and SVG. `SEC-006` requires the gallery's `default-src 'none'` policy and rejects remote resources, network and dynamic-code APIs, and markup built from strings. |
+| **Offline by design** | The skill package contains no code. It never asks the agent to contact a service, and it has no telemetry, analytics, or update checks. Repository scripts make no network calls and start no processes. The command-line helper (`scripts/explain.mjs`) only reads the registry and the packs and prints text. The gallery page (`examples/gallery/index.html`) is one file that loads nothing and sends nothing. Installing with `npx skills add` runs a separate tool, the open skills CLI, which reports anonymous install counts unless `DISABLE_TELEMETRY=1` is set; that is not part of the skill. | `SEC-004` fails on `child_process`, network modules, `fetch(`, `eval(`, and `new Function(` in `scripts/`. `PKG-006` limits the package to Markdown, JSON, YAML, PNG, and SVG. `SEC-006` requires the gallery's `default-src 'none'` policy and rejects remote resources, network and dynamic-code APIs, and markup built from strings. |
 | **Zero runtime dependencies** | `package.json` declares no dependencies of any kind. Scripts and tests use Node.js built-ins only, so no third-party package is installed or executed. | `SEC-005` fails when any dependency field is non-empty. |
 | **Dual execution mode** | **Prompt mode** needs no tool: the agent reads references and writes text, and its only file write is `prompts.md` in the output folder. **Generate mode** applies only when the host agent provides an image-generation tool. InkExplain ships no generator and never claims an image it did not generate. | The mode rules in `SKILL.md` and `references/workflow/prompt-assembly.md`. |
 | **Filesystem isolation** | Images are written only to `assets/<article-slug>-<suffix>/`, or to a folder the user names inside the workspace. Never inside the skill folder, never outside the workspace, and never over an existing file. The skill reads only what the user points to, and never credentials, key files, or environment files. | The rules in `SKILL.md` and `references/workflow/delivery.md`. See the limit below. |
@@ -62,8 +62,8 @@ workspace: assets/<article-slug>-<suffix>/     (the only place InkExplain writes
 | Scanner | SkillSpector v2.12.0, commit `240421219409dc0bafef9f618a10d80c2d7e83a3` |
 | Mode | Static analysis only (`--no-llm`). No file contents left the machine. |
 | Command | `skillspector scan skills/inkexplain/ --no-llm --fail-on-findings --fail-on-incomplete` |
-| Scanned | 2026-10-15, 51 files, 50 fully inspected |
-| Content | Git tree `484693f1a5f0b386567d3f7bcfe0a29f3ac62f87`: the output of `git rev-parse HEAD:skills/inkexplain` for the commit that added this section |
+| Scanned | 2026-10-16, 58 files, 56 fully inspected |
+| Content | Git tree `53794ce05301fbde825d96ac7d836d407225e1ae`: the output of `git rev-parse HEAD:skills/inkexplain` for the commit that added this section |
 
 This is the output of a scan InkExplain ran on itself. It is **not** an NVIDIA certification, endorsement, or "verified" status; NVIDIA's own verification is a separate publication process that this skill has not gone through. The pass applies to the tree above. The workflow re-runs the scan on every change and is the current source of truth.
 
@@ -73,14 +73,14 @@ This is the output of a scan InkExplain ran on itself. It is **not** an NVIDIA c
 |---|---|---|
 | Prompt injection | `static_patterns_prompt_injection`, `anti_refusal`, `system_prompt_leakage`, `memory_poisoning`, `harmful_content` | A search of the package for override phrases ("ignore previous", "system prompt", "you are now", and similar) found none. "Hidden" appears only as a metaphor word ("hidden dependency"). |
 | Data exfiltration | `static_patterns_data_exfiltration`, `agent_snooping`, `ssrf` | The package has no instruction to read credentials (`.ssh`, cloud credentials, `.env`, tokens), to send data anywhere, or to fetch a URL. The only URLs are rights-provenance citations in rights notes and credits. |
-| Dynamic code execution, `eval()` | `static_patterns_deserialization`, `tool_misuse`, `output_handling`. The behavioral AST, taint-tracking, and bundled-execution analyzers found no applicable files. | The package ships no executable file (51 components, "Executable Scripts: No"). `PKG-006` keeps it that way, and `SEC-004` bars `eval(` and `new Function(` in `scripts/`. |
+| Dynamic code execution, `eval()` | `static_patterns_deserialization`, `tool_misuse`, `output_handling`. The behavioral AST, taint-tracking, and bundled-execution analyzers found no applicable files. | The package ships no executable file (58 components, "Executable Scripts: No"). `PKG-006` keeps it that way, and `SEC-004` bars `eval(` and `new Function(` in `scripts/`. |
 | Privilege escalation | `static_patterns_privilege_escalation`, `excessive_agency`, `rogue_agent` | The skill requests no tools, no elevated rights, and no shell. Its writes are limited to the output folder. |
 | Supply-chain risk | `static_patterns_supply_chain`, `artifact_integrity`, `static_yara` | No dependencies (`SEC-005`), no install step, no downloaded code. |
 
 ### What the scan does not cover
 
 - The three LLM-based semantic analyzers were disabled (`--no-llm`). They can be run with `skillspector scan skills/inkexplain/` and a configured provider; doing so sends file contents to that provider.
-- `references/archetypes/gopher/gopher.png` is binary and SkillSpector does not inspect it. `ASSET-001` checks its structure.
+- `references/archetypes/gopher/gopher.png` and `references/archetypes/stickman/pose-sheet.png` are binary and SkillSpector does not inspect them. `ASSET-001` checks their structure.
 - A static scan cannot prove that no instruction is harmful. It lowers the chance of an obvious one slipping in.
 
 ### Reproduce the scan
