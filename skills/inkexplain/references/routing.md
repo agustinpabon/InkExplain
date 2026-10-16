@@ -69,7 +69,7 @@ Ian's Xiaohei, a small solid-black creature with white dot eyes and thin legs, d
 - Restrictions:
   - Keep the Ian Xiaohei Illustrations name or credit Ian in any documentation derived from this archetype.
   - No claims that Ian created, endorses, or is affiliated with InkExplain or the generated images.
-- Public samples: pending. No InkExplain renders have been reviewed yet, and Ian's own example images are not bundled.
+- Public samples: approved. Reviewed and approved for public gallery showcase with English and Chinese calibration sets.
 
 ### Littlebox (`littlebox`)
 

@@ -178,7 +178,7 @@ export function headingAnchors(text) {
   return anchors;
 }
 
-function regionMarkers(name) {
+export function regionMarkers(name) {
   return { start: `<!-- inkexplain:${name}:start -->`, end: `<!-- inkexplain:${name}:end -->` };
 }
 

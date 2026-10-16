@@ -78,13 +78,21 @@ InkExplain Sketch (`ink`) is original to InkExplain and brand-neutral. Its actor
 
 `skills/inkexplain/registry.json` holds, for each archetype: id, display name, category, status, summary, aliases, excluded terms, output suffix, `motionDna` (actor, signature actions, poses, timing), `styleSheet` (medium, canvas, linework, palette, things to avoid), `legalNotice` (credit, rights holder, license, attribution terms, restrictions), `sampleGates` (the public-sample decision), and the contract markers used by validation. Three consumers read it:
 
-- `scripts/build-docs.mjs` renders `references/routing.md`, and the archetype gallery table and language selector in every README;
+- `scripts/build-docs.mjs` renders `references/routing.md`, the archetype table and language selector in every README, and the data block of the offline gallery page;
 - `scripts/validate.mjs` checks the registry and everything derived from it;
 - `resolveArchetypeRequest()` in `scripts/lib/registry.mjs` implements the selection rules as executable, tested code. `routing.md` describes the same rules in prose for agents.
 
 Selection is deterministic: names are compared after Unicode normalization, case folding, and separator collapsing; an unknown or excluded name never falls back to an archetype; "all archetypes" includes only `active` ones.
 
 The registry is a contract with the packs, not a copy of them. Identity markers must appear in `identity.md` and `prompts.md`, palette entries in `style.md` and `prompts.md`, signature actions in `motion-and-acting.md`, and attribution terms in `rights.md` and `ATTRIBUTIONS.md`. A summary that drifts from its pack fails validation.
+
+## Gallery
+
+`examples/gallery/index.html` is one offline file: HTML, CSS, and JavaScript with no dependencies, opened from a checkout or served as static files. It lists every archetype with its style, motion rules, rights, and approved sample images, and it assembles a prompt for the concept a visitor types.
+
+- **Data**: the page cannot read the repository, so `npm run build:docs` embeds the registry data, each pack's generation template, and the approved sample paths in a generated `gallery-data` region. An archetype whose `sampleGates.status` is not `approved` lists no images. A pack that drops a field the page fills (the scene, the action, or the labels) fails the build.
+- **Prompts**: the page fills a template with the same rules as `scripts/lib/prompt-assembly.mjs`. A test runs the page's helper functions against that library, so both assemble identical prompts.
+- **Policy**: a strict `Content-Security-Policy` (`default-src 'none'`) blocks every network request, and `SEC-006` rejects remote resources, network and dynamic-code APIs, and markup built from strings.
 
 ## Tooling
 
@@ -98,7 +106,9 @@ scripts/
     ├── markdown.mjs         frontmatter, headings, sections, links, code blocks, regions
     ├── yaml-lite.mjs        strict parser for the YAML subset skill metadata uses
     ├── registry.mjs         registry schema, alias index, archetype resolution
-    ├── docs-render.mjs      routing.md, archetype tables, language selectors
+    ├── docs-render.mjs      routing.md, archetype tables, language selectors, the gallery data block
+    ├── prompt-assembly.mjs  fills a pack's generation template, checks a prompt against it, derives negative prompts
+    ├── gallery-data.mjs     the data embedded in the gallery page
     ├── images.mjs           PNG structure and SVG safety
     ├── check-runner.mjs     check model, execution, skipping, formatting
     └── checks/              one module per area
@@ -110,12 +120,12 @@ scripts/
 |---|---|---|
 | `PKG` | `package.mjs` | required files, SKILL.md frontmatter, length, and links, references that resolve inside the installed package, `openai.yaml`, package hygiene |
 | `SCHEMA` | `schema.mjs` | registry schema, alias integrity, the five pack files and their sections, registry-to-pack contracts, prompts and rights notes, isolation between packs, generated `routing.md` |
-| `DOC` | `docs.mjs` | README identity, links and anchors, generated README regions, translations, example prompt coverage |
+| `DOC` | `docs.mjs` | README identity, links and anchors, generated README and gallery regions, translations, example prompt coverage |
 | `LEGAL` | `legal.mjs` | MIT terms and original copyright, ATTRIBUTIONS origins and credits, every `rights.md`, gated-archetype boundaries |
 | `ASSET` | `assets.mjs` | PNG and SVG integrity, the public-sample gate |
 | `LANG` | `language.mjs` | English-default scan, allowlist narrowness, policy completeness |
 | `BRAND` | `branding.mjs` | origin project names only as attribution, one identity across surfaces |
-| `SEC` | `security.mjs` | credential patterns, machine paths, symlinks, offline and shell-free scripts, no dependencies |
+| `SEC` | `security.mjs` | credential patterns, machine paths, symlinks, offline and shell-free scripts, no dependencies, an offline gallery page |
 
 Each check returns structured issues (`path`, `line`, `message`); a check that crashes fails alone instead of aborting the run, and checks whose prerequisites failed are reported as skipped. `node scripts/validate.mjs --list` prints the catalog; `--only SCHEMA,DOC-002` selects areas or ids; `--json` produces machine-readable results.
 
@@ -130,6 +140,8 @@ Per-archetype rules are data. Adding an archetype never requires new validator c
 - `tests/lib/`: unit tests for every library module;
 - `tests/checks/`: each check against a small, fully valid fixture repository that a test mutates in one place, including an end-to-end test that adds a new archetype;
 - `tests/cli.test.mjs`: exit codes, JSON output, filtering, and document generation;
+- `tests/gallery-page.test.mjs`: the gallery page's prompt helpers against `prompt-assembly.mjs`;
+- `tests/readme-walkthroughs.test.mjs`: the README's example prompts against their archetypes' templates;
 - `tests/repository.test.mjs`: acceptance tests that run every check on the real repository.
 
 Fixtures are built in temporary directories by `tests/helpers/fixture.mjs`, including real PNG files, so the suite runs in a couple of seconds and needs no copies of the gallery images.

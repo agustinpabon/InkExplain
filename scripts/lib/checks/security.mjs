@@ -1,8 +1,9 @@
 // SEC: secrets, machine-specific paths, symlinks, and offline, shell-free tooling.
 
 import { defineCheck } from "../check-runner.mjs";
-import { PATHS } from "../config.mjs";
-import { excerpt } from "./support.mjs";
+import { DOC_REGIONS, PATHS } from "../config.mjs";
+import { readRegion, regionMarkers } from "../markdown.mjs";
+import { excerpt, lineAt } from "./support.mjs";
 
 // Credential shapes from widely used providers. Each match is reported with
 // its location only; the matched value is never echoed.
@@ -35,6 +36,63 @@ const DEPENDENCY_FIELDS = Object.freeze([
   "bundleDependencies",
   "bundledDependencies",
 ]);
+
+// The offline gallery is one self-contained page: it may load nothing, send nothing,
+// and build no code or markup from strings. The browser enforces the first two through
+// its Content-Security-Policy; these patterns keep the page source honest about all three.
+const GALLERY_SOURCES = new Set(["'none'", "'self'", "'unsafe-inline'", "file:", "data:"]);
+const GALLERY_MARKUP = Object.freeze([
+  { label: "an external script", pattern: /<script\b[^>]*\bsrc\s*=/gi },
+  { label: "a frame, object, or embed", pattern: /<(?:iframe|frame|object|embed|applet)\b/gi },
+  { label: "a form", pattern: /<form\b/gi },
+  { label: "a base element", pattern: /<base\b/gi },
+  { label: "a refresh redirect", pattern: /<meta\b[^>]*http-equiv\s*=\s*["']?refresh/gi },
+  { label: "a CSS @import", pattern: /@import\b/gi },
+  { label: "a CSS url() that points at the network", pattern: /url\(\s*["']?\s*(?:(?:https?|wss?|ftp):)?\/\//gi },
+]);
+const GALLERY_CODE = Object.freeze([
+  { label: "network access", pattern: /\bfetch\s*\(|\bXMLHttpRequest\b|\bWebSocket\b|\bEventSource\b|\bsendBeacon\b|\bimportScripts\b/g },
+  { label: "a worker or service worker", pattern: /\bnew\s+(?:Shared)?Worker\b|\bserviceWorker\b/g },
+  { label: "dynamic code evaluation", pattern: /\beval\s*\(|\bnew\s+Function\s*\(|\bimport\s*\(/g },
+  { label: "HTML built from strings", pattern: /\binnerHTML\b|\bouterHTML\b|\binsertAdjacentHTML\b|\bdocument\.write\b/g },
+]);
+const URL_ATTRIBUTE = /\b(?:src|href|action|formaction|poster|srcset|ping|data)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>"']+))/gi;
+const NETWORK_URL = /^\s*(?:(?:https?|wss?|ftp):|\/\/)/i;
+const DATA_BLOCK = /^<script type="application\/json" id="inkexplain-data">[^<]*<\/script>$/;
+
+/** Problems with the page's Content-Security-Policy meta tag. */
+function policyProblems(html) {
+  const meta = /<meta\b[^>]*http-equiv\s*=\s*["']Content-Security-Policy["'][^>]*>/i.exec(html);
+  if (meta === null) return ["has no Content-Security-Policy meta tag"];
+  const content = /\bcontent\s*=\s*(?:"([^"]*)"|'([^']*)')/i.exec(meta[0]);
+  const problems = [];
+  let defaultSources = null;
+  for (const directive of (content?.[1] ?? content?.[2] ?? "").split(";")) {
+    const [name, ...sources] = directive.trim().split(/\s+/);
+    if (!name) continue;
+    if (name.toLowerCase() === "default-src") defaultSources = sources;
+    if (name.toLowerCase() === "connect-src" && !(sources.length === 1 && sources[0] === "'none'")) {
+      problems.push("connect-src must be 'none' or absent");
+    }
+    for (const source of sources) {
+      if (!GALLERY_SOURCES.has(source.toLowerCase())) problems.push(`allows ${JSON.stringify(source)} in ${name}`);
+    }
+  }
+  if (defaultSources === null || defaultSources.length !== 1 || defaultSources[0] !== "'none'") {
+    problems.unshift("default-src must be 'none'");
+  }
+  return problems;
+}
+
+/** The page with its generated data block blanked out, keeping every offset and line number. */
+function maskDataBlock(html) {
+  const { start, end } = regionMarkers(DOC_REGIONS.galleryData);
+  const from = html.indexOf(start);
+  const to = html.indexOf(end);
+  if (from === -1 || to === -1 || to < from) return html;
+  const inner = html.slice(from + start.length, to).replace(/[^\n]/g, " ");
+  return html.slice(0, from + start.length) + inner + html.slice(to);
+}
 
 function hasEntries(value) {
   if (Array.isArray(value)) return value.length > 0;
@@ -128,6 +186,38 @@ export const securityChecks = [
         path: PATHS.packageJson,
         message: `${field} must stay empty: InkExplain tooling uses Node.js built-ins only`,
       }));
+    },
+  }),
+
+  defineCheck({
+    id: "SEC-006",
+    area: "SEC",
+    title: "the offline gallery loads nothing and sends nothing",
+    run({ repo }) {
+      // A missing page is reported by DOC-003, which regenerates it.
+      const html = repo.readTextIfExists(PATHS.galleryPage);
+      if (html === null) return [];
+      const file = PATHS.galleryPage;
+      const issues = policyProblems(html).map((message) => ({ path: file, message }));
+
+      const region = readRegion(html, DOC_REGIONS.galleryData);
+      if (region.found && region.errors.length === 0 && !DATA_BLOCK.test(region.content.trim())) {
+        issues.push({ path: file, message: 'the generated data block must be one JSON script with no raw "<"' });
+      }
+
+      const page = maskDataBlock(html);
+      for (const { label, pattern } of [...GALLERY_MARKUP, ...GALLERY_CODE]) {
+        for (const match of page.matchAll(pattern)) {
+          issues.push({ path: file, line: lineAt(page, match.index), message: `${label} is not allowed in the gallery` });
+        }
+      }
+      for (const match of page.matchAll(URL_ATTRIBUTE)) {
+        const value = match[1] ?? match[2] ?? match[3] ?? "";
+        if (NETWORK_URL.test(value)) {
+          issues.push({ path: file, line: lineAt(page, match.index), message: `${match[0].split("=")[0].trim()} points at the network: ${value}` });
+        }
+      }
+      return issues;
     },
   }),
 ];

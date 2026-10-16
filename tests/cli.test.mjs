@@ -23,7 +23,7 @@ test("validate exits 0 when every selected check passes", (t) => {
   const fixture = createFixture(t);
   const { code, stdout } = capture(validate, ["--root", fixture.root, "--only", FIXTURE_CHECKS]);
   assert.equal(code, 0, stdout);
-  assert.match(stdout, /Summary: total=34 passed=34 failed=0 skipped=0/);
+  assert.match(stdout, /Summary: total=35 passed=35 failed=0 skipped=0/);
 });
 
 test("validate exits 1 and names the failing check and file", (t) => {
@@ -54,7 +54,7 @@ test("validate --only filters by area or id, and --list prints the catalog", () 
   const listed = capture(validate, ["--list", "--only", "SEC,DOC-001"]).stdout.trim().split("\n");
   assert.deepEqual(
     listed.map((line) => line.split("\t")[0]),
-    ["DOC-001", "SEC-001", "SEC-002", "SEC-003", "SEC-004", "SEC-005"],
+    ["DOC-001", "SEC-001", "SEC-002", "SEC-003", "SEC-004", "SEC-005", "SEC-006"],
   );
   assert.equal(capture(validate, ["--help"]).code, 0);
 });

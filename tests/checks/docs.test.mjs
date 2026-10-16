@@ -71,6 +71,22 @@ test("DOC-003 detects stale generated README regions", (t) => {
   assert.equal(fixture.check("DOC-003").status, "pass");
 });
 
+test("DOC-003 also covers the gallery page's generated data", (t) => {
+  const fixture = createFixture(t);
+  assert.equal(fixture.check("DOC-003").status, "pass");
+  fixture.updateRegistry((data) => {
+    data.archetypes[1].summary = "A crustacean mascot used to exercise third-party archetype rules.";
+  });
+  const text = messages(fixture.check("DOC-003"));
+  assert.match(text, /README\.md: generated regions are out of date/);
+  assert.match(text, /examples\/gallery\/index\.html: generated regions are out of date/);
+  fixture.regenerateDocs();
+  assert.equal(fixture.check("DOC-003").status, "pass");
+
+  fixture.remove("examples/gallery/index.html");
+  assert.match(messages(fixture.check("DOC-003")), /examples\/gallery\/index\.html: examples\/gallery\/index\.html is missing/);
+});
+
 test("DOC-004 keeps identity and credits in every translation", (t) => {
   const fixture = addSpanish(createFixture(t), { credits: false });
   assert.match(messages(fixture.check("DOC-004")), /README\.es\.md: needs a non-empty credits region/);

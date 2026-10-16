@@ -114,10 +114,10 @@ Imágenes de muestra, cada una junto a su arquetipo. Las de InkExplain Sketch se
 | Littlebox | Ferris | Seal |
 |---|---|---|
 | ![Camino de traspaso: Littlebox pasa una tarjeta sellada desde la entrada hasta el estado listo](../examples/gallery/en/littlebox/04-handoff-path.png) | ![Clasificar por propósito: Ferris clasifica material con sus pinzas](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![Pozo de información: la foca saca ideas de un pozo](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | |
-| ![Prensa de ideas: la mascota de OpenClaw acciona una prensa](../examples/gallery/en/openclaw/06-idea-press.png) | ![Puente de confianza: el gopher coloca tablones sobre un hueco](../examples/gallery/en/gopher/08-trust-bridge.png) | |
+| **OpenClaw** | **Go Gopher** | **Xiaohei** |
+| ![Prensa de ideas: la mascota de OpenClaw acciona una prensa](../examples/gallery/en/openclaw/06-idea-press.png) | ![Puente de confianza: el gopher coloca tablones sobre un hueco](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Un pez, muchos usos: Xiaohei corta un pez de material en varias piezas](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
-Littlebox es una adaptación de 5km Littlebox Illustrations, de okooo5km (MIT). Ferris es obra de Karen Rustad Tolva (CC0). El gopher de Go fue diseñado por Renee French (CC BY 4.0). La mascota de OpenClaw procede del proyecto OpenClaw (MIT). Todas las imágenes están en [examples/gallery](../examples/gallery): con etiquetas en inglés para cinco arquetipos y en chino para tres.
+Littlebox es una adaptación de 5km Littlebox Illustrations, de okooo5km (MIT). Ferris es obra de Karen Rustad Tolva (CC0). El gopher de Go fue diseñado por Renee French (CC BY 4.0). La mascota de OpenClaw procede del proyecto OpenClaw (MIT). Xiaohei es el personaje de Ian en Ian Xiaohei Illustrations (MIT). Todas las imágenes están en [examples/gallery](../examples/gallery): con etiquetas en inglés para seis arquetipos y en chino para cuatro.
 
 ## Añadir nuevos personajes y estilos de animación
 

@@ -114,10 +114,10 @@ Beispielbilder, jeweils mit ihrem Archetyp. Bilder für InkExplain Sketch kommen
 | Littlebox | Ferris | Seal |
 |---|---|---|
 | ![Übergabepfad: Littlebox reicht eine versiegelte Karte von der Eingabe bis zur Fertigstellung weiter](../examples/gallery/en/littlebox/04-handoff-path.png) | ![Nach Zweck sortieren: Ferris sortiert Material mit seinen Scheren](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![Informationsbrunnen: Die Robbe zieht Ideen aus einem Brunnen herauf](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | |
-| ![Ideenpresse: Das OpenClaw-Maskottchen bedient eine Presse](../examples/gallery/en/openclaw/06-idea-press.png) | ![Vertrauensbrücke: Der Gopher legt Bretter über eine Kluft](../examples/gallery/en/gopher/08-trust-bridge.png) | |
+| **OpenClaw** | **Go Gopher** | **Xiaohei** |
+| ![Ideenpresse: Das OpenClaw-Maskottchen bedient eine Presse](../examples/gallery/en/openclaw/06-idea-press.png) | ![Vertrauensbrücke: Der Gopher legt Bretter über eine Kluft](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Ein Fisch, viele Verwendungen: Xiaohei zerlegt einen Materialfisch in mehrere Stücke](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
-Littlebox ist eine Adaption des Projekts 5km Littlebox Illustrations von okooo5km (MIT). Ferris ist ein Werk von Karen Rustad Tolva (CC0). Den Go-Gopher hat Renee French entworfen (CC BY 4.0). Das OpenClaw-Maskottchen kommt aus dem OpenClaw-Projekt (MIT). Alle Bilder liegen in [examples/gallery](../examples/gallery): mit englischen Beschriftungen für fünf Archetypen und mit chinesischen für drei.
+Littlebox ist eine Adaption des Projekts 5km Littlebox Illustrations von okooo5km (MIT). Ferris ist ein Werk von Karen Rustad Tolva (CC0). Den Go-Gopher hat Renee French entworfen (CC BY 4.0). Das OpenClaw-Maskottchen kommt aus dem OpenClaw-Projekt (MIT). Xiaohei ist Ians Figur aus Ian Xiaohei Illustrations (MIT). Alle Bilder liegen in [examples/gallery](../examples/gallery): mit englischen Beschriftungen für sechs Archetypen und mit chinesischen für vier.
 
 ## Neue Figuren und Animationsstile hinzufügen
 

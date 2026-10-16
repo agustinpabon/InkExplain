@@ -114,10 +114,10 @@ Rendus présentés avec leur archétype. Les rendus InkExplain Sketch seront ajo
 | Littlebox | Ferris | Seal |
 |---|---|---|
 | ![Parcours de relais : Littlebox fait passer une carte scellée de l'entrée jusqu'au résultat prêt](../examples/gallery/en/littlebox/04-handoff-path.png) | ![Trier par usage : Ferris trie des documents avec ses pinces](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![Puits d'information : le phoque remonte des idées d'un puits](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | |
-| ![Presse à idées : la mascotte OpenClaw actionne une presse](../examples/gallery/en/openclaw/06-idea-press.png) | ![Pont de confiance : le gopher pose des planches au-dessus d'un ravin](../examples/gallery/en/gopher/08-trust-bridge.png) | |
+| **OpenClaw** | **Go Gopher** | **Xiaohei** |
+| ![Presse à idées : la mascotte OpenClaw actionne une presse](../examples/gallery/en/openclaw/06-idea-press.png) | ![Pont de confiance : le gopher pose des planches au-dessus d'un ravin](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Un poisson, plusieurs usages : Xiaohei découpe un poisson de matière en plusieurs morceaux](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
-Littlebox est adapté du projet 5km Littlebox Illustrations d'okooo5km (MIT). Ferris est une création de Karen Rustad Tolva (CC0). Le gopher de Go a été conçu par Renee French (CC BY 4.0). La mascotte OpenClaw provient du projet OpenClaw (MIT). Toutes les images se trouvent dans [examples/gallery](../examples/gallery) : avec des étiquettes en anglais pour cinq archétypes et en chinois pour trois.
+Littlebox est adapté du projet 5km Littlebox Illustrations d'okooo5km (MIT). Ferris est une création de Karen Rustad Tolva (CC0). Le gopher de Go a été conçu par Renee French (CC BY 4.0). La mascotte OpenClaw provient du projet OpenClaw (MIT). Xiaohei est le personnage d'Ian dans Ian Xiaohei Illustrations (MIT). Toutes les images se trouvent dans [examples/gallery](../examples/gallery) : avec des étiquettes en anglais pour six archétypes et en chinois pour quatre.
 
 ## Ajouter de nouveaux personnages et styles d'animation
 

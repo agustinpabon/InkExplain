@@ -23,6 +23,7 @@ export const PATHS = Object.freeze({
   license: "LICENSE",
   promptExamples: "examples/prompts.md",
   galleryDir: "examples/gallery",
+  galleryPage: "examples/gallery/index.html",
   brandDir: "assets/brand",
   languagePolicy: "docs/language-policy.md",
   locales: "readmes/locales.json",
@@ -96,6 +97,7 @@ export const DOC_REGIONS = Object.freeze({
   languages: "languages",
   archetypes: "archetypes",
   credits: "credits",
+  galleryData: "gallery-data",
 });
 
 // Projects InkExplain originates from are listed once, in the Origins section of
@@ -155,6 +157,7 @@ export const TEXT_EXTENSIONS = Object.freeze([
   ".yaml",
   ".yml",
   ".svg",
+  ".html",
   ".txt",
 ]);
 export const TEXT_FILENAMES = Object.freeze(["LICENSE", ".gitignore", ".gitattributes", ".editorconfig"]);

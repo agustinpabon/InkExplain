@@ -10,7 +10,7 @@ This document states what InkExplain does and does not do, how each claim is enf
 
 | Property | What it means | Enforced by |
 |---|---|---|
-| **Offline by design** | The skill package contains no code. It never asks the agent to contact a service, and it has no telemetry, analytics, or update checks. Repository scripts make no network calls and start no processes. | `SEC-004` fails on `child_process`, network modules, `fetch(`, `eval(`, and `new Function(` in `scripts/`. `PKG-006` limits the package to Markdown, JSON, YAML, PNG, and SVG. |
+| **Offline by design** | The skill package contains no code. It never asks the agent to contact a service, and it has no telemetry, analytics, or update checks. Repository scripts make no network calls and start no processes. The gallery page (`examples/gallery/index.html`) is one file that loads nothing and sends nothing. | `SEC-004` fails on `child_process`, network modules, `fetch(`, `eval(`, and `new Function(` in `scripts/`. `PKG-006` limits the package to Markdown, JSON, YAML, PNG, and SVG. `SEC-006` requires the gallery's `default-src 'none'` policy and rejects remote resources, network and dynamic-code APIs, and markup built from strings. |
 | **Zero runtime dependencies** | `package.json` declares no dependencies of any kind. Scripts and tests use Node.js built-ins only, so no third-party package is installed or executed. | `SEC-005` fails when any dependency field is non-empty. |
 | **Dual execution mode** | **Prompt mode** needs no tool: the agent reads references and writes text, and its only file write is `prompts.md` in the output folder. **Generate mode** applies only when the host agent provides an image-generation tool. InkExplain ships no generator and never claims an image it did not generate. | The mode rules in `SKILL.md` and `references/workflow/prompt-assembly.md`. |
 | **Filesystem isolation** | Images are written only to `assets/<article-slug>-<suffix>/`, or to a folder the user names inside the workspace. Never inside the skill folder, never outside the workspace, and never over an existing file. The skill reads only what the user points to, and never credentials, key files, or environment files. | The rules in `SKILL.md` and `references/workflow/delivery.md`. See the limit below. |
@@ -42,12 +42,13 @@ workspace: assets/<article-slug>-<suffix>/     (the only place InkExplain writes
 | Secrets or machine paths committed by accident | `SEC-001` and `SEC-002` scan every tracked text file. | Only the credential shapes listed in `scripts/lib/checks/security.mjs` are detected. |
 | A path escapes the checkout | Scripts resolve every path inside the repository root, and `SEC-003` forbids symbolic links. | None known. |
 | A bundled image carries active content | `ASSET-001` validates PNG structure and rejects SVG scripts, event handlers, and external references. | PNG pixels are not inspected for embedded text. |
+| A change adds a tracker, remote script, or exfiltration path to the gallery page | The browser enforces its Content-Security-Policy (`default-src 'none'`, no `connect-src`), and `SEC-006` fails on a weaker policy or on remote resources. The page builds its markup with `textContent`, never from strings, and its data is embedded JSON with no raw `<`. | The policy is only as strong as the browser that applies it, and `'unsafe-inline'` is needed because the page keeps its script and styles inline. |
 
 ### Automated enforcement
 
 | Where | What it runs |
 |---|---|
-| `.github/workflows/ci.yml` | Generated documents are current, all validators (including `SEC-001` to `SEC-005`), and the test suite, on Linux and Windows with Node.js 22 and 24. |
+| `.github/workflows/ci.yml` | Generated documents are current, all validators (including `SEC-001` to `SEC-006`), and the test suite, on Linux and Windows with Node.js 22 and 24. |
 | `.github/workflows/security.yml` | The SkillSpector scan of `skills/inkexplain/`, on every push to `main` and every pull request. |
 
 ## NVIDIA SkillSpector audit statement

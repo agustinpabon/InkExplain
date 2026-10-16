@@ -114,10 +114,10 @@ $inkexplain 提示词模式：为三张图写好提示词，方便我粘贴到�
 | Littlebox | Ferris | Seal |
 |---|---|---|
 | ![交接路径：Littlebox 跃过两张桌子之间的断点缺口，从散落的卡片奔向收件托盘](../examples/gallery/zh/littlebox/04-handoff-path.png) | ![按用途分类：Ferris 用蟹钳把材料分门别类](../examples/gallery/zh/ferris/02-sort-by-purpose.png) | ![信息井：海豹从井里汲取想法](../examples/gallery/zh/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | |
-| ![想法压机：OpenClaw 吉祥物正在操作压机](../examples/gallery/en/openclaw/06-idea-press.png) | ![信任桥：Gopher 在断崖间铺上一块块木板](../examples/gallery/en/gopher/08-trust-bridge.png) | |
+| **OpenClaw** | **Go Gopher** | **Xiaohei** |
+| ![想法压机：OpenClaw 吉祥物正在操作压机](../examples/gallery/en/openclaw/06-idea-press.png) | ![信任桥：Gopher 在断崖间铺上一块块木板](../examples/gallery/en/gopher/08-trust-bridge.png) | ![一鱼多吃：小黑把一条素材鱼切成几份，分批发出](../examples/gallery/zh/xiaohei/03-one-fish-many-uses.png) |
 
-Littlebox 改编自 okooo5km 的 5km Littlebox Illustrations（MIT）。Ferris 的作者是 Karen Rustad Tolva（CC0）。Go gopher 由 Renee French 设计（CC BY 4.0）。OpenClaw 吉祥物来自 OpenClaw 项目（MIT）。所有示例图都在 [examples/gallery](../examples/gallery)：英文标注版覆盖五个原型，中文标注版覆盖三个。
+Littlebox 改编自 okooo5km 的 5km Littlebox Illustrations（MIT）。Ferris 的作者是 Karen Rustad Tolva（CC0）。Go gopher 由 Renee French 设计（CC BY 4.0）。OpenClaw 吉祥物来自 OpenClaw 项目（MIT）。小黑（Xiaohei）是 Ian 在 Ian Xiaohei Illustrations 中创作的角色（MIT）。所有示例图都在 [examples/gallery](../examples/gallery)：英文标注版覆盖六个原型，中文标注版覆盖四个。
 
 ## 添加新角色与动画风格
 

@@ -59,6 +59,22 @@ export function makePng(width = 4, height = 3) {
 
 const SECTION_TEXT = "Fixture content.";
 
+/** A minimal gallery page that satisfies SEC-006: strict policy, one data region, one inline script. */
+export const GALLERY_PAGE = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' file: data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>Fixture Gallery</title>
+</head>
+<body>
+<!-- inkexplain:gallery-data:start -->
+<!-- inkexplain:gallery-data:end -->
+<script>document.title = "Fixture Gallery";</script>
+</body>
+</html>
+`;
+
 /** The origin project credited in fixture ATTRIBUTIONS.md files. */
 export const FIXTURE_ORIGIN = Object.freeze({
   name: "Example Origin Kit",
@@ -161,6 +177,14 @@ export function packFiles(archetype) {
   const rightsNote = thirdParty
     ? `\n## Rights note\n\n\`\`\`text\n${status.replace(/\n/g, " ").trim()} Credit: ${legal.credit}. ${legal.restrictions.join(" ")}\n\`\`\`\n`
     : "";
+  // The first sentence is quoted by SCHEMA tests; the fields after it are the ones the CLI and the gallery fill.
+  const generationPrompt = [
+    `Draw one idea with ${identity}. Colors: ${palette}.`,
+    "Action: The actor performs [specific physical action], caught at its decisive moment.",
+    "Scene: [core idea in one sentence].",
+    'Labels: ["label 1", "label 2", "label 3"].',
+    ...(thirdParty ? ["Rights note: [append the rights note from this file]."] : []),
+  ].join("\n\n");
   return {
     "rights.md": doc(`${archetype.name} Rights`, ["Source", "Rights and restrictions", "Public samples"], {
       body: `Category \`${archetype.category}\`, status \`${archetype.status}\`. Rights holder: ${legal.rightsHolder}. Credit: ${legal.attributionTerms.join(", ")}.`,
@@ -173,7 +197,7 @@ export function packFiles(archetype) {
     "prompts.md": doc(`${archetype.name} Prompts`, ["Planning fields", "Edit prompts", "Review and repair", "Delivery notes"], {
       preamble:
         `${status}Output folder: \`${outputDirectory(archetype)}\`.\n\n` +
-        `## Generation prompt\n\n\`\`\`text\nDraw one idea with ${identity}. Colors: ${palette}.\n\`\`\`\n\n`,
+        `## Generation prompt\n\n\`\`\`text\n${generationPrompt}\n\`\`\`\n\n`,
       extra: rightsNote,
     }),
   };
@@ -325,6 +349,7 @@ function baseFiles(registryData) {
     for (const file of PACK_FILES) files[`${pkg}/${packDirectory(archetype)}/${file}`] = pack[file];
   }
   files["examples/gallery/en/demo/01-demo-scene.png"] = makePng();
+  files["examples/gallery/index.html"] = GALLERY_PAGE;
   files["assets/brand/mark.svg"] =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#1F1F1F"/></svg>\n';
   return files;

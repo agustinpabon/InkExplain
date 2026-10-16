@@ -95,3 +95,44 @@ test("planGeneratedDocuments flags stale and malformed regions", (t) => {
   fixture.replace("README.md", "<!-- inkexplain:archetypes:end -->", "");
   assert.match(plans()[1].problems.join("\n"), /missing <!-- inkexplain:archetypes:end -->/);
 });
+
+test("planGeneratedDocuments plans the gallery page's data region after routing and the READMEs", (t) => {
+  const fixture = createFixture(t);
+  const repo = () => new Repository(fixture.root);
+  const plans = planGeneratedDocuments(repo(), registry, [english]);
+  assert.deepEqual(plans.map((plan) => plan.kind), ["routing", "readme", "gallery"]);
+  const gallery = plans.at(-1);
+  assert.equal(gallery.path, "examples/gallery/index.html");
+  assert.deepEqual(gallery.problems, []);
+  assert.equal(gallery.current, gallery.expected, "a freshly generated fixture is current");
+  assert.match(gallery.expected, /<script type="application\/json" id="inkexplain-data">/);
+  assert.match(gallery.expected, /"name": "Demo Crab"/);
+
+  // A registry change leaves the page stale until it is regenerated.
+  fixture.updateRegistry((data) => (data.archetypes[1].summary = "A changed summary for the gallery."));
+  const changed = parseRegistry(fixture.read("skills/inkexplain/registry.json")).registry;
+  const stale = planGeneratedDocuments(repo(), changed, [english]).at(-1);
+  assert.notEqual(stale.current, stale.expected);
+  assert.match(stale.expected, /A changed summary for the gallery\./);
+  assert.ok(stale.expected.startsWith(stale.current.slice(0, stale.current.indexOf("<!-- inkexplain:gallery-data:start -->"))), "only the region changes");
+});
+
+test("gallery plan problems: missing page, missing or broken markers, and a pack that cannot be filled", (t) => {
+  const fixture = createFixture(t);
+  const plan = () => planGeneratedDocuments(new Repository(fixture.root), registry, [english]).at(-1);
+  const page = fixture.read("examples/gallery/index.html");
+
+  fixture.write("examples/gallery/index.html", page.replace("<!-- inkexplain:gallery-data:end -->", ""));
+  assert.match(plan().problems.join("\n"), /index\.html: missing <!-- inkexplain:gallery-data:end -->/);
+
+  fixture.write("examples/gallery/index.html", page.replace(/<!-- inkexplain:gallery-data:(?:start|end) -->/g, ""));
+  assert.match(plan().problems.join("\n"), /index\.html has no generated gallery-data region/);
+
+  fixture.write("examples/gallery/index.html", page);
+  fixture.write("skills/inkexplain/references/archetypes/demo/prompts.md", "# Demo Prompts\n\n## Generation prompt\n\n```text\nDraw one idea.\n```\n");
+  assert.match(plan().problems.join("\n"), /index\.html: skills\/inkexplain\/references\/archetypes\/demo\/prompts\.md: the generation prompt lacks the \[core idea in one sentence\] field/);
+
+  fixture.remove("examples/gallery/index.html");
+  assert.deepEqual(plan().problems, ["examples/gallery/index.html is missing"]);
+  assert.equal(plan().expected, null);
+});

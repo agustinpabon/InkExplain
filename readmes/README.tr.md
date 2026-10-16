@@ -114,10 +114,10 @@ Tüm arketiplerin takma adları, hareket DNA'sı, stil sayfaları, atıfları ve
 | Littlebox | Ferris | Seal |
 |---|---|---|
 | ![Devir teslim yolu: Littlebox mühürlü bir kartı girdi aşamasından hazır aşamasına aktarıyor](../examples/gallery/en/littlebox/04-handoff-path.png) | ![Amaca göre ayırma: Ferris malzemeyi kıskaçlarıyla ayırıyor](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![Bilgi kuyusu: fok, fikirleri bir kuyudan yukarı çekiyor](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | |
-| ![Fikir presi: OpenClaw maskotu bir presi çalıştırıyor](../examples/gallery/en/openclaw/06-idea-press.png) | ![Güven köprüsü: gopher bir boşluğun üzerine kalaslar döşüyor](../examples/gallery/en/gopher/08-trust-bridge.png) | |
+| **OpenClaw** | **Go Gopher** | **Xiaohei** |
+| ![Fikir presi: OpenClaw maskotu bir presi çalıştırıyor](../examples/gallery/en/openclaw/06-idea-press.png) | ![Güven köprüsü: gopher bir boşluğun üzerine kalaslar döşüyor](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Bir balık, birçok kullanım: Xiaohei bir malzeme balığını birkaç parçaya ayırıyor](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
-Littlebox, okooo5km'nin 5km Littlebox Illustrations projesinden uyarlanmıştır (MIT). Ferris, Karen Rustad Tolva'nın eseridir (CC0). Go gopher, Renee French tarafından tasarlanmıştır (CC BY 4.0). OpenClaw maskotu, OpenClaw projesinden gelir (MIT). Tüm görseller [examples/gallery](../examples/gallery) klasöründedir: beş arketip için İngilizce, üç arketip için Çince etiketli.
+Littlebox, okooo5km'nin 5km Littlebox Illustrations projesinden uyarlanmıştır (MIT). Ferris, Karen Rustad Tolva'nın eseridir (CC0). Go gopher, Renee French tarafından tasarlanmıştır (CC BY 4.0). OpenClaw maskotu, OpenClaw projesinden gelir (MIT). Xiaohei, Ian'ın Ian Xiaohei Illustrations projesindeki karakteridir (MIT). Tüm görseller [examples/gallery](../examples/gallery) klasöründedir: altı arketip için İngilizce, dört arketip için Çince etiketli.
 
 ## Yeni Karakterler ve Animasyon Stilleri Ekleme
 

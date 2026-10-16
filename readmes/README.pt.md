@@ -114,10 +114,10 @@ Imagens de exemplo, cada uma com o seu arquétipo. As imagens do InkExplain Sket
 | Littlebox | Ferris | Seal |
 |---|---|---|
 | ![Caminho de transferência: Littlebox passa um cartão lacrado da entrada até o estado pronto](../examples/gallery/en/littlebox/04-handoff-path.png) | ![Separar por finalidade: Ferris separa materiais com as pinças](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![Poço de informação: a foca tira ideias de um poço](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | |
-| ![Prensa de ideias: o mascote do OpenClaw opera uma prensa](../examples/gallery/en/openclaw/06-idea-press.png) | ![Ponte de confiança: o gopher coloca tábuas sobre um vão](../examples/gallery/en/gopher/08-trust-bridge.png) | |
+| **OpenClaw** | **Go Gopher** | **Xiaohei** |
+| ![Prensa de ideias: o mascote do OpenClaw opera uma prensa](../examples/gallery/en/openclaw/06-idea-press.png) | ![Ponte de confiança: o gopher coloca tábuas sobre um vão](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Um peixe, muitos usos: Xiaohei corta um peixe de material em vários pedaços](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
-Littlebox é uma adaptação de 5km Littlebox Illustrations, de okooo5km (MIT). Ferris é obra de Karen Rustad Tolva (CC0). O gopher do Go foi criado por Renee French (CC BY 4.0). O mascote do OpenClaw vem do projeto OpenClaw (MIT). Todas as imagens estão em [examples/gallery](../examples/gallery): com rótulos em inglês para cinco arquétipos e em chinês para três.
+Littlebox é uma adaptação de 5km Littlebox Illustrations, de okooo5km (MIT). Ferris é obra de Karen Rustad Tolva (CC0). O gopher do Go foi criado por Renee French (CC BY 4.0). O mascote do OpenClaw vem do projeto OpenClaw (MIT). Xiaohei é o personagem de Ian em Ian Xiaohei Illustrations (MIT). Todas as imagens estão em [examples/gallery](../examples/gallery): com rótulos em inglês para seis arquétipos e em chinês para quatro.
 
 ## Como adicionar novos personagens e estilos de animação
 

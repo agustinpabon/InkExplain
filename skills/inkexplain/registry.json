@@ -87,9 +87,11 @@
         ]
       },
       "sampleGates": {
-        "status": "pending",
-        "decision": "No InkExplain renders have been reviewed yet, and Ian's own example images are not bundled.",
-        "directories": []
+        "status": "approved",
+        "decision": "Reviewed and approved for public gallery showcase with English and Chinese calibration sets.",
+        "reviewer": "Agustin Pabon",
+        "date": "2026-10-15",
+        "directories": ["examples/gallery/en/xiaohei", "examples/gallery/zh/xiaohei"]
       },
       "contract": {
         "identityMarkers": ["solid black body", "white dot eyes", "thin legs", "deadpan expression"],

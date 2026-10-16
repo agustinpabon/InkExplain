@@ -114,10 +114,10 @@ $inkexplain وضع الموجّهات: اكتب موجّهات لثلاث صور
 | Littlebox | Ferris | Seal |
 |---|---|---|
 | ![طريق التسليم: ينقل Littlebox بطاقة مختومة من مرحلة الإدخال إلى مرحلة الجاهزية](../examples/gallery/en/littlebox/04-handoff-path.png) | ![الفرز حسب الغرض: يفرز Ferris المواد بمخالبه](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![بئر المعلومات: تستخرج الفقمة الأفكار من بئر](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | |
-| ![مكبس الأفكار: تميمة OpenClaw تشغّل مكبسًا](../examples/gallery/en/openclaw/06-idea-press.png) | ![جسر الثقة: يمدّ الغوفر ألواحًا فوق هوّة](../examples/gallery/en/gopher/08-trust-bridge.png) | |
+| **OpenClaw** | **Go Gopher** | **Xiaohei** |
+| ![مكبس الأفكار: تميمة OpenClaw تشغّل مكبسًا](../examples/gallery/en/openclaw/06-idea-press.png) | ![جسر الثقة: يمدّ الغوفر ألواحًا فوق هوّة](../examples/gallery/en/gopher/08-trust-bridge.png) | ![سمكة واحدة واستخدامات كثيرة: Xiaohei يقطّع سمكة المادة إلى عدة قطع](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
-شخصية Littlebox مقتبسة من مشروع 5km Littlebox Illustrations الذي أنشأه okooo5km (MIT). وشخصية Ferris من تصميم Karen Rustad Tolva (CC0)، وشخصية Go gopher من تصميم Renee French (CC BY 4.0)، أما تميمة OpenClaw فمصدرها مشروع OpenClaw (MIT). وتجد جميع الصور في [examples/gallery](../examples/gallery): بتسميات إنجليزية لخمسة نماذج، وبتسميات صينية لثلاثة منها.
+شخصية Littlebox مقتبسة من مشروع 5km Littlebox Illustrations الذي أنشأه okooo5km (MIT). وشخصية Ferris من تصميم Karen Rustad Tolva (CC0)، وشخصية Go gopher من تصميم Renee French (CC BY 4.0)، أما تميمة OpenClaw فمصدرها مشروع OpenClaw (MIT). وشخصية Xiaohei من ابتكار Ian في مشروع Ian Xiaohei Illustrations (MIT). وتجد جميع الصور في [examples/gallery](../examples/gallery): بتسميات إنجليزية لستة نماذج، وبتسميات صينية لأربعة منها.
 
 ## إضافة شخصيات وأساليب تحريك جديدة
 

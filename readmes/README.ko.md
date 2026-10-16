@@ -114,10 +114,10 @@ $inkexplain 프롬프트 모드: 제 이미지 도구에 붙여넣을 수 있도
 | Littlebox | Ferris | Seal |
 |---|---|---|
 | ![인계 흐름: 봉인된 카드를 입력에서 준비 완료로 넘겨주는 Littlebox](../examples/gallery/en/littlebox/04-handoff-path.png) | ![목적별 분류: 집게발로 자료를 분류하는 Ferris](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![정보의 우물: 우물에서 아이디어를 길어 올리는 Seal](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | |
-| ![아이디어 프레스: 프레스기를 작동하는 OpenClaw 마스코트](../examples/gallery/en/openclaw/06-idea-press.png) | ![신뢰의 다리: 갈라진 틈 위로 널빤지를 놓는 Gopher](../examples/gallery/en/gopher/08-trust-bridge.png) | |
+| **OpenClaw** | **Go Gopher** | **Xiaohei** |
+| ![아이디어 프레스: 프레스기를 작동하는 OpenClaw 마스코트](../examples/gallery/en/openclaw/06-idea-press.png) | ![신뢰의 다리: 갈라진 틈 위로 널빤지를 놓는 Gopher](../examples/gallery/en/gopher/08-trust-bridge.png) | ![생선 하나, 여러 쓰임: 소재 생선을 여러 조각으로 자르는 Xiaohei](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
-Littlebox는 okooo5km의 5km Littlebox Illustrations를 바탕으로 변형한 것입니다(MIT). Ferris는 Karen Rustad Tolva의 작품입니다(CC0). Go gopher는 Renee French가 디자인했습니다(CC BY 4.0). OpenClaw 마스코트는 OpenClaw 프로젝트에서 가져왔습니다(MIT). 모든 이미지는 [examples/gallery](../examples/gallery)에 있습니다. 영어 라벨 버전은 5개 아키타입, 중국어 라벨 버전은 3개 아키타입을 다룹니다.
+Littlebox는 okooo5km의 5km Littlebox Illustrations를 바탕으로 변형한 것입니다(MIT). Ferris는 Karen Rustad Tolva의 작품입니다(CC0). Go gopher는 Renee French가 디자인했습니다(CC BY 4.0). OpenClaw 마스코트는 OpenClaw 프로젝트에서 가져왔습니다(MIT). Xiaohei는 Ian Xiaohei Illustrations에 나오는 Ian의 캐릭터입니다(MIT). 모든 이미지는 [examples/gallery](../examples/gallery)에 있습니다. 영어 라벨 버전은 6개 아키타입, 중국어 라벨 버전은 4개 아키타입을 다룹니다.
 
 ## 새 캐릭터와 애니메이션 스타일 추가하기
 

@@ -78,11 +78,11 @@ export const docChecks = [
   defineCheck({
     id: "DOC-003",
     area: "DOC",
-    title: "generated README regions match registry.json and locales.json",
+    title: "generated README and gallery regions match registry.json and locales.json",
     requires: ["registry", "locales"],
     run({ repo, registry, locales }) {
       const issues = [];
-      for (const plan of planGeneratedDocuments(repo, registry, locales).slice(1)) {
+      for (const plan of planGeneratedDocuments(repo, registry, locales).filter((candidate) => candidate.kind !== "routing")) {
         for (const problem of plan.problems) issues.push({ path: plan.path, message: problem });
         if (plan.problems.length === 0 && plan.current !== plan.expected) {
           issues.push({ path: plan.path, message: "generated regions are out of date; run `npm run build:docs`" });

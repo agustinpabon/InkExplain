@@ -10,7 +10,8 @@ Each archetype's rights record, `skills/inkexplain/references/archetypes/<id>/ri
 
 - Xiaohei is the recurring character of Ian Xiaohei Illustrations by Ian: <https://github.com/helloianneo/ian-xiaohei-illustrations>
 - License: MIT; source copyright `Copyright (c) 2026 Ian`, which `LICENSE` keeps. Inspected commit: `4102eb807f03bcb6e538a16e8b31b41db8b5b954`.
-- When redistributing or adapting Xiaohei-derived documentation, keep the Ian Xiaohei Illustrations name or credit Ian. The archetype makes no claim that Ian endorses InkExplain or its images. Ian's example images are not bundled; public samples are pending review.
+- When redistributing or adapting Xiaohei-derived documentation, keep the Ian Xiaohei Illustrations name or credit Ian. The archetype makes no claim that Ian endorses InkExplain or its images.
+- Gallery samples, MIT under `Copyright (c) 2026 Ian`: `examples/gallery/zh/xiaohei/` holds Ian's own Chinese-labeled example images (`examples/images/` at the inspected commit). `examples/gallery/en/xiaohei/` holds English-labeled renders of the same eight concepts from `yangchuansheng/visual-ip-illustrations`, a fork of Ian's repository under the same license (`examples/images-en/` at commit `3dd2b773d519bab57715fc015c9725a8e25c7d94`).
 
 ### Tux
 

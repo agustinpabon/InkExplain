@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Regenerate documents derived from skills/inkexplain/registry.json and
-// readmes/locales.json: references/routing.md plus the language selector and
-// archetype table regions of every README.
+// readmes/locales.json: references/routing.md, the language selector and
+// archetype table regions of every README, and the data block of the offline
+// gallery page (examples/gallery/index.html).
 //
 //   node scripts/build-docs.mjs           write updated files
 //   node scripts/build-docs.mjs --check   exit 1 if any file is out of date

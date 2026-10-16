@@ -368,10 +368,12 @@ Renders shown with their archetype. InkExplain Sketch renders will be added afte
 | Littlebox | Ferris | Seal |
 |---|---|---|
 | ![Handoff path: Littlebox passes a sealed card from input to ready](examples/gallery/en/littlebox/04-handoff-path.png) | ![Sort by purpose: Ferris sorts material with its claws](examples/gallery/en/ferris/02-sort-by-purpose.png) | ![Information well: the seal draws ideas up from a well](examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | |
-| ![Idea press: the OpenClaw mascot works a press](examples/gallery/en/openclaw/06-idea-press.png) | ![Trust bridge: the gopher lays planks across a gap](examples/gallery/en/gopher/08-trust-bridge.png) | |
+| **OpenClaw** | **Go Gopher** | **Xiaohei** |
+| ![Idea press: the OpenClaw mascot works a press](examples/gallery/en/openclaw/06-idea-press.png) | ![Trust bridge: the gopher lays planks across a gap](examples/gallery/en/gopher/08-trust-bridge.png) | ![One fish, many uses: Xiaohei saws a source fish into an insight, a quote, and an example](examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
-Littlebox is adapted from okooo5km's 5km Littlebox Illustrations (MIT). Ferris by Karen Rustad Tolva (CC0). The Go gopher was designed by Renee French (CC BY 4.0). The OpenClaw mascot comes from the OpenClaw project (MIT). All renders are in [examples/gallery](examples/gallery): English labels for five archetypes, Chinese labels for three.
+Littlebox is adapted from okooo5km's 5km Littlebox Illustrations (MIT). Ferris by Karen Rustad Tolva (CC0). The Go gopher was designed by Renee French (CC BY 4.0). The OpenClaw mascot comes from the OpenClaw project (MIT). Xiaohei is Ian's character from Ian Xiaohei Illustrations (MIT). All renders are in [examples/gallery](examples/gallery): English labels for six archetypes, Chinese labels for four.
+
+To browse them, open the [interactive gallery](examples/gallery/index.html) in a browser. It lists all eight archetypes with their motion rules, style, rights, and approved renders; filters them by category and technique; and assembles a prompt for your own idea with one-click copy. It is a single file that works from a checkout with no server and no network, and it lists no samples for an archetype whose renders are still pending review.
 
 ## Adding New Characters and Animation Styles
 
@@ -425,7 +427,7 @@ The full walkthrough, with a complete registry entry and the rights questions to
 ```bash
 npm test               # unit, check, CLI, and repository tests (Node's built-in runner)
 npm run validate       # validate the repository and skill package
-npm run build:docs     # regenerate routing.md, the README archetype tables, and language selectors
+npm run build:docs     # regenerate routing.md, the README archetype tables, language selectors, and the gallery data
 npm run check          # everything CI runs
 ```
 

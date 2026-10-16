@@ -7,7 +7,7 @@
 - Source repository: <https://github.com/helloianneo/ian-xiaohei-illustrations>
 - Inspected commit: `4102eb807f03bcb6e538a16e8b31b41db8b5b954` (short `4102eb8`).
 - License: MIT. Source copyright: `Copyright (c) 2026 Ian`.
-- Bundled reference files: none. This pack describes Xiaohei in text only; Ian's example images are not included.
+- Bundled reference files: none. This pack describes Xiaohei in text only. The public gallery samples live outside the skill package (see Public samples).
 
 ## Rights and restrictions
 
@@ -18,6 +18,7 @@
 
 ## Public samples
 
-- Decision: pending, as recorded in `registry.json`. No InkExplain renders of Xiaohei have been reviewed yet.
-- To publish samples, review real renders, record the reviewer, date, and gallery directories in `sampleGates`, and keep the credit to Ian next to the gallery.
+- Decision: approved, as recorded in `registry.json`: reviewed by Agustin Pabon on 2026-10-15 for the public gallery.
+- Directories: `examples/gallery/zh/xiaohei/` holds Ian's own Chinese-labeled example images from the source repository; `examples/gallery/en/xiaohei/` holds English-labeled renders of the same eight concepts. Both are MIT under `Copyright (c) 2026 Ian`; their sources are listed in `ATTRIBUTIONS.md`.
+- Keep the credit to Ian next to the gallery.
 - New public samples must keep the identity in `identity.md` (solid black body, white dot eyes, thin legs, deadpan expression) on a pure white page.

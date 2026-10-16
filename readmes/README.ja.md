@@ -114,10 +114,10 @@ $inkexplain プロンプトモード：自分の画像ツールに貼り付け�
 | Littlebox | Ferris | Seal |
 |---|---|---|
 | ![引き継ぎの経路：封をしたカードを入力から準備完了へ受け渡す Littlebox](../examples/gallery/en/littlebox/04-handoff-path.png) | ![目的別の仕分け：はさみで資料を分類する Ferris](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![情報の井戸：井戸からアイデアを汲み上げる Seal](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | |
-| ![アイデアプレス：プレス機を操作する OpenClaw のマスコット](../examples/gallery/en/openclaw/06-idea-press.png) | ![信頼の橋：裂け目に板を渡していく Gopher](../examples/gallery/en/gopher/08-trust-bridge.png) | |
+| **OpenClaw** | **Go Gopher** | **Xiaohei** |
+| ![アイデアプレス：プレス機を操作する OpenClaw のマスコット](../examples/gallery/en/openclaw/06-idea-press.png) | ![信頼の橋：裂け目に板を渡していく Gopher](../examples/gallery/en/gopher/08-trust-bridge.png) | ![一匹の魚を何通りにも：素材の魚をいくつかに切り分ける Xiaohei](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
-Littlebox は okooo5km の 5km Littlebox Illustrations（MIT）を翻案したものです。Ferris の作者は Karen Rustad Tolva です（CC0）。Go gopher は Renee French がデザインしました（CC BY 4.0）。OpenClaw のマスコットは OpenClaw プロジェクトのものです（MIT）。すべての画像は [examples/gallery](../examples/gallery) にあります。英語ラベル版は5アーキタイプ分、中国語ラベル版は3アーキタイプ分です。
+Littlebox は okooo5km の 5km Littlebox Illustrations（MIT）を翻案したものです。Ferris の作者は Karen Rustad Tolva です（CC0）。Go gopher は Renee French がデザインしました（CC BY 4.0）。OpenClaw のマスコットは OpenClaw プロジェクトのものです（MIT）。Xiaohei は Ian Xiaohei Illustrations に登場する Ian のキャラクターです（MIT）。すべての画像は [examples/gallery](../examples/gallery) にあります。英語ラベル版は6アーキタイプ分、中国語ラベル版は4アーキタイプ分です。
 
 ## 新しいキャラクターとアニメーションスタイルの追加
 

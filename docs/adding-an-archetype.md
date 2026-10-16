@@ -93,6 +93,7 @@ Create `skills/inkexplain/references/archetypes/<id>/` with exactly these five f
 
 - `rights.md` states the category, the status, the rights holder, and every attribution term.
 - `prompts.md` states the output folder, `assets/<article-slug>-<outputSuffix>/`. For a status other than `active`, it also states the status.
+- The generation prompt keeps the shared bracketed fields, because the gallery fills them: `[core idea in one sentence]` after `Scene:`, an action field right before `, caught at its decisive moment`, and a `["label 1", "label 2", "label 3"]` list. Third-party archetypes also keep `[append the rights note from this file]`. `npm run build:docs` fails when a field is missing.
 - Third-party archetypes (`mascot`, `tribute-character`) end `prompts.md` with a `## Rights note` section holding one `text` block: the credit and restrictions that travel with every prompt, plan, and report.
 - A pack may bundle a reference image, such as a licensed identity sheet, if a pack file names it.
 
@@ -102,7 +103,7 @@ Reuse the shared modules in `references/workflow/` instead of repeating them. Th
 
 - Add the credit and boundaries to `ATTRIBUTIONS.md` under "Character archetypes". It must contain every `attributionTerms` entry.
 - Add at least one example prompt for the archetype to `examples/prompts.md`.
-- Run `npm run build:docs` to regenerate `references/routing.md` and the archetype table in every README.
+- Run `npm run build:docs` to regenerate `references/routing.md`, the archetype table in every README, and the gallery data.
 
 ## 5. Validate
 
@@ -114,4 +115,4 @@ Then try the archetype for real: one planning request and one generation or prom
 
 ## Publishing samples
 
-Keep `sampleGates.status` at `pending` until someone reviews real renders. To publish, set it to `approved`, add the reviewer, the review date, the reasoning, and the gallery directories, then add the images under `examples/gallery/<en|zh>/<id>/` with names like `01-topic-slug.png`. Gated archetypes also need `sampleGates.authorization`, recorded from the rights holder.
+Keep `sampleGates.status` at `pending` until someone reviews real renders. To publish, set it to `approved`, add the reviewer, the review date, the reasoning, and the gallery directories, then add the images under `examples/gallery/<en|zh>/<id>/` with names like `01-topic-slug.png`, and run `npm run build:docs` so the gallery page lists them. Gated archetypes also need `sampleGates.authorization`, recorded from the rights holder.

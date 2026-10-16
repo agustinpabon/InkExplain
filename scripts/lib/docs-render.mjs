@@ -1,9 +1,11 @@
 // Renders every document region derived from registry.json and readmes/locales.json:
-// the agent-facing routing.md, and the language selector and archetype gallery
-// table in each README. `npm run build:docs` writes them; the validator checks they are current.
+// the agent-facing routing.md, the language selector and archetype table in each
+// README, and the data block of the offline gallery page. `npm run build:docs`
+// writes them; the validator checks they are current.
 
 import path from "node:path";
 import { DOC_REGIONS, LOCALE_STRING_KEYS, PATHS } from "./config.mjs";
+import { buildGalleryData, renderGalleryData } from "./gallery-data.mjs";
 import { readRegion, replaceRegion } from "./markdown.mjs";
 import { CATEGORIES, STATUSES, outputDirectory, referencePaths } from "./registry.mjs";
 
@@ -176,13 +178,39 @@ export function renderRoutingDoc(registry) {
 }
 
 /**
- * Every generated document with its current and expected content.
- * Returns [{ path, current, expected, problems }]; problems are structural
- * errors (missing files or regions) that generation cannot fix by itself.
+ * The gallery page's plan: its generated data region, rebuilt from the registry,
+ * the packs, and the approved sample directories.
+ */
+function planGalleryPage(repo, registry) {
+  const file = PATHS.galleryPage;
+  const current = repo.readTextIfExists(file);
+  if (current === null) return { kind: "gallery", path: file, current: null, expected: null, problems: [`${file} is missing`] };
+  const found = readRegion(current, DOC_REGIONS.galleryData);
+  if (!found.found) {
+    return { kind: "gallery", path: file, current, expected: current, problems: [`${file} has no generated ${DOC_REGIONS.galleryData} region`] };
+  }
+  if (found.errors.length > 0) {
+    return { kind: "gallery", path: file, current, expected: current, problems: [`${file}: ${found.errors.join("; ")}`] };
+  }
+  try {
+    const expected = replaceRegion(current, DOC_REGIONS.galleryData, renderGalleryData(buildGalleryData(repo, registry)));
+    return { kind: "gallery", path: file, current, expected, problems: [] };
+  } catch (error) {
+    return { kind: "gallery", path: file, current, expected: current, problems: [`${file}: ${error.message}`] };
+  }
+}
+
+/**
+ * Every generated document with its current and expected content, in this order:
+ * routing.md, each README, then the gallery page.
+ * Returns [{ kind, path, current, expected, problems }]; kind is "routing",
+ * "readme", or "gallery", and problems are structural errors (missing files or
+ * regions) that generation cannot fix by itself.
  */
 export function planGeneratedDocuments(repo, registry, locales) {
   const plans = [];
   plans.push({
+    kind: "routing",
     path: PATHS.routingFile,
     current: repo.readTextIfExists(PATHS.routingFile),
     expected: renderRoutingDoc(registry),
@@ -191,7 +219,7 @@ export function planGeneratedDocuments(repo, registry, locales) {
   for (const locale of locales) {
     const current = repo.readTextIfExists(locale.file);
     if (current === null) {
-      plans.push({ path: locale.file, current: null, expected: null, problems: [`${locale.file} is missing`] });
+      plans.push({ kind: "readme", path: locale.file, current: null, expected: null, problems: [`${locale.file} is missing`] });
       continue;
     }
     const problems = [];
@@ -209,7 +237,8 @@ export function planGeneratedDocuments(repo, registry, locales) {
         expected = replaceRegion(expected, region, content);
       }
     }
-    plans.push({ path: locale.file, current, expected, problems });
+    plans.push({ kind: "readme", path: locale.file, current, expected, problems });
   }
+  plans.push(planGalleryPage(repo, registry));
   return plans;
 }
