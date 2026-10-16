@@ -105,6 +105,7 @@ scripts/
 ├── add-archetype.mjs        CLI: scaffold a new experimental archetype, validated in memory before anything is written
 └── lib/
     ├── config.mjs           product identity, paths, pack layout, policy data
+    ├── entrypoint.mjs       whether a script was started directly, by real path, so a link to the checkout still runs it
     ├── repository.mjs       root-anchored, traversal-safe, CRLF-normalizing file access
     ├── markdown.mjs         frontmatter, headings, sections, links, code blocks, regions
     ├── yaml-lite.mjs        strict parser for the YAML subset skill metadata uses
@@ -138,7 +139,7 @@ Each check returns structured issues (`path`, `line`, `message`); a check that c
 
 `LEGAL-005` keeps that data from disappearing: ATTRIBUTIONS must keep an Origins section that names every copyright holder in LICENSE other than the maintainer, with a repository link and a license for each origin. [provenance.md](provenance.md) records what was taken from each origin and how that was measured.
 
-`LEGAL-006` keeps the license with the installed skill. Installers such as `npx skills add` copy only `skills/inkexplain/`, so the repository's `LICENSE` and `ATTRIBUTIONS.md` never reach the user; `skills/inkexplain/LICENSE.md` carries the MIT terms and every copyright line that `LICENSE` or the MIT notice in `ATTRIBUTIONS.md` names, and the check fails if one goes missing.
+`LEGAL-006` keeps the license with the installed skill. Installers such as `npx skills add` copy only `skills/inkexplain/`, so the repository's `LICENSE` and `ATTRIBUTIONS.md` never reach the user; `skills/inkexplain/LICENSE.md` carries the MIT terms and every copyright notice that `LICENSE` or the MIT notice in `ATTRIBUTIONS.md` names, and the check fails if one goes missing. It reads a notice however it is spelled (`Copyright (C)`, `©`, a year range with any dash or `present`, a list marker in front), and a line that opens like a notice but cannot be read, such as one in a table cell, fails too instead of being skipped.
 
 Per-archetype rules are data. Adding an archetype never requires new validator code: the registry entry carries the markers, palette, actions, credits, and sample decision that the generic checks enforce.
 

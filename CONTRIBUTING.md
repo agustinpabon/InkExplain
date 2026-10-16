@@ -35,7 +35,7 @@ npm run archetype:add -- --id <id> --name "<Name>"   # Scaffold a new character 
 
 Archetypes are declarative data packs. Adding one never requires changing skill engine code or tests:
 1. Settle the rights first and review [docs/adding-an-archetype.md](docs/adding-an-archetype.md).
-2. Run `npm run archetype:add -- --id <id> --name "<Name>"`. It writes the registry entry, the five pack files, the credit, an example prompt, and the regenerated documents, checks the result before writing anything, and never overwrites. The archetype starts `experimental`; what you leave out is marked `TODO` or `UNRESOLVED`, never guessed. Add `--dry-run` to preview.
+2. Run `npm run archetype:add -- --id <id> --name "<Name>"`. It writes the registry entry, the five pack files, the credit, an example prompt, and the regenerated documents, checks the result before writing anything, and only adds (it never replaces an existing archetype or pack). The archetype starts `experimental`; what you leave out is marked `TODO` or `UNRESOLVED`, never guessed. Add `--dry-run` to preview.
 3. Replace every marker: the five files in `skills/inkexplain/references/archetypes/<id>/` are
    - `rights.md`: licensing and copyright attributions,
    - `identity.md`: character silhouette and visual cues,
