@@ -15,9 +15,9 @@ Where finished work goes and what the final report contains.
 - Never overwrite. List the folder before saving; if a name is taken, continue the numbering or append `-v2`, `-v3`.
 - Keep earlier results. The user decides what to delete.
 
-## Prompt-mode files
+## Saved prompts
 
-In prompt mode inside a project, save `prompts.md` in the archetype's output folder with each planned file name, its placement, its core idea, and its full prompt. An edit prompt for an image the tool cannot edit goes in the same file, with the name of the image it repairs.
+Inside a project, save `prompts.md` in the archetype's output folder with each planned file name, its placement, its core idea, and its full prompt. In prompt mode this file is the deliverable; in Generate mode it records the final prompt of each image, so the image can be re-rendered or repaired later. An edit prompt for an image the tool cannot edit goes in the same file, with the name of the image it repairs.
 
 ## Plan mode
 

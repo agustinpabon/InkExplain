@@ -39,7 +39,7 @@ Everything below is plain words in the request.
 
 - Each archetype writes to its own folder in your project: `assets/<article-slug>-illustrations/` for the default, `assets/<article-slug>-<id>/` for the others. For a single idea or a piece of code the slug comes from its subject.
 - Files are numbered English slugs: `01-two-breakpoints.png`, `02-handoff-path.png`. Existing files are never overwritten; new versions get the next number or a `-v2` suffix.
-- In prompt mode the prompts are saved as `prompts.md` in the same folder.
+- The prompts are saved as `prompts.md` in the same folder: in prompt mode they are the deliverable, and in Generate mode they record each image's final prompt so it can be re-rendered or repaired.
 - Every delivery ends with a short report: the archetype and its status, each image and its purpose, what was saved, the strongest and optional images, open issues, and the rights note for third-party characters.
 
 ## From the command line
