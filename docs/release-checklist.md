@@ -17,6 +17,7 @@ All must pass on a clean checkout. CI runs the same commands on Linux and Window
 - [ ] `SKILL.md` stays under 80 lines; detail lives in `references/`.
 - [ ] `README.md` opens with "InkExplain", "Ideas made visual.", and the product description.
 - [ ] Installation instructions only describe commands and locations that have been verified for this release.
+- [ ] After the repository is public, `npx skills add agustinpabon/InkExplain --skill inkexplain` was run without a GitHub login (the command fails with "For private repos, ensure you have access" while the repository is private) and installed a folder identical to `skills/inkexplain/`.
 
 ## Archetypes
 
@@ -44,11 +45,13 @@ Sample images are published only where `registry.json` records an approved sampl
 - [ ] Gated archetypes publish samples only with a recorded `sampleGates.authorization` from the rights holder.
 - [ ] Credits for published samples appear next to the gallery in `README.md`.
 
+
 ## Security
 
 - [ ] The `Security` workflow is green. If `skills/inkexplain/` changed since the audit statement in [SECURITY.md](../SECURITY.md), re-run the scan it describes and update the statement's result and tree hash.
 - [ ] Any bumped pin (the SkillSpector commit or a GitHub Actions SHA in `.github/workflows/`) was reviewed against its upstream changes first.
 - [ ] `package.json` still declares no dependencies (`SEC-005`).
+- [ ] Both workflows still pin every action to a commit SHA.
 
 ## Documentation
 
@@ -60,3 +63,5 @@ Sample images are published only where `registry.json` records an approved sampl
 
 - [ ] Release commits are authored with the maintainer's own identity and the date they were made.
 - [ ] Remotes point where you intend to publish; nothing is pushed anywhere by accident.
+- [ ] The repository description, topics, and every published GitHub release note were read against [SECURITY.md](../SECURITY.md) and [provenance.md](provenance.md): none claims a "certification" or calls the scan, the archetypes, or the samples "verified" or "compliant" without support.
+- [ ] Before the repository is made public, everything it exposes was reviewed: branches, tags, issues and pull requests (titles, bodies, comments), release notes, Actions logs and artifacts, and the wiki.
