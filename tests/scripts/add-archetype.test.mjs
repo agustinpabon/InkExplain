@@ -12,15 +12,44 @@ const CLI = path.join(REPO_ROOT, "scripts", "add-archetype.mjs");
 const PACK = "skills/inkexplain/references/archetypes/example-fox";
 const FOX = ["--id", "example-fox", "--name", "Example Fox"];
 
-function run(args, root) {
+function run(args, root, { io } = {}) {
   let stdout = "";
   let stderr = "";
   const code = main(root === undefined ? args : ["--root", root, ...args], {
     stdout: { write: (chunk) => (stdout += chunk) },
     stderr: { write: (chunk) => (stderr += chunk) },
     policy: FIXTURE_POLICY,
+    io,
   });
   return { code, stdout, stderr };
+}
+
+/** The real file API, except that README.md is written with a broken link in it: what the checks find on disk is not what they found in memory. */
+function corruptingIo() {
+  return {
+    ...fs,
+    writeFileSync(file, data, ...rest) {
+      const corrupt = String(file).replaceAll("\\", "/").endsWith("/README.md") && typeof data === "string";
+      return fs.writeFileSync(file, corrupt ? `${data}\n[broken](docs/nope.md)\n` : data, ...rest);
+    },
+  };
+}
+
+/** The real file API, except that examples/prompts.md locks once written, so it cannot be put back, and README.md fails like a full disk. */
+function brokenDisk() {
+  let locked = false;
+  return {
+    ...fs,
+    writeFileSync(file, ...rest) {
+      const name = String(file).replaceAll("\\", "/");
+      if (name.endsWith("/examples/prompts.md")) {
+        if (locked) throw Object.assign(new Error("EBUSY: resource busy or locked"), { code: "EBUSY" });
+        locked = true;
+      }
+      if (name.endsWith("/README.md")) throw Object.assign(new Error("ENOSPC: no space left on device, write"), { code: "ENOSPC" });
+      return fs.writeFileSync(file, ...rest);
+    },
+  };
 }
 
 /** A run that must be refused with this exit code and message, printing nothing to stdout and changing nothing. */
@@ -101,7 +130,7 @@ test("--json reports what was done in a form a script can read", (t) => {
   assert.equal(report.nextSteps.length, 5);
   assert.ok(report.nextSteps.some((step) => step.includes("example-fox")), "the id is filled into the next steps");
 
-  const dry = JSON.parse(run([...FOX, "--id", "another-fox", "--name", "Another Fox", "--dry-run", "--json"], fixture.root).stdout);
+  const dry = JSON.parse(run(["--id", "another-fox", "--name", "Another Fox", "--dry-run", "--json"], fixture.root).stdout);
   assert.equal(dry.dryRun, true);
 });
 
@@ -171,6 +200,72 @@ test("input the contributor got wrong is a usage error that names the problem, a
   refused(fixture, [...FOX, "--bogus"], 2, /Unknown option '--bogus'/);
   refused(fixture, [...FOX, "stray"], 2, /Unexpected argument 'stray'/);
   assert.match(run(FOX.slice(0, 2), fixture.root).stderr, /Usage:/, "a usage error repeats the usage");
+});
+
+test("a flag that takes one value is a usage error when it is given twice, instead of the last one winning", (t) => {
+  const fixture = createFixture(t);
+  refused(fixture, ["--id", "a-fox", "--id", "b-fox", "--name", "Fox"], 2, /--id was given more than once; it takes one value/);
+  refused(fixture, [...FOX, "--summary", "A fox.", "--summary", "Another fox."], 2, /--summary was given more than once/);
+  refused(fixture, [...FOX, "--category", "mascot", "--category", "house-style"], 2, /--category was given more than once/);
+  const twice = run([...FOX, "--root", fixture.root, "--root", fixture.root]);
+  assert.equal(twice.code, 2);
+  assert.match(twice.stderr, /--root was given more than once/);
+  // The flags that are meant to repeat still do.
+  const many = run([...FOX, "--alias", "the fox", "--alias", "a fox", "--feature", "orange body", "--feature", "white tail", "--dry-run"], fixture.root);
+  assert.equal(many.code, 0, many.stderr);
+});
+
+test("an id that git ignores and a source with a password are refused before anything is written", (t) => {
+  const fixture = createFixture(t);
+  refused(fixture, ["--id", "dist", "--name", "Dist Fox"], 2, /--id "dist" is a folder name that git ignores and the repository checks skip/);
+  refused(fixture, ["--id", "outputs", "--name", "Outputs Fox"], 2, /--id "outputs" is a folder name that git ignores/);
+  refused(fixture, [...FOX, "--source", "https://user:hunter2secret@example.org/fox"], 2, /--source must not carry a user name or password/);
+});
+
+test("checks that find a problem on disk that they did not find in memory undo every change and say what they found", (t) => {
+  const fixture = createFixture(t);
+  const before = snapshot(fixture.root);
+  const result = run(FOX, fixture.root, { io: corruptingIo() });
+  assert.equal(result.code, 1);
+  assert.match(result.stderr, /The repository checks failed after writing, so the changes were undone\.\n {2}- DOC-002 README\.md: .*docs\/nope\.md does not resolve\nNothing was changed\./);
+  assert.equal(result.stdout, "");
+  assert.deepEqual(snapshot(fixture.root), before, "the pack, the registry entry, and the documents are all as they were");
+});
+
+test("a failure that was already there is tolerated, and a different one that the write causes is still caught", (t) => {
+  const fixture = createFixture(t).write("docs/language-policy.md", "# Language policy\n");
+  const before = snapshot(fixture.root);
+  const caught = run(FOX, fixture.root, { io: corruptingIo() });
+  assert.equal(caught.code, 1);
+  assert.match(caught.stderr, /DOC-002 README\.md: .*docs\/nope\.md does not resolve/);
+  assert.doesNotMatch(caught.stderr, /LANG-003/, "the problem that was already there is not blamed on the new archetype");
+  assert.deepEqual(snapshot(fixture.root), before);
+
+  assert.equal(run(FOX, fixture.root).code, 0, "without the new problem the same run goes through");
+});
+
+test("a rollback that cannot finish says what is left and that the repository is not as it was, and does not claim every change was undone", (t) => {
+  const fixture = createFixture(t);
+  const result = run(FOX, fixture.root, { io: brokenDisk() });
+  assert.equal(result.code, 1);
+  assert.match(result.stderr, /^Writing failed \(ENOSPC: no space left on device, write\), and one change could not be undone:\n {2}- restore examples\/prompts\.md: EBUSY/);
+  assert.match(result.stderr, /The repository is not as it was\. Review `git status` and undo these by hand\./);
+  assert.doesNotMatch(result.stderr, /Every change was undone/);
+  assert.equal(result.stdout, "");
+  assert.ok(fixture.read("examples/prompts.md").includes("$inkexplain Use Example Fox."), "the file that could not be put back really still has the new text");
+  assert.ok(!fixture.exists(PACK), "everything else was undone");
+});
+
+test("a checkout with Windows line endings is planned, written, and restored byte for byte", (t) => {
+  const fixture = createFixture(t);
+  for (const file of ["ATTRIBUTIONS.md", "examples/prompts.md"]) fixture.write(file, fixture.read(file).replaceAll("\r\n", "\n").replaceAll("\n", "\r\n"));
+  const before = snapshot(fixture.root);
+  const undone = run(FOX, fixture.root, { io: corruptingIo() });
+  assert.equal(undone.code, 1, undone.stderr);
+  assert.deepEqual(snapshot(fixture.root), before, "the files that were rewritten come back with their original bytes, line endings included");
+  const done = run(FOX, fixture.root);
+  assert.equal(done.code, 0, `the pre-check reads the files the way the plan did: ${done.stderr}`);
+  assert.match(fixture.read("examples/prompts.md"), /\$inkexplain Use Example Fox\./);
 });
 
 test("an empty --root is a usage error, not the current folder", () => {

@@ -16,7 +16,7 @@ import path from "node:path";
 import { createContext, runChecks } from "./check-runner.mjs";
 import { ALL_CHECKS } from "./checks/index.mjs";
 import { excerptAround } from "./checks/support.mjs";
-import { PACK_FILES, PATHS, SCAFFOLD_PLACEHOLDER } from "./config.mjs";
+import { IGNORED_DIRECTORIES, PACK_FILES, PATHS, SCAFFOLD_PLACEHOLDER } from "./config.mjs";
 import { loadLocales, planGeneratedDocuments } from "./docs-render.mjs";
 import { extractHeadings, sectionBody } from "./markdown.mjs";
 import { CATEGORIES, ID_PATTERN, buildAliasIndex, loadRegistry, normalizeName, outputDirectory, packDirectory, parseRegistry } from "./registry.mjs";
@@ -46,13 +46,16 @@ export class ScaffoldRollbackError extends Error {
 
 export const SCAFFOLD_CATEGORIES = Object.freeze(Object.keys(CATEGORIES));
 
-// Names and the terms that select an archetype: letters of any script (with their combining marks), digits, and a few separators.
-const NAME_PATTERN = /^[\p{L}\p{N}][\p{L}\p{M}\p{N} .'&+_-]{0,58}$/u;
+// Names and the terms that select an archetype: letters of any script (with their combining marks and the
+// zero-width joiners some scripts spell with), digits, and a few separators.
+const NAME_PATTERN = /^[\p{L}\p{N}][\p{L}\p{M}\p{N}\p{Join_Control} .'&+_-]{0,58}$/u;
 const WORD_START = /^[\p{L}\p{N}]/u;
+// A line that opens with a number and a dot or bracket is a list item in Markdown, not a sentence.
+const LIST_OPENER = /^\d+[.)](?:\s|$)/;
 // Windows treats these as devices: most of its tools, and git for Windows, cannot create a folder with one of
 // these names, so a pack whose id is one could not be checked out there.
 const RESERVED_IDS = Object.freeze(["con", "prn", "aux", "nul", ...Array.from({ length: 10 }, (_, n) => `com${n}`), ...Array.from({ length: 10 }, (_, n) => `lpt${n}`)]);
-const SOURCE_PATTERN = /^https?:\/\/[^\s<>"'`[\]]+$/;
+const SOURCE_PATTERN = /^https?:\/\/[^\s<>"'`[\]|\\]+$/;
 const MAX_ID_LENGTH = 40;
 const ORDINALS = Object.freeze(["first", "second", "third"]);
 const RIGHTS_FLAGS = Object.freeze([
@@ -66,18 +69,46 @@ const sentence = (text) => (/[.!?]$/.test(text.trim()) ? text.trim() : `${text.t
 const todo = (what) => `TODO: ${what}`;
 const unresolved = (what) => `UNRESOLVED: ${what}`;
 
+/** The first character that is invisible or reorders text (a bidirectional control), apart from the zero-width joiners. */
+function hiddenCharacter(text) {
+  for (const character of text) {
+    if (/\p{Default_Ignorable_Code_Point}/u.test(character) && !/\p{Join_Control}/u.test(character)) return character;
+  }
+  return null;
+}
+
+const codePointLabel = (character) => `U+${character.codePointAt(0).toString(16).toUpperCase().padStart(4, "0")}`;
+
+/** Checks every typed text shares: valid Unicode, nothing invisible, and no control characters. */
+function checkCharacters(text, label) {
+  if (!text.isWellFormed()) throw new ScaffoldInputError(`${label} is not valid Unicode text: it holds half of a surrogate pair`);
+  if (/\p{Cc}/u.test(text)) throw new ScaffoldInputError(`${label} must not contain control characters`);
+  const hidden = hiddenCharacter(text);
+  if (hidden !== null) throw new ScaffoldInputError(`${label} must not contain invisible or bidirectional control characters (${codePointLabel(hidden)})`);
+}
+
 /**
- * One line of free text: no control characters, no brackets (a prompt field) or backticks (a code span).
- * `word` also requires it to start with a letter or digit, for text that opens a line of Markdown.
+ * One line of free text: no control or invisible characters, and none that would break a generation
+ * prompt (brackets), a code span (backticks), a table cell (pipes), or the Markdown (angle brackets, backslashes).
+ * `word` also requires it to start with a letter or digit, and not as a numbered list item, for text that
+ * opens a line of Markdown. `term` limits it to the characters of a name, a stricter rule that replaces the
+ * one about brackets and the like, for the words that select an archetype.
  */
-function cleanText(value, label, maxLength, { word = false } = {}) {
+function cleanText(value, label, maxLength, { word = false, term = false } = {}) {
   const text = String(value ?? "").normalize("NFC").replace(/\s+/g, " ").trim();
   if (text === "") throw new ScaffoldInputError(`${label} must not be empty`);
-  if (word && !WORD_START.test(text)) throw new ScaffoldInputError(`${label} must start with a letter or a digit, not ${JSON.stringify(text.slice(0, 1))}`);
+  checkCharacters(text, label);
+  if (word && (!WORD_START.test(text) || LIST_OPENER.test(text))) {
+    throw new ScaffoldInputError(`${label} must start with a letter or a digit, and not as a numbered list item, not ${JSON.stringify(text.slice(0, 2))}`);
+  }
   if (text.length > maxLength) throw new ScaffoldInputError(`${label} is ${text.length} characters; the limit is ${maxLength}`);
-  if (/\p{Cc}/u.test(text)) throw new ScaffoldInputError(`${label} must not contain control characters`);
-  if (/[[\]`]/.test(text)) {
-    throw new ScaffoldInputError(`${label} must not contain brackets or backticks: they would break the generation prompt and the Markdown`);
+  if (term) {
+    if (LIST_OPENER.test(text)) throw new ScaffoldInputError(`${label} ${JSON.stringify(text)} must not open like a numbered list item`);
+    if (!NAME_PATTERN.test(text)) {
+      throw new ScaffoldInputError(`${label} ${JSON.stringify(text)} must be at most 59 characters of letters, digits, spaces, and . ' & + _ -`);
+    }
+  } else if (/[[\]`<>|\\]/.test(text)) {
+    throw new ScaffoldInputError(`${label} must not contain brackets, backticks, angle brackets, pipes, or backslashes: they would break the generation prompt, the tables, and the Markdown`);
   }
   return text;
 }
@@ -87,10 +118,7 @@ function cleanList(values, label, maxLength, { term = false } = {}) {
   const seen = new Set();
   const list = [];
   for (const value of values ?? []) {
-    const text = cleanText(value, label, maxLength);
-    if (term && !NAME_PATTERN.test(text)) {
-      throw new ScaffoldInputError(`${label} ${JSON.stringify(text)} must be at most 59 characters of letters, digits, spaces, and . ' & + _ -`);
-    }
+    const text = cleanText(value, label, maxLength, { term });
     const key = normalizeName(text);
     if (!seen.has(key)) list.push(text);
     seen.add(key);
@@ -116,6 +144,8 @@ export function normalizeInput(options = {}) {
   }
   const name = String(options.name ?? "").normalize("NFC").trim().replace(/\s+/g, " ");
   if (name === "") throw new ScaffoldInputError('--name is required, for example --name "Example Fox"');
+  checkCharacters(name, "--name");
+  if (LIST_OPENER.test(name)) throw new ScaffoldInputError(`--name ${JSON.stringify(name)} must not open like a numbered list item`);
   if (!NAME_PATTERN.test(name)) {
     throw new ScaffoldInputError(`--name ${JSON.stringify(name)} must be at most 59 characters of letters, digits, spaces, and . ' & + _ -`);
   }
@@ -149,7 +179,17 @@ export function normalizeInput(options = {}) {
   if (input.source !== null && !SOURCE_PATTERN.test(input.source)) {
     throw new ScaffoldInputError(`--source ${JSON.stringify(input.source)} must be an http or https URL`);
   }
-  if (input.canvas !== null && !/^[1-9]\d?:[1-9]\d?\b/.test(input.canvas)) {
+  if (input.source !== null) {
+    let url = null;
+    try {
+      url = new URL(input.source);
+    } catch {
+      throw new ScaffoldInputError(`--source ${JSON.stringify(input.source)} must be an http or https URL`);
+    }
+    // A password in a source link would be published with the credit.
+    if (url.username !== "" || url.password !== "") throw new ScaffoldInputError("--source must not carry a user name or password");
+  }
+  if (input.canvas !== null && !/^[1-9]\d?:[1-9]\d?(?![\p{L}\p{N}])/u.test(input.canvas)) {
     throw new ScaffoldInputError(`--canvas ${JSON.stringify(input.canvas)} must start with the aspect ratio (each side from 1 to 99), such as "16:9 on a clean white background"`);
   }
   if (!thirdParty) {
@@ -624,19 +664,37 @@ export class OverlayRepository extends Repository {
 
 // An issue is the same issue in two runs when the check, the file, and the message agree. The line is
 // left out on purpose: a table row added to a file moves every issue below it, and none of them is new.
-const issueKey = (result, issue) => `${result.id}|${issue.path ?? ""}|${issue.message}`;
+// A crashed check is keyed by the first line of its report: the stack that follows names the lines of
+// this file that called it, which differ between the two runs.
+const issueKey = (result, issue) => `${result.id}|${issue.path ?? ""}|${issue.message.startsWith("check crashed:") ? issue.message.split("\n", 1)[0] : issue.message}`;
 
-/** Every issue of every failed check, keyed so two runs can be compared. */
+/** Every issue of every failed check, in order, each with the key two runs compare it by. */
 function failures(results) {
-  const found = new Map();
+  const found = [];
   for (const result of results.filter((candidate) => candidate.status === "fail")) {
-    for (const issue of result.issues) found.set(issueKey(result, issue), { id: result.id, title: result.title, path: issue.path, line: issue.line, message: issue.message });
+    for (const issue of result.issues) {
+      found.push({ key: issueKey(result, issue), issue: { id: result.id, title: result.title, path: issue.path, line: issue.line, message: issue.message } });
+    }
   }
   return found;
 }
 
+/**
+ * The entries of `found` that `expectedKeys` does not account for. The same key counts once per
+ * occurrence, so a problem that already appeared once and now appears twice has one new occurrence.
+ */
+function unexpected(found, expectedKeys) {
+  const remaining = new Map();
+  for (const key of expectedKeys) remaining.set(key, (remaining.get(key) ?? 0) + 1);
+  return found.filter(({ key }) => {
+    const left = remaining.get(key) ?? 0;
+    if (left > 0) remaining.set(key, left - 1);
+    return left === 0;
+  });
+}
+
 /** How many distinct checks have at least one issue. */
-const failedChecks = (found) => new Set([...found.values()].map((issue) => issue.id)).size;
+const failedChecks = (found) => new Set(found.map(({ issue }) => issue.id)).size;
 
 /**
  * Placeholder lines in text that the scaffold generated: [{ path, line, text }]. `firstLine` is the
@@ -663,6 +721,16 @@ function newAliasProblems(existing, entry) {
   return buildAliasIndex([...existing, candidate]).problems.filter((problem) => !known.has(problem.message));
 }
 
+/** Folder names the repository never walks, plus the plain `name/` lines of its .gitignore. */
+function ignoredFolderNames(repo) {
+  const listed = (repo.readTextIfExists(".gitignore") ?? "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => /^[A-Za-z0-9._-]+\/$/.test(line))
+    .map((line) => line.slice(0, -1));
+  return new Set([...IGNORED_DIRECTORIES, ...listed]);
+}
+
 /** Hyphen-delimited folder names such as "-fox" must not make one archetype's folder look like another's. */
 function suffixClash(existing, suffix) {
   return existing.find((archetype) => {
@@ -678,6 +746,11 @@ function suffixClash(existing, suffix) {
  */
 export function planScaffold(repo, options, { policy } = {}) {
   const input = normalizeInput(options);
+  if (ignoredFolderNames(repo).has(input.id)) {
+    throw new ScaffoldInputError(
+      `--id ${JSON.stringify(input.id)} is a folder name that git ignores and the repository checks skip, so its pack would never be committed or scanned; choose another id`,
+    );
+  }
   const loaded = loadRegistry(repo);
   if (loaded.registry === null) {
     throw new ScaffoldRefusal("Cannot read the archetype registry", loaded.schemaIssues.map((issue) => `${issue.where}: ${issue.message}`));
@@ -738,11 +811,14 @@ export function planScaffold(repo, options, { policy } = {}) {
   const before = failures(runChecks(ALL_CHECKS, createContext(repo, { policy })));
   const afterResults = runChecks(ALL_CHECKS, createContext(overlay, { policy }));
   const after = failures(afterResults);
-  const newIssues = [...after].filter(([key]) => !before.has(key)).map(([, issue]) => issue);
+  const newIssues = unexpected(
+    after,
+    before.map(({ key }) => key),
+  );
   if (newIssues.length > 0) {
     throw new ScaffoldRefusal(
       `${entry.name} (${entry.id}) would break the repository checks, so nothing was written`,
-      newIssues.map((issue) => `${issue.id} ${issue.path ? `${issue.path}: ` : ""}${issue.message}`),
+      newIssues.map(({ issue }) => describeIssue(issue)),
     );
   }
 
@@ -763,31 +839,38 @@ export function planScaffold(repo, options, { policy } = {}) {
       checks: afterResults.length,
       failedChecksBefore: failedChecks(before),
       failedChecksAfter: failedChecks(after),
-      issuesBefore: before.size,
-      issuesAfter: after.size,
+      issuesBefore: before.length,
+      issuesAfter: after.length,
       // What the repository must still report once the files are written; anything else is a surprise.
-      expectedIssues: [...after.keys()],
+      expectedIssues: after.map(({ key }) => key),
     },
     placeholders,
   };
 }
 
+/** The line a problem is reported as: the check, the file, and what is wrong. */
+export const describeIssue = (issue) => `${issue.id} ${issue.path ? `${issue.path}: ` : ""}${issue.message}`;
+
 /**
  * Write a plan. First it checks that nothing changed since planning: every file the plan edits must
  * still read as it did, and none it creates may exist. New files are created exclusively, so an
- * existing file is never overwritten. `verify` runs once everything is written and returns a list of
- * problems. If it finds any, or any write fails, everything this call did is undone, each step on its
- * own so one that fails cannot stop the rest, and anything that could not be undone is reported in a
- * ScaffoldRollbackError instead of being passed over. `io` is the file API it writes with (Node's `fs`);
- * tests hand it one that fails on demand.
+ * existing file is never overwritten, and an edit is made only to the text that was planned: if a file
+ * changes between being read and being written, everything is undone. `verify` runs once everything
+ * is written and returns a list of problems. If it finds any, or any write fails, everything this call
+ * did is undone, each step on its own so one that fails cannot stop the rest, and anything that could
+ * not be undone is reported in a ScaffoldRollbackError instead of being passed over. `io` is the file
+ * API it writes with (Node's `fs`); tests hand it one that fails on demand.
  */
 export function applyScaffold(root, plan, { verify, io = fs } = {}) {
   const repo = new Repository(root);
+  // A generated document that was missing when the plan was made (before is null) is created like a new file.
+  const creates = [...plan.create, ...plan.modify.filter((file) => file.before === null).map(({ path: file, after }) => ({ path: file, content: after }))];
+  const edits = plan.modify.filter((file) => file.before !== null);
   const changed = [];
-  for (const { path: file } of plan.create) {
+  for (const { path: file } of creates) {
     if (io.existsSync(repo.resolve(file))) changed.push(`${file} now exists`);
   }
-  for (const { path: file, before } of plan.modify) {
+  for (const { path: file, before } of edits) {
     const absolute = repo.resolve(file);
     if (!io.existsSync(absolute) || normalizeText(io.readFileSync(absolute, "utf8")) !== before) changed.push(`${file} changed`);
   }
@@ -797,21 +880,34 @@ export function applyScaffold(root, plan, { verify, io = fs } = {}) {
   const createdDirectories = [];
   const replaced = [];
   try {
-    for (const { path: file, content } of plan.create) {
+    for (const { path: file, content } of creates) {
       const absolute = repo.resolve(file);
       const directory = path.dirname(absolute);
       // The folders that do not exist yet are the ones this run creates, and so the ones it may remove again.
-      // They are found before creating them: what mkdirSync returns is not comparable (Windows prefixes \\?\).
+      // They are found before creating them, because what mkdirSync returns is not comparable (Windows
+      // prefixes \\?\). It does say whether this call made anything: undefined means the folder was
+      // there by then, as when another run made it in between, and then it is not this run's to remove.
       const missing = [];
       for (let current = directory; !io.existsSync(current) && current !== path.dirname(current); current = path.dirname(current)) missing.push(current);
-      io.mkdirSync(directory, { recursive: true });
-      createdDirectories.push(...missing);
-      io.writeFileSync(absolute, content, { encoding: "utf8", flag: "wx" });
+      if (io.mkdirSync(directory, { recursive: true }) !== undefined) createdDirectories.push(...missing);
+      try {
+        io.writeFileSync(absolute, content, { encoding: "utf8", flag: "wx" });
+      } catch (error) {
+        // The exclusive create fails with EEXIST only when the file was already there, and then it is not ours.
+        // Any other failure, a full disk for one, may have left the new file empty or half written.
+        if (error.code !== "EEXIST") createdFiles.push(absolute);
+        throw error;
+      }
       createdFiles.push(absolute);
     }
-    for (const { path: file, after } of plan.modify) {
+    for (const { path: file, before, after } of edits) {
       const absolute = repo.resolve(file);
-      replaced.push({ file, absolute, original: io.readFileSync(absolute) });
+      const original = io.readFileSync(absolute);
+      // Read again here, not only when planning, so an edit made in between is never written over.
+      if (normalizeText(original.toString("utf8")) !== before) {
+        throw new ScaffoldRefusal("The repository changed while it was being written, so the changes were undone", [`${file} changed`]);
+      }
+      replaced.push({ file, absolute, original });
       io.writeFileSync(absolute, after, "utf8");
     }
     const problems = verify?.() ?? [];
@@ -840,9 +936,13 @@ export function applyScaffold(root, plan, { verify, io = fs } = {}) {
   }
 }
 
-/** Run every repository check on a checkout. Returns the issues, and the keys planScaffold compares them by. */
-export function checkRepository(repo, { policy } = {}) {
+/**
+ * Run every repository check on a checkout. `failures` are all the issues found; `unexpected` are the ones
+ * `expectedIssues` (the keys planScaffold recorded) does not account for, which is what a run that wrote
+ * the plan must not produce.
+ */
+export function checkRepository(repo, { policy, expectedIssues = [] } = {}) {
   const results = runChecks(ALL_CHECKS, createContext(repo, { policy }));
   const found = failures(results);
-  return { checks: results.length, failures: [...found.values()], keys: [...found.keys()] };
+  return { checks: results.length, failures: found.map(({ issue }) => issue), unexpected: unexpected(found, expectedIssues).map(({ issue }) => issue) };
 }

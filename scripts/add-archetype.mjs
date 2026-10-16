@@ -27,6 +27,7 @@ import {
   ScaffoldRollbackError,
   applyScaffold,
   checkRepository,
+  describeIssue,
   planScaffold,
 } from "./lib/scaffold.mjs";
 
@@ -83,6 +84,9 @@ const NEXT_STEPS = Object.freeze([
 
 const GENERATED_NOTE = "regenerated from the registry";
 
+// Flags that take one value: giving one twice is a mistake to report, not a choice to guess at.
+const SINGLE_VALUED = Object.freeze(["id", "name", "category", "summary", "medium", "canvas", "linework", "rights-holder", "license", "source", "credit", "root"]);
+
 function countBy(items, key) {
   const counts = new Map();
   for (const item of items) counts.set(item[key], (counts.get(item[key]) ?? 0) + 1);
@@ -136,15 +140,17 @@ function renderJson({ plan, dryRun }) {
   );
 }
 
-export function main(argv = process.argv.slice(2), { stdout = process.stdout, stderr = process.stderr, policy } = {}) {
+// `io` is the file API the scaffold writes with (Node's fs); tests pass one that fails on demand.
+export function main(argv = process.argv.slice(2), { stdout = process.stdout, stderr = process.stderr, policy, io } = {}) {
   const usageError = (message) => {
     stderr.write(`${message}\n\n${USAGE}\n`);
     return EXIT.usage;
   };
 
   let options;
+  let tokens;
   try {
-    ({ values: options } = parseArgs({
+    ({ values: options, tokens } = parseArgs({
       args: argv,
       options: {
         id: { type: "string" },
@@ -172,6 +178,7 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
       },
       strict: true,
       allowPositionals: false,
+      tokens: true,
     }));
   } catch (error) {
     return usageError(error.message);
@@ -181,6 +188,8 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
     return EXIT.ok;
   }
 
+  const repeated = SINGLE_VALUED.find((name) => tokens.filter((token) => token.kind === "option" && token.name === name).length > 1);
+  if (repeated !== undefined) return usageError(`--${repeated} was given more than once; it takes one value`);
   if (options.root !== undefined && options.root.trim() === "") return usageError("--root needs a directory");
   const root = path.resolve(options.root ?? path.join(import.meta.dirname, ".."));
   const repo = new Repository(root);
@@ -227,11 +236,8 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
     try {
       // The checks must report on disk exactly what they reported in memory; anything else undoes every change.
       applyScaffold(root, plan, {
-        verify: () => {
-          const { failures, keys } = checkRepository(new Repository(root), { policy });
-          const expected = new Set(plan.validation.expectedIssues);
-          return failures.filter((_, index) => !expected.has(keys[index])).map((issue) => `${issue.id} ${issue.path ? `${issue.path}: ` : ""}${issue.message}`);
-        },
+        io,
+        verify: () => checkRepository(new Repository(root), { policy, expectedIssues: plan.validation.expectedIssues }).unexpected.map(describeIssue),
       });
     } catch (error) {
       if (error instanceof ScaffoldRefusal) return refuse(error);

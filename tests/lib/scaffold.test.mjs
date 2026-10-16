@@ -12,6 +12,8 @@ import {
   ScaffoldRollbackError,
   applyScaffold,
   buildEntry,
+  checkRepository,
+  describeIssue,
   insertRegistryEntry,
   normalizeInput,
   planScaffold,
@@ -87,7 +89,7 @@ test("normalizeInput rejects unusable names, text, categories, sources, and canv
   assert.equal(normalizeInput({ ...FOX, name: "Line\n Break" }).name, "Line Break", "whitespace collapses to single spaces");
   inputError({ ...FOX, category: "celebrity" }, /--category must be one of house-style, mascot, tribute-character, animation-preset/);
   inputError({ ...FOX, summary: "x".repeat(241) }, /--summary is 241 characters; the limit is 240/);
-  inputError({ ...FOX, features: ["a [bracketed] feature"] }, /--feature must not contain brackets or backticks/);
+  inputError({ ...FOX, features: ["a [bracketed] feature"] }, /--feature must not contain brackets, backticks, angle brackets, pipes, or backslashes/);
   inputError({ ...FOX, actions: ["dig\u0007"] }, /--action must not contain control characters/);
   inputError({ ...FOX, palette: [" "] }, /--palette must not be empty/);
   for (const source of ["javascript:alert(1)", "ftp://example.org/x", "example.org/fox", "https://example.org/a b", "data:text/html,x"]) {
@@ -121,8 +123,46 @@ test("normalizeInput reads names in any script, stores them composed, and keeps 
   }
 });
 
+test("normalizeInput refuses invalid Unicode, invisible and bidirectional characters, and text that would restructure the Markdown", () => {
+  const halfPair = String.fromCharCode(0xd800);
+  inputError({ ...FOX, features: [`orange${halfPair}tail`] }, /--feature is not valid Unicode text/);
+  inputError({ ...FOX, name: `Fox${halfPair}` }, /--name is not valid Unicode text/);
+
+  // Bidirectional controls reorder what a reader sees; the Hangul fillers, soft hyphen, and word joiner show nothing at all.
+  for (const code of [0x202e, 0x2066, 0x200f, 0x061c, 0x3164, 0x115f, 0x00ad, 0x2060]) {
+    const hidden = String.fromCodePoint(code);
+    inputError({ ...FOX, summary: `A${hidden}B fox` }, /--summary must not contain invisible or bidirectional control characters \(U\+[0-9A-F]{4}\)/);
+    inputError({ ...FOX, rightsHolder: `Jane${hidden}Artist` }, /--rights-holder must not contain invisible or bidirectional control characters/);
+    inputError({ ...FOX, name: `Fox${hidden}` }, /--name must not contain invisible or bidirectional control characters/);
+  }
+  inputError({ ...FOX, name: String.fromCodePoint(0x3164) }, /--name must not contain invisible/, "a name of one invisible letter has nothing to show");
+  const joiner = String.fromCodePoint(0x200c);
+  assert.equal(normalizeInput({ ...FOX, name: `می${joiner}خواهم` }).name, `می${joiner}خواهم`, "the zero-width non-joiner is part of how Persian is written");
+
+  // Raw HTML, a pipe, or a backslash would break a table cell or the Markdown the text is written into.
+  for (const text of ["Fox <!-- hides the rest", "Fox | tricks", "Fox \\| tricks", "Fox <b>bold</b>", "C:\\fox"]) {
+    inputError({ ...FOX, summary: text }, /--summary must not contain brackets, backticks, angle brackets, pipes, or backslashes/);
+    inputError({ ...FOX, credit: text }, /--credit must not contain brackets, backticks, angle brackets, pipes, or backslashes/);
+  }
+
+  // A number and a dot or bracket at the start of a line is a list item.
+  for (const opener of ["1. Fox", "12) Fox", "3."]) inputError({ ...FOX, summary: opener }, /--summary must start with a letter or a digit, and not as a numbered list item/);
+  inputError({ ...FOX, name: "1. Fox" }, /--name .* must not open like a numbered list item/);
+  inputError({ ...FOX, aliases: ["2. the fox"] }, /--alias .* must not open like a numbered list item/);
+  assert.equal(normalizeInput({ ...FOX, name: "3.14 Fox" }).name, "3.14 Fox", "a number inside a name is fine");
+  assert.equal(normalizeInput({ ...FOX, summary: "2 foxes dig." }).summary, "2 foxes dig.");
+});
+
+test("normalizeInput refuses a source link that carries credentials, and one the table cannot hold", () => {
+  for (const source of ["https://user:hunter2secret@example.org/fox", "https://token@example.org/fox", "http://:password@example.org/"]) {
+    inputError({ ...FOX, source }, /--source must not carry a user name or password/);
+  }
+  for (const source of ["https://example.org/a|b", "https://example.org/a\\b"]) inputError({ ...FOX, source }, /--source must not contain brackets, backticks, angle brackets, pipes, or backslashes/);
+  assert.equal(normalizeInput({ ...FOX, source: "https://example.org/fox?id=1#top" }).source, "https://example.org/fox?id=1#top");
+});
+
 test("normalizeInput takes a canvas only when it opens with a real aspect ratio", () => {
-  for (const canvas of ["0:9 tall", "16:0 wide", "100:1 banner", "16:09 wide", ":9 tall", "16:9x", "wide 16:9"]) inputError({ ...FOX, canvas }, /--canvas .* must start with the aspect ratio/);
+  for (const canvas of ["0:9 tall", "16:0 wide", "100:1 banner", "16:09 wide", ":9 tall", "16:9x", "16:9é", "wide 16:9"]) inputError({ ...FOX, canvas }, /--canvas .* must start with the aspect ratio/);
   for (const canvas of ["1:1", "16:9", "3:4 portrait", "99:1 strip", "4:3, on kraft paper"]) assert.equal(normalizeInput({ ...FOX, canvas }).canvas, canvas);
 });
 
@@ -310,6 +350,17 @@ test("planScaffold refuses conflicts, and says why", (t) => {
   }
 });
 
+test("planScaffold refuses an id that is a folder git ignores or the checks skip, so its pack would never be committed or scanned", (t) => {
+  const fixture = createFixture(t).write(".gitignore", "build/\n*.log\nnotes.txt\n");
+  for (const id of ["dist", "outputs", "generated", "build"]) {
+    const error = thrownBy(() => plan(fixture, { id, name: "Some Fox" }));
+    assert.ok(error instanceof ScaffoldInputError, `${id}: ${error}`);
+    assert.match(error.message, new RegExp(`--id "${id}" is a folder name that git ignores and the repository checks skip`));
+  }
+  assert.equal(plan(fixture, { id: "builder", name: "Builder Fox" }).archetype.id, "builder", "only the exact folder name is refused");
+  assert.equal(plan(fixture, { id: "notes", name: "Notes Fox" }).archetype.id, "notes", "a file pattern is not a folder name");
+});
+
 test("planScaffold refuses an unreadable registry or locales file", (t) => {
   const broken = createFixture(t).write("skills/inkexplain/registry.json", "{ not json");
   assert.match(refusalOf(() => plan(broken)).problems.join("\n"), /invalid JSON/);
@@ -345,6 +396,35 @@ test("an issue that already existed is not new when the scaffold moves its line"
   assert.equal(result.validation.failedChecksAfter, 1);
   applyScaffold(fixture.root, result, { verify: () => [] });
   assert.match(messages(fixture.check("DOC-002")), /docs\/nope\.md does not resolve/);
+});
+
+test("issues are counted every time they occur, and a repeat of an old message is a new occurrence", (t) => {
+  const link = "See the [missing guide](docs/nope.md).\n";
+  const fixture = createFixture(t).append("README.md", `\n${link}\n${link}\n${link}`);
+  const result = plan(fixture, FOX);
+  assert.equal(result.validation.issuesBefore, 3, "three broken links are three issues, not one");
+  assert.equal(result.validation.issuesAfter, 3);
+  assert.equal(result.validation.failedChecksBefore, 1);
+  applyScaffold(fixture.root, result);
+
+  // A fourth copy of the same link has the same message as the first three, and is still new.
+  fixture.append("README.md", `\n${link}`);
+  const found = checkRepository(new Repository(fixture.root), { policy: FIXTURE_POLICY, expectedIssues: result.validation.expectedIssues });
+  assert.equal(found.failures.length, 4);
+  assert.equal(found.unexpected.length, 1);
+});
+
+test("a check that already crashes does not make the new archetype look like the cause", (t) => {
+  const fixture = createFixture(t);
+  // With no language allowlist the language checks crash, before and after, and the stack in each report names
+  // the line of scaffold.mjs that ran them, which is not the same line the second time.
+  const policy = { languageAllowlist: null };
+  const result = planScaffold(new Repository(fixture.root), FOX, { policy });
+  assert.ok(result.validation.failedChecksBefore >= 1, "the checks do crash with this policy");
+  assert.equal(result.validation.issuesAfter, result.validation.issuesBefore);
+  const verify = () => checkRepository(new Repository(fixture.root), { policy, expectedIssues: result.validation.expectedIssues }).unexpected.map(describeIssue);
+  applyScaffold(fixture.root, result, { verify });
+  assert.ok(fixture.exists(`${PACKS}/example-fox/rights.md`), "it was written, not refused");
 });
 
 /** The real file API, except that writing the named files fails the way a locked or read-only file does. */
@@ -383,6 +463,16 @@ test("applyScaffold writes nothing when a file it would create exists, or a file
   assert.deepEqual(refusalOf(() => applyScaffold(fixture.root, result)).problems, ["ATTRIBUTIONS.md changed"]);
   assert.deepEqual(snapshot(fixture.root), edited);
   assert.notDeepEqual(edited, before);
+});
+
+test("applyScaffold refuses, rather than failing halfway, when a file it would edit has been deleted since planning", (t) => {
+  const fixture = createFixture(t);
+  const result = plan(fixture, FULL);
+  fixture.remove("examples/prompts.md");
+  const taken = snapshot(fixture.root);
+  const error = refusalOf(() => applyScaffold(fixture.root, result));
+  assert.deepEqual(error.problems, ["examples/prompts.md changed"]);
+  assert.deepEqual(snapshot(fixture.root), taken, "nothing was written");
 });
 
 test("applyScaffold undoes everything, and never overwrites, when a file appears while it writes", (t) => {
@@ -509,6 +599,87 @@ test("a rollback never deletes a file somebody else put into a folder it created
   assert.deepEqual(fs.readdirSync(path.join(fixture.root, PACKS, "example-fox")), ["notes.md"], "the five pack files are gone");
   fixture.remove(`${PACKS}/example-fox`);
   assert.deepEqual(snapshot(fixture.root), before, "everything else is as it was");
+});
+
+test("a file whose exclusive create succeeded but whose write then failed is removed, not left empty", (t) => {
+  const fixture = createFixture(t);
+  const result = plan(fixture, FULL);
+  const before = snapshot(fixture.root);
+  // A full disk: the exclusive create makes the file, and the write that follows fails.
+  const io = {
+    ...failingIo(),
+    writeFileSync(file, ...rest) {
+      if (String(file).replaceAll("\\", "/").endsWith("/example-fox/style.md")) {
+        fs.writeFileSync(file, "", { flag: "wx" });
+        throw Object.assign(new Error("ENOSPC: no space left on device, write"), { code: "ENOSPC" });
+      }
+      return fs.writeFileSync(file, ...rest);
+    },
+  };
+  const error = thrownBy(() => applyScaffold(fixture.root, result, { io }));
+  assert.equal(error.code, "ENOSPC", "the failure is reported as it was");
+  assert.ok(!(error instanceof ScaffoldRollbackError), "and nothing is left over");
+  assert.deepEqual(snapshot(fixture.root), before, "the empty file and its folder are gone");
+});
+
+test("a pack that another run created first is left alone, and the report does not claim it as this run's", (t) => {
+  const fixture = createFixture(t);
+  const result = plan(fixture, FULL);
+  const otherRun = plan(fixture, FULL);
+  let raced = false;
+  const io = {
+    ...failingIo(),
+    mkdirSync(directory, ...rest) {
+      // The other run writes the whole pack just before this run makes the folder.
+      if (!raced && String(directory).replaceAll("\\", "/").endsWith("/archetypes/example-fox")) {
+        raced = true;
+        for (const { path: file, content } of otherRun.create) {
+          fs.mkdirSync(path.dirname(path.join(fixture.root, file)), { recursive: true });
+          fs.writeFileSync(path.join(fixture.root, file), content);
+        }
+      }
+      return fs.mkdirSync(directory, ...rest);
+    },
+  };
+  const error = thrownBy(() => applyScaffold(fixture.root, result, { io }));
+  assert.equal(error.code, "EEXIST");
+  assert.ok(!(error instanceof ScaffoldRollbackError), `there is nothing of this run's to report: ${error}`);
+  for (const { path: file, content } of otherRun.create) assert.equal(fixture.read(file), content, `${file} is still the other run's`);
+});
+
+test("an edit made to a file after the pre-check and before it is written is never written over", (t) => {
+  const fixture = createFixture(t);
+  const result = plan(fixture, FULL);
+  const before = snapshot(fixture.root);
+  let reads = 0;
+  const io = {
+    ...failingIo(),
+    readFileSync(file, ...rest) {
+      // The pre-check reads ATTRIBUTIONS.md first; the second read is the one just before it is written.
+      if (String(file).replaceAll("\\", "/").endsWith("/ATTRIBUTIONS.md") && (reads += 1) === 2) fs.appendFileSync(file, "\nA line added by hand in between.\n");
+      return fs.readFileSync(file, ...rest);
+    },
+  };
+  const error = refusalOf(() => applyScaffold(fixture.root, result, { io }));
+  assert.match(error.message, /changed while it was being written, so the changes were undone/);
+  assert.deepEqual(error.problems, ["ATTRIBUTIONS.md changed"]);
+  assert.ok(fixture.read("ATTRIBUTIONS.md").endsWith("A line added by hand in between.\n"), "the hand edit survives");
+  const after = snapshot(fixture.root);
+  for (const [file, hash] of before) if (file !== "ATTRIBUTIONS.md") assert.equal(after.get(file), hash, `${file} is as it was`);
+  assert.equal(after.size, before.size, "the pack and its folder are gone");
+});
+
+test("a generated document that is missing is created, and removed again if the run is undone", (t) => {
+  const fixture = createFixture(t).remove("skills/inkexplain/references/routing.md");
+  const result = plan(fixture, FULL);
+  assert.equal(result.modify.find((file) => file.path.endsWith("references/routing.md")).before, null, "the plan knows it was missing");
+  const before = snapshot(fixture.root);
+  refusalOf(() => applyScaffold(fixture.root, result, { verify: () => ["SCHEMA-099 something broke"] }));
+  assert.deepEqual(snapshot(fixture.root), before, "the document the run created is gone again");
+
+  applyScaffold(fixture.root, result);
+  assert.ok(fixture.exists("skills/inkexplain/references/routing.md"));
+  for (const check of fixture.run()) assert.equal(check.status, "pass", `${check.id}\n${messages(check)}`);
 });
 
 test("from scaffold to active: a promoted archetype must settle every marker and stop calling itself experimental", (t) => {
