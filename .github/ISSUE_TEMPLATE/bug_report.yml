@@ -1,0 +1,39 @@
+name: Bug Report
+description: Report a broken prompt, validation failure, or incorrect behavior in an archetype
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug report! Please check that `npm run check` has been executed locally.
+  - type: input
+    id: archetype
+    attributes:
+      label: Affected Archetype
+      description: Which archetype experienced the issue? (e.g., ferris, gopher, ink, all)
+      placeholder: ferris
+    validations:
+      required: false
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe what failed or produced unexpected visual output.
+    validations:
+      required: true
+  - type: textarea
+    id: prompt_input
+    attributes:
+      label: Prompt / Input
+      description: The code or concept passed to `$inkexplain` or `scripts/explain.mjs`.
+      render: text
+    validations:
+      required: false
+  - type: textarea
+    id: environment
+    attributes:
+      label: Host Environment
+      description: Which agent and model did you use? (e.g. Claude Code Sonnet 3.7, Cursor, Codex, CLI)
+      placeholder: Claude Code / Node.js 22
+    validations:
+      required: false

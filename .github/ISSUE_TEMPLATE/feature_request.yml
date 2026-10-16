@@ -1,0 +1,29 @@
+name: Feature Request
+description: Suggest an enhancement to concept extraction, composition grids, or tooling
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea to improve the visual reasoning engine or workflow? Let us know!
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Limitation
+      description: What computing concept, code pattern, or architecture is currently difficult to illustrate?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed Solution or Metaphor
+      description: How should the skill handle or frame this concept physically?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Considered Alternatives
+      description: Any other approaches or existing archetypes you tried?
+    validations:
+      required: false
