@@ -1,22 +1,28 @@
-// The README's walkthroughs quote complete prompts. They are copies of text that lives in
-// each archetype's prompts.md, so this test fails when a pack changes and a README prompt does not.
+// docs/walkthroughs.md quotes complete prompts. They are copies of text that lives in each
+// archetype's prompts.md, so this test fails when a pack changes and a walkthrough prompt does not.
 
 import assert from "node:assert/strict";
 import path from "node:path";
 import test from "node:test";
-import { extractCodeBlocks, sectionBody } from "../scripts/lib/markdown.mjs";
+import { extractCodeBlocks } from "../scripts/lib/markdown.mjs";
 import { buildNegativePrompt, defaultAspect, matchesTemplate, parsePromptPack } from "../scripts/lib/prompt-assembly.mjs";
 import { findAliasMentions, loadRegistry, packFilePath, resolveArchetypeRequest } from "../scripts/lib/registry.mjs";
 import { Repository } from "../scripts/lib/repository.mjs";
 
 const REPO_ROOT = path.resolve(import.meta.dirname, "..");
-const SECTION = "From Code to Hand-Drawn Metaphor (Walkthroughs)";
+const FILE = "docs/walkthroughs.md";
+const EXPECTED = [
+  { id: "ferris", language: "rust" },
+  { id: "gopher", language: "go" },
+  { id: "littlebox", language: "python" },
+  { id: "stickman", language: "python" },
+];
 
 const repo = new Repository(REPO_ROOT);
 const { registry } = loadRegistry(repo);
-const section = sectionBody(repo.readText("README.md"), SECTION);
-const walkthroughs = (section ?? "")
-  .split(/^### /m)
+const walkthroughs = repo
+  .readText(FILE)
+  .split(/^## /m)
   .slice(1)
   .map((body) => {
     const heading = body.split("\n")[0];
@@ -31,16 +37,26 @@ const walkthroughs = (section ?? "")
     };
   });
 
-test("the README has the walkthrough section with one example each for Ferris, the Go Gopher, and Littlebox", () => {
-  assert.ok(section, `README.md has no "## ${SECTION}" section`);
+test("the walkthroughs cover Ferris, the Go Gopher, Littlebox, and Stickman, each with its own code", () => {
+  assert.equal(walkthroughs.length, EXPECTED.length);
   assert.deepEqual(
     walkthroughs.map((walkthrough) => resolveArchetypeRequest(registry, [walkthrough.archetypeName]).archetypes[0]?.id),
-    ["ferris", "gopher", "littlebox"],
+    EXPECTED.map((entry) => entry.id),
   );
-  assert.deepEqual(walkthroughs.map((walkthrough) => walkthrough.languageBlocks.map((block) => block.info)), [["rust"], ["go"], ["python"]]);
+  assert.deepEqual(
+    walkthroughs.map((walkthrough) => walkthrough.languageBlocks.map((block) => block.info)),
+    EXPECTED.map((entry) => [entry.language]),
+  );
 });
 
-for (const [index, id] of ["ferris", "gopher", "littlebox"].entries()) {
+test("the README points at the walkthroughs instead of carrying them", () => {
+  const readme = repo.readText("README.md");
+  assert.match(readme, /\[docs\/walkthroughs\.md\]\(docs\/walkthroughs\.md\)/);
+  assert.doesNotMatch(readme, /Generate one standalone/, "no complete prompt is quoted in the README");
+  for (const name of ["Ferris", "Go Gopher", "Littlebox", "Stickman"]) assert.ok(readme.includes(name), `the pointer names ${name}`);
+});
+
+for (const [index, { id }] of EXPECTED.entries()) {
   test(`walkthrough ${index + 1} (${id}): the prompt is a faithful instance of the archetype's template`, () => {
     const walkthrough = walkthroughs[index];
     const archetype = registry.byId.get(id);
@@ -48,12 +64,14 @@ for (const [index, id] of ["ferris", "gopher", "littlebox"].entries()) {
     assert.ok(walkthrough.prompt, `${id} walkthrough has a complete prompt`);
 
     const match = matchesTemplate(pack.template, walkthrough.prompt.content);
-    assert.deepEqual(match.problems, [], `${id}: change the README prompt to follow ${packFilePath(archetype, "prompts.md")}`);
+    assert.deepEqual(match.problems, [], `${id}: change the walkthrough prompt to follow ${packFilePath(archetype, "prompts.md")}`);
     // Booleans keep a failure readable: a prompt is several kilobytes of text.
     assert.equal(/(?<!\.)\.\.(?!\.)|\.,|,\./.test(walkthrough.prompt.content), false, `${id} prompt has doubled punctuation`);
     // The labels list is written in brackets by design; any other bracket is a field nobody filled.
     assert.equal(/\[(?!")[^\]\n]*\]/.test(walkthrough.prompt.content), false, `${id} prompt still has an unfilled bracketed field`);
-    assert.equal(walkthrough.prompt.content.includes(pack.rightsNote.replace(/\.+$/, "")), true, `${id} prompt carries the rights note`);
+    if (pack.rightsNote !== null) {
+      assert.equal(walkthrough.prompt.content.includes(pack.rightsNote.replace(/\.+$/, "")), true, `${id} prompt carries the rights note`);
+    }
   });
 
   test(`walkthrough ${index + 1} (${id}): aspect ratio and negative prompt match what InkExplain derives`, () => {
@@ -73,3 +91,12 @@ for (const [index, id] of ["ferris", "gopher", "littlebox"].entries()) {
     assert.deepEqual([...mentioned], [id]);
   });
 }
+
+test("the Stickman walkthrough keeps the whole identity contract and a single accent", () => {
+  const prompt = walkthroughs[3].prompt.content;
+  const { template } = parsePromptPack(repo.readText(packFilePath(registry.byId.get("stickman"), "prompts.md")));
+  const characterOf = (text) => text.split("\n\n").find((paragraph) => paragraph.startsWith("Character: "));
+  assert.equal(characterOf(prompt), characterOf(template), "the Character block is quoted unchanged");
+  assert.match(prompt, /one vermilion accent #E4572E only on the middle card of the standing stack/);
+  assert.match(prompt, /Pose: Carry\. Expression: focused\./);
+});

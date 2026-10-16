@@ -151,9 +151,8 @@ test("the gallery data and every README describe Littlebox on a pure white page"
   }
 });
 
-test("the README's Littlebox walkthrough draws on the default page", () => {
-  const readme = repo.readText("README.md");
-  const walkthrough = sectionBody(readme, "3. A blocked event loop in async Python, drawn by Littlebox");
+test("the Littlebox walkthrough draws on the default page", () => {
+  const walkthrough = sectionBody(repo.readText("docs/walkthroughs.md"), "3. A blocked event loop in async Python, drawn by Littlebox");
   assert.ok(walkthrough, "the walkthrough exists");
   const prompt = extractCodeBlocks(walkthrough).find((block) => block.content.startsWith("Generate one standalone"));
   assert.match(prompt.content, /on a perfectly flat pure white background #FFFFFF\./);

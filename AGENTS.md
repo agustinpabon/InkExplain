@@ -16,7 +16,7 @@ InkExplain is an AI-agent skill that turns ideas into consistent hand-drawn illu
 - `scripts/`: `validate.mjs`, `build-docs.mjs`, `explain.mjs` (the prompt helper), and `lib/` (no dependencies).
 - `examples/`: example prompts, and the offline gallery `gallery/index.html` with its sample images. The gallery page carries a generated data block; never edit it by hand.
 - `tests/`: Node's built-in test runner; fixtures are generated in temporary directories.
-- `docs/`: architecture, language policy, release checklist, archetype authoring guide.
+- `docs/`: architecture, language policy, release checklist, archetype authoring guide, and the code walkthroughs (`walkthroughs.md`).
 - `readmes/`: README translations plus `locales.json`.
 
 See [docs/architecture.md](docs/architecture.md) for details.

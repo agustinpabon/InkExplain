@@ -143,7 +143,7 @@ Per-archetype rules are data. Adding an archetype never requires new validator c
 - `tests/cli.test.mjs`: exit codes, JSON output, filtering, and document generation;
 - `tests/scripts/`: the command-line prompt helper, in process and as a real process;
 - `tests/gallery-page.test.mjs`: the gallery page's prompt helpers against `prompt-assembly.mjs`;
-- `tests/readme-walkthroughs.test.mjs`: the README's example prompts against their archetypes' templates;
+- `tests/walkthroughs.test.mjs`: the example prompts in `docs/walkthroughs.md` against their archetypes' templates;
 - `tests/repository.test.mjs`: acceptance tests that run every check on the real repository.
 
 Fixtures are built in temporary directories by `tests/helpers/fixture.mjs`, including real PNG files, so the suite runs in a couple of seconds and needs no copies of the gallery images.
