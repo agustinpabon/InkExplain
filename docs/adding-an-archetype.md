@@ -2,7 +2,7 @@
 
 An archetype is a character (or a neutral actor), how it moves, and how it is drawn. Adding one takes a registry entry, a five-file pack, a credit line, and two commands. No validator code changes are needed: every per-archetype rule is data in `registry.json`.
 
-This guide is for anyone contributing a character pack: an original house style, a project mascot, or a tribute to a third-party character.
+This guide is for anyone contributing a character pack: an original house style, a project mascot, or a tribute to a third-party character. Not sure which character to add? [Characters to add next, and characters to leave out](future-archetypes.md) lists the candidates that look safe and the ones that are not.
 
 ## Quick start
 
