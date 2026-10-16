@@ -90,6 +90,11 @@ export const LEGAL = Object.freeze({
     'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.',
 });
 
+// Draft markers that `npm run archetype:add` writes wherever only the contributor can decide:
+// what the character looks like, what it does, and who holds its rights. They are allowed while
+// an archetype is experimental and must be gone before it is promoted (SCHEMA-010).
+export const SCAFFOLD_PLACEHOLDER = /\b(?:TODO|UNRESOLVED)\b/;
+
 // Locale codes, selector labels, README paths, and translated table headings
 // live in readmes/locales.json next to the translations they describe.
 export const LOCALE_STRING_KEYS = Object.freeze(["archetype", "category", "summary", "legalStatus", "default"]);

@@ -4,12 +4,12 @@
 
 import path from "node:path";
 import { defineCheck } from "../check-runner.mjs";
-import { PACK_FILES, PACK_FILE_SECTIONS, PATHS, RIGHTS_NOTE_SECTION } from "../config.mjs";
+import { PACK_FILES, PACK_FILE_SECTIONS, PATHS, RIGHTS_NOTE_SECTION, SCAFFOLD_PLACEHOLDER } from "../config.mjs";
 import { planGeneratedDocuments } from "../docs-render.mjs";
 import { extractCodeBlocks, extractHeadings, sectionBody } from "../markdown.mjs";
 import { parsePromptPack, scanTemplate } from "../prompt-assembly.mjs";
 import { backgroundPhrase, outputDirectory, packFilePath } from "../registry.mjs";
-import { includesFolded, lineOf } from "./support.mjs";
+import { excerptAround, includesFolded, lineOf } from "./support.mjs";
 
 // Each registry list must reach the pack files that put it to work: identity
 // markers reach the identity sheet and the prompts (generation and review),
@@ -20,6 +20,9 @@ const MARKER_CONTRACTS = Object.freeze([
   { label: "palette entry", values: (archetype) => archetype.styleSheet.palette, files: ["style.md", "prompts.md"] },
   { label: "signature action", values: (archetype) => archetype.motionDna.signatureActions, files: ["motion-and-acting.md"] },
 ]);
+
+// A pack that has been promoted must stop saying it is experimental.
+const STALE_STATUS = /\bexperimental\b/i;
 
 function packDir(archetype) {
   return `${PATHS.packageDir}/references/archetypes/${archetype.id}`;
@@ -252,6 +255,45 @@ export const schemaChecks = [
           for (const swatch of [policy.default, ...policy.presets]) {
             if (!includesFolded(style.text, swatch.hex)) {
               issues.push({ path: style.filePath, message: `archetype ${archetype.id} background ${JSON.stringify(swatch.name)} ${swatch.hex} is missing` });
+            }
+          }
+        }
+      }
+      return issues;
+    },
+  }),
+
+  defineCheck({
+    id: "SCHEMA-010",
+    area: "SCHEMA",
+    title: "only experimental archetypes may carry scaffold placeholders or call themselves experimental",
+    requires: ["registry"],
+    run({ repo, registry }) {
+      const issues = [];
+      const attributions = repo.readTextIfExists(PATHS.attributions);
+      for (const archetype of registry.archetypes.filter((candidate) => candidate.status !== "experimental")) {
+        // The registry entry, the five pack files, and the archetype's own credit in ATTRIBUTIONS.md.
+        const sources = [
+          { path: PATHS.registryFile, text: JSON.stringify(archetype, null, 1), says: [] },
+          ...PACK_FILES.map((file) => ({ path: packFilePath(archetype, file), text: repo.readTextIfExists(packFilePath(archetype, file)), says: [STALE_STATUS] })),
+          { path: PATHS.attributions, text: attributions === null ? null : sectionBody(attributions, archetype.name), says: [] },
+        ];
+        for (const { path: filePath, text, says } of sources) {
+          if (text === null) continue;
+          for (const [index, line] of text.split("\n").entries()) {
+            for (const pattern of [SCAFFOLD_PLACEHOLDER, ...says]) {
+              const match = pattern.exec(line);
+              if (!match) continue;
+              const shown = excerptAround(line, match.index);
+              issues.push({
+                path: filePath,
+                line: filePath === PATHS.registryFile || filePath === PATHS.attributions ? undefined : index + 1,
+                message:
+                  pattern === SCAFFOLD_PLACEHOLDER
+                    ? `archetype ${archetype.id} is ${archetype.status} but still has a scaffold placeholder: ${shown}`
+                    : `archetype ${archetype.id} is ${archetype.status} but its pack still says it is experimental: ${shown}`,
+              });
+              break;
             }
           }
         }

@@ -161,3 +161,45 @@ test("a new archetype needs only a registry entry, a pack, and regenerated docs"
   assert.match(fixture.read("README.md"), /Paper Fox \(`paper-fox`\)/);
   assert.match(fixture.read("skills/inkexplain/references/routing.md"), /### Paper Fox \(`paper-fox`\)/);
 });
+
+test("SCHEMA-010 lets an experimental archetype carry scaffold placeholders and refuses them on any other", (t) => {
+  const fixture = createFixture(t);
+  assert.equal(fixture.check("SCHEMA-010").status, "pass");
+  fixture.append(`${PACK}/demo/identity.md`, "\nTODO: describe the shell.\n");
+  const refused = fixture.check("SCHEMA-010");
+  assert.equal(refused.status, "fail");
+  assert.match(messages(refused), /demo\/identity\.md:\d+: archetype demo is active but still has a scaffold placeholder: .*TODO: describe the shell\./);
+  fixture.append(`${PACK}/guarded/rights.md`, "\nUNRESOLVED: record the license.\n");
+  assert.match(messages(fixture.check("SCHEMA-010")), /archetype guarded is gated-authorized but still has a scaffold placeholder/, "any status but experimental");
+
+  fixture.updateRegistry((data) => {
+    data.archetypes[1].status = "experimental";
+    data.archetypes[2].status = "experimental";
+  });
+  assert.equal(fixture.check("SCHEMA-010").status, "pass", "markers are fine while the archetype is experimental");
+});
+
+test("SCHEMA-010 also reads the registry entry and the archetype's own credit in ATTRIBUTIONS", (t) => {
+  const fixture = createFixture(t).updateRegistry((data) => {
+    data.archetypes[1].summary = "TODO: write a summary.";
+  });
+  const registry = fixture.check("SCHEMA-010");
+  assert.match(messages(registry), /registry\.json: archetype demo is active but still has a scaffold placeholder: .*TODO: write a summary\./);
+  assert.ok(registry.issues.every((issue) => issue.line === undefined), "an entry has no line of its own");
+
+  fixture.updateRegistry((data) => {
+    data.archetypes[1].summary = "A crab.";
+  });
+  fixture.append("ATTRIBUTIONS.md", "\n### Demo Crab\n\n- UNRESOLVED: record the rights holder.\n");
+  assert.match(messages(fixture.check("SCHEMA-010")), /ATTRIBUTIONS\.md: archetype demo is active but still has a scaffold placeholder: .*UNRESOLVED: record the rights holder\./);
+});
+
+test("SCHEMA-010 refuses a promoted pack that still calls itself experimental", (t) => {
+  const fixture = createFixture(t);
+  fixture.append(`${PACK}/demo/prompts.md`, "\nEvery delivery says the pack is experimental.\n");
+  assert.match(messages(fixture.check("SCHEMA-010")), /demo\/prompts\.md:\d+: archetype demo is active but its pack still says it is experimental: .*Every delivery says the pack is experimental\./);
+  fixture.updateRegistry((data) => {
+    data.archetypes[1].status = "experimental";
+  });
+  assert.equal(fixture.check("SCHEMA-010").status, "pass", "an experimental archetype may say so");
+});

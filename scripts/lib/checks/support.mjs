@@ -61,3 +61,21 @@ export function excerpt(line, max = 120) {
   const trimmed = line.trim();
   return trimmed.length > max ? `${trimmed.slice(0, max - 1)}…` : trimmed;
 }
+
+/**
+ * The words of `line` around `index`, so a message shows what it found without cutting a
+ * word in half. A line that fits is returned whole.
+ */
+export function excerptAround(line, index, { before = 60, after = 80 } = {}) {
+  let start = Math.max(0, index - before);
+  if (start > 0) {
+    const space = line.indexOf(" ", start);
+    if (space !== -1 && space <= index) start = space + 1;
+  }
+  let end = Math.min(line.length, index + after);
+  if (end < line.length) {
+    const space = line.lastIndexOf(" ", end);
+    if (space > index) end = space;
+  }
+  return `${start > 0 ? "…" : ""}${line.slice(start, end).trim()}${end < line.length ? "…" : ""}`;
+}
