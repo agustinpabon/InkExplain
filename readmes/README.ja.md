@@ -94,16 +94,14 @@ $inkexplain プロンプトモード：自分の画像ツールに貼り付け�
 
 ## サンプルギャラリー
 
-作例を、それぞれのアーキタイプとともに紹介します。InkExplain Sketch の作例は、レビュー後に追加される予定です。
+Xiaohei のサンプル画像を、加工せずに掲載しています。ほかのキャラクターのサンプルは、レビュー後に公開します。
 
-| Littlebox | Ferris | Seal |
+| 一匹の魚、いくつもの使い道 | 目的別の仕分け | アイデアプレス |
 |---|---|---|
-| ![引き継ぎの経路：封をしたカードを入力から準備完了へ受け渡す Littlebox](../examples/gallery/en/littlebox/04-handoff-path.png) | ![目的別の仕分け：はさみで資料を分類する Ferris](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![情報の井戸：井戸からアイデアを汲み上げる Seal](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | **Xiaohei** |
-| ![アイデアプレス：プレス機を操作する OpenClaw のマスコット](../examples/gallery/en/openclaw/06-idea-press.png) | ![信頼の橋：裂け目に板を渡していく Gopher](../examples/gallery/en/gopher/08-trust-bridge.png) | ![一匹の魚を何通りにも：素材の魚をいくつかに切り分ける Xiaohei](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
+| ![一匹の魚を何通りにも：素材の魚をいくつかに切り分ける Xiaohei](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) | ![目的別の仕分け：Xiaohei が生のアイデアカードにスタンプを押し、3つのトレイに振り分ける](../examples/gallery/en/xiaohei/02-sort-by-purpose.png) | ![アイデアプレス：Xiaohei がクランクを回し、散らばったアイデアをひとつの明確なアイデアに押し固める](../examples/gallery/en/xiaohei/06-idea-press.png) |
 
 <!-- inkexplain:gallery-credits:start -->
-Littlebox は okooo5km の 5km Littlebox Illustrations（MIT）を翻案したものです。Ferris の作者は Karen Rustad Tolva です（CC0）。Go gopher は Renee French がデザインしました（CC BY 4.0）。OpenClaw のマスコットは OpenClaw プロジェクトのものです（MIT）。Xiaohei は Ian Xiaohei Illustrations に登場する Ian のキャラクターです（MIT）。すべての画像は [examples/gallery](../examples/gallery) にあります。英語ラベル版は6アーキタイプ分、中国語ラベル版は4アーキタイプ分です。
+Xiaohei は Ian Xiaohei Illustrations に登場する Ian のキャラクターです（MIT）。英語ラベルの画像は Visual IP Illustrations（MIT）が公開した画像のコピー、中国語ラベルの画像は Ian 自身の画像のコピーで、いずれも加工せずに [examples/gallery](../examples/gallery) に置いています（[それぞれの出どころ](../docs/provenance.md)）。ほかのキャラクターのサンプルは、レビューが済むまで掲載を見合わせています。
 <!-- inkexplain:gallery-credits:end -->
 
 ## 新しいキャラクターとアニメーションスタイルの追加

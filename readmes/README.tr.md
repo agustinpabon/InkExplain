@@ -94,16 +94,14 @@ Tüm arketiplerin takma adları, hareket DNA'sı, stil sayfaları, atıfları ve
 
 ## Örnek galerisi
 
-Çıktılar, her biri kendi arketipiyle birlikte gösterilmektedir. InkExplain Sketch çıktıları incelendikten sonra eklenecektir.
+Xiaohei'nin örnek görselleri, değiştirilmeden gösterilmektedir. Diğer karakterlerin örnekleri incelendikten sonra yayımlanacaktır.
 
-| Littlebox | Ferris | Seal |
+| Bir balık, çok kullanım | Amaca göre ayırma | Fikir presi |
 |---|---|---|
-| ![Devir teslim yolu: Littlebox mühürlü bir kartı girdi aşamasından hazır aşamasına aktarıyor](../examples/gallery/en/littlebox/04-handoff-path.png) | ![Amaca göre ayırma: Ferris malzemeyi kıskaçlarıyla ayırıyor](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![Bilgi kuyusu: fok, fikirleri bir kuyudan yukarı çekiyor](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | **Xiaohei** |
-| ![Fikir presi: OpenClaw maskotu bir presi çalıştırıyor](../examples/gallery/en/openclaw/06-idea-press.png) | ![Güven köprüsü: gopher bir boşluğun üzerine kalaslar döşüyor](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Bir balık, birçok kullanım: Xiaohei bir malzeme balığını birkaç parçaya ayırıyor](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
+| ![Bir balık, birçok kullanım: Xiaohei bir malzeme balığını birkaç parçaya ayırıyor](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) | ![Amaca göre ayırma: Xiaohei ham fikir kartlarına damga basıp üç tepsiye ayırıyor](../examples/gallery/en/xiaohei/02-sort-by-purpose.png) | ![Fikir presi: Xiaohei bir kolu çevirerek dağınık fikirleri tek bir net fikre sıkıştırıyor](../examples/gallery/en/xiaohei/06-idea-press.png) |
 
 <!-- inkexplain:gallery-credits:start -->
-Littlebox, okooo5km'nin 5km Littlebox Illustrations projesinden uyarlanmıştır (MIT). Ferris, Karen Rustad Tolva'nın eseridir (CC0). Go gopher, Renee French tarafından tasarlanmıştır (CC BY 4.0). OpenClaw maskotu, OpenClaw projesinden gelir (MIT). Xiaohei, Ian'ın Ian Xiaohei Illustrations projesindeki karakteridir (MIT). Tüm görseller [examples/gallery](../examples/gallery) klasöründedir: altı arketip için İngilizce, dört arketip için Çince etiketli.
+Xiaohei, Ian'ın Ian Xiaohei Illustrations projesindeki karakteridir (MIT). İngilizce etiketli görseller Visual IP Illustrations (MIT) tarafından yayımlanan görsellerin kopyaları, Çince etiketli görseller ise Ian'ın kendi görsellerinin kopyalarıdır; hepsi değiştirilmeden [examples/gallery](../examples/gallery) klasöründedir ([her birinin kaynağı](../docs/provenance.md)). Diğer karakterlerin örnekleri incelenene kadar yayımlanmamaktadır.
 <!-- inkexplain:gallery-credits:end -->
 
 ## Yeni Karakterler ve Animasyon Stilleri Ekleme

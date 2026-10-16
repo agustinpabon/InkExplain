@@ -94,16 +94,14 @@ $inkexplain 提示词模式：为三张图写好提示词，方便我粘贴到�
 
 ## 示例图集
 
-以下示例图标注了各自的原型。InkExplain Sketch 的示例图将在审核后补充。
+以下是小黑（Xiaohei）的示例图，未作任何修改。其他角色的示例图将在审核后再发布。
 
-| Littlebox | Ferris | Seal |
+| 一鱼多吃 | 信任桥 | 两个断点 |
 |---|---|---|
-| ![交接路径：Littlebox 跃过两张桌子之间的断点缺口，从散落的卡片奔向收件托盘](../examples/gallery/zh/littlebox/04-handoff-path.png) | ![按用途分类：Ferris 用蟹钳把材料分门别类](../examples/gallery/zh/ferris/02-sort-by-purpose.png) | ![信息井：海豹从井里汲取想法](../examples/gallery/zh/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | **Xiaohei** |
-| ![想法压机：OpenClaw 吉祥物正在操作压机](../examples/gallery/en/openclaw/06-idea-press.png) | ![信任桥：Gopher 在断崖间铺上一块块木板](../examples/gallery/en/gopher/08-trust-bridge.png) | ![一鱼多吃：小黑把一条素材鱼切成几份，分批发出](../examples/gallery/zh/xiaohei/03-one-fish-many-uses.png) |
+| ![一鱼多吃：小黑把一条素材鱼切成几份，分批发出](../examples/gallery/zh/xiaohei/03-one-fish-many-uses.png) | ![信任桥：小黑沿着一条橙色线，把一张张小证据卡片铺过从“陌生”到“愿意聊”的断崖](../examples/gallery/zh/xiaohei/08-trust-bridge.png) | ![两个断点：小黑举着素材箱接上断开的传送带，另一头的内容落进了无人承接的洞里](../examples/gallery/zh/xiaohei/01-two-breakpoints.png) |
 
 <!-- inkexplain:gallery-credits:start -->
-Littlebox 改编自 okooo5km 的 5km Littlebox Illustrations（MIT）。Ferris 的作者是 Karen Rustad Tolva（CC0）。Go gopher 由 Renee French 设计（CC BY 4.0）。OpenClaw 吉祥物来自 OpenClaw 项目（MIT）。小黑（Xiaohei）是 Ian 在 Ian Xiaohei Illustrations 中创作的角色（MIT）。所有示例图都在 [examples/gallery](../examples/gallery)：英文标注版覆盖六个原型，中文标注版覆盖四个。
+小黑（Xiaohei）是 Ian 在 Ian Xiaohei Illustrations 中创作的角色（MIT）。英文标注的示例图是 Visual IP Illustrations（MIT）所发布图片的副本，中文标注的示例图是 Ian 自己图片的副本，均未作修改，存放在 [examples/gallery](../examples/gallery)（[各图的来源](../docs/provenance.md)）。其他角色的示例图在审核完成前暂不发布。
 <!-- inkexplain:gallery-credits:end -->
 
 ## 添加新角色与动画风格

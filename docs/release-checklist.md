@@ -41,7 +41,7 @@ Sample images are published only where `registry.json` records an approved sampl
 
 - [ ] Every image in `examples/gallery/` and `skills/inkexplain/assets/` belongs to an archetype whose `sampleGates.status` is `approved` and sits in one of its listed directories (`ASSET-002`).
 - [ ] Every published sample set has an entry in `examples/gallery/provenance.json` with its real source and the hash of each image (`ASSET-003`). Nothing is described as an InkExplain render unless it was generated and reviewed for this project.
-- [ ] New approvals record a named reviewer, a real review date, and the reasoning in `sampleGates.decision`. A date is the day that person reviewed the images, not the day a source project published them.
+- [ ] New approvals record a named reviewer, a real review date, and the reasoning in `sampleGates.decision`. A date is the day that person reviewed the images, not the day a source project published them (`ASSET-004` fails when a review of another project's copies is dated on or before the day they were first published).
 - [ ] Gated archetypes publish samples only with a recorded `sampleGates.authorization` from the rights holder.
 - [ ] Credits for published samples appear next to the gallery in `README.md`.
 

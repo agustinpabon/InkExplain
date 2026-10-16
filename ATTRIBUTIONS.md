@@ -48,10 +48,10 @@ Every image in `examples/gallery/` is an unmodified copy of a file published by 
 
 | Images | Copied from |
 |---|---|
-| `en/` Xiaohei, Littlebox, Ferris, Seal, OpenClaw, and Go Gopher; `zh/` Littlebox, Ferris, and Seal | Visual IP Illustrations, `examples/images-en/` and `examples/images/` |
+| `en/` Xiaohei | Visual IP Illustrations, `examples/images-en/` |
 | `zh/` Xiaohei | Ian Xiaohei Illustrations, `examples/images/` |
 
-The Littlebox images predate the pure white default and show its optional backgrounds. Each character's own notice below says what the character itself is licensed under; the license of a project's code or images does not extend to a character it merely depicts.
+Only Xiaohei's images are published. The samples of the other characters that earlier versions of the gallery showed are withheld until the maintainer reviews them ([docs/provenance.md](docs/provenance.md#samples-withheld-pending-review)). Each character's own notice below says what the character itself is licensed under; the license of a project's code or images does not extend to a character it merely depicts.
 
 ## Character archetypes
 

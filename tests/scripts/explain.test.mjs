@@ -56,8 +56,9 @@ test("--list prints every archetype with category, style, status, and license", 
   const rows = lines.slice(4, 4 + registry.archetypes.length);
   assert.deepEqual(rows.map((row) => row.split(/\s{2,}/)[0]), registry.archetypes.map((archetype) => archetype.id));
   const row = (id) => rows.find((candidate) => candidate.startsWith(`${id} `));
-  assert.match(row("ferris"), /^ferris\s+Ferris\s+mascot\s+active\s+Ink sketch\s+approved\s+CC0 public-domain dedication$/);
-  assert.match(row("littlebox"), /tribute-character\s+active\s+Marker\s+approved\s+MIT$/);
+  assert.match(row("ferris"), /^ferris\s+Ferris\s+mascot\s+active\s+Ink sketch\s+pending\s+CC0 public-domain dedication$/);
+  assert.match(row("littlebox"), /tribute-character\s+active\s+Marker\s+pending\s+MIT$/);
+  assert.match(row("xiaohei"), /mascot\s+active\s+Ink sketch\s+approved\s+MIT/, "Xiaohei is the one archetype with a review made for InkExplain");
   assert.match(row("tux"), /mascot\s+active\s+Ink sketch\s+pending\s+Free to use and modify/);
   assert.match(stdout, /Default archetype: ink \(used when --archetype is omitted\)\./);
   assert.equal(run(["--list"]).stdout, stdout, "deterministic");
@@ -71,7 +72,8 @@ test("--list --format json is the same listing with rights holders and aliases",
   assert.deepEqual(rows.filter((row) => row.default).map((row) => row.id), ["ink"]);
   const ferris = rows.find((row) => row.id === "ferris");
   assert.equal(ferris.rightsHolder, "Karen Rustad Tolva");
-  assert.equal(ferris.samples, "approved");
+  assert.equal(ferris.samples, "pending");
+  assert.equal(rows.find((row) => row.id === "xiaohei").samples, "approved");
   assert.equal(ferris.thirdParty, true);
   assert.equal(ferris.outputFolder, "assets/<article-slug>-ferris/");
   assert.ok(ferris.aliases.includes("Rust mascot"));

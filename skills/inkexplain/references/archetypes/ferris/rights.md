@@ -21,6 +21,5 @@
 
 ## Public samples
 
-- Decision: approved on 2026-06-15, as recorded in `registry.json`, with trademark- and endorsement-safe wording; Ferris itself is CC0.
-- The approved renders live in the repository gallery (`examples/gallery/en/ferris/`, `examples/gallery/zh/ferris/`), outside the installed skill.
-- New public samples keep the credit to Karen Rustad Tolva and the restrictions above, and are recorded in `sampleGates` before they are published.
+- Decision: pending, as recorded in `registry.json`. The renders shown in earlier versions of the gallery were unmodified copies of images published by Visual IP Illustrations. Nobody has reviewed them for InkExplain, so they are withheld. Ferris itself is CC0.
+- New public samples go under `examples/gallery/<en|zh>/ferris/`, outside the installed skill, only after the maintainer has reviewed them and recorded a name and the real review date in `sampleGates`. They keep the credit to Karen Rustad Tolva and the restrictions above.

@@ -180,23 +180,20 @@ test("a missing or invalid provenance manifest leaves the sources empty instead 
   assert.deepEqual(buildGalleryData(load(fixture.root).repo, registry).archetypes[1].samples.sources, []);
 });
 
-test("the shipped gallery data names the project each set was copied from, and flags the Littlebox backgrounds", () => {
+test("the shipped gallery data names the project each approved set was copied from, and shows nothing for an archetype that is not approved", () => {
   const { repo, registry } = load(REPO_ROOT);
   const archetypes = new Map(buildGalleryData(repo, registry).archetypes.map((archetype) => [archetype.id, archetype]));
-  for (const id of ["xiaohei", "littlebox", "ferris", "seal"]) {
-    assert.deepEqual(archetypes.get(id).samples.sources.map((source) => source.language), ["en", "zh"], id);
+  for (const [id, archetype] of archetypes) {
+    if (registry.byId.get(id).sampleGates.status === "approved") continue;
+    assert.deepEqual(archetype.samples.sources, [], `${id} names no source while its samples are not approved`);
+    assert.deepEqual(archetype.samples.images, [], `${id} shows no image while its samples are not approved`);
   }
-  for (const id of ["openclaw", "gopher"]) assert.deepEqual(archetypes.get(id).samples.sources.map((source) => source.language), ["en"], id);
-  for (const id of ["ink", "stickman", "tux"]) assert.deepEqual(archetypes.get(id).samples.sources, [], `${id} has no published samples`);
-
+  // Today only Xiaohei has a review that was made for InkExplain; approving another set is a deliberate change to this list.
+  assert.deepEqual([...archetypes.values()].filter((archetype) => archetype.samples.images.length > 0).map((archetype) => archetype.id), ["xiaohei"]);
   const xiaohei = archetypes.get("xiaohei").samples.sources;
+  assert.deepEqual(xiaohei.map((source) => source.language), ["en", "zh"]);
   assert.match(xiaohei[0].summary, /Unmodified copies of Visual IP Illustrations images \(MIT, Copyright \(c\) 2026 Ian\), first published 2026-06-15\./);
   assert.match(xiaohei[1].summary, /Unmodified copies of Ian Xiaohei Illustrations images \(MIT, Copyright \(c\) 2026 Ian\), first published 2026-05-27\./);
-  for (const source of archetypes.get("littlebox").samples.sources) {
-    assert.equal(source.kind, "historical");
-    assert.match(source.note, /alternating from one image to the next\. They predate InkExplain's pure white default/);
-  }
-  assert.ok(archetypes.get("ferris").samples.sources.every((source) => source.note === null));
 });
 
 test("a pack that drops a shared field fails the build with the file named", (t) => {
@@ -249,7 +246,7 @@ test("the shipped gallery data covers every archetype, and every listed image ex
   }
   assert.deepEqual(
     data.archetypes.filter((archetype) => archetype.samples.images.length > 0).map((archetype) => archetype.id),
-    ["xiaohei", "littlebox", "ferris", "seal", "openclaw", "gopher"],
+    ["xiaohei"],
   );
   const xiaohei = data.archetypes.find((archetype) => archetype.id === "xiaohei").samples.images.map((image) => image.src);
   assert.equal(xiaohei.filter((src) => src.startsWith("en/xiaohei/")).length, 8, "Xiaohei ships the English-labeled set");

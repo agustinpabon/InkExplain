@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import path from "node:path";
 import test from "node:test";
 import { describeSet, gitBlobSha1, imageNames, loadProvenance, setFor, validateProvenanceData } from "../../scripts/lib/provenance.mjs";
+import { loadRegistry } from "../../scripts/lib/registry.mjs";
 import { Repository } from "../../scripts/lib/repository.mjs";
 import { createFixture, fixtureProvenanceData, makePng } from "../helpers/fixture.mjs";
 
@@ -124,21 +125,22 @@ test("imageNames lists only the PNGs of a directory", (t) => {
   assert.deepEqual(imageNames(new Repository(fixture.root), "examples/gallery/en/none"), []);
 });
 
-test("the shipped manifest records ten sets of unmodified copies, each with a commit and a first-published day", () => {
-  const { manifest, issues } = loadProvenance(new Repository(REPO_ROOT));
+test("the shipped manifest records only the sets whose samples are approved: Xiaohei's two, unmodified copies with a commit and a first-published day", () => {
+  const repo = new Repository(REPO_ROOT);
+  const { manifest, issues } = loadProvenance(repo);
   assert.deepEqual(issues, []);
-  assert.equal(manifest.sets.length, 10);
-  assert.equal(manifest.sets.reduce((count, set) => count + Object.keys(set.files).length, 0), 80);
+  assert.equal(manifest.sets.length, 2);
+  assert.equal(manifest.sets.reduce((count, set) => count + Object.keys(set.files).length, 0), 16);
   assert.ok(manifest.sets.every((set) => set.origin === "historical" && /^[0-9a-f]{40}$/.test(set.source.commit)));
   assert.deepEqual(
     manifest.sets.map((set) => set.directory),
-    ["en/xiaohei", "zh/xiaohei", "en/littlebox", "zh/littlebox", "en/ferris", "zh/ferris", "en/seal", "zh/seal", "en/openclaw", "en/gopher"].map((name) => `examples/gallery/${name}`),
+    ["en/xiaohei", "zh/xiaohei"].map((name) => `examples/gallery/${name}`),
   );
   const projects = Object.fromEntries(manifest.sets.map((set) => [set.directory.replace("examples/gallery/", ""), set.source.project]));
   assert.equal(projects["zh/xiaohei"], "Ian Xiaohei Illustrations", "the Chinese Xiaohei images come from Ian's own repository");
   assert.equal(projects["en/xiaohei"], "Visual IP Illustrations");
-  for (const name of ["en/littlebox", "zh/littlebox"]) {
-    assert.match(setFor(manifest, `examples/gallery/${name}`).note, /Pale sky-blue and lavender backgrounds, alternating/);
-  }
-  assert.ok(manifest.sets.filter((set) => !/littlebox/.test(set.directory)).every((set) => set.note === undefined));
+  // Every recorded set belongs to an archetype whose samples are approved, and no approved set is missing.
+  const registry = loadRegistry(repo).registry;
+  const approved = registry.archetypes.filter((archetype) => archetype.sampleGates.status === "approved").flatMap((archetype) => archetype.sampleGates.directories);
+  assert.deepEqual(manifest.sets.map((set) => set.directory).sort(), [...approved].sort());
 });

@@ -20,6 +20,5 @@
 
 ## Public samples
 
-- Decision: approved on 2026-06-17, as recorded in `registry.json`, with the Renee French attribution and the CC BY 4.0 terms.
-- The approved renders live in the repository gallery, `examples/gallery/en/gopher/`, with the credit kept in `ATTRIBUTIONS.md` and next to the gallery. They are not part of the installed skill.
-- Any new public sample carries the credit line above and is recorded in `sampleGates` before it is published.
+- Decision: pending, as recorded in `registry.json`. The set shown in earlier versions of the gallery was an unmodified copy of images published by Visual IP Illustrations. Nobody has reviewed it for InkExplain, so it is withheld.
+- Any new public sample carries the credit line above, goes under `examples/gallery/en/gopher/` (outside the installed skill) only after the maintainer has reviewed it, and is recorded in `sampleGates` with a name and the real review date before it is published.

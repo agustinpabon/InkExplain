@@ -128,7 +128,7 @@ scripts/
 | `SCHEMA` | `schema.mjs` | registry schema, alias integrity, the five pack files and their sections, registry-to-pack contracts, prompts and rights notes, isolation between packs, generated `routing.md`, the page-color policy reaching the style sheet and the generation prompt, and scaffold placeholders surviving only in experimental archetypes |
 | `DOC` | `docs.mjs` | README identity, links and anchors, generated README and gallery regions, translations, example prompt coverage |
 | `LEGAL` | `legal.mjs` | MIT terms and original copyright, ATTRIBUTIONS credits for every archetype, the Origins section crediting every copyright holder LICENSE keeps, every `rights.md`, gated-archetype boundaries, the license and copyright notices inside the installable skill |
-| `ASSET` | `assets.mjs` | PNG and SVG integrity, the public-sample gate, and the provenance manifest: every published image has a recorded source and still matches its recorded hash |
+| `ASSET` | `assets.mjs` | PNG and SVG integrity, the public-sample gate, and the provenance manifest: every published image has a recorded source and still matches its recorded hash, and a review of another project's images is dated after they were published |
 | `LANG` | `language.mjs` | English-default scan, allowlist narrowness, policy completeness |
 | `BRAND` | `branding.mjs` | origin project names only as attribution, one identity across surfaces |
 | `SEC` | `security.mjs` | credential patterns, machine paths, symlinks, offline and shell-free scripts, no dependencies, an offline gallery page |

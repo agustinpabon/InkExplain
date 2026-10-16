@@ -94,16 +94,14 @@ Os aliases, o DNA de movimento, as folhas de estilo, os créditos e as restriç�
 
 ## Galeria de exemplos
 
-Imagens de exemplo, cada uma com o seu arquétipo. As imagens do InkExplain Sketch serão adicionadas após revisão.
+Imagens de exemplo do Xiaohei, sem alterações. As imagens dos outros personagens só serão publicadas depois de revisadas.
 
-| Littlebox | Ferris | Seal |
+| Um peixe, muitos usos | Separar por finalidade | Prensa de ideias |
 |---|---|---|
-| ![Caminho de transferência: Littlebox passa um cartão lacrado da entrada até o estado pronto](../examples/gallery/en/littlebox/04-handoff-path.png) | ![Separar por finalidade: Ferris separa materiais com as pinças](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![Poço de informação: a foca tira ideias de um poço](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | **Xiaohei** |
-| ![Prensa de ideias: o mascote do OpenClaw opera uma prensa](../examples/gallery/en/openclaw/06-idea-press.png) | ![Ponte de confiança: o gopher coloca tábuas sobre um vão](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Um peixe, muitos usos: Xiaohei corta um peixe de material em vários pedaços](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
+| ![Um peixe, muitos usos: Xiaohei corta um peixe de material em vários pedaços](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) | ![Separar por finalidade: Xiaohei carimba cartões de ideias soltas e os distribui em três bandejas](../examples/gallery/en/xiaohei/02-sort-by-purpose.png) | ![Prensa de ideias: Xiaohei gira uma manivela para prensar ideias soltas em uma ideia clara](../examples/gallery/en/xiaohei/06-idea-press.png) |
 
 <!-- inkexplain:gallery-credits:start -->
-Littlebox é uma adaptação de 5km Littlebox Illustrations, de okooo5km (MIT). Ferris é obra de Karen Rustad Tolva (CC0). O gopher do Go foi criado por Renee French (CC BY 4.0). O mascote do OpenClaw vem do projeto OpenClaw (MIT). Xiaohei é o personagem de Ian em Ian Xiaohei Illustrations (MIT). Todas as imagens estão em [examples/gallery](../examples/gallery): com rótulos em inglês para seis arquétipos e em chinês para quatro.
+Xiaohei é o personagem de Ian em Ian Xiaohei Illustrations (MIT). As imagens com rótulos em inglês são cópias das publicadas pelo Visual IP Illustrations (MIT) e as com rótulos em chinês são cópias das imagens do próprio Ian; todas estão sem alterações em [examples/gallery](../examples/gallery) ([de onde veio cada uma](../docs/provenance.md)). As imagens dos outros personagens ficam retidas até serem revisadas.
 <!-- inkexplain:gallery-credits:end -->
 
 ## Como adicionar novos personagens e estilos de animação

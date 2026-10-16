@@ -18,6 +18,5 @@
 
 ## Public samples
 
-- Decision: approved, as recorded in `registry.json`. The review of 2026-06-17 confirmed the logo identity, the source and license review, archetype isolation, and article-metaphor quality; the OpenClaw project is MIT-licensed.
-- The approved samples live in the InkExplain repository under `examples/gallery/en/openclaw/`, outside the skill package.
-- New samples need their own review, with the reviewer and the review date recorded in `sampleGates`. They keep all six identity markers, the credit above, and the restrictions above.
+- Decision: pending, as recorded in `registry.json`. The set shown in earlier versions of the gallery was an unmodified copy of images published by Visual IP Illustrations. Nobody has reviewed it for InkExplain, so it is withheld. The OpenClaw project is MIT-licensed.
+- New samples go under `examples/gallery/en/openclaw/`, outside the skill package, only after a review with the reviewer and the real review date recorded in `sampleGates`. They keep all six identity markers, the credit above, and the restrictions above.

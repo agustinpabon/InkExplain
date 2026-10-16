@@ -113,3 +113,49 @@ test("ASSET-003 accepts a copy of another project's files once its hash and sour
   fixture.write(MANIFEST, JSON.stringify(manifest));
   assert.equal(fixture.check("ASSET-003").status, "pass");
 });
+
+/** The fixture's published set, recorded as copies of another project's images first published on `firstPublished`. */
+function copiesPublishedOn(fixture, firstPublished) {
+  const manifest = JSON.parse(fixture.read(MANIFEST));
+  const [name, hash] = Object.entries(manifest.sets[0].files)[0];
+  manifest.sets[0] = {
+    directory: manifest.sets[0].directory,
+    origin: "historical",
+    source: {
+      project: "Example Illustrations",
+      repository: "https://github.com/example/example-illustrations",
+      commit: "30a9d4e05124fda05356acb679fa2989ed5cb51c",
+      path: "examples/images",
+      license: "MIT",
+      copyright: "Copyright (c) 2026 Example",
+      firstPublished,
+    },
+    files: { [name]: hash },
+  };
+  fixture.write(MANIFEST, JSON.stringify(manifest));
+  return fixture;
+}
+
+const reviewedOn = (fixture, date) => fixture.updateRegistry((data) => (data.archetypes[1].sampleGates.date = date));
+
+test("ASSET-004 flags a review dated before, or on the day of, the publication of the copies it approves", (t) => {
+  // The fixture's gate says 2026-01-02, long before the copies below were published upstream.
+  const early = copiesPublishedOn(createFixture(t), "2026-06-15");
+  assert.match(
+    messages(early.check("ASSET-004")),
+    /registry\.json: archetype demo records a review on 2026-01-02, but examples\/gallery\/en\/demo holds copies first published by Example Illustrations on 2026-06-15; review the copies and record the day you did/,
+  );
+  assert.equal(early.check("ASSET-004").status, "fail");
+  assert.equal(reviewedOn(early, "2026-06-15").check("ASSET-004").status, "fail", "the day of publication is not a review either");
+  assert.equal(reviewedOn(early, "2026-06-16").check("ASSET-004").status, "pass", "a review after the publication is possible");
+});
+
+test("ASSET-004 leaves InkExplain renders, pending gates, and a missing manifest to the other checks", (t) => {
+  assert.equal(createFixture(t).check("ASSET-004").status, "pass", "the fixture's set is an InkExplain render, reviewed by its author");
+  const pending = copiesPublishedOn(createFixture(t), "2026-06-15").updateRegistry((data) => {
+    data.archetypes[1].sampleGates = { status: "pending", decision: "Not reviewed yet.", directories: [] };
+  });
+  assert.equal(pending.check("ASSET-004").status, "pass", "a pending gate records no review");
+  const missing = createFixture(t).remove(MANIFEST);
+  assert.equal(missing.check("ASSET-004").status, "pass", "ASSET-003 reports the missing manifest");
+});

@@ -4,7 +4,7 @@ import path from "node:path";
 import { defineCheck } from "../check-runner.mjs";
 import { GALLERY_FILE_PATTERN, GALLERY_LANGUAGES, PATHS } from "../config.mjs";
 import { readPngInfo, svgProblems } from "../images.mjs";
-import { gitBlobSha1, loadProvenance } from "../provenance.mjs";
+import { gitBlobSha1, loadProvenance, setFor } from "../provenance.mjs";
 
 const IMAGE_EXTENSIONS = new Set([".png", ".svg", ".gif", ".jpg", ".jpeg", ".webp"]);
 
@@ -131,6 +131,36 @@ export const assetChecks = [
       }
       for (const set of manifest.sets) {
         if (!published.has(set.directory)) issues.push({ path: PATHS.galleryProvenance, message: `describes ${set.directory}, which has no gallery images` });
+      }
+      return issues;
+    },
+  }),
+
+  defineCheck({
+    id: "ASSET-004",
+    area: "ASSET",
+    title: "a review of another project's images is dated after they were published",
+    requires: ["registry"],
+    run({ repo, registry }) {
+      // ASSET-003 reports a missing or broken manifest.
+      const { manifest } = loadProvenance(repo);
+      if (manifest === null) return [];
+      const issues = [];
+      for (const archetype of registry.archetypes) {
+        const gate = archetype.sampleGates;
+        if (gate.status !== "approved") continue;
+        for (const directory of gate.directories) {
+          const set = setFor(manifest, directory);
+          if (set?.origin !== "historical") continue;
+          const published = set.source.firstPublished;
+          // ISO dates compare as text. A review of copies cannot come before, or on the day of, the publication that made them.
+          if (gate.date <= published) {
+            issues.push({
+              path: PATHS.registryFile,
+              message: `archetype ${archetype.id} records a review on ${gate.date}, but ${directory} holds copies first published by ${set.source.project} on ${published}; review the copies and record the day you did`,
+            });
+          }
+        }
       }
       return issues;
     },

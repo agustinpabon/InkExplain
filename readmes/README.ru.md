@@ -94,16 +94,14 @@ $inkexplain Режим промптов: напиши для трёх изобр
 
 ## Галерея примеров
 
-Изображения с указанием архетипа. Изображения в стиле InkExplain Sketch появятся после проверки.
+Примеры изображений Xiaohei без изменений. Примеры остальных персонажей будут опубликованы после проверки.
 
-| Littlebox | Ferris | Seal |
+| Одна рыба — много применений | Сортировка по назначению | Пресс идей |
 |---|---|---|
-| ![Путь передачи: Littlebox передаёт запечатанную карточку от входа к готовому результату](../examples/gallery/en/littlebox/04-handoff-path.png) | ![Сортировка по назначению: Ferris раскладывает материалы клешнями](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![Колодец информации: тюлень черпает идеи из глубины](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | **Xiaohei** |
-| ![Пресс идей: талисман OpenClaw управляет прессом](../examples/gallery/en/openclaw/06-idea-press.png) | ![Мост доверия: гофер укладывает доски через пропасть](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Одна рыба, много применений: Xiaohei разрезает рыбу-материал на несколько частей](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
+| ![Одна рыба, много применений: Xiaohei разрезает рыбу-материал на несколько частей](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) | ![Сортировка по назначению: Xiaohei ставит штамп на сырые карточки с идеями и раскладывает их по трём лоткам](../examples/gallery/en/xiaohei/02-sort-by-purpose.png) | ![Пресс идей: Xiaohei вращает рукоять и прессует россыпь идей в одну ясную идею](../examples/gallery/en/xiaohei/06-idea-press.png) |
 
 <!-- inkexplain:gallery-credits:start -->
-Littlebox — адаптация 5km Littlebox Illustrations авторства okooo5km (MIT). Автор Ferris — Karen Rustad Tolva (CC0). Дизайн гофера Go создала Renee French (CC BY 4.0). Талисман OpenClaw взят из проекта OpenClaw (MIT). Xiaohei — персонаж Ian из Ian Xiaohei Illustrations (MIT). Все изображения — в [examples/gallery](../examples/gallery): с подписями на английском для шести архетипов и на китайском для четырёх.
+Xiaohei — персонаж Ian из Ian Xiaohei Illustrations (MIT). Изображения с английскими подписями — копии изображений, опубликованных в Visual IP Illustrations (MIT), с китайскими — копии собственных изображений Ian; все без изменений лежат в [examples/gallery](../examples/gallery) ([откуда взято каждое](../docs/provenance.md)). Примеры остальных персонажей скрыты до проверки.
 <!-- inkexplain:gallery-credits:end -->
 
 ## Добавление новых персонажей и стилей анимации

@@ -19,11 +19,11 @@ Turn complex ideas into beautiful, consistent hand-drawn illustrations with AI.
 
 InkExplain is a skill for AI agents. Give it an article, a document, a piece of code, or a single idea. It finds the ideas worth drawing, turns each one into a physical action that a character performs, and writes a prompt for every image so that the whole series stays consistent. If your agent has an image tool, it also generates, reviews, and saves the images.
 
-| ![Ferris, the Rust crab, sorts a heap of loose pages into three labeled stacks.](examples/gallery/en/ferris/02-sort-by-purpose.png) | ![The Go gopher lays planks across a gap to build a bridge.](examples/gallery/en/gopher/08-trust-bridge.png) | ![Xiaohei saws a source fish into an insight, a quote, and an example.](examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
+| ![Xiaohei saws a source fish into an insight, a quote, and an example.](examples/gallery/en/xiaohei/03-one-fish-many-uses.png) | ![Xiaohei lays an evidence plank across the gap between a claim and trust.](examples/gallery/en/xiaohei/08-trust-bridge.png) | ![Xiaohei stands between two breakpoints in a pipe, between input and output.](examples/gallery/en/xiaohei/01-two-breakpoints.png) |
 |---|---|---|
-| **Ferris** (CC0) | **Go Gopher** (CC BY 4.0) | **Xiaohei** (MIT) |
+| **One fish, many uses** | **Trust bridge** | **Two breakpoints** |
 
-*Sample renders from the projects InkExplain builds on, shown unmodified with their credits ([where each came from](docs/provenance.md)). InkExplain's own styles, Sketch and Stickman, have no reviewed renders yet.*
+*Sample renders of Xiaohei, shown unmodified with their credits ([where each came from](docs/provenance.md)). Samples of the other characters, and of InkExplain's own styles, Sketch and Stickman, are published only after review.*
 
 ## Install
 
@@ -97,16 +97,14 @@ An archetype fixes who performs the idea, how they move, and how the scene is dr
 
 ## Example gallery
 
-Renders shown with their archetype.
+Sample renders of Xiaohei, shown unmodified. Samples of the other characters are published only after they have been reviewed.
 
-| Littlebox | Ferris | Seal |
+| Sort by purpose | Handoff path | Idea press |
 |---|---|---|
-| ![Handoff path: Littlebox passes a sealed card from input to ready](examples/gallery/en/littlebox/04-handoff-path.png) | ![Sort by purpose: Ferris sorts material with its claws](examples/gallery/en/ferris/02-sort-by-purpose.png) | ![Information well: the seal draws ideas up from a well](examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | **Xiaohei** |
-| ![Idea press: the OpenClaw mascot works a press](examples/gallery/en/openclaw/06-idea-press.png) | ![Trust bridge: the gopher lays planks across a gap](examples/gallery/en/gopher/08-trust-bridge.png) | ![One fish, many uses: Xiaohei saws a source fish into an insight, a quote, and an example](examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
+| ![Xiaohei stamps raw idea cards and files them into Explain, Persuade, and Convert trays.](examples/gallery/en/xiaohei/02-sort-by-purpose.png) | ![Xiaohei pulls a draft along a ribbon past Context and Decision tags and a knot to the next owner's door.](examples/gallery/en/xiaohei/04-handoff-path.png) | ![Xiaohei turns a crank to press loose ideas into one clear idea.](examples/gallery/en/xiaohei/06-idea-press.png) |
 
 <!-- inkexplain:gallery-credits:start -->
-Littlebox is adapted from okooo5km's 5km Littlebox Illustrations (MIT). Ferris by Karen Rustad Tolva (CC0). The Go gopher was designed by Renee French (CC BY 4.0). The OpenClaw mascot comes from the OpenClaw project (MIT). Xiaohei is Ian's character from Ian Xiaohei Illustrations (MIT). All renders are in [examples/gallery](examples/gallery): English labels for six archetypes, Chinese labels for four. The Littlebox renders are historical examples on the pale sky-blue and lavender options; Littlebox's own default is a pure white page.
+Xiaohei is Ian's character from Ian Xiaohei Illustrations (MIT). The English-labeled renders are copies of images published by Visual IP Illustrations (MIT), and the Chinese-labeled renders are copies of Ian's own images; all are unmodified and in [examples/gallery](examples/gallery) ([where each came from](docs/provenance.md)). Samples of the other characters are withheld until they are reviewed.
 <!-- inkexplain:gallery-credits:end -->
 
 Open the [interactive gallery](examples/gallery/index.html) in a browser to see every archetype with its motion rules, style, rights, and approved renders, to filter by category and technique, and to assemble a prompt for your own idea with one-click copy. It is a single file that works from a checkout with no server and no network.

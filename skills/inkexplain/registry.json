@@ -195,11 +195,9 @@
         "restrictions": ["Credit okooo5km or the 5km Littlebox Illustrations project in derived documentation."]
       },
       "sampleGates": {
-        "status": "approved",
-        "decision": "Historical examples of the pale sky-blue and lavender options, which are no longer the default: pure white is. The character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.",
-        "reviewer": "Agustin Pabon",
-        "date": "2026-06-16",
-        "directories": ["examples/gallery/en/littlebox", "examples/gallery/zh/littlebox"]
+        "status": "pending",
+        "decision": "Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, on the pale sky-blue and lavender options rather than Littlebox's pure white default, so they are withheld until real renders are reviewed. The character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.",
+        "directories": []
       },
       "contract": {
         "identityMarkers": ["closed paper-box", "side-seam twig arms", "amber seam tape"],
@@ -240,11 +238,9 @@
         "restrictions": ["No Rust or Cargo logos.", "No claims of official Rust project affiliation or endorsement."]
       },
       "sampleGates": {
-        "status": "approved",
-        "decision": "Approved with trademark-safe wording when these renders were first published; Ferris is CC0, credited to Karen Rustad Tolva.",
-        "reviewer": "Agustin Pabon",
-        "date": "2026-06-15",
-        "directories": ["examples/gallery/en/ferris", "examples/gallery/zh/ferris"]
+        "status": "pending",
+        "decision": "Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, so they are withheld until the maintainer reviews them. Ferris is CC0, credited to Karen Rustad Tolva.",
+        "directories": []
       },
       "contract": {
         "identityMarkers": ["rust-red crab body", "broad crab shell silhouette", "two visible claws", "eyestalk"],
@@ -292,11 +288,9 @@
         ]
       },
       "sampleGates": {
-        "status": "approved",
-        "decision": "Approved for preserved hoodie identity and logo-free output when these renders were first published.",
-        "reviewer": "Agustin Pabon",
-        "date": "2026-06-15",
-        "directories": ["examples/gallery/en/seal", "examples/gallery/zh/seal"]
+        "status": "pending",
+        "decision": "Not reviewed for InkExplain, and the rights to the character are unresolved (see docs/provenance.md). The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, so they are withheld.",
+        "directories": []
       },
       "contract": {
         "identityMarkers": ["white rounded seal body", "plain navy cap", "plain deep-blue hoodie", "logo-free"],
@@ -341,11 +335,9 @@
         "restrictions": ["No claims of official OpenClaw affiliation or endorsement.", "No product posters, UI screenshots, terminal scenes, or code screenshots."]
       },
       "sampleGates": {
-        "status": "approved",
-        "decision": "Approved for logo identity, source and license review, and archetype isolation when these renders were first published; the OpenClaw project is MIT-licensed.",
-        "reviewer": "Agustin Pabon",
-        "date": "2026-06-17",
-        "directories": ["examples/gallery/en/openclaw"]
+        "status": "pending",
+        "decision": "Not reviewed for InkExplain. The earlier gallery set was an unmodified copy of Visual IP Illustrations images first published 2026-06-17, so it is withheld until the maintainer reviews it. The OpenClaw project is MIT-licensed and states no separate mascot terms.",
+        "directories": []
       },
       "contract": {
         "identityMarkers": ["red round body", "claw-like arms", "two antennae", "cyan pupils"],
@@ -394,11 +386,9 @@
         ]
       },
       "sampleGates": {
-        "status": "approved",
-        "decision": "Approved with the Renee French attribution and the CC BY 4.0 terms when these renders were first published; the credit is kept in ATTRIBUTIONS.md and next to the gallery.",
-        "reviewer": "Agustin Pabon",
-        "date": "2026-06-17",
-        "directories": ["examples/gallery/en/gopher"]
+        "status": "pending",
+        "decision": "Not reviewed for InkExplain. The earlier gallery set was an unmodified copy of Visual IP Illustrations images first published 2026-06-17, so it is withheld until the maintainer reviews it. Credit to Renee French (CC BY 4.0) stays in ATTRIBUTIONS.md.",
+        "directories": []
       },
       "contract": {
         "identityMarkers": ["blue rounded upright body", "buck teeth", "beige muzzle and paws"],

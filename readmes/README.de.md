@@ -94,16 +94,14 @@ Aliasnamen, Bewegungs-DNA, Stilvorgaben, Quellenangaben und Einschränkungen all
 
 ## Beispielgalerie
 
-Beispielbilder, jeweils mit ihrem Archetyp. Bilder für InkExplain Sketch kommen nach ihrer Prüfung hinzu.
+Beispielbilder von Xiaohei, unverändert. Bilder der anderen Figuren folgen erst nach ihrer Prüfung.
 
-| Littlebox | Ferris | Seal |
+| Ein Fisch, viele Verwendungen | Nach Zweck sortieren | Ideenpresse |
 |---|---|---|
-| ![Übergabepfad: Littlebox reicht eine versiegelte Karte von der Eingabe bis zur Fertigstellung weiter](../examples/gallery/en/littlebox/04-handoff-path.png) | ![Nach Zweck sortieren: Ferris sortiert Material mit seinen Scheren](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![Informationsbrunnen: Die Robbe zieht Ideen aus einem Brunnen herauf](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | **Xiaohei** |
-| ![Ideenpresse: Das OpenClaw-Maskottchen bedient eine Presse](../examples/gallery/en/openclaw/06-idea-press.png) | ![Vertrauensbrücke: Der Gopher legt Bretter über eine Kluft](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Ein Fisch, viele Verwendungen: Xiaohei zerlegt einen Materialfisch in mehrere Stücke](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
+| ![Ein Fisch, viele Verwendungen: Xiaohei zerlegt einen Materialfisch in mehrere Stücke](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) | ![Nach Zweck sortieren: Xiaohei stempelt rohe Ideenkarten und legt sie in drei Ablagen](../examples/gallery/en/xiaohei/02-sort-by-purpose.png) | ![Ideenpresse: Xiaohei dreht an einer Kurbel und presst lose Ideen zu einer klaren Idee](../examples/gallery/en/xiaohei/06-idea-press.png) |
 
 <!-- inkexplain:gallery-credits:start -->
-Littlebox ist eine Adaption des Projekts 5km Littlebox Illustrations von okooo5km (MIT). Ferris ist ein Werk von Karen Rustad Tolva (CC0). Den Go-Gopher hat Renee French entworfen (CC BY 4.0). Das OpenClaw-Maskottchen kommt aus dem OpenClaw-Projekt (MIT). Xiaohei ist Ians Figur aus Ian Xiaohei Illustrations (MIT). Alle Bilder liegen in [examples/gallery](../examples/gallery): mit englischen Beschriftungen für sechs Archetypen und mit chinesischen für vier.
+Xiaohei ist Ians Figur aus Ian Xiaohei Illustrations (MIT). Die Bilder mit englischer Beschriftung sind Kopien der von Visual IP Illustrations (MIT) veröffentlichten Bilder, die mit chinesischer Beschriftung Kopien von Ians eigenen Bildern; alle liegen unverändert in [examples/gallery](../examples/gallery) ([woher jedes stammt](../docs/provenance.md)). Bilder der anderen Figuren bleiben zurückgehalten, bis sie geprüft sind.
 <!-- inkexplain:gallery-credits:end -->
 
 ## Neue Figuren und Animationsstile hinzufügen

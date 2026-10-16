@@ -98,7 +98,7 @@ A closed paper-box character in thick rough marker on a pure white page that tur
 - Credit: Adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004. Rights holder: okooo5km. License: MIT.
 - Restrictions:
   - Credit okooo5km or the 5km Littlebox Illustrations project in derived documentation.
-- Public samples: approved. Historical examples of the pale sky-blue and lavender options, which are no longer the default: pure white is. The character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.
+- Public samples: pending. Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, on the pale sky-blue and lavender options rather than Littlebox's pure white default, so they are withheld until real renders are reviewed. The character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.
 
 ### Ferris (`ferris`)
 
@@ -113,7 +113,7 @@ Ferris the Rustacean, the Rust community crab, performing the idea in sparse han
 - Restrictions:
   - No Rust or Cargo logos.
   - No claims of official Rust project affiliation or endorsement.
-- Public samples: approved. Approved with trademark-safe wording when these renders were first published; Ferris is CC0, credited to Karen Rustad Tolva.
+- Public samples: pending. Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, so they are withheld until the maintainer reviews them. Ferris is CC0, credited to Karen Rustad Tolva.
 
 ### Seal (`seal`)
 
@@ -128,7 +128,7 @@ A product-neutral white seal in a plain navy cap and deep-blue hoodie, always lo
 - Restrictions:
   - Keep the seal logo-free: no cap, chest, or body logos, emblems, wave marks, or text badges.
   - Do not present the seal as an official Sealos mascot or as a product endorsement.
-- Public samples: approved. Approved for preserved hoodie identity and logo-free output when these renders were first published.
+- Public samples: pending. Not reviewed for InkExplain, and the rights to the character are unresolved (see docs/provenance.md). The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, so they are withheld.
 
 ### OpenClaw (`openclaw`)
 
@@ -143,7 +143,7 @@ The OpenClaw mascot, a red round character with claw-like arms, two antennae, an
 - Restrictions:
   - No claims of official OpenClaw affiliation or endorsement.
   - No product posters, UI screenshots, terminal scenes, or code screenshots.
-- Public samples: approved. Approved for logo identity, source and license review, and archetype isolation when these renders were first published; the OpenClaw project is MIT-licensed.
+- Public samples: pending. Not reviewed for InkExplain. The earlier gallery set was an unmodified copy of Visual IP Illustrations images first published 2026-06-17, so it is withheld until the maintainer reviews it. The OpenClaw project is MIT-licensed and states no separate mascot terms.
 
 ### Go Gopher (`gopher`)
 
@@ -159,7 +159,7 @@ The Go gopher designed by Renee French performing the idea in sparse hand-drawn 
   - Credit Renee French whenever generated images are published.
   - No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement.
 - Never selects: `go`, `blue mascot`, `animal`, `logo`
-- Public samples: approved. Approved with the Renee French attribution and the CC BY 4.0 terms when these renders were first published; the credit is kept in ATTRIBUTIONS.md and next to the gallery.
+- Public samples: pending. Not reviewed for InkExplain. The earlier gallery set was an unmodified copy of Visual IP Illustrations images first published 2026-06-17, so it is withheld until the maintainer reviews it. Credit to Renee French (CC BY 4.0) stays in ATTRIBUTIONS.md.
 
 ### Tux (`tux`)
 

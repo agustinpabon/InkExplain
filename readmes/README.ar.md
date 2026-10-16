@@ -94,16 +94,14 @@ $inkexplain وضع الموجّهات: اكتب موجّهات لثلاث صور
 
 ## معرض الأمثلة
 
-صورٌ معروضة مع النموذج الذي ينتمي إليه كلٌّ منها. وستُضاف صور InkExplain Sketch بعد مراجعتها.
+صور نموذجية لشخصية Xiaohei دون أي تعديل. أما صور الشخصيات الأخرى فلن تُنشر إلا بعد مراجعتها.
 
-| Littlebox | Ferris | Seal |
+| سمكة واحدة، استخدامات كثيرة | الفرز حسب الغرض | مكبس الأفكار |
 |---|---|---|
-| ![طريق التسليم: ينقل Littlebox بطاقة مختومة من مرحلة الإدخال إلى مرحلة الجاهزية](../examples/gallery/en/littlebox/04-handoff-path.png) | ![الفرز حسب الغرض: يفرز Ferris المواد بمخالبه](../examples/gallery/en/ferris/02-sort-by-purpose.png) | ![بئر المعلومات: تستخرج الفقمة الأفكار من بئر](../examples/gallery/en/seal/05-information-well.png) |
-| **OpenClaw** | **Go Gopher** | **Xiaohei** |
-| ![مكبس الأفكار: تميمة OpenClaw تشغّل مكبسًا](../examples/gallery/en/openclaw/06-idea-press.png) | ![جسر الثقة: يمدّ الغوفر ألواحًا فوق هوّة](../examples/gallery/en/gopher/08-trust-bridge.png) | ![سمكة واحدة واستخدامات كثيرة: Xiaohei يقطّع سمكة المادة إلى عدة قطع](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
+| ![سمكة واحدة واستخدامات كثيرة: Xiaohei يقطّع سمكة المادة إلى عدة قطع](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) | ![الفرز حسب الغرض: يختم Xiaohei بطاقات أفكار خام ويوزعها على ثلاث صواني](../examples/gallery/en/xiaohei/02-sort-by-purpose.png) | ![مكبس الأفكار: يدير Xiaohei ذراعًا لضغط أفكار متناثرة في فكرة واحدة واضحة](../examples/gallery/en/xiaohei/06-idea-press.png) |
 
 <!-- inkexplain:gallery-credits:start -->
-شخصية Littlebox مقتبسة من مشروع 5km Littlebox Illustrations الذي أنشأه okooo5km (MIT). وشخصية Ferris من تصميم Karen Rustad Tolva (CC0)، وشخصية Go gopher من تصميم Renee French (CC BY 4.0)، أما تميمة OpenClaw فمصدرها مشروع OpenClaw (MIT). وشخصية Xiaohei من ابتكار Ian في مشروع Ian Xiaohei Illustrations (MIT). وتجد جميع الصور في [examples/gallery](../examples/gallery): بتسميات إنجليزية لستة نماذج، وبتسميات صينية لأربعة منها.
+شخصية Xiaohei من ابتكار Ian في مشروع Ian Xiaohei Illustrations (MIT). الصور ذات التسميات الإنجليزية نسخ من صور نشرها مشروع Visual IP Illustrations (MIT)، والصور ذات التسميات الصينية نسخ من صور Ian نفسه، وكلها دون تعديل في [examples/gallery](../examples/gallery) ([مصدر كل منها](../docs/provenance.md)). وتبقى صور الشخصيات الأخرى محجوبة إلى أن تُراجَع.
 <!-- inkexplain:gallery-credits:end -->
 
 ## إضافة شخصيات وأساليب تحريك جديدة
