@@ -23,7 +23,7 @@ All must pass on a clean checkout. CI runs the same commands on Linux and Window
 
 - [ ] `skills/inkexplain/registry.json` lists every archetype with the right category, status, aliases, excluded terms, output suffix, motion DNA, style sheet, legal notice, and sample gate.
 - [ ] Generated documents are current (`npm run build:docs` leaves no diff).
-- [ ] Each archetype behaves as its pack describes: run one planning prompt and one generation or prompt-mode request per changed archetype (see [examples/prompts.md](../examples/prompts.md)).
+- [ ] Each archetype behaves as its pack describes: run one planning prompt and one generation or prompt-mode request per changed archetype (see [examples/prompts.md](../examples/prompts.md) and the matrix in [evaluation.md](evaluation.md)).
 - [ ] Gated archetypes still require explicit selection, and their rights notes appear in plans, prompts, and delivery reports.
 - [ ] Experimental archetypes that passed real use are promoted to `active`.
 

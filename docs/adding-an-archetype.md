@@ -142,7 +142,7 @@ Reuse the shared modules in `references/workflow/` instead of repeating them. Th
 npm run check
 ```
 
-Then try the archetype for real: one planning request and one generation or prompt-mode request. When it behaves as the pack describes, change `status` from `experimental` to `active`.
+Then try the archetype for real: one planning request and one generation or prompt-mode request ([evaluation.md](evaluation.md) lists the kinds of request worth trying and the checks to apply). When it behaves as the pack describes, change `status` from `experimental` to `active`.
 
 ## Publishing samples
 
