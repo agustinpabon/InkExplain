@@ -138,6 +138,7 @@ One command writes the registry entry, the five-file pack, a credit, an example 
 | [Code walkthroughs](docs/walkthroughs.md) | four snippets taken to a finished prompt |
 | [Adding a character](docs/adding-an-archetype.md) | rights first, the scaffold, promotion, publishing samples |
 | [Evaluation](docs/evaluation.md) | the requests run against the skill, what they found, and what is still untested |
+| [Reviewing real renders](docs/visual-review.md) | the protocol for the review no one has done yet: three ideas, the checks, the continuity test, and a form for the result |
 | [Characters to add next](docs/future-archetypes.md) | which candidates look safe to build, and which to leave out |
 | [Visual system](docs/visual-system.md) | what makes each style recognizable |
 | [Architecture](docs/architecture.md) | progressive disclosure, the registry, the checks |

@@ -85,7 +85,7 @@ One model, one sitting, and neighbors I made up make this weak evidence, and it 
 
 Stickman is `experimental` until real renders keep its identity contract. With an image tool:
 
-1. Render at least three different ideas from the pack's own prompts (the three prompts of request #4 will do), optionally attaching `pose-sheet.png` as an identity reference, never as a layout.
+1. Render at least three different ideas from the pack's own prompts (the three prompts of request #4 will do), optionally attaching `pose-sheet.png` as an identity reference, never as a layout. [Reviewing real renders](visual-review.md) has the three ideas, the checks, the continuity test, and the form for recording the result.
 2. In each render, check the pack's review list: the open round head with two dot eyes and no mouth, the 1.6-head spine and bent two-segment limbs, no hands, an asymmetrical posture with the whole body working, labels spelled exactly and clear of the figure, pure white page, and at most one vermilion accent. Across the three, the head size, line weight, and face match, and the poses differ.
 3. If they pass, add the images under `examples/gallery/en/stickman/`, record the set in `examples/gallery/provenance.json` as an `inkexplain` set (tool, date, reviewer, review date, and a hash for each image), set the sample gate to `approved` with your name and the real date, change `status` to `active`, and update the wording that still says experimental (`SCHEMA-010` lists what it finds in the registry entry, the pack, the credit, and the example prompt; also search `README.md` and `docs/` for lines that call Stickman experimental, which no check reads). Then `npm run build:docs` and `npm run check`.
 
