@@ -7,7 +7,7 @@ Where finished work goes and what the final report contains.
 - Save accepted images in the user's workspace, never inside the skill package.
 - Each archetype writes to its own folder, `assets/<article-slug>-<suffix>/`, where `<suffix>` is the archetype's output suffix listed in `references/routing.md`. The default archetype writes to `assets/<article-slug>-illustrations/`.
 - `<article-slug>` is the slug the user gave; otherwise use a short lowercase kebab-case English slug of the article title, with ASCII letters, digits, and hyphens only, at most 60 characters.
-- If the user names a different folder, use it.
+- If the user names a different folder inside the workspace, use it. Never write outside the workspace or inside the skill package, and never use `..` or an absolute path to leave it.
 
 ## File names
 

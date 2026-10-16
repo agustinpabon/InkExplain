@@ -1,0 +1,69 @@
+name: Security
+
+# Scans the skill package with NVIDIA SkillSpector on every push to main and on
+# every pull request. The scan is static (--no-llm): it needs no API keys and no
+# file contents leave the runner. See SECURITY.md for what it does and does not
+# cover.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Pinned so every run scans with the same rules. This commit is SkillSpector
+  # v2.12.0. Bump it deliberately, in a reviewed change, and re-run the scan.
+  SKILLSPECTOR_REV: 240421219409dc0bafef9f618a10d80c2d7e83a3
+  SKILLSPECTOR_PYTHON: "3.12"
+
+jobs:
+  skillspector:
+    name: SkillSpector scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          python-version: ${{ env.SKILLSPECTOR_PYTHON }}
+
+      - name: Install SkillSpector
+        run: |
+          uv tool install --python "$SKILLSPECTOR_PYTHON" "git+https://github.com/NVIDIA/skillspector.git@${SKILLSPECTOR_REV}"
+          echo "$(uv tool dir --bin)" >> "$GITHUB_PATH"
+
+      # Exits 1 on any active finding, on a risk score above 50, or when part of
+      # the package could not be inspected.
+      - name: Scan skills/inkexplain/
+        run: |
+          skillspector scan skills/inkexplain/ \
+            --no-llm \
+            --format markdown \
+            --output skillspector-report.md \
+            --fail-on-findings \
+            --fail-on-incomplete
+
+      - name: Add the report to the job summary
+        if: always()
+        run: |
+          if [ -f skillspector-report.md ]; then cat skillspector-report.md >> "$GITHUB_STEP_SUMMARY"; fi
+
+      - name: Upload the report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: skillspector-report
+          path: skillspector-report.md
+          if-no-files-found: ignore

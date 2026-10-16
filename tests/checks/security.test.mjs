@@ -48,6 +48,28 @@ test("SEC-003 reports symbolic links anywhere in the repository", (t) => {
   assert.match(messages(fixture.check("SEC-003")), /docs-link: symbolic links/);
 });
 
+test("SEC-005 fails when package.json declares dependencies of any kind", (t) => {
+  const fixture = createFixture(t);
+  assert.equal(fixture.check("SEC-005").status, "pass");
+  for (const field of ["dependencies", "devDependencies", "optionalDependencies", "peerDependencies"]) {
+    fixture.write("package.json", JSON.stringify({ name: "inkexplain", private: true, [field]: { "left-pad": "^1.3.0" } }));
+    assert.match(messages(fixture.check("SEC-005")), new RegExp(`package\\.json: ${field} must stay empty`), field);
+  }
+  for (const field of ["bundleDependencies", "bundledDependencies"]) {
+    fixture.write("package.json", JSON.stringify({ name: "inkexplain", [field]: ["left-pad"] }));
+    assert.match(messages(fixture.check("SEC-005")), new RegExp(`${field} must stay empty`), field);
+  }
+});
+
+test("SEC-005 accepts empty dependency fields and leaves unreadable manifests to BRAND-002", (t) => {
+  const fixture = createFixture(t).write("package.json", JSON.stringify({ name: "inkexplain", dependencies: {}, devDependencies: {}, bundleDependencies: [] }));
+  assert.equal(fixture.check("SEC-005").status, "pass");
+  fixture.write("package.json", "{");
+  assert.equal(fixture.check("SEC-005").status, "pass");
+  fixture.remove("package.json");
+  assert.equal(fixture.check("SEC-005").status, "pass");
+});
+
 test("SEC-004 keeps repository scripts offline and shell-free", (t) => {
   const fixture = createFixture(t);
   fixture.write("scripts/tool.mjs", ["import { execSync } from \"node:child_process\";", "await fetch(\"https://example.com\");", "// fetch( in a comment is fine", ""].join("\n"));

@@ -115,7 +115,7 @@ scripts/
 | `ASSET` | `assets.mjs` | PNG and SVG integrity, the public-sample gate |
 | `LANG` | `language.mjs` | English-default scan, allowlist narrowness, policy completeness |
 | `BRAND` | `branding.mjs` | origin project names only as attribution, one identity across surfaces |
-| `SEC` | `security.mjs` | credential patterns, machine paths, symlinks, offline and shell-free scripts |
+| `SEC` | `security.mjs` | credential patterns, machine paths, symlinks, offline and shell-free scripts, no dependencies |
 
 Each check returns structured issues (`path`, `line`, `message`); a check that crashes fails alone instead of aborting the run, and checks whose prerequisites failed are reported as skipped. `node scripts/validate.mjs --list` prints the catalog; `--only SCHEMA,DOC-002` selects areas or ids; `--json` produces machine-readable results.
 
@@ -134,9 +134,19 @@ Per-archetype rules are data. Adding an archetype never requires new validator c
 
 Fixtures are built in temporary directories by `tests/helpers/fixture.mjs`, including real PNG files, so the suite runs in a couple of seconds and needs no copies of the gallery images.
 
+### Continuous integration
+
+Two workflows run on every push to `main` and every pull request:
+
+- `.github/workflows/ci.yml` runs `build-docs --check`, the validator, and the tests on Linux and Windows with Node.js 22 and 24.
+- `.github/workflows/security.yml` scans `skills/inkexplain/` with NVIDIA SkillSpector (static analysis, pinned to a commit) and fails on any finding or incomplete inspection.
+
+[SECURITY.md](../SECURITY.md) holds the threat model, the audit statement, and the disclosure policy.
+
 ## Design constraints
 
 - **No runtime**: the skill is Markdown, JSON, YAML, and images. Tooling uses only Node.js built-ins.
+- **No dependencies**: `package.json` declares none, so no third-party package is installed or executed (`SEC-005`).
 - **No network, no shell**: scripts never spawn processes or fetch anything (`SEC-004`).
 - **Safe paths**: every path from data or links is resolved inside the repository; symlinks are never followed.
 - **Stable line endings**: `.gitattributes` keeps text files LF; readers also normalize CRLF.

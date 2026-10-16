@@ -1,6 +1,7 @@
 // SEC: secrets, machine-specific paths, symlinks, and offline, shell-free tooling.
 
 import { defineCheck } from "../check-runner.mjs";
+import { PATHS } from "../config.mjs";
 import { excerpt } from "./support.mjs";
 
 // Credential shapes from widely used providers. Each match is reported with
@@ -23,6 +24,23 @@ const FORBIDDEN_TOOLING_APIS = Object.freeze([
   { label: "network access", pattern: /\bnode:(?:https?|http2|net|tls|dgram)\b|\bfetch\s*\(/ },
   { label: "dynamic code evaluation", pattern: /\beval\s*\(|\bnew\s+Function\s*\(/ },
 ]);
+
+// package.json fields through which a package registry could put third-party code
+// into this repository. Tooling and tests use Node.js built-ins only.
+const DEPENDENCY_FIELDS = Object.freeze([
+  "dependencies",
+  "devDependencies",
+  "optionalDependencies",
+  "peerDependencies",
+  "bundleDependencies",
+  "bundledDependencies",
+]);
+
+function hasEntries(value) {
+  if (Array.isArray(value)) return value.length > 0;
+  if (value !== null && typeof value === "object") return Object.keys(value).length > 0;
+  return value === true;
+}
 
 export const securityChecks = [
   defineCheck({
@@ -89,6 +107,27 @@ export const securityChecks = [
         }
       }
       return issues;
+    },
+  }),
+
+  defineCheck({
+    id: "SEC-005",
+    area: "SEC",
+    title: "package.json declares no dependencies",
+    run({ repo }) {
+      // A missing or malformed manifest is reported by BRAND-002; this check only reads a valid one.
+      const text = repo.readTextIfExists(PATHS.packageJson);
+      if (text === null) return [];
+      let manifest;
+      try {
+        manifest = JSON.parse(text);
+      } catch {
+        return [];
+      }
+      return DEPENDENCY_FIELDS.filter((field) => hasEntries(manifest?.[field])).map((field) => ({
+        path: PATHS.packageJson,
+        message: `${field} must stay empty: InkExplain tooling uses Node.js built-ins only`,
+      }));
     },
   }),
 ];

@@ -42,6 +42,12 @@ Sample images are published only where `registry.json` records an approved sampl
 - [ ] Gated archetypes publish samples only with a recorded `sampleGates.authorization` from the rights holder.
 - [ ] Credits for published samples appear next to the gallery in `README.md`.
 
+## Security
+
+- [ ] The `Security` workflow is green. If `skills/inkexplain/` changed since the audit statement in [SECURITY.md](../SECURITY.md), re-run the scan it describes and update the statement's result and tree hash.
+- [ ] Any bumped pin (the SkillSpector commit or a GitHub Actions SHA in `.github/workflows/`) was reviewed against its upstream changes first.
+- [ ] `package.json` still declares no dependencies (`SEC-005`).
+
 ## Documentation
 
 - [ ] The README, its translations, and `docs/` describe the current behavior; links resolve (`DOC-002`).
