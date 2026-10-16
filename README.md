@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![CI](https://github.com/agustinpabon/InkExplain/actions/workflows/ci.yml/badge.svg)](https://github.com/agustinpabon/InkExplain/actions/workflows/ci.yml)
-[![Security scan: SkillSpector, 0 findings](https://img.shields.io/badge/Security%20scan-SkillSpector%2C%200%20findings-brightgreen)](SECURITY.md)
+[![Security scan](https://github.com/agustinpabon/InkExplain/actions/workflows/security.yml/badge.svg)](SECURITY.md)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22-brightgreen)](package.json)
 
 *Ideas made visual.*
