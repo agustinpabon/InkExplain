@@ -39,6 +39,16 @@ test("normalizeName folds case, width, and separators", () => {
   assert.equal(normalizeName("ＧＯ　Gopher"), "go gopher");
 });
 
+test("normalizeName ignores invisible joiners and variation selectors, and treats every dash as a separator", () => {
+  const joiner = String.fromCodePoint(0x200d);
+  const nonJoiner = String.fromCodePoint(0x200c);
+  const selector = String.fromCodePoint(0xfe0f);
+  assert.equal(normalizeName(`Ferris${nonJoiner}`), "ferris", "a trailing joiner does not make another name");
+  assert.equal(normalizeName(`Fer${joiner}ris${selector}`), "ferris");
+  assert.equal(normalizeName("Ian–Xiaohei"), "ian xiaohei", "an en dash separates like a hyphen");
+  assert.equal(normalizeName("Ian—Xiaohei"), "ian xiaohei", "and so does an em dash");
+});
+
 test("isValidIsoDate rejects impossible dates", () => {
   assert.equal(isValidIsoDate("2026-02-28"), true);
   assert.equal(isValidIsoDate("2026-02-30"), false);

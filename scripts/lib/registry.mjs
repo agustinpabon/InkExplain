@@ -88,9 +88,18 @@ const LEGAL_KEYS = new Set(["credit", "rightsHolder", "license", "attributionTer
 const SAMPLE_KEYS = new Set(["status", "decision", "reviewer", "date", "directories", "authorization"]);
 const CONTRACT_KEYS = new Set(["identityMarkers", "isolationMarkers"]);
 
-/** Canonical comparison form for names: NFKC, case-folded, separators collapsed. */
+/**
+ * Canonical comparison form for names: NFKC, case-folded, separators collapsed (white space, underscores, and
+ * dashes of any kind), and the zero-width joiners and variation selectors dropped, so a name that differs from
+ * another only by an invisible mark is the same name.
+ */
 export function normalizeName(value) {
-  return String(value).normalize("NFKC").toLowerCase().replace(/[\s_-]+/g, " ").trim();
+  return String(value)
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/[\p{Join_Control}\p{Variation_Selector}]/gu, "")
+    .replace(/[\s_\p{Pd}]+/gu, " ")
+    .trim();
 }
 
 export function isValidIsoDate(value) {

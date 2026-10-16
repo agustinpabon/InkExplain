@@ -24,12 +24,12 @@ function run(args, root, { io } = {}) {
   return { code, stdout, stderr };
 }
 
-/** The real file API, except that README.md is written with a broken link in it: what the checks find on disk is not what they found in memory. */
+/** The real file API, except that the new rights.md is written with a broken link in it: what the checks find on disk is not what they found in memory. */
 function corruptingIo() {
   return {
     ...fs,
     writeFileSync(file, data, ...rest) {
-      const corrupt = String(file).replaceAll("\\", "/").endsWith("/README.md") && typeof data === "string";
+      const corrupt = String(file).replaceAll("\\", "/").endsWith("/example-fox/rights.md") && typeof data === "string";
       return fs.writeFileSync(file, corrupt ? `${data}\n[broken](docs/nope.md)\n` : data, ...rest);
     },
   };
@@ -227,7 +227,7 @@ test("checks that find a problem on disk that they did not find in memory undo e
   const before = snapshot(fixture.root);
   const result = run(FOX, fixture.root, { io: corruptingIo() });
   assert.equal(result.code, 1);
-  assert.match(result.stderr, /The repository checks failed after writing, so the changes were undone\.\n {2}- DOC-002 README\.md: .*docs\/nope\.md does not resolve\nNothing was changed\./);
+  assert.match(result.stderr, /The repository checks failed after writing, so the changes were undone\.\n {2}- PKG-004 skills\/inkexplain\/references\/archetypes\/example-fox\/rights\.md: .*docs\/nope\.md does not resolve\nNothing was changed\./);
   assert.equal(result.stdout, "");
   assert.deepEqual(snapshot(fixture.root), before, "the pack, the registry entry, and the documents are all as they were");
 });
@@ -237,7 +237,7 @@ test("a failure that was already there is tolerated, and a different one that th
   const before = snapshot(fixture.root);
   const caught = run(FOX, fixture.root, { io: corruptingIo() });
   assert.equal(caught.code, 1);
-  assert.match(caught.stderr, /DOC-002 README\.md: .*docs\/nope\.md does not resolve/);
+  assert.match(caught.stderr, /PKG-004 skills\/inkexplain\/references\/archetypes\/example-fox\/rights\.md: .*docs\/nope\.md does not resolve/);
   assert.doesNotMatch(caught.stderr, /LANG-003/, "the problem that was already there is not blamed on the new archetype");
   assert.deepEqual(snapshot(fixture.root), before);
 

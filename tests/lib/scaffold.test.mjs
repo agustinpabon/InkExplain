@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
-import { PACK_FILES, SCAFFOLD_PLACEHOLDER } from "../../scripts/lib/config.mjs";
-import { parseRegistry } from "../../scripts/lib/registry.mjs";
+import { IGNORED_DIRECTORIES, PACK_FILES, SCAFFOLD_PLACEHOLDER } from "../../scripts/lib/config.mjs";
+import { ID_PATTERN, parseRegistry } from "../../scripts/lib/registry.mjs";
 import { Repository } from "../../scripts/lib/repository.mjs";
 import {
   OverlayRepository,
@@ -151,6 +151,28 @@ test("normalizeInput refuses invalid Unicode, invisible and bidirectional charac
   inputError({ ...FOX, aliases: ["2. the fox"] }, /--alias .* must not open like a numbered list item/);
   assert.equal(normalizeInput({ ...FOX, name: "3.14 Fox" }).name, "3.14 Fox", "a number inside a name is fine");
   assert.equal(normalizeInput({ ...FOX, summary: "2 foxes dig." }).summary, "2 foxes dig.");
+});
+
+test("normalizeInput takes the punctuation that real names carry, and refuses a blank symbol", () => {
+  for (const name of ["Zoë’s Fox", "Ferris–Crab", "col·legi", "ポチ・ミニ", "O'Brien & Sons", "Fox+Hound_2", "ཝ་ཡོང་"]) {
+    assert.equal(normalizeInput({ ...FOX, name }).name, name.normalize("NFC"), name);
+  }
+  // The variation selectors that spell emoji and CJK variants are kept, since normalizeName ignores them.
+  const selector = String.fromCodePoint(0xfe0f);
+  assert.equal(normalizeInput({ ...FOX, features: [`red heart ❤${selector}`] }).features[0], `red heart ❤${selector}`);
+  // BRAILLE PATTERN BLANK shows as empty space but is a symbol, so it is refused by name.
+  const blank = String.fromCodePoint(0x2800);
+  inputError({ ...FOX, credit: `Jane${blank}Artist` }, /--credit must not contain invisible or bidirectional control characters \(U\+2800\)/);
+  inputError({ ...FOX, name: `Fox${blank}` }, /--name must not contain invisible/);
+});
+
+test("a name that differs from an existing one only by an invisible joiner or a dash is the same name", (t) => {
+  const fixture = createFixture(t);
+  const joiner = String.fromCodePoint(0x200d);
+  const nonJoiner = String.fromCodePoint(0x200c);
+  assert.match(refusalOf(() => plan(fixture, { id: "other-crab", name: `Demo Crab${nonJoiner}` })).problems.join("\n"), /alias .* collides with archetype demo/);
+  assert.match(refusalOf(() => plan(fixture, { id: "other-crab", name: "Other Crab", aliases: [`Demo${joiner} Crab`] })).problems.join("\n"), /collides with archetype demo/);
+  assert.match(refusalOf(() => plan(fixture, { id: "other-crab", name: "Other Crab", aliases: ["Demo–Crab"] })).problems.join("\n"), /collides with archetype demo/, "an en dash separates like a hyphen");
 });
 
 test("normalizeInput refuses a source link that carries credentials, and one the table cannot hold", () => {
@@ -351,14 +373,47 @@ test("planScaffold refuses conflicts, and says why", (t) => {
 });
 
 test("planScaffold refuses an id that is a folder git ignores or the checks skip, so its pack would never be committed or scanned", (t) => {
-  const fixture = createFixture(t).write(".gitignore", "build/\n*.log\nnotes.txt\n");
-  for (const id of ["dist", "outputs", "generated", "build"]) {
+  const rules = [
+    "# a comment",
+    "build/",
+    "/tmp/",
+    "**/cache/",
+    "vendor",
+    "Zed/",
+    "sketch/",
+    "!sketch/",
+    "*.log",
+    "notes.txt",
+    "  indented/",
+    "wild*/",
+    "skills/inkexplain/references/archetypes/pathy/",
+  ].join("\n");
+  const fixture = createFixture(t).write(".gitignore", `${rules}\r\n`);
+  for (const id of ["dist", "outputs", "generated", "build", "tmp", "cache", "vendor", "zed"]) {
     const error = thrownBy(() => plan(fixture, { id, name: "Some Fox" }));
     assert.ok(error instanceof ScaffoldInputError, `${id}: ${error}`);
     assert.match(error.message, new RegExp(`--id "${id}" is a folder name that git ignores and the repository checks skip`));
   }
-  assert.equal(plan(fixture, { id: "builder", name: "Builder Fox" }).archetype.id, "builder", "only the exact folder name is refused");
-  assert.equal(plan(fixture, { id: "notes", name: "Notes Fox" }).archetype.id, "notes", "a file pattern is not a folder name");
+  // What git would not ignore as a folder named like the id is accepted.
+  for (const id of ["builder", "notes", "sketch", "indented", "wildcat", "pathy"]) assert.equal(plan(fixture, { id, name: `${id} Fox` }).archetype.id, id, id);
+  // A negation cannot bring back a folder that the checks themselves skip.
+  assert.ok(thrownBy(() => plan(createFixture(t).write(".gitignore", "!dist/\n"), { id: "dist", name: "Dist Fox" })) instanceof ScaffoldInputError);
+});
+
+test("every folder this repository's .gitignore names that an id could be is one the checks skip, so no archetype can hide in it", () => {
+  const folders = fs
+    .readFileSync(path.join(import.meta.dirname, "../../.gitignore"), "utf8")
+    .split("\n")
+    .map((line) => /^(?:\/|\*\*\/)?([A-Za-z0-9._-]+)\/$/.exec(line.trimEnd())?.[1])
+    .filter((name) => name !== undefined && ID_PATTERN.test(name));
+  assert.ok(folders.length > 0, "the repository ignores generated/, outputs/, and dist/");
+  for (const folder of folders) assert.ok(IGNORED_DIRECTORIES.includes(folder), `${folder}/ is in .gitignore but not in IGNORED_DIRECTORIES (scripts/lib/config.mjs), so the checks would still scan it`);
+});
+
+test("planScaffold says what to do when a pack folder is already there, as an interrupted run leaves it", (t) => {
+  const fixture = createFixture(t).write(`${PACKS}/example-fox/rights.md`, "# Half a pack\n");
+  const problems = refusalOf(() => plan(fixture, FOX)).problems.join("\n");
+  assert.match(problems, /archetypes\/example-fox already exists; the scaffold never overwrites a pack \(if an earlier run was interrupted, check git status, remove that folder, and run again\)/);
 });
 
 test("planScaffold refuses an unreadable registry or locales file", (t) => {
@@ -412,6 +467,18 @@ test("issues are counted every time they occur, and a repeat of an old message i
   const found = checkRepository(new Repository(fixture.root), { policy: FIXTURE_POLICY, expectedIssues: result.validation.expectedIssues });
   assert.equal(found.failures.length, 4);
   assert.equal(found.unexpected.length, 1);
+});
+
+test("a problem the scaffold causes is caught even when it also repairs another, so the counts stay equal", (t) => {
+  // The README's archetype table is stale, so DOC-003 fails before, and regenerating it repairs that. The new
+  // name already appears once in another pack, so SCHEMA-007 fails after. One issue before and one after is
+  // not "nothing new": the issues are different ones.
+  const fixture = createFixture(t)
+    .replace("README.md", "| Demo Crab ", "| Demo Crabs ")
+    .append(`${PACKS}/demo/identity.md`, "\nZorp Wombat shows up here once.\n");
+  assert.deepEqual(fixture.run().filter((check) => check.status === "fail").map((check) => check.id), ["DOC-003"], "one issue before");
+  const error = refusalOf(() => plan(fixture, { id: "zorp-wombat", name: "Zorp Wombat" }));
+  assert.deepEqual(error.problems, [`SCHEMA-007 ${PACKS}/demo/identity.md: archetype demo mentions "Zorp Wombat", which belongs to archetype zorp-wombat`]);
 });
 
 test("a check that already crashes does not make the new archetype look like the cause", (t) => {
@@ -580,7 +647,7 @@ test("a rollback removes every folder the run created, deepest first, and no fol
   assert.deepEqual(snapshot(fixture.root), before);
 });
 
-test("a rollback never deletes a file somebody else put into a folder it created, and says the folder is still there", (t) => {
+test("a rollback never deletes a file somebody else put into a folder it created, and does not call that folder its own leftover", (t) => {
   const fixture = createFixture(t);
   const result = plan(fixture, FULL);
   const before = snapshot(fixture.root);
@@ -593,12 +660,53 @@ test("a rollback never deletes a file somebody else put into a folder it created
     },
   };
   const error = thrownBy(() => applyScaffold(fixture.root, result, { io: racing, verify: () => ["SCHEMA-099 something broke"] }));
-  assert.ok(error instanceof ScaffoldRollbackError, String(error));
-  assert.deepEqual(error.leftovers.map((item) => item.split(":")[0]), [`remove ${PACKS}/example-fox`]);
+  assert.ok(error instanceof ScaffoldRefusal, `the run is undone as far as it can be, and the folder is not blamed on it: ${error}`);
   assert.equal(fixture.read(`${PACKS}/example-fox/notes.md`), "mine\n", "the other file is untouched");
   assert.deepEqual(fs.readdirSync(path.join(fixture.root, PACKS, "example-fox")), ["notes.md"], "the five pack files are gone");
   fixture.remove(`${PACKS}/example-fox`);
   assert.deepEqual(snapshot(fixture.root), before, "everything else is as it was");
+});
+
+test("a pack that another run writes into the folder this run just made is left alone as well", (t) => {
+  const fixture = createFixture(t);
+  const result = plan(fixture, FULL);
+  const otherRun = plan(fixture, FULL);
+  let raced = false;
+  const io = {
+    ...failingIo(),
+    mkdirSync(directory, ...rest) {
+      const made = fs.mkdirSync(directory, ...rest);
+      // This run made the folder; straight after, the other run writes its whole pack into it.
+      if (!raced && String(directory).replaceAll("\\", "/").endsWith("/archetypes/example-fox")) {
+        raced = true;
+        for (const { path: file, content } of otherRun.create) fs.writeFileSync(path.join(fixture.root, file), content);
+      }
+      return made;
+    },
+  };
+  const error = thrownBy(() => applyScaffold(fixture.root, result, { io }));
+  assert.equal(error.code, "EEXIST");
+  assert.ok(!(error instanceof ScaffoldRollbackError), `the folder holds the other run's files, so it is not this run's leftover: ${error}`);
+  for (const { path: file, content } of otherRun.create) assert.equal(fixture.read(file), content, `${file} is still the other run's`);
+});
+
+test("a file that somebody edited after this run wrote it is left as it is, and reported, instead of being rewritten", (t) => {
+  const fixture = createFixture(t);
+  const result = plan(fixture, FULL);
+  const before = snapshot(fixture.root);
+  const handEdit = "\nA paragraph a person added while the checks were running.\n";
+  const verify = () => {
+    fs.appendFileSync(path.join(fixture.root, "README.md"), handEdit);
+    return ["SCHEMA-099 something broke"];
+  };
+  const error = thrownBy(() => applyScaffold(fixture.root, result, { verify }));
+  assert.ok(error instanceof ScaffoldRollbackError, String(error));
+  assert.match(error.message, /^Writing failed \(the repository checks failed after writing: SCHEMA-099 something broke\), and one change could not be undone$/);
+  assert.deepEqual(error.leftovers, ["restore README.md: it was changed after this run wrote it, so it was left as it is"]);
+  assert.ok(fixture.read("README.md").endsWith(handEdit), "the person's paragraph is still there");
+  const after = snapshot(fixture.root);
+  for (const [file, hash] of before) if (file !== "README.md") assert.equal(after.get(file), hash, `${file} is as it was`);
+  assert.equal(after.size, before.size, "the pack is gone");
 });
 
 test("a file whose exclusive create succeeded but whose write then failed is removed, not left empty", (t) => {

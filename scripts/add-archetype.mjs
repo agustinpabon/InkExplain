@@ -9,7 +9,7 @@
 // rights, what the character looks like, what it does) is written as an explicit TODO or
 // UNRESOLVED marker, never guessed, and SCHEMA-010 stops an archetype from being promoted
 // while one remains. Nothing is written until the result passes every repository check in
-// memory, and nothing that exists is overwritten. Offline and shell-free (SEC-004).
+// memory, and an existing archetype or pack is never replaced. Offline and shell-free (SEC-004).
 //
 // Exit codes: 0 done (or a dry run that would succeed), 1 the archetype cannot be added, 2 usage error.
 
@@ -40,7 +40,7 @@ export const USAGE = [
   "an example prompt, and the regenerated documents. It starts experimental. Whatever you do not",
   "give is written as a TODO or UNRESOLVED marker, never guessed, and an archetype that is promoted",
   "may not keep one (SCHEMA-010). Nothing is written until the result passes every repository",
-  "check, and nothing that exists is overwritten.",
+  "check, and an existing archetype or pack is never replaced.",
   "",
   "Required:",
   "  --id <id>                 lowercase kebab-case id; also the output folder suffix",
@@ -48,7 +48,7 @@ export const USAGE = [
   "",
   "Options:",
   `  --category <category>     ${SCAFFOLD_CATEGORIES.join(", ")} (default: mascot)`,
-  "  --summary <text>          one sentence, at most 240 characters",
+  "  --summary <text>          one plain-text sentence, at most 240 characters (it appears in the README tables)",
   "  --alias <name>            another name that selects it; repeatable (the name and the id always do)",
   "  --exclude <word>          a related word that must never select it; repeatable",
   "  --feature <text>          a visible identity marker; repeatable",
@@ -83,6 +83,9 @@ const NEXT_STEPS = Object.freeze([
 ]);
 
 const GENERATED_NOTE = "regenerated from the registry";
+
+/** A problem that spans lines, such as a crashed check's stack, stays under its bullet. */
+const indent = (text) => text.replaceAll("\n", "\n    ");
 
 // Flags that take one value: giving one twice is a mistake to report, not a choice to guess at.
 const SINGLE_VALUED = Object.freeze(["id", "name", "category", "summary", "medium", "canvas", "linework", "rights-holder", "license", "source", "credit", "root"]);
@@ -195,7 +198,7 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
   const repo = new Repository(root);
   const dryRun = options["dry-run"];
   const refuse = (error) => {
-    const problems = error.problems.length > 0 ? `\n${error.problems.map((problem) => `  - ${problem}`).join("\n")}` : "";
+    const problems = error.problems.length > 0 ? `\n${error.problems.map((problem) => `  - ${indent(problem)}`).join("\n")}` : "";
     stderr.write(`${error.message}.${problems}\nNothing was changed.\n`);
     return EXIT.failed;
   };
@@ -242,7 +245,7 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
     } catch (error) {
       if (error instanceof ScaffoldRefusal) return refuse(error);
       if (error instanceof ScaffoldRollbackError) {
-        stderr.write(`${error.message}:\n${error.leftovers.map((item) => `  - ${item}`).join("\n")}\nThe repository is not as it was. Review \`git status\` and undo these by hand.\n`);
+        stderr.write(`${error.message}:\n${error.leftovers.map((item) => `  - ${indent(item)}`).join("\n")}\nThe repository is not as it was. Review \`git status\` and undo these by hand.\n`);
         return EXIT.failed;
       }
       stderr.write(`Could not write the archetype: ${error.message}.\nEvery change was undone.\n`);

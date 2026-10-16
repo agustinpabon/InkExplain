@@ -8,7 +8,7 @@
 // promoted archetype keep.
 //
 // The whole result is validated in memory against every repository check before anything
-// is written, and nothing that exists is ever overwritten. Offline and shell-free like
+// is written, and an existing archetype or pack is never replaced. Offline and shell-free like
 // every script here (SEC-004): it reads and writes files only.
 
 import fs from "node:fs";
@@ -47,8 +47,10 @@ export class ScaffoldRollbackError extends Error {
 export const SCAFFOLD_CATEGORIES = Object.freeze(Object.keys(CATEGORIES));
 
 // Names and the terms that select an archetype: letters of any script (with their combining marks and the
-// zero-width joiners some scripts spell with), digits, and a few separators.
-const NAME_PATTERN = /^[\p{L}\p{N}][\p{L}\p{M}\p{N}\p{Join_Control} .'&+_-]{0,58}$/u;
+// zero-width joiners some scripts spell with), digits, dashes of any kind, curly apostrophes, middle dots, and a
+// few separators.
+const NAME_PATTERN = /^[\p{L}\p{N}][\p{L}\p{M}\p{N}\p{Join_Control}\p{Pd} .'’‘&+_·・་]{0,58}$/u;
+const NAME_RULE = "at most 59 characters of letters, digits, spaces, dashes, and . ' ’ & + _ ·";
 const WORD_START = /^[\p{L}\p{N}]/u;
 // A line that opens with a number and a dot or bracket is a list item in Markdown, not a sentence.
 const LIST_OPENER = /^\d+[.)](?:\s|$)/;
@@ -69,10 +71,18 @@ const sentence = (text) => (/[.!?]$/.test(text.trim()) ? text.trim() : `${text.t
 const todo = (what) => `TODO: ${what}`;
 const unresolved = (what) => `UNRESOLVED: ${what}`;
 
-/** The first character that is invisible or reorders text (a bidirectional control), apart from the zero-width joiners. */
+// U+2800 BRAILLE PATTERN BLANK is a symbol, not an ignorable character, yet it shows as empty space.
+const BLANK_SYMBOLS = new Set([0x2800]);
+
+/**
+ * The first character that is invisible, shows as nothing, or reorders text (a bidirectional control). The
+ * zero-width joiners and the variation selectors stay: some scripts and emoji are spelled with them, and
+ * normalizeName ignores them, so they cannot make a name look like another one.
+ */
 function hiddenCharacter(text) {
   for (const character of text) {
-    if (/\p{Default_Ignorable_Code_Point}/u.test(character) && !/\p{Join_Control}/u.test(character)) return character;
+    if (BLANK_SYMBOLS.has(character.codePointAt(0))) return character;
+    if (/\p{Default_Ignorable_Code_Point}/u.test(character) && !/[\p{Join_Control}\p{Variation_Selector}]/u.test(character)) return character;
   }
   return null;
 }
@@ -105,7 +115,7 @@ function cleanText(value, label, maxLength, { word = false, term = false } = {})
   if (term) {
     if (LIST_OPENER.test(text)) throw new ScaffoldInputError(`${label} ${JSON.stringify(text)} must not open like a numbered list item`);
     if (!NAME_PATTERN.test(text)) {
-      throw new ScaffoldInputError(`${label} ${JSON.stringify(text)} must be at most 59 characters of letters, digits, spaces, and . ' & + _ -`);
+      throw new ScaffoldInputError(`${label} ${JSON.stringify(text)} must be ${NAME_RULE}`);
     }
   } else if (/[[\]`<>|\\]/.test(text)) {
     throw new ScaffoldInputError(`${label} must not contain brackets, backticks, angle brackets, pipes, or backslashes: they would break the generation prompt, the tables, and the Markdown`);
@@ -147,7 +157,7 @@ export function normalizeInput(options = {}) {
   checkCharacters(name, "--name");
   if (LIST_OPENER.test(name)) throw new ScaffoldInputError(`--name ${JSON.stringify(name)} must not open like a numbered list item`);
   if (!NAME_PATTERN.test(name)) {
-    throw new ScaffoldInputError(`--name ${JSON.stringify(name)} must be at most 59 characters of letters, digits, spaces, and . ' & + _ -`);
+    throw new ScaffoldInputError(`--name ${JSON.stringify(name)} must be ${NAME_RULE}`);
   }
   const category = options.category ?? "mascot";
   if (!Object.hasOwn(CATEGORIES, category)) {
@@ -721,14 +731,26 @@ function newAliasProblems(existing, entry) {
   return buildAliasIndex([...existing, candidate]).problems.filter((problem) => !known.has(problem.message));
 }
 
-/** Folder names the repository never walks, plus the plain `name/` lines of its .gitignore. */
+// A .gitignore line that names one folder: "name", "name/", "/name/", or "**/name/", with a leading "!" to
+// take it back. Patterns with wildcards or a path in them, a nested .gitignore, and .git/info/exclude are not
+// read. A test keeps this repository's own .gitignore to lines of the first kind that IGNORED_DIRECTORIES lists.
+const FOLDER_RULE = /^(!?)(?:\/|\*\*\/)?([A-Za-z0-9._-]+)\/?$/;
+
+/**
+ * The folder names a pack's id must not take, lower case: the ones the repository's scans never walk, and the
+ * ones its .gitignore names, since git would leave such a pack out of the commit. Case is ignored because git
+ * does on Windows and macOS. The last rule for a name wins, as in git.
+ */
 function ignoredFolderNames(repo) {
-  const listed = (repo.readTextIfExists(".gitignore") ?? "")
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => /^[A-Za-z0-9._-]+\/$/.test(line))
-    .map((line) => line.slice(0, -1));
-  return new Set([...IGNORED_DIRECTORIES, ...listed]);
+  const names = new Set(IGNORED_DIRECTORIES.map((name) => name.toLowerCase()));
+  const listed = new Map();
+  for (const line of (repo.readTextIfExists(".gitignore") ?? "").split("\n")) {
+    // Spaces at the end of a line are not part of a pattern; spaces at the start are.
+    const rule = FOLDER_RULE.exec(line.trimEnd());
+    if (rule !== null) listed.set(rule[2].toLowerCase(), rule[1] === "");
+  }
+  for (const [name, ignored] of listed) if (ignored) names.add(name);
+  return names;
 }
 
 /** Hyphen-delimited folder names such as "-fox" must not make one archetype's folder look like another's. */
@@ -770,7 +792,9 @@ export function planScaffold(repo, options, { policy } = {}) {
   const clash = suffixClash(registry.archetypes, entry.outputSuffix);
   if (clash) conflicts.push(`output folder suffix ${JSON.stringify(entry.outputSuffix)} clashes with ${clash.id}'s ${JSON.stringify(clash.outputSuffix)}: their folders would be hard to tell apart`);
   for (const problem of newAliasProblems(registry.archetypes, entry)) conflicts.push(problem.message);
-  if (repo.exists(packDir)) conflicts.push(`${packDir} already exists; the scaffold never overwrites a pack`);
+  if (repo.exists(packDir)) {
+    conflicts.push(`${packDir} already exists; the scaffold never overwrites a pack (if an earlier run was interrupted, check git status, remove that folder, and run again)`);
+  }
   const attributions = repo.readTextIfExists(PATHS.attributions);
   if (attributions === null) conflicts.push(`${PATHS.attributions} is missing`);
   else if (sectionBody(attributions, entry.name) !== null) conflicts.push(`${PATHS.attributions} already has a section named ${JSON.stringify(entry.name)}`);
@@ -854,12 +878,13 @@ export const describeIssue = (issue) => `${issue.id} ${issue.path ? `${issue.pat
 /**
  * Write a plan. First it checks that nothing changed since planning: every file the plan edits must
  * still read as it did, and none it creates may exist. New files are created exclusively, so an
- * existing file is never overwritten, and an edit is made only to the text that was planned: if a file
- * changes between being read and being written, everything is undone. `verify` runs once everything
- * is written and returns a list of problems. If it finds any, or any write fails, everything this call
- * did is undone, each step on its own so one that fails cannot stop the rest, and anything that could
- * not be undone is reported in a ScaffoldRollbackError instead of being passed over. `io` is the file
- * API it writes with (Node's `fs`); tests hand it one that fails on demand.
+ * existing file is never overwritten. Each file it edits is read again just before it is written, and
+ * one that no longer reads as planned undoes the run (a change in the instant after that read is not
+ * seen). `verify` runs once everything is written and returns a list of problems. If it finds any, or
+ * any write fails, everything this call did is undone, each step on its own so one that fails cannot
+ * stop the rest. A file that somebody else edited after this run wrote it is left as it is. Anything
+ * that could not be undone is reported in a ScaffoldRollbackError instead of being passed over. `io`
+ * is the file API it writes with (Node's `fs`); tests hand it one that fails on demand.
  */
 export function applyScaffold(root, plan, { verify, io = fs } = {}) {
   const repo = new Repository(root);
@@ -907,30 +932,41 @@ export function applyScaffold(root, plan, { verify, io = fs } = {}) {
       if (normalizeText(original.toString("utf8")) !== before) {
         throw new ScaffoldRefusal("The repository changed while it was being written, so the changes were undone", [`${file} changed`]);
       }
-      replaced.push({ file, absolute, original });
+      const entry = { file, absolute, original, written: Buffer.from(after, "utf8"), completed: false };
+      replaced.push(entry);
       io.writeFileSync(absolute, after, "utf8");
+      entry.completed = true;
     }
     const problems = verify?.() ?? [];
     if (problems.length > 0) throw new ScaffoldRefusal("The repository checks failed after writing, so the changes were undone", problems);
   } catch (error) {
     const leftovers = [];
-    const undo = (what, action) => {
+    // `ignore` lists error codes that mean there was nothing of this run's to undo.
+    const undo = (what, action, { ignore = [] } = {}) => {
       try {
         action();
       } catch (failure) {
-        leftovers.push(`${what}: ${failure.message}`);
+        if (!ignore.includes(failure.code)) leftovers.push(`${what}: ${failure.message}`);
       }
     };
-    // A file whose write failed before it changed has nothing to restore, so it is not reported as left behind.
-    for (const { file, absolute, original } of replaced.reverse()) {
+    for (const { file, absolute, original, written, completed } of replaced.reverse()) {
       undo(`restore ${file}`, () => {
-        if (!original.equals(io.readFileSync(absolute))) io.writeFileSync(absolute, original);
+        const now = io.readFileSync(absolute);
+        // A file whose write failed before it changed has nothing to restore, so it is not reported as left behind.
+        if (now.equals(original)) return;
+        // A file this run finished writing, and that has changed since, was edited by somebody else after the checks
+        // began. Putting the old text back would erase that edit, so it stays and is reported.
+        if (completed && !now.equals(written)) throw new Error("it was changed after this run wrote it, so it was left as it is");
+        io.writeFileSync(absolute, original);
       });
     }
     for (const absolute of createdFiles.reverse()) undo(`remove ${path.relative(repo.root, absolute).replaceAll("\\", "/")}`, () => io.rmSync(absolute, { force: true }));
-    // Only empty folders are removed, deepest first (a child's path is always longer than its parent's):
-    // a file somebody else put there is never deleted.
-    for (const directory of [...createdDirectories].sort((first, second) => second.length - first.length)) undo(`remove ${path.relative(repo.root, directory).replaceAll("\\", "/")}`, () => io.rmdirSync(directory));
+    // Only empty folders are removed, deepest first (a child's path is always longer than its parent's). One that
+    // still holds files is not this run's to remove: another process wrote there, or the files this run could
+    // not remove are reported above.
+    for (const directory of [...createdDirectories].sort((first, second) => second.length - first.length)) {
+      undo(`remove ${path.relative(repo.root, directory).replaceAll("\\", "/")}`, () => io.rmdirSync(directory), { ignore: ["ENOTEMPTY", "EEXIST"] });
+    }
     if (leftovers.length > 0) throw new ScaffoldRollbackError(error, leftovers);
     throw error;
   }
