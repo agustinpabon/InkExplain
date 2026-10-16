@@ -131,10 +131,17 @@ test("LEGAL-006 reads the years however they are written, and the list, emphasis
     "1. Copyright (c) 2026 Newholder",
     "**Copyright (c) 2026 Newholder**",
     "Copyright: 2026 Newholder",
+    // The forms upstream licenses are written in.
+    "Copyright (c) 2015, Newholder",
+    "Copyright (c) 2013-present, Newholder, Inc.",
+    "Copyright (c) 2019-21 Newholder",
+    "Copyright (c) 2019/2020 Newholder",
+    "Copyright (c) 2019. Newholder",
+    "Copyright (c) 2019: Newholder",
   ];
   for (const line of spellings) {
     const fixture = createFixture(t).append("ATTRIBUTIONS.md", `\n${line}\n`);
-    assert.match(messages(fixture.check("LEGAL-006")), /must keep the line "Copyright \(c\) [^"]*Newholder"/, `${line} is a holder, so the installed license must keep it`);
+    assert.match(messages(fixture.check("LEGAL-006")), /must keep the line "Copyright \(c\) [^"]*Newholder/, `${line} is a holder, so the installed license must keep it`);
   }
   // The same holder written differently in the installed license is the same notice.
   const kept = createFixture(t).append("ATTRIBUTIONS.md", "\nCopyright (C) 2025–2026 Newholder\n").append("skills/inkexplain/LICENSE.md", "\n© 2025-2026 Newholder\n");
@@ -142,7 +149,7 @@ test("LEGAL-006 reads the years however they are written, and the list, emphasis
 });
 
 test("LEGAL-006 fails on a line that opens like a notice but cannot be read, instead of skipping its holder", (t) => {
-  for (const line of ["| Copyright (c) 2026 Newholder | MIT |", "Copyright (c) 2026, Newholder", "Copyright (c) 2026"]) {
+  for (const line of ["| Copyright (c) 2026 Newholder | MIT |", "Copyright (c) 2026,Newholder", "Copyright (c) 2026"]) {
     const fixture = createFixture(t).append("ATTRIBUTIONS.md", `\n${line}\n`);
     const result = fixture.check("LEGAL-006");
     assert.equal(result.status, "fail", line);
@@ -154,11 +161,26 @@ test("LEGAL-006 fails on a line that opens like a notice but cannot be read, ins
   assert.equal(prose.check("LEGAL-006").status, "pass", "prose that merely starts with the word is not a notice");
 });
 
-test("LEGAL-006 stays fast on a line of a hundred thousand spaces", (t) => {
-  const fixture = createFixture(t).append("ATTRIBUTIONS.md", `\nCopyright${" ".repeat(100_000)}x\n${" ".repeat(100_000)}x\n`);
+test("LEGAL-006 stays fast on lines built to make a pattern backtrack", (t) => {
+  const hostile = [
+    `Copyright${" ".repeat(100_000)}x`,
+    `${" ".repeat(100_000)}x`,
+    `Copyright (c) 2026 Holder${"*".repeat(100_000)}x`,
+    `Copyright (c) 2026 Holder${"_".repeat(100_000)}x`,
+    `Copyright (c) 2026 Holder${"`".repeat(100_000)}x`,
+    `Copyright (c) 2026 Holder${"*_` ".repeat(25_000)}x`,
+    `${"* ".repeat(50_000)}Copyright`,
+  ];
+  const fixture = createFixture(t).append("ATTRIBUTIONS.md", `\n${hostile.join("\n")}\n`);
   const started = performance.now();
   fixture.check("LEGAL-006");
-  assert.ok(performance.now() - started < 1000, "reading a notice took a quadratic amount of time");
+  assert.ok(performance.now() - started < 2000, "reading a notice took a quadratic amount of time");
+  for (const line of hostile) {
+    const lineStarted = performance.now();
+    copyrightNotice(line);
+    looksLikeNotice(line);
+    assert.ok(performance.now() - lineStarted < 500, `a hostile line of ${line.length} characters took too long`);
+  }
 });
 
 test("copyrightNotice returns one canonical line for any spelling of a notice, and null for a line that is not one", () => {
@@ -170,6 +192,15 @@ test("copyrightNotice returns one canonical line for any spelling of a notice, a
   assert.equal(copyrightNotice("Copyright (c) 2024,2026 Someone"), "Copyright (c) 2024, 2026 Someone", "a list of years");
   assert.equal(copyrightNotice("Copyright (c) 2024-present Someone"), "Copyright (c) 2024-present Someone");
   assert.equal(copyrightNotice("**Copyright: 2026 Someone**"), "Copyright (c) 2026 Someone", "bold and a colon");
+  assert.equal(copyrightNotice("Copyright (c) 2015, Foo Corp"), "Copyright (c) 2015 Foo Corp", "a comma after the year, as in the OSI template");
+  assert.equal(copyrightNotice("Copyright (c) 2013-present, Facebook, Inc."), "Copyright (c) 2013-present Facebook, Inc.");
+  assert.equal(copyrightNotice("Copyright (c) 2019-21 Foo"), "Copyright (c) 2019-21 Foo", "a two-digit end year is kept as written");
+  assert.equal(copyrightNotice("Copyright (c) 2019/2020 Foo"), "Copyright (c) 2019/2020 Foo");
+  assert.equal(copyrightNotice("Copyright (c) 2019. Foo"), "Copyright (c) 2019 Foo");
+  // A notice with no year or with the holder first cannot be told from prose, so it is not read.
+  for (const line of ["Copyright (c) Meta Platforms, Inc. and affiliates.", "Copyright OpenJS Foundation and other contributors", "Copyright (c) Newholder, 2026", "(C) Newholder 2026"]) {
+    assert.equal(copyrightNotice(line), null, line);
+  }
   for (const line of ["", "Copyright", "Copyright (c) Ian", "Copyright law applies", "The copyright (c) 2026 is held by Ian", "2026 Ian", "| Copyright (c) 2026 Ian |", "Copyright (c) 2026,Ian", "Copyright (c) 2026"]) {
     assert.equal(copyrightNotice(line), null, JSON.stringify(line));
   }

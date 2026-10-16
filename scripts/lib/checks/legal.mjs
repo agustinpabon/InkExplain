@@ -14,27 +14,33 @@ export function copyrightHolder(line) {
 }
 
 // A notice is a marker ("Copyright", "Copyright:", "(c)", "©", or the word followed by either symbol), the
-// years, and the holder. The years are one year, a range ("2024-2026", "2024 – 2026", "2024-present"), or a
-// comma list of them. A list or quote marker in front ("- ", "1. ", "> ", "**") is allowed. White space is
-// collapsed before matching, so the patterns need no nested quantifiers and no line can make them slow.
-const NOTICE_YEARS = String.raw`\d{4}(?: ?[-–—] ?(?:\d{4}|present))?(?:, ?\d{4}(?: ?[-–—] ?(?:\d{4}|present))?)*`;
+// years, and the holder. The years are one year, a range ("2024-2026", "2024 – 2026", "2019/2020", "2019-21",
+// "2024-present"), or a comma list of them, and may be followed by a comma, colon, or full stop, as in the
+// common "Copyright (c) 2015, Holder". A list or quote marker in front ("- ", "1. ", "> ", "**") is allowed.
+// White space is collapsed before matching and the patterns have no nested quantifiers, so no line can make
+// them slow. A notice with no year, or with the holder before the year, is not read: it cannot be told from prose.
+const YEAR_RANGE = String.raw`\d{4}(?: ?[-–—/] ?(?:\d{4}|\d{2}|present))?`;
+const NOTICE_YEARS = String.raw`${YEAR_RANGE}(?:, ?${YEAR_RANGE})*`;
 const NOTICE_MARKER = String.raw`(?:copyright:?|\(c\)|©)(?: ?(?:\(c\)|©))? ?`;
-const NOTICE = new RegExp(String.raw`^(?:(?:[>*+-]|\d{1,3}[.)]) ?)*${NOTICE_MARKER}(${NOTICE_YEARS}) (\S.*)$`, "i");
+const NOTICE = new RegExp(String.raw`^(?:(?:[>*+-]|\d{1,3}[.)]) ?)*${NOTICE_MARKER}(${NOTICE_YEARS})[,.:]? (\S.*)$`, "i");
 // The same opening, but also after a table pipe, which copyrightNotice does not read.
 const NOTICE_LIKE = new RegExp(String.raw`^(?:(?:[>*+|-]|\d{1,3}[.)]) ?)*${NOTICE_MARKER}\d`, "i");
 
 const squeeze = (line) => line.replace(/\s+/g, " ").trim();
 
 /**
- * The notice a line carries, in one canonical form ("Copyright (c) 2026 Holder"), or null. Any spelling of
- * the marker, the years, and the list or emphasis around them is read as the same notice, so a holder
- * cannot drop out of a comparison by being written another way.
+ * The notice a line carries, in one canonical form ("Copyright (c) 2026 Holder"), or null. The usual
+ * spellings of the marker, the years, and the list or emphasis around them read as the same notice, so a
+ * holder does not drop out of a comparison by being written another way.
  */
 export function copyrightNotice(line) {
   const match = NOTICE.exec(squeeze(line));
   if (match === null) return null;
-  const years = match[1].replace(/ ?[-–—] ?/g, "-").replace(/, ?/g, ", ");
-  const holder = match[2].replace(/[\s*_`]+$/, "");
+  const years = match[1].replace(/ ?([-–—/]) ?/g, (_, dash) => (dash === "/" ? "/" : "-")).replace(/, ?/g, ", ");
+  // Emphasis and spaces that trail the holder are dropped by trimming from the end: a pattern for it would take quadratic time.
+  let end = match[2].length;
+  while (end > 0 && " *_`".includes(match[2][end - 1])) end -= 1;
+  const holder = match[2].slice(0, end);
   return holder === "" ? null : `Copyright (c) ${years} ${holder}`;
 }
 
