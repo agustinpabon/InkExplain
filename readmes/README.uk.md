@@ -49,6 +49,10 @@ cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
 # Claude Code (особисті навички; щоб навичка працювала лише в одному проєкті, використовуйте .claude/skills/ усередині нього)
 mkdir -p ~/.claude/skills
 cp -R skills/inkexplain ~/.claude/skills/
+
+# Cursor (особисті навички; щоб навичка працювала лише в одному проєкті, використовуйте .cursor/skills/ усередині нього)
+mkdir -p ~/.cursor/skills
+cp -R skills/inkexplain ~/.cursor/skills/
 ```
 
 Запланована публічна адреса цього репозиторію — `agustinpabon/inkexplain`. Репозиторій ще не опубліковано; щойно це станеться, його, як очікується, можна буде встановити через [skills CLI](https://skills.sh) командою:

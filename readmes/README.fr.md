@@ -49,6 +49,10 @@ cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
 # Claude Code (skills personnels ; utilisez .claude/skills/ dans un projet pour le limiter à ce projet)
 mkdir -p ~/.claude/skills
 cp -R skills/inkexplain ~/.claude/skills/
+
+# Cursor (skills personnels ; utilisez .cursor/skills/ dans un projet pour le limiter à ce projet)
+mkdir -p ~/.cursor/skills
+cp -R skills/inkexplain ~/.cursor/skills/
 ```
 
 Ce dépôt doit à terme être publié sous `agustinpabon/inkexplain`, ce qui n'est pas encore le cas. Une fois publié, la [CLI skills](https://skills.sh) devrait pouvoir l'installer avec :

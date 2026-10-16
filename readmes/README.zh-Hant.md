@@ -49,6 +49,10 @@ cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
 # Claude Code（個人技能；若只想用於特定專案，請改用專案內的 .claude/skills/）
 mkdir -p ~/.claude/skills
 cp -R skills/inkexplain ~/.claude/skills/
+
+# Cursor（個人技能；若只想用於特定專案，請改用專案內的 .cursor/skills/）
+mkdir -p ~/.cursor/skills
+cp -R skills/inkexplain ~/.cursor/skills/
 ```
 
 本儲存庫預計公開託管於 `agustinpabon/inkexplain`，目前尚未發布；發布之後，應該就能透過 [skills CLI](https://skills.sh) 用以下指令安裝：

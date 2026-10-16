@@ -49,6 +49,10 @@ cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
 # Claude Code (personal skills; use .claude/skills/ inside a project to scope it)
 mkdir -p ~/.claude/skills
 cp -R skills/inkexplain ~/.claude/skills/
+
+# Cursor (personal skills; use .cursor/skills/ inside a project to scope it)
+mkdir -p ~/.cursor/skills
+cp -R skills/inkexplain ~/.cursor/skills/
 ```
 
 이 저장소는 `agustinpabon/inkexplain`에 공개될 예정입니다. 아직 공개되지 않았지만, 공개된 뒤에는 [skills CLI](https://skills.sh)로 다음과 같이 설치할 수 있을 것입니다.

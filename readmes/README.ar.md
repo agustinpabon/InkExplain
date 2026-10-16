@@ -49,6 +49,10 @@ cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
 # Claude Code (personal skills; use .claude/skills/ inside a project to scope it)
 mkdir -p ~/.claude/skills
 cp -R skills/inkexplain ~/.claude/skills/
+
+# Cursor (personal skills; use .cursor/skills/ inside a project to scope it)
+mkdir -p ~/.cursor/skills
+cp -R skills/inkexplain ~/.cursor/skills/
 ```
 
 العنوان العام المخطّط لهذا المستودع هو `agustinpabon/inkexplain`. لم يُنشر بعد؛ وبعد نشره، يُفترض أن تتمكّن [أداة سطر الأوامر skills](https://skills.sh) من تثبيت المهارة بالأمر التالي:

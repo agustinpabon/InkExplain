@@ -49,6 +49,10 @@ cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
 # Claude Code (skills pessoais; para restringi-la a um projeto, use .claude/skills/ dentro dele)
 mkdir -p ~/.claude/skills
 cp -R skills/inkexplain ~/.claude/skills/
+
+# Cursor (skills pessoais; para restringi-la a um projeto, use .cursor/skills/ dentro dele)
+mkdir -p ~/.cursor/skills
+cp -R skills/inkexplain ~/.cursor/skills/
 ```
 
 O endereço público previsto deste repositório é `agustinpabon/inkexplain`. Ele ainda não foi publicado; quando for, a [CLI de skills](https://skills.sh) deverá conseguir instalar a skill com:

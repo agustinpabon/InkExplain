@@ -49,6 +49,10 @@ cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
 # Claude Code (persönliche Skills; für ein einzelnes Projekt stattdessen .claude/skills/ im Projekt verwenden)
 mkdir -p ~/.claude/skills
 cp -R skills/inkexplain ~/.claude/skills/
+
+# Cursor (persönliche Skills; für ein einzelnes Projekt stattdessen .cursor/skills/ im Projekt verwenden)
+mkdir -p ~/.cursor/skills
+cp -R skills/inkexplain ~/.cursor/skills/
 ```
 
 Das Repository soll künftig öffentlich unter `agustinpabon/inkexplain` erscheinen. Noch ist es nicht veröffentlicht; sobald es so weit ist, sollte die [skills-CLI](https://skills.sh) es mit folgendem Befehl installieren können:
