@@ -33,6 +33,7 @@ All must pass on a clean checkout. CI runs the same commands on Linux and Window
 - [ ] `ATTRIBUTIONS.md` credits every archetype's rights holder directly and keeps its Origins section; the validator's `LEGAL` checks pass.
 - [ ] Every open item in [provenance.md](provenance.md) is resolved or knowingly accepted, and the page is re-checked against the upstream projects it names.
 - [ ] Every rights record (`references/archetypes/<id>/rights.md`) reflects the current source, license, and restrictions. Re-check license pages for archetypes whose sources may have changed.
+- [ ] A credit for Creative Commons material names the creator, the license, and a link to the license deed, and the link travels with the credit in the registry, the rights record, and the rights note (`tests/bundled-references.test.mjs` pins it for the Go gopher).
 - [ ] No archetype claims endorsement by, or affiliation with, a third party.
 
 ## Public samples
@@ -57,6 +58,7 @@ Publishing a repository publishes everything reachable from its branches, tags, 
 
 - [ ] The `Security` workflow is green. If `skills/inkexplain/` changed since the audit statement in [SECURITY.md](../SECURITY.md), re-run the scan it describes and update the statement's result and tree hash.
 - [ ] Any bumped pin (the SkillSpector commit or a GitHub Actions SHA in `.github/workflows/`) was reviewed against its upstream changes first.
+- [ ] Wherever a pinned commit is described as a release (a workflow comment, `SECURITY.md`, a release note), that was compared with what the upstream tag points to. The SkillSpector pin reports itself as v2.12.0 but is a later commit than the `v2.12.0` tag, and says so.
 - [ ] `package.json` still declares no dependencies (`SEC-005`).
 - [ ] Both workflows still pin every action to a commit SHA.
 
@@ -70,5 +72,6 @@ Publishing a repository publishes everything reachable from its branches, tags, 
 
 - [ ] Release commits are authored with the maintainer's own identity and the date they were made.
 - [ ] Remotes point where you intend to publish; nothing is pushed anywhere by accident.
+- [ ] The identity and signature of every commit that will be published were read from the repository that will be published (`git log --format='%an <%ae> %G?'`). A new repository does not inherit this one's local Git settings, and a global identity may be a personal address.
 - [ ] The repository description, topics, and every published GitHub release note were read against [SECURITY.md](../SECURITY.md) and [provenance.md](provenance.md): none claims a "certification" or calls the scan, the archetypes, or the samples "verified" or "compliant" without support.
 - [ ] Before the repository is made public, everything it exposes was reviewed: branches, tags, issues and pull requests (titles, bodies, comments), release notes, Actions logs and artifacts, and the wiki.
