@@ -173,3 +173,13 @@ Two workflows run on every push to `main` and every pull request:
 - **Safe paths**: every path from data or links is resolved inside the repository; symlinks are never followed.
 - **Stable line endings**: `.gitattributes` keeps text files LF; readers also normalize CRLF.
 - **Honest capabilities**: the skill states when it cannot generate images and falls back to prompt mode.
+
+## Decision records
+
+Why the design is the way it is, one decision per file:
+
+- [0001: zero runtime dependencies](adr/0001-zero-runtime-dependencies.md)
+- [0002: the five-file archetype pack](adr/0002-modular-5-file-packs.md)
+- [0003: the scaffold marks what it cannot know](adr/0003-scaffold-marks-what-it-cannot-know.md)
+- [0004: the license travels with the installed skill](adr/0004-license-travels-with-the-skill.md)
+- [0005: Stickman is its own house style](adr/0005-stickman-is-its-own-archetype.md)
