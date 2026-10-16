@@ -13,14 +13,37 @@ export function copyrightHolder(line) {
   return line.replace(/^Copyright \(c\) \d{4}(?:\s*-\s*\d{4})?\s+/, "").trim();
 }
 
+// A notice is a marker ("Copyright", "Copyright:", "(c)", "©", or the word followed by either symbol), the
+// years, and the holder. The years are one year, a range ("2024-2026", "2024 – 2026", "2024-present"), or a
+// comma list of them. A list or quote marker in front ("- ", "1. ", "> ", "**") is allowed. White space is
+// collapsed before matching, so the patterns need no nested quantifiers and no line can make them slow.
+const NOTICE_YEARS = String.raw`\d{4}(?: ?[-–—] ?(?:\d{4}|present))?(?:, ?\d{4}(?: ?[-–—] ?(?:\d{4}|present))?)*`;
+const NOTICE_MARKER = String.raw`(?:copyright:?|\(c\)|©)(?: ?(?:\(c\)|©))? ?`;
+const NOTICE = new RegExp(String.raw`^(?:(?:[>*+-]|\d{1,3}[.)]) ?)*${NOTICE_MARKER}(${NOTICE_YEARS}) (\S.*)$`, "i");
+// The same opening, but also after a table pipe, which copyrightNotice does not read.
+const NOTICE_LIKE = new RegExp(String.raw`^(?:(?:[>*+|-]|\d{1,3}[.)]) ?)*${NOTICE_MARKER}\d`, "i");
+
+const squeeze = (line) => line.replace(/\s+/g, " ").trim();
+
 /**
- * The notice a line carries, in one canonical form ("Copyright (c) 2026 Holder"), or null. It reads
- * "Copyright (c)", "Copyright (C)", "Copyright ©", "(c)", and "©", with or without a list or quote
- * marker in front, so a notice written another way is still compared as the same notice.
+ * The notice a line carries, in one canonical form ("Copyright (c) 2026 Holder"), or null. Any spelling of
+ * the marker, the years, and the list or emphasis around them is read as the same notice, so a holder
+ * cannot drop out of a comparison by being written another way.
  */
 export function copyrightNotice(line) {
-  const match = /^[\s>*+-]*(?:copyright\s*(?:\(c\)|©)?|\(c\)|©)\s*(\d{4}(?:\s*-\s*\d{4})?)\s+(\S.*)$/i.exec(line);
-  return match === null ? null : `Copyright (c) ${match[1].replace(/\s+/g, "")} ${match[2].trim()}`;
+  const match = NOTICE.exec(squeeze(line));
+  if (match === null) return null;
+  const years = match[1].replace(/ ?[-–—] ?/g, "-").replace(/, ?/g, ", ");
+  const holder = match[2].replace(/[\s*_`]+$/, "");
+  return holder === "" ? null : `Copyright (c) ${years} ${holder}`;
+}
+
+/**
+ * Whether a line opens like a notice (the marker, then a year), whether or not copyrightNotice can read it.
+ * Such a line that cannot be read, a table row or a notice without a holder, must be reported, not skipped.
+ */
+export function looksLikeNotice(line) {
+  return NOTICE_LIKE.test(squeeze(line));
 }
 
 function mentionsName(text, name) {
@@ -180,9 +203,13 @@ export const legalChecks = [
       const present = new Set(text.split("\n").map(copyrightNotice).filter(Boolean));
       const wanted = new Set();
       for (const source of [PATHS.license, PATHS.attributions]) {
-        for (const line of (repo.readTextIfExists(source) ?? "").split("\n")) {
+        for (const [index, line] of (repo.readTextIfExists(source) ?? "").split("\n").entries()) {
           const notice = copyrightNotice(line);
           if (notice !== null) wanted.add(notice);
+          // A line that opens like a notice but cannot be read would let its holder drop out unseen, so it fails.
+          else if (looksLikeNotice(line)) {
+            issues.push({ path: source, line: index + 1, message: `this line opens like a copyright notice but cannot be read as one; write it as "Copyright (c) 2026 Holder" so the installed license can be compared with it: ${line.trim().slice(0, 80)}` });
+          }
         }
       }
       for (const notice of wanted) {
