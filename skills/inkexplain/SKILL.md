@@ -62,5 +62,5 @@ Load references only when the step needs them.
 
 - **Plan**: the shot list: placement, core idea, structure type, actor and action, objects, labels, and file name.
 - **Prompt**: the shot list plus one complete prompt per image, then the short delivery report ("not generated: prompt mode"); inside a project, the prompts are also saved as `assets/<article-slug>-<suffix>/prompts.md`.
-- **Generate**: images saved in `assets/<article-slug>-<suffix>/` with each final prompt in `prompts.md` beside them, and a short delivery report covering the archetype, each image and its purpose, saved paths, stability notes, open issues, and the rights note when the archetype has one.
+- **Generate**: images saved in `assets/<article-slug>-<suffix>/`, each final prompt saved there too (see `references/workflow/delivery.md`), and a short delivery report covering the archetype, each image and its purpose, saved paths, stability notes, open issues, and the rights note when the archetype has one.
 - **Edit**: the repaired image, or the edit prompt when no image tool is available.
