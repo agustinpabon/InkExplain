@@ -22,11 +22,13 @@ export function defineCheck(definition) {
 }
 
 /**
- * Shared state handed to every check. `policy` carries the allowlists so tests
- * can validate small fixture repositories against fixture-specific policy.
+ * Shared state handed to every check. `root` is a directory, or a Repository-like
+ * object (the archetype scaffold validates a checkout plus pending changes before
+ * writing them). `policy` carries the allowlists so tests can validate small
+ * fixture repositories against fixture-specific policy.
  */
 export function createContext(root, { policy = {} } = {}) {
-  const repo = new Repository(root);
+  const repo = typeof root === "string" ? new Repository(root) : root;
   const loaded = loadRegistry(repo);
   const localeResult = loadLocales(repo);
   return {

@@ -55,7 +55,7 @@ const ALL_REQUESTS = Object.freeze([
   "every style",
 ]);
 
-const ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
+export const ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 const PLACEHOLDERS = new Set(["", "reviewer", "date", "pending", "tbd", "todo", "n/a", "na", "unknown", "-", "approval status"]);
 

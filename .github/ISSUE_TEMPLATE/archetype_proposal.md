@@ -25,6 +25,8 @@ What domain or tech stack does this character represent best?
 - *Note: Commercial or proprietary characters without recorded public clearance cannot be accepted.*
 
 ### 5-File Pack Checklist
+`npm run archetype:add -- --id <id> --name "<Name>"` creates all five files, marking every rights field it cannot know as `UNRESOLVED` (see `docs/adding-an-archetype.md`).
+
 - [ ] `rights.md`
 - [ ] `identity.md`
 - [ ] `style.md`

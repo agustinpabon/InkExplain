@@ -28,21 +28,22 @@ npm run validate     # Run all repository compliance checks
 npm run build:docs   # Recompile routing.md, README tables, and gallery data
 npm run check        # Full CI simulation (build:docs --check + validate + test)
 npm run explain -- --list   # Run the prompt generator CLI
+npm run archetype:add -- --id <id> --name "<Name>"   # Scaffold a new character (see below)
 ```
 
 ## Adding a New Archetype
 
-Archetypes are declarative data packs. Adding one never requires changing skill engine code:
-1. Review [docs/adding-an-archetype.md](docs/adding-an-archetype.md).
-2. Register the archetype in `skills/inkexplain/registry.json`.
-3. Create the 5 required files in `skills/inkexplain/references/archetypes/<id>/`:
-   - `rights.md`: Licensing and copyright attributions.
-   - `identity.md`: Character silhouette and visual cues.
-   - `style.md`: Medium, linework texture, palette, and avoid list.
-   - `motion-and-acting.md`: Signature actions and decisive moments.
-   - `prompts.md`: Exact generation prompt formula and negative prompts.
-4. Run `npm run build:docs` to synchronize documentation and routing tables.
-5. Verify that `npm run check` exits with code 0.
+Archetypes are declarative data packs. Adding one never requires changing skill engine code or tests:
+1. Settle the rights first and review [docs/adding-an-archetype.md](docs/adding-an-archetype.md).
+2. Run `npm run archetype:add -- --id <id> --name "<Name>"`. It writes the registry entry, the five pack files, the credit, an example prompt, and the regenerated documents, checks the result before writing anything, and never overwrites. The archetype starts `experimental`; what you leave out is marked `TODO` or `UNRESOLVED`, never guessed. Add `--dry-run` to preview.
+3. Replace every marker: the five files in `skills/inkexplain/references/archetypes/<id>/` are
+   - `rights.md`: licensing and copyright attributions,
+   - `identity.md`: character silhouette and visual cues,
+   - `style.md`: medium, linework texture, palette, and avoid list,
+   - `motion-and-acting.md`: signature actions and decisive moments,
+   - `prompts.md`: the generation prompt, its repairs, and the rights note.
+4. Run `npm run build:docs`, then verify that `npm run check` exits with code 0.
+5. Try it with real renders before it is promoted from `experimental`; `SCHEMA-010` refuses an active archetype that still has a marker.
 
 ## Legal and Licensing Integrity
 - Every third-party character must carry a verified permissive license (MIT, CC0, CC BY, or explicit public authorization).

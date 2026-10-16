@@ -102,6 +102,7 @@ scripts/
 ├── validate.mjs             CLI: run checks, text or JSON output, exit codes 0/1/2
 ├── build-docs.mjs           CLI: regenerate derived documents, or --check them
 ├── explain.mjs              CLI: list archetypes, or assemble a prompt from an archetype's template
+├── add-archetype.mjs        CLI: scaffold a new experimental archetype, validated in memory before anything is written
 └── lib/
     ├── config.mjs           product identity, paths, pack layout, policy data
     ├── repository.mjs       root-anchored, traversal-safe, CRLF-normalizing file access
@@ -112,6 +113,7 @@ scripts/
     ├── prompt-assembly.mjs  fills a pack's generation template, checks a prompt against it, derives negative prompts
     ├── provenance.mjs       the gallery's provenance manifest: where each sample set came from, and git blob hashes
     ├── gallery-data.mjs     the data embedded in the gallery page
+    ├── scaffold.mjs         the archetype scaffold: input rules, registry entry, pack files, overlay checkout, safe writes
     ├── images.mjs           PNG structure and SVG safety
     ├── check-runner.mjs     check model, execution, skipping, formatting
     └── checks/              one module per area
@@ -122,7 +124,7 @@ scripts/
 | Area | Module | Checks |
 |---|---|---|
 | `PKG` | `package.mjs` | required files, SKILL.md frontmatter, length, and links, references that resolve inside the installed package, `openai.yaml`, package hygiene |
-| `SCHEMA` | `schema.mjs` | registry schema, alias integrity, the five pack files and their sections, registry-to-pack contracts, prompts and rights notes, isolation between packs, generated `routing.md`, the page-color policy reaching the style sheet and the generation prompt |
+| `SCHEMA` | `schema.mjs` | registry schema, alias integrity, the five pack files and their sections, registry-to-pack contracts, prompts and rights notes, isolation between packs, generated `routing.md`, the page-color policy reaching the style sheet and the generation prompt, and scaffold placeholders surviving only in experimental archetypes |
 | `DOC` | `docs.mjs` | README identity, links and anchors, generated README and gallery regions, translations, example prompt coverage |
 | `LEGAL` | `legal.mjs` | MIT terms and original copyright, ATTRIBUTIONS credits for every archetype, the Origins section crediting every copyright holder LICENSE keeps, every `rights.md`, gated-archetype boundaries, the license and copyright notices inside the installable skill |
 | `ASSET` | `assets.mjs` | PNG and SVG integrity, the public-sample gate, and the provenance manifest: every published image has a recorded source and still matches its recorded hash |

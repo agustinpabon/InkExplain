@@ -1,6 +1,7 @@
 // Builds small, fully valid InkExplain repositories in temporary directories.
 // Each test mutates one detail and asserts that exactly the expected check fails.
 
+import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -493,6 +494,17 @@ export function createFixture(t, { registryData = fixtureRegistryData(), files =
   fixture.regenerateDocs();
   t?.after(() => fixture.dispose());
   return fixture;
+}
+
+/** Every file under a directory with its SHA-256, to prove that a run changed nothing. */
+export function snapshot(root) {
+  const files = new Map();
+  for (const entry of fs.readdirSync(root, { recursive: true, withFileTypes: true })) {
+    if (!entry.isFile()) continue;
+    const file = path.join(entry.parentPath ?? entry.path, entry.name);
+    files.set(path.relative(root, file).replaceAll("\\", "/"), crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex"));
+  }
+  return files;
 }
 
 /** Issues of a check result, formatted like the CLI (`path:line: message`). */

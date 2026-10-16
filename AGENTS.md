@@ -13,7 +13,7 @@ InkExplain is an AI-agent skill that turns ideas into consistent hand-drawn illu
 - `skills/inkexplain/references/routing.md`: generated. Never edit it by hand.
 - `skills/inkexplain/references/workflow/`: shared method used by every archetype.
 - `skills/inkexplain/references/archetypes/<id>/`: one five-file pack per archetype (`rights.md`, `identity.md`, `style.md`, `motion-and-acting.md`, `prompts.md`).
-- `scripts/`: `validate.mjs`, `build-docs.mjs`, `explain.mjs` (the prompt helper), and `lib/` (no dependencies).
+- `scripts/`: `validate.mjs`, `build-docs.mjs`, `explain.mjs` (the prompt helper), `add-archetype.mjs` (the archetype scaffold), and `lib/` (no dependencies).
 - `examples/`: example prompts, and the offline gallery `gallery/index.html` with its sample images. The gallery page carries a generated data block; never edit it by hand.
 - `tests/`: Node's built-in test runner; fixtures are generated in temporary directories.
 - `docs/`: architecture, language policy, release checklist, archetype authoring guide, and the code walkthroughs (`walkthroughs.md`).
@@ -29,6 +29,7 @@ npm run validate     # all repository checks
 npm run build:docs   # regenerate routing.md, the README archetype tables, and the gallery data
 npm run check        # everything CI runs
 npm run explain -- --list   # list archetypes; assemble a prompt with --archetype and --concept
+npm run archetype:add -- --id <id> --name "<Name>" --dry-run   # preview a new archetype; drop --dry-run to write it
 ```
 
 Run `npm run build:docs` after editing `registry.json`, `readmes/locales.json`, an archetype's `prompts.md`, or the approved sample images, and `npm run check` before committing.
@@ -36,7 +37,7 @@ Run `npm run build:docs` after editing `registry.json`, `readmes/locales.json`, 
 ## Rules
 
 - **Registry first.** Archetype ids, categories, aliases, statuses, output folders, motion and style summaries, legal notices, and sample gates change in `registry.json`, never in generated files.
-- **One archetype, one pack.** A pack never names another archetype. Shared rules go in `references/workflow/`, not into every pack. See [docs/adding-an-archetype.md](docs/adding-an-archetype.md).
+- **One archetype, one pack.** A pack never names another archetype. Shared rules go in `references/workflow/`, not into every pack. Start a new one with `npm run archetype:add`, which marks every field it cannot know as `TODO` or `UNRESOLVED`; never fill a rights field with a guess. See [docs/adding-an-archetype.md](docs/adding-an-archetype.md).
 - **Rights are part of the product.** Keep `LICENSE` (including "Copyright (c) 2026 Agustin Pabon"), `ATTRIBUTIONS.md`, and every archetype's `rights.md` accurate. Credit rights holders directly. Never publish samples for an archetype whose `sampleGates.status` is not `approved`, and never approve gated-archetype samples without a recorded authorization.
 - **No new runtime dependencies.** Tooling uses Node.js built-ins only and stays offline: no network calls, no child processes in `scripts/`.
 - **English-default.** Follow [docs/language-policy.md](docs/language-policy.md). Non-English text belongs in archetype aliases, user-language label examples, attribution names, and `readmes/`.

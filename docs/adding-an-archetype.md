@@ -4,6 +4,36 @@ An archetype is a character (or a neutral actor), how it moves, and how it is dr
 
 This guide is for anyone contributing a character pack: an original house style, a project mascot, or a tribute to a third-party character.
 
+## Quick start
+
+```bash
+npm run archetype:add -- --id example-fox --name "Example Fox"
+```
+
+One command adds everything steps 2 to 4 below describe: the registry entry, the five pack files, a credit in `ATTRIBUTIONS.md`, an example prompt, and the regenerated routing table, README tables, and gallery data. Before it writes a file it checks the whole result against every repository check, so a duplicate id, an alias that another archetype already owns, an existing pack folder, or a name that leaks into another pack is refused and the repository is left exactly as it was. It never overwrites a file, and it undoes its own changes if a write fails.
+
+The new archetype is always `experimental`, and the command never decides what only you can. Whatever you do not pass in becomes an explicit marker: `UNRESOLVED` for the rights (who holds them, the license, the source, the credit line) and `TODO` for the character itself (identity markers, actions, palette, poses). The checks accept markers while the archetype is experimental and refuse them in any other status (`SCHEMA-010`), so the pack cannot be promoted by accident. Pass what you already know, and the rest stays marked:
+
+```bash
+npm run archetype:add -- --id example-fox --name "Example Fox" --category mascot \
+  --summary "Example Fox, a sparse orange fox that digs and sorts ideas into tidy piles." \
+  --feature "orange fox body" --feature "white-tipped tail" --action dig --action carry --action sort \
+  --palette "black ink" --palette "fox orange" \
+  --rights-holder "Jane Artist" --license "CC BY 4.0" --source https://example.org/fox \
+  --credit "Example Fox by Jane Artist (https://example.org/fox), CC BY 4.0"
+```
+
+`--dry-run` prints what would change and writes nothing, `--json` prints the result for a script, and `--help` lists every option. The command lists the markers it left, in which files, and the next steps. Rights come first: for a third-party character, settle them (step 1) before anything else, and do not publish an image of it until you have.
+
+The command does not render images, review them, or promote the archetype. After it runs:
+
+1. Settle the rights, then replace every `TODO` and `UNRESOLVED` in the registry entry, the five pack files, and the archetype's section of `ATTRIBUTIONS.md`. Edit the registry entry first; it is the source of truth for the identity markers, palette, and actions, and `npm run build:docs` regenerates the tables from it.
+2. Run `node scripts/explain.mjs --archetype example-fox --concept "..."` to see the prompt the pack assembles, and `npm run check` until it passes.
+3. Try the archetype with real renders and review them against the pack's own checklist ([step 5](#5-validate)).
+4. To promote it, change `status` to `active` in the registry, and change the wording that still says the pack is experimental (`rights.md` must state the new status, and `SCHEMA-010` lists every line that still calls the pack experimental). Publish samples only after review ([publishing samples](#publishing-samples)).
+
+The numbered steps below describe the same files in detail, for writing a pack by hand or finishing the one the command started.
+
 ## 1. Settle the rights first
 
 Before writing anything, establish what you may do with the character or style:
