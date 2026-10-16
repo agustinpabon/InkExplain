@@ -23,7 +23,7 @@ test("validate exits 0 when every selected check passes", (t) => {
   const fixture = createFixture(t);
   const { code, stdout } = capture(validate, ["--root", fixture.root, "--only", FIXTURE_CHECKS]);
   assert.equal(code, 0, stdout);
-  assert.match(stdout, /Summary: total=38 passed=38 failed=0 skipped=0/);
+  assert.match(stdout, /Summary: total=39 passed=39 failed=0 skipped=0/);
 });
 
 test("validate exits 1 and names the failing check and file", (t) => {

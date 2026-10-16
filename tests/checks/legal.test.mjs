@@ -73,6 +73,29 @@ test("LEGAL-005 requires the origins to name every copyright holder LICENSE keep
   assert.equal(credited.check("LEGAL-005").status, "pass", "the maintainer's own line needs no origin entry");
 });
 
+test("LEGAL-006 requires the installed skill to carry the MIT terms", (t) => {
+  assert.equal(createFixture(t).check("LEGAL-006").status, "pass");
+
+  const missing = createFixture(t).remove("skills/inkexplain/LICENSE.md");
+  assert.match(messages(missing.check("LEGAL-006")), /LICENSE\.md: missing: installers copy only the skill folder/);
+
+  const altered = createFixture(t).replace("skills/inkexplain/LICENSE.md", "NONINFRINGEMENT", "MERCHANTABILITY ONLY");
+  assert.match(messages(altered.check("LEGAL-006")), /MIT warranty disclaimer is missing or altered/);
+
+  const wrapped = createFixture(t).replace("skills/inkexplain/LICENSE.md", "to any person obtaining a copy", "to any person\nobtaining a copy");
+  assert.equal(wrapped.check("LEGAL-006").status, "pass", "line wrapping does not matter");
+});
+
+test("LEGAL-006 requires every holder named in LICENSE or ATTRIBUTIONS to be named in the installed skill too", (t) => {
+  const dropped = createFixture(t).replace("skills/inkexplain/LICENSE.md", "Copyright (c) 2026 Ian\n", "");
+  assert.match(messages(dropped.check("LEGAL-006")), /must keep the line "Copyright \(c\) 2026 Ian"/);
+
+  const newHolder = createFixture(t).append("ATTRIBUTIONS.md", "\n```text\nCopyright (c) 2026 Example Origin\n```\n");
+  assert.match(messages(newHolder.check("LEGAL-006")), /must keep the line "Copyright \(c\) 2026 Example Origin"/);
+  newHolder.replace("skills/inkexplain/LICENSE.md", "Copyright (c) 2026 Ian\n", "Copyright (c) 2026 Ian\nCopyright (c) 2026 Example Origin\n");
+  assert.equal(newHolder.check("LEGAL-006").status, "pass");
+});
+
 test("LEGAL-003 requires a rights record for the house style too", (t) => {
   const fixture = createFixture(t).remove(`${PACK}/ink/rights.md`);
   assert.match(messages(fixture.check("LEGAL-003")), /archetype ink has no rights record/);

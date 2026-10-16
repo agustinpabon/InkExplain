@@ -21,6 +21,7 @@ export const PATHS = Object.freeze({
   readme: "README.md",
   attributions: "ATTRIBUTIONS.md",
   license: "LICENSE",
+  packageLicense: "skills/inkexplain/LICENSE.md",
   promptExamples: "examples/prompts.md",
   galleryDir: "examples/gallery",
   galleryPage: "examples/gallery/index.html",
@@ -112,6 +113,7 @@ export const DOC_REGIONS = Object.freeze({
 export const ORIGIN_IDENTIFIER_ALLOWLIST = Object.freeze([
   { scope: "file", path: "ATTRIBUTIONS.md", classification: "origins and third-party notices" },
   { scope: "file", path: "LICENSE", classification: "license notice" },
+  { scope: "file", path: "skills/inkexplain/LICENSE.md", classification: "license and notices that travel with the installed skill" },
   { scope: "file", path: "docs/provenance.md", classification: "provenance record" },
   { scope: "file", path: "docs/walkthroughs.md", classification: "walkthrough prompts that quote archetype rights notes" },
   { scope: "file", path: "examples/gallery/provenance.json", classification: "gallery sample provenance record" },

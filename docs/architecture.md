@@ -7,6 +7,7 @@ InkExplain has two parts: the **skill package** that agents load, and the **tool
 ```text
 skills/inkexplain/
 ├── SKILL.md                     entry point: modes, workflow, rules, output (under 80 lines)
+├── LICENSE.md                   MIT terms and third-party copyright notices that travel with the install
 ├── agents/openai.yaml           Codex display metadata
 ├── registry.json                archetype registry (single source of truth)
 ├── assets/<id>/                 calibration images for an archetype (approved samples only)
@@ -123,7 +124,7 @@ scripts/
 | `PKG` | `package.mjs` | required files, SKILL.md frontmatter, length, and links, references that resolve inside the installed package, `openai.yaml`, package hygiene |
 | `SCHEMA` | `schema.mjs` | registry schema, alias integrity, the five pack files and their sections, registry-to-pack contracts, prompts and rights notes, isolation between packs, generated `routing.md`, the page-color policy reaching the style sheet and the generation prompt |
 | `DOC` | `docs.mjs` | README identity, links and anchors, generated README and gallery regions, translations, example prompt coverage |
-| `LEGAL` | `legal.mjs` | MIT terms and original copyright, ATTRIBUTIONS credits for every archetype, the Origins section crediting every copyright holder LICENSE keeps, every `rights.md`, gated-archetype boundaries |
+| `LEGAL` | `legal.mjs` | MIT terms and original copyright, ATTRIBUTIONS credits for every archetype, the Origins section crediting every copyright holder LICENSE keeps, every `rights.md`, gated-archetype boundaries, the license and copyright notices inside the installable skill |
 | `ASSET` | `assets.mjs` | PNG and SVG integrity, the public-sample gate, and the provenance manifest: every published image has a recorded source and still matches its recorded hash |
 | `LANG` | `language.mjs` | English-default scan, allowlist narrowness, policy completeness |
 | `BRAND` | `branding.mjs` | origin project names only as attribution, one identity across surfaces |
@@ -134,6 +135,8 @@ Each check returns structured issues (`path`, `line`, `message`); a check that c
 `BRAND-001` reads the names it guards from the Origins section of `ATTRIBUTIONS.md` instead of hardcoding them: the project names and GitHub accounts listed there may appear only in attribution. The allowlist in `scripts/lib/config.mjs` classifies each attribution surface: the credits themselves (ATTRIBUTIONS, LICENSE, the provenance record, the README credits and gallery-credits regions), the data and rights notes they are written from (`registry.json`, each pack's `rights.md` and `prompts.md`), the views generated from them (`routing.md`, the gallery page, the README archetype table), the walkthroughs that quote rights notes, and tests. Crediting an origin and keeping the product's own identity are enforced by the same data.
 
 `LEGAL-005` keeps that data from disappearing: ATTRIBUTIONS must keep an Origins section that names every copyright holder in LICENSE other than the maintainer, with a repository link and a license for each origin. [provenance.md](provenance.md) records what was taken from each origin and how that was measured.
+
+`LEGAL-006` keeps the license with the installed skill. Installers such as `npx skills add` copy only `skills/inkexplain/`, so the repository's `LICENSE` and `ATTRIBUTIONS.md` never reach the user; `skills/inkexplain/LICENSE.md` carries the MIT terms and every copyright line that `LICENSE` or the MIT notice in `ATTRIBUTIONS.md` names, and the check fails if one goes missing.
 
 Per-archetype rules are data. Adding an archetype never requires new validator code: the registry entry carries the markers, palette, actions, credits, and sample decision that the generic checks enforce.
 

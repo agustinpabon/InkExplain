@@ -147,4 +147,37 @@ export const legalChecks = [
       return issues;
     },
   }),
+
+  defineCheck({
+    id: "LEGAL-006",
+    area: "LEGAL",
+    title: "the installed skill carries the MIT terms and every copyright notice",
+    run({ repo }) {
+      const text = repo.readTextIfExists(PATHS.packageLicense);
+      if (text === null) {
+        return [{ path: PATHS.packageLicense, message: "missing: installers copy only the skill folder, so the license must be inside it" }];
+      }
+      const issues = [];
+      const flat = collapse(text);
+      for (const [label, clause] of [
+        ["permission grant", LEGAL.mitPermission],
+        ["notice condition", LEGAL.mitCondition],
+        ["warranty disclaimer", LEGAL.mitDisclaimer],
+      ]) {
+        if (!flat.includes(collapse(clause))) issues.push({ path: PATHS.packageLicense, message: `MIT ${label} is missing or altered` });
+      }
+      // Every holder the repository's LICENSE or the MIT notice in ATTRIBUTIONS.md names must be named here too.
+      const lines = new Set(text.split("\n").map((line) => line.trim()));
+      const wanted = new Set();
+      for (const source of [PATHS.license, PATHS.attributions]) {
+        for (const line of (repo.readTextIfExists(source) ?? "").split("\n")) {
+          if (/^Copyright \(c\) \d{4}(?:\s*-\s*\d{4})?\s+\S/.test(line.trim())) wanted.add(line.trim());
+        }
+      }
+      for (const line of wanted) {
+        if (!lines.has(line)) issues.push({ path: PATHS.packageLicense, message: `must keep the line "${line}" that ${PATHS.license} or ${PATHS.attributions} names` });
+      }
+      return issues;
+    },
+  }),
 ];

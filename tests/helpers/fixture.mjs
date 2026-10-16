@@ -272,6 +272,7 @@ function baseFiles(registryData) {
   const pkg = "skills/inkexplain";
   files["package.json"] = JSON.stringify({ name: "inkexplain", private: true, type: "module" }, null, 2);
   files["LICENSE"] = MIT;
+  files[`${pkg}/LICENSE.md`] = `# License and notices\n\n\`\`\`text\n${MIT}\`\`\`\n`;
   files["ATTRIBUTIONS.md"] = attributionsText(registryData);
   files["docs/language-policy.md"] = `# Language policy\n\n${[...LANGUAGE_DEFAULT_SURFACES, ...LANGUAGE_EXCEPTION_CATEGORIES]
     .map((label) => `- ${label}`)

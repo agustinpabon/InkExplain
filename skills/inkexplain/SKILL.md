@@ -1,6 +1,7 @@
 ---
 name: inkexplain
 description: Turn articles, documents, workflows, and abstract ideas into consistent hand-drawn explanatory illustrations. Use when someone wants to illustrate or visualize an article, post, doc, process, system, comparison, or cause-and-effect; plan where illustrations should go; get ready-to-run prompts for an image model; or repair a generated illustration. Works with or without an image-generation tool, with a brand-neutral default style and optional character archetypes.
+license: MIT. LICENSE.md in this folder has the full terms and the third-party notices.
 ---
 
 # InkExplain
