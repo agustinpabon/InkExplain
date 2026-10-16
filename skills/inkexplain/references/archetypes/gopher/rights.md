@@ -7,7 +7,7 @@
 - Official source: the Go blog, https://go.dev/blog/gopher.
 - License: Creative Commons Attribution 4.0 (CC BY 4.0).
 - Bundled reference: `references/archetypes/gopher/gopher.png`, a front-facing vector gopher. It is the identity authority for the marker set in `identity.md`, which was transcribed from this image.
-- Origin of that file: not recorded. It is identical to the reference in Visual IP Illustrations, which names go.dev as its source without saying who drew this image, and it is not one of the images published on go.dev. It closely resembles the vector gopher by Takuya Ueda (golang-samples/gopher-vector, Creative Commons Attribution 3.0), itself drawn after Renee French's design; that match is unproven. Confirm the origin, or replace the file with an official go.dev image and re-derive the markers, before treating it as an unmodified copy of her work.
+- Origin of that file: not recorded. It is identical to the reference in Visual IP Illustrations, which names go.dev as its source without saying who drew this image, and it is not one of the images published on go.dev. It closely resembles the vector gopher by Takuya Ueda (golang-samples/gopher-vector, Creative Commons Attribution 3.0), itself drawn after Renee French's design; that match is unproven. Confirm the origin, or replace the file with an official go.dev image and re-derive the markers, before treating it as an unmodified copy of her work. Attaching it to an image request is optional, because `identity.md` lists every marker; if it turns out to be Takuya Ueda's vector, his Creative Commons Attribution 3.0 terms (credit Takuya Ueda) would apply to anything that reuses it, so credit him as well when you publish images made with it attached.
 
 ## Rights and restrictions
 

@@ -10,7 +10,7 @@ Choose one actor per image, and keep the choice consistent across a series when 
 - **Hands**: one or two hand-drawn hands entering from the edge of the frame, for ideas about choosing, holding, placing, or adjusting.
 - **The working object**: the machine, scale, or gate acts by itself (gears turn, a lid snaps shut) when no person is needed.
 
-The ink figure is a pen, not a personality: neutral, calm, and competent.
+The ink figure is a pen, not a personality: neutral, calm, and competent. It may strain, stumble, or stall when the idea is a failure, as long as its construction stays the same.
 
 ## Recognition
 
@@ -22,7 +22,7 @@ The ink figure is a pen, not a personality: neutral, calm, and competent.
 
 - The ink figure turns into a character: facial features, hair, clothes, a name, or a recurring prop.
 - A recognizable franchise character or brand appears.
-- Several figures crowd a scene that needs one.
+- Several figures crowd a scene that needs one. Only a state change or a comparison shows the same figure more than once, identical in each state.
 - The figure is drawn stiffly, like a diagram glyph instead of a person in motion.
 - The actor watches while the objects do the work.
 

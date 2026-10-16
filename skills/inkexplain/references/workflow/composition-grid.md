@@ -19,7 +19,7 @@ Character-independent rules for turning one idea into one readable picture: fram
 ## Balance
 
 - Balance the large actor or machine with open space, not with more objects.
-- Three to six drawn elements and two to six labels; every element earns its place.
+- Three to six drawn elements and two to six labels; every element earns its place. A heap, row, or stack of identical things counts as one element.
 - Group supporting objects in one cluster rather than scattering them, unless the archetype's template says how widely to spread them.
 - In comparisons, give each side the same width and line weight so the difference reads as content, not emphasis.
 

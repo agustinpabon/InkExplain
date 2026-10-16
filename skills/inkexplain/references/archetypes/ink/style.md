@@ -6,7 +6,7 @@ The house style of InkExplain: an explainer's sketch on clean paper. Black ink f
 
 - 16:9 landscape by default; follow the user's aspect ratio when they ask for another.
 - A clean white background with no paper texture, grain, gradient, vignette, or shadow.
-- One focal action, roughly in the middle third, and at least 35% of the canvas left empty.
+- One focal action, roughly in the middle third (a state change or a comparison spreads its states across the canvas), and at least 35% of the canvas left empty.
 
 ## Linework
 

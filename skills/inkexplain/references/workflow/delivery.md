@@ -4,9 +4,9 @@ Where finished work goes and what the final report contains.
 
 ## Output folder
 
-- Save accepted images in the user's workspace, never inside the skill package.
+- Save accepted images in the user's workspace (the project folder the session is working in), never inside the skill package.
 - Each archetype writes to its own folder, `assets/<article-slug>-<suffix>/`, where `<suffix>` is the archetype's output suffix listed in `references/routing.md`. The default archetype writes to `assets/<article-slug>-illustrations/`.
-- `<article-slug>` is the slug the user gave; otherwise use a short lowercase kebab-case English slug of the article title, with ASCII letters, digits, and hyphens only, at most 60 characters. When the source is a single idea or a piece of code rather than an article, make the slug from its subject (for example `cache-renewal` or `quicksort`) and give each image's placement as the file and lines it explains, or "standalone".
+- `<article-slug>` is the slug the user gave; otherwise use a short lowercase kebab-case English slug of the article title, dropping filler words, with ASCII letters, digits, and hyphens only, at most 60 characters. When the source is a single idea or a piece of code rather than an article, make the slug from its subject (for example `cache-renewal` or `quicksort`) and give each image's placement as the file and lines it explains, or "standalone".
 - If the user names a different folder inside the workspace, use it. Never write outside the workspace or inside the skill package, and never use `..` or an absolute path to leave it.
 
 ## File names
@@ -17,7 +17,11 @@ Where finished work goes and what the final report contains.
 
 ## Prompt-mode files
 
-In prompt mode inside a project, save `prompts.md` in the archetype's output folder with each planned file name, its placement, its core idea, and its full prompt.
+In prompt mode inside a project, save `prompts.md` in the archetype's output folder with each planned file name, its placement, its core idea, and its full prompt. An edit prompt for an image the tool cannot edit goes in the same file, with the name of the image it repairs.
+
+## Plan mode
+
+Plan mode saves nothing and has no separate report: the shot list is the deliverable. Each archetype's block names its folder, its status when it is not `active`, and its rights note, so the plan can be turned into prompts later without asking again.
 
 ## Delivery report
 
@@ -26,9 +30,9 @@ Keep it short:
 - the archetype, plus its status when it is not `active`;
 - the number of images;
 - for each image: file name, placement, and the idea it carries;
-- the saved paths, or "not generated: prompt mode" with the reason;
+- what was saved (in prompt mode, `prompts.md` and the folder the images will go in) and, for images that do not exist, "not generated: prompt mode" with the reason;
 - stability notes: the strongest images and the optional ones;
-- open issues: anything review could not fix or could not verify.
+- open issues: anything review could not fix or could not verify. In prompt mode nothing was reviewed, so say that, and list what the user should check in the renders (for example the identity markers, the label spelling, and any rule the pack asks you to confirm).
 
 For a third-party archetype, add the rights note from its `prompts.md`: credit and restrictions. For gated archetypes, also state that the images are for use within the user's own authorization and must not be published without it. For experimental archetypes, say that the pack is experimental.
 

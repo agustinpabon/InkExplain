@@ -24,6 +24,10 @@ Read the whole source before planning, and note:
 - passages that are hard to grasp from text alone;
 - passages that need no picture.
 
+## When the source is code
+
+Read the file for the one behavior the reader must understand: what blocks, what repeats, what is hidden, or what changes hands. Draw that behavior with physical objects and actions, never the code itself. Give each image a placement of the file and the lines it explains, and plan only what the code shows: do not draw a fix that the file does not contain.
+
 ## Find the cognitive anchors
 
 An image earns its place when it carries a cognitive anchor, a structure the reader can hold in one glance:
@@ -64,8 +68,8 @@ Plan before generating. For each image, give:
 2. **Core idea**: one sentence the image must make obvious.
 3. **Structure type**: one type from `references/workflow/composition-grid.md`.
 4. **Actor and action**: who or what performs the central action, and the physical action itself.
-5. **Supporting objects**: one to four low-tech objects that carry the metaphor (a pack may allow fewer).
-6. **Visible labels**: two to six short labels in the user's language.
+5. **Supporting objects**: one to four low-tech objects that carry the metaphor (a pack's own count wins).
+6. **Visible labels**: two to six short labels in the user's language. Take them from the source's own words; for a single idea, choose one to three words each from its key nouns, and tell the user which you chose.
 7. **File name**: `NN-topic-slug.png`.
 
 Add the archetype's own planning fields from its `prompts.md`, such as a page color or a rights note.

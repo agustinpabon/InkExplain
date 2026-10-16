@@ -8,7 +8,7 @@ license: MIT. LICENSE.md in this folder has the full terms and the third-party n
 
 Ideas made visual. InkExplain turns the ideas in a piece of writing into clear, consistent hand-drawn illustrations: one idea per image, carried by an actor doing something the reader understands at a glance.
 
-Invoke it as `$inkexplain`, or let the agent select it when a request fits.
+Invoke it as `$inkexplain` in Codex, `/inkexplain` in Claude Code, or let the agent select it when a request fits.
 
 ## When to use
 
@@ -24,14 +24,14 @@ It is not for charts of real data, UI mockups, logos, photorealistic images, or 
 
 ## Modes
 
-Choose the mode from the request and the environment, and tell the user which one you are using.
+Choose the mode from the request first and the environment second ("plan" gives a shot list even when an image tool exists), and tell the user which one you are using.
 
 | Mode | When | Output |
 |---|---|---|
 | Plan | "plan", "where should images go", "don't generate yet" | a shot list |
 | Prompt | "prompts only", or no image-generation tool is available | a shot list and complete prompts |
 | Generate | the user wants images and an image-generation tool is available | reviewed, saved images |
-| Edit | the user supplies an image to fix | an edited image, or a repair prompt |
+| Edit | the user supplies an image to fix; keep the archetype it shows | an edited image, or a repair prompt |
 
 InkExplain does not include an image generator; it uses whatever image-generation tool the host agent provides. If there is none, say so and switch to Prompt mode. Never claim to have generated or reviewed an image you have not.
 
@@ -39,13 +39,13 @@ InkExplain does not include an image generator; it uses whatever image-generatio
 
 Load references only when the step needs them.
 
-1. **Select the archetype.** Read `references/routing.md` and select archetypes only from what the user asks the illustrations to look like. If nothing is requested, use the default, InkExplain Sketch. Load the five pack files that `references/routing.md` lists for each selected archetype.
+1. **Select the archetype.** Read `references/routing.md` and select archetypes only from what the user asks the illustrations to look like. If nothing is requested, use the default, InkExplain Sketch. If a requested name is not recognized, say so, offer the closest archetypes, and ask before planning. Load the five pack files that `references/routing.md` lists for each selected archetype.
 2. **Extract the concept.** Find the core thesis and the cognitive anchors with `references/workflow/concept-extraction.md`.
 3. **Plan the shot list.** One idea, one structure type, and one actor action per image. Use `references/workflow/composition-grid.md` and `references/archetypes/<id>/motion-and-acting.md`.
-4. **Write the prompts.** Fill the pack's generation prompt following `references/workflow/prompt-assembly.md`.
+4. **Write the prompts** (not in Plan mode). Fill the pack's generation prompt following `references/workflow/prompt-assembly.md`.
 5. **Generate** (Generate mode only): one image per tool call.
 6. **Review and repair** (Generate and Edit modes) every image against `references/workflow/qa-checklist.md` and the pack's "Review and repair". Repair with `references/workflow/editing.md`, and stop after three attempts on one image. In Prompt mode, check each prompt against the prompt checklist in `references/workflow/prompt-assembly.md` instead.
-7. **Save and report** as described in `references/workflow/delivery.md`.
+7. **Save and report** as described in `references/workflow/delivery.md` (Plan mode saves nothing).
 
 ## Rules
 

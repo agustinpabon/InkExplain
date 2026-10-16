@@ -5,8 +5,8 @@ How to turn a planned image into a prompt deterministically, and how to deliver 
 ## Language
 
 - Write image prompts in English, which image models follow most consistently.
-- Quote visible labels exactly in the user's language and script. Never translate, transliterate, or reword them.
-- Keep labels short. Image models misspell long strings, and non-Latin scripts degrade first.
+- Quote visible labels exactly in the user's language and script. Never translate, transliterate, or reword them. Write them as a quoted, comma-separated list; the square brackets around the list in a template may stay or go.
+- Keep labels short. Image models misspell long strings, and non-Latin scripts degrade first. Shorten a long phrase from the user to its key words, and say so.
 
 ## Assembly order
 
@@ -43,6 +43,8 @@ For each image, deliver:
 - the core idea;
 - the complete prompt in a fenced `text` block, ready to paste into any image model;
 - the rights note, when the archetype has one.
+
+If a pack marks a reference-image sentence as optional, leave it out in prompt mode (the user's tool is unknown) and tell the user which file to attach and which sentence to add.
 
 When working inside a project, also save the prompts as `prompts.md` in the archetype's output folder (see `references/workflow/delivery.md`), so they can be rerun later.
 

@@ -30,6 +30,7 @@ Verbs: inspect, point, carry, sort, bridge, repair, guide, stamp, mark, tune, sh
 
 - A single image shows the decisive moment: the stamp landing on the checkpoint, the last stepping stone set in place, the paw on the useful turn; not the setup or the aftermath.
 - Mini comics use two or three beats, one gopher action each, with the gopher identical across panels. State change images give each state its own single action.
+- One gopher per image. A handoff, a comparison, or a state change may show the same gopher once per state (two to four at most), each identical in design; never a crowd.
 
 ## Patterns
 

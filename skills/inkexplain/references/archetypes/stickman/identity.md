@@ -7,7 +7,7 @@ Stickman is one recurring stick figure, drawn the same way in every image of a s
 Draw it from this contract. Proportions are in head diameters (H); a standing figure is 5H tall.
 
 - **Head**: an open round head, one outlined circle that is never filled, 1H across. It is drawn in a single loop whose ends overlap slightly, so it is a little imperfect, never a compass circle.
-- **Face**: two dot eyes, small and solid, set just below the head's midline and turned toward the action. At most two short brow strokes show focus, doubt, or surprise. No mouth, nose, ears, or hair. Expression comes from the brows, the head tilt, and the body.
+- **Face**: two dot eyes, small and solid, set just below the head's midline and turned toward the action. At most two short brow strokes show focus, doubt, surprise, or pleasure. No mouth, nose, ears, or hair. Expression comes from the brows, the head tilt, and the body.
 - **Spine**: one curved spine line from the base of the head to the hips, 1.6H long, leaning toward the action. It is never ruler-straight and never perfectly vertical.
 - **Limbs**: two-segment limbs. Each arm is 1.0H + 1.0H joined at a soft elbow and attached 0.25H below the head; each leg is 1.2H + 1.2H joined at a soft knee and attached at the hips. Hanging arms reach about mid-thigh, and the legs are longer than the spine.
 - **Hands**: none. Each arm ends in a plain rounded stroke end that touches or overlaps the object it works on; the arm line itself holds the object.
@@ -26,7 +26,7 @@ Markers: open round head, two dot eyes, curved spine line, two-segment limbs, fo
 
 - Keep at least three across transformations, and all five in final images.
 - In a series the head stays the same size relative to the body, the line weight stays the same, and the face stays the same: dots, with brows only when the expression needs them.
-- Two figures appear only to compare two states, and then both are the same Stickman drawn the same way, differing only in pose and expression.
+- More than one figure appears only to compare two states or, in a mini comic, once per panel; each is the same Stickman drawn the same way, differing only in pose and expression.
 - Whatever else changes (the props, the pose, the metaphor, the accent), the proportions do not.
 
 ## Failure modes

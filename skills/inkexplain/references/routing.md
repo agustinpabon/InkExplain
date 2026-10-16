@@ -13,7 +13,7 @@ An archetype fixes who performs the idea, how they move, and how the scene is dr
 5. Several archetypes requested: this is a mixed request. Plan one shared core idea, then one group per archetype. Each group loads only its own pack, uses its own prompts and review, and writes to its own output folder.
 6. "All archetypes", "every character", or "all styles" means every `active` archetype. Gated and experimental archetypes join only when the user names them.
 7. A term listed under "Never selects" does not select any archetype. Treat it like an unknown name.
-8. Unknown name: do not guess or substitute. Say which name was not recognized, offer the closest archetypes, and ask which one to use.
+8. Unknown name: do not guess or substitute. Say which name was not recognized, offer the archetypes whose names or "Never selects" terms resemble it (the default archetype when none does), and ask which one to use before planning.
 9. Third-party archetypes (`mascot` and `tribute-character`) carry the rights note from their `prompts.md` in every plan, prompt, and delivery report. Gated archetypes are never chosen implicitly.
 
 ## Archetype table

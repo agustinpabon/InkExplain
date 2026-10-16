@@ -2,7 +2,13 @@
 
 Repair an illustration with the smallest change that fixes the problem. Prefer a local edit when the host's image tool supports editing; regenerate when the problem is structural, such as the wrong idea, a passive actor, or a copied composition.
 
-Fill the bracketed fields. For third-party archetypes, append the rights note from the archetype's `prompts.md` to every edit prompt. Archetype packs may add archetype-specific repairs to these shared ones.
+Fill the bracketed fields. For third-party archetypes, append the rights note from the archetype's `prompts.md` to every edit prompt, after the preservation clause; it is documentation, never text to draw. Archetype packs may add archetype-specific repairs to these shared ones.
+
+## Start from the image
+
+Edit mode skips planning: read the image, diagnose it with `references/workflow/qa-checklist.md`, pick the repair below, and deliver the edited image, or the edit prompt when the host's image tool cannot edit (inside a project, save it as `prompts.md` in the archetype's output folder, as `references/workflow/delivery.md` describes).
+
+When the user names no archetype, the image shows which one it is: compare it with the identity markers in each candidate's `identity.md`. Keep that character; never repair toward the default style when that would change it. If you cannot tell which archetype the image is, ask one short question.
 
 ## Remove a title
 
@@ -16,11 +22,19 @@ Edit the provided image. Remove only the title text "[text to remove]" and any u
 Edit or regenerate the image with the same core idea, actor, action, style, and aspect ratio, but with less visible text. Keep only these labels, copied exactly: [quoted labels]. Remove full sentences, dense annotations, duplicate labels, and any title. Keep labels away from the character's face and hands. Preserve the composition and every unaffected object.
 ```
 
+## Simplify the scene
+
+```text
+Edit or regenerate the image with the same core idea, actor, action, style, and aspect ratio, but a simpler scene. Keep the actor, [the one to three objects that carry the idea], and these labels, copied exactly: [quoted labels]. Remove [the extra objects, marks, and repeats]. Redraw any heap, row, or crowd you keep with fewer items, in the same place and line style. Preserve everything else.
+```
+
 ## Fix a label
 
 ```text
 Edit the provided image. Replace the label "[wrong text]" with "[correct text]" in the same handwriting, size, color, and position. Change nothing else.
 ```
+
+Change only the labels the user named; leave the others as they are, even when they are in another language. If the new text is longer, keep it inside its shape by tightening the letter spacing slightly; do not resize or move the shape.
 
 ## Strengthen participation
 

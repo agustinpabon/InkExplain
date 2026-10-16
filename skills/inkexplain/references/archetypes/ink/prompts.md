@@ -27,7 +27,7 @@ Structure: [structure type]. Composition: [where each element sits, which way th
 
 Supporting objects: [one to four low-tech objects].
 
-Handwritten labels in neat print, copied exactly: ["label 1", "label 2", "label 3"]. The label ["key label"] sits on the highlighter yellow swipe. No other text: no title, no caption, no sentences.
+Handwritten labels in neat print, copied exactly: ["label 1", "label 2", "label 3"]. The label ["key label"] sits on the highlighter yellow swipe. No other text: no title, no caption, no structure-type text, no sentences.
 ```
 
 ## Edit prompts
