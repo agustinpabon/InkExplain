@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { copyrightHolder } from "../../scripts/lib/checks/legal.mjs";
+import { copyrightHolder, copyrightNotice } from "../../scripts/lib/checks/legal.mjs";
 import { createFixture, messages } from "../helpers/fixture.mjs";
 
 const PACK = "skills/inkexplain/references/archetypes";
@@ -94,6 +94,40 @@ test("LEGAL-006 requires every holder named in LICENSE or ATTRIBUTIONS to be nam
   assert.match(messages(newHolder.check("LEGAL-006")), /must keep the line "Copyright \(c\) 2026 Example Origin"/);
   newHolder.replace("skills/inkexplain/LICENSE.md", "Copyright (c) 2026 Ian\n", "Copyright (c) 2026 Ian\nCopyright (c) 2026 Example Origin\n");
   assert.equal(newHolder.check("LEGAL-006").status, "pass");
+});
+
+test("LEGAL-006 reads a notice however it is spelled, so a holder cannot slip past by changing the marker", (t) => {
+  const spellings = [
+    "Copyright (C) 2026 Example Origin",
+    "Copyright © 2026 Example Origin",
+    "(c) 2026 Example Origin",
+    "© 2026 Example Origin",
+    "- Copyright (c) 2026 Example Origin",
+    "> Copyright (C) 2026 Example Origin",
+    "COPYRIGHT (c) 2026-2027 Example Origin",
+  ];
+  for (const line of spellings) {
+    const attributions = createFixture(t).append("ATTRIBUTIONS.md", `\n${line}\n`);
+    assert.match(messages(attributions.check("LEGAL-006")), /must keep the line "Copyright \(c\) 2026(?:-2027)? Example Origin"/, `${line} is a holder in ATTRIBUTIONS.md`);
+    const license = createFixture(t).append("LICENSE", `\n${line}\n`);
+    assert.match(messages(license.check("LEGAL-006")), /must keep the line "Copyright \(c\) 2026(?:-2027)? Example Origin"/, `${line} is a holder in LICENSE`);
+  }
+
+  // Written in the skill's own license in a different spelling, the same holder counts as kept.
+  const kept = createFixture(t).append("ATTRIBUTIONS.md", "\nCopyright (c) 2026 Example Origin\n").append("skills/inkexplain/LICENSE.md", "\n© 2026 Example Origin\n");
+  assert.equal(kept.check("LEGAL-006").status, "pass", messages(kept.check("LEGAL-006")));
+
+  // Prose that merely starts with the word is not a notice.
+  const prose = createFixture(t).append("ATTRIBUTIONS.md", "\nCopyright law differs by country, and 2026 is a year.\nCopyright notices (c) matter.\n");
+  assert.equal(prose.check("LEGAL-006").status, "pass");
+});
+
+test("copyrightNotice returns one canonical line for any spelling of a notice, and null for a line that is not one", () => {
+  assert.equal(copyrightNotice("Copyright (c) 2026 Ian"), "Copyright (c) 2026 Ian");
+  assert.equal(copyrightNotice("  * Copyright © 2026 - 2027   Ian & Co. "), "Copyright (c) 2026-2027 Ian & Co.");
+  assert.equal(copyrightNotice("(C) 2024 Takuya Ueda"), "Copyright (c) 2024 Takuya Ueda");
+  assert.equal(copyrightNotice("Copyright 2026 Someone"), "Copyright (c) 2026 Someone");
+  for (const line of ["", "Copyright", "Copyright (c) Ian", "Copyright law applies", "The copyright (c) 2026 is held by Ian", "2026 Ian"]) assert.equal(copyrightNotice(line), null, JSON.stringify(line));
 });
 
 test("LEGAL-003 requires a rights record for the house style too", (t) => {

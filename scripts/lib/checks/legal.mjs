@@ -13,6 +13,16 @@ export function copyrightHolder(line) {
   return line.replace(/^Copyright \(c\) \d{4}(?:\s*-\s*\d{4})?\s+/, "").trim();
 }
 
+/**
+ * The notice a line carries, in one canonical form ("Copyright (c) 2026 Holder"), or null. It reads
+ * "Copyright (c)", "Copyright (C)", "Copyright ©", "(c)", and "©", with or without a list or quote
+ * marker in front, so a notice written another way is still compared as the same notice.
+ */
+export function copyrightNotice(line) {
+  const match = /^[\s>*+-]*(?:copyright\s*(?:\(c\)|©)?|\(c\)|©)\s*(\d{4}(?:\s*-\s*\d{4})?)\s+(\S.*)$/i.exec(line);
+  return match === null ? null : `Copyright (c) ${match[1].replace(/\s+/g, "")} ${match[2].trim()}`;
+}
+
 function mentionsName(text, name) {
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return new RegExp(`(?<![\\p{L}\\p{N}])${escaped}(?![\\p{L}\\p{N}])`, "u").test(text);
@@ -167,15 +177,16 @@ export const legalChecks = [
         if (!flat.includes(collapse(clause))) issues.push({ path: PATHS.packageLicense, message: `MIT ${label} is missing or altered` });
       }
       // Every holder the repository's LICENSE or the MIT notice in ATTRIBUTIONS.md names must be named here too.
-      const lines = new Set(text.split("\n").map((line) => line.trim()));
+      const present = new Set(text.split("\n").map(copyrightNotice).filter(Boolean));
       const wanted = new Set();
       for (const source of [PATHS.license, PATHS.attributions]) {
         for (const line of (repo.readTextIfExists(source) ?? "").split("\n")) {
-          if (/^Copyright \(c\) \d{4}(?:\s*-\s*\d{4})?\s+\S/.test(line.trim())) wanted.add(line.trim());
+          const notice = copyrightNotice(line);
+          if (notice !== null) wanted.add(notice);
         }
       }
-      for (const line of wanted) {
-        if (!lines.has(line)) issues.push({ path: PATHS.packageLicense, message: `must keep the line "${line}" that ${PATHS.license} or ${PATHS.attributions} names` });
+      for (const notice of wanted) {
+        if (!present.has(notice)) issues.push({ path: PATHS.packageLicense, message: `must keep the line "${notice}" that ${PATHS.license} or ${PATHS.attributions} names` });
       }
       return issues;
     },
