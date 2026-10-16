@@ -73,17 +73,18 @@ Ian's Xiaohei, a small solid-black creature with white dot eyes and thin legs, d
 
 ### Littlebox (`littlebox`)
 
-A closed paper-box character in thick rough marker on pale sky-blue or lavender backgrounds that turns ideas into collecting, packaging, sorting, and delivering.
+A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering.
 
 - Category: `tribute-character`. Status: `active`.
 - Load, in order: `references/archetypes/littlebox/rights.md`, `references/archetypes/littlebox/identity.md`, `references/archetypes/littlebox/style.md`, `references/archetypes/littlebox/motion-and-acting.md`, `references/archetypes/littlebox/prompts.md`
 - Output folder: `assets/<article-slug>-littlebox/`
 - Motion DNA: Littlebox, a closed paper box that acts through two side-seam twig arms. Signature actions: collect, seal, sort, fold, carry, stamp. Poses: twig arms and tiny legs carry the effort while the box stays closed; both arms bracing an external pile; deadpan dot eyes whatever happens. Timing: One decisive moment per image, such as the tape pressed down or the stamp landing; mini comics use two or three beats with Littlebox closed throughout.
-- Style sheet: Bold rough marker illustration with a handmade dry-brush feel. Canvas: 16:9 on one flat pale sky-blue or lavender background; Littlebox fills 35-55%. Linework: Thick, rough black marker with dry-brush gaps and wobbly folds. Palette: black, amber, coral, pale sky blue or lavender. Avoid: an open, half-open, or cutaway box; realistic cardboard or a clean vector box icon; cute mascot, sticker, or delivery-company looks; thin, ruler-straight, or auto-traced lines.
-- Credit: Adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commit 37cd93e. Rights holder: okooo5km. License: MIT.
+- Style sheet: Bold rough marker illustration with a handmade dry-brush feel. Canvas: 16:9 on one flat pure white background (#FFFFFF) unless the user names another; Littlebox fills 35-55%. Linework: Thick, rough black marker with dry-brush gaps and wobbly folds. Palette: black, amber, coral, pure white. Avoid: an open, half-open, or cutaway box; realistic cardboard or a clean vector box icon; cute mascot, sticker, or delivery-company looks; thin, ruler-straight, or auto-traced lines; tinted, alternating, or mood-picked backgrounds the user did not ask for.
+- Background: pure white background #FFFFFF by default, and the same in every image of a set. Offered only when the user asks: warm off-white #FFFCF5 (also "off-white", "cream"); pale sky blue #E3F2FD (also "sky blue", "light blue"); pale lavender #E6E6FA (also "lavender"). A light color the user names is used exactly as given. Never alternate backgrounds, rotate them for rhythm, or choose one from the idea's mood or topic.
+- Credit: Adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004. Rights holder: okooo5km. License: MIT.
 - Restrictions:
   - Credit okooo5km or the 5km Littlebox Illustrations project in derived documentation.
-- Public samples: approved. Approved when these renders were first published; the character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.
+- Public samples: approved. Historical examples of the pale sky-blue and lavender options, which are no longer the default: pure white is. The character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.
 
 ### Ferris (`ferris`)
 

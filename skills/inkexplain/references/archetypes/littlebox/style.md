@@ -1,13 +1,15 @@
 # Littlebox Style
 
-A closed paper box performs one abstract operation in rough black marker on a flat pale background. Taste target: a clever product thinker drew a strange box on a page to explain the one thing that matters.
+A closed paper box performs one abstract operation in rough black marker on a clean white page. Taste target: a clever product thinker drew a strange box on a page to explain the one thing that matters.
 
 ## Canvas
 
 - 16:9 horizontal by default, with generous whitespace; Littlebox, the main subject, covers about 35%-55% of the canvas.
-- One flat background per image, pale sky blue or lavender: pale sky blue `#E3F2FD` for technical, structural, systems, clarity, tool, interface, and method ideas; pale lavender `#E6E6FA` for reflective, creative, emotional, abstract, exploratory, uncertain, or narrative ones.
-- In a series, assign backgrounds during planning, before writing prompts. Even counts split equally; odd counts differ by at most one unless the article order gives a stronger reason. Avoid long runs of one color unless the sequence needs that rhythm.
-- No shadows, gradients, paper texture, grain, or vignette.
+- One flat, borderless background per image: pure white `#FFFFFF`. This is the default and the Littlebox look: clean editorial marker drawings on an unframed white page.
+- A user may name another background. Presets: warm off-white `#FFFCF5`, pale sky blue `#E3F2FD`, pale lavender `#E6E6FA`. A light color the user names is used exactly as given. Use another background only when the user asks for it.
+- Every image in a set uses the same background: the default, or the one the user named. Never alternate backgrounds, rotate them for rhythm, or pick one from the idea's mood or topic (no blue for technical ideas, no lavender for emotional ones). Vary the background within a set only when the user explicitly asks for variety, and then assign each image as the user directed.
+- Keep the page light so the black marker lines and the white box body stay legible. If a user asks for a dark background, confirm first that the linework and labels will invert, because that changes the character's look.
+- No shadows, gradients, paper texture, grain, vignette, border, or frame.
 
 ## Linework
 
@@ -18,7 +20,7 @@ A closed paper box performs one abstract operation in rough black marker on a fl
 ## Color
 
 - Black `#000000` dominates: outlines, objects, the character, labels, and most structure.
-- The Littlebox body stays white or near-white negative space.
+- The Littlebox body stays white or near-white negative space. On the default white page its thick black outline alone separates it from the page: never tint, shade, or shadow the body to make it stand out.
 - Amber `#F59E0B`: the seam tape and its jagged front tab first; flow paths, motion curves, or useful arrows only when separated from the tape.
 - Coral `#E85D75`: warning, stamp, error, result, or decisive emphasis.
 - Use accents sparingly; a strong image can use black plus one accent.

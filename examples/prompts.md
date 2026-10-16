@@ -63,6 +63,16 @@ $inkexplain Use Xiaohei. One image: "an agent breaks a vague request into three 
 $inkexplain Use Littlebox. One image: raw material comes in, gets judged, and ships. Copy these labels exactly: "原始材料", "判断", "输出".
 ```
 
+### Littlebox on another background
+
+```text
+$inkexplain Use Littlebox. Three images for the post below, all on a pale lavender background.
+
+[paste the post]
+```
+
+Littlebox draws on pure white by default, with the same background in every image of a set. Name another to change it: warm off-white, pale sky blue, pale lavender, or a light color of your own.
+
 ### Ferris
 
 ```text

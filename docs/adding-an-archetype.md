@@ -78,6 +78,7 @@ Add an object to `archetypes` in `skills/inkexplain/registry.json`:
 - `contract.identityMarkers` must appear in `identity.md` and `prompts.md`, so the identity reaches the image model and the review.
 - `contract.isolationMarkers` must not appear in any other archetype's pack.
 - `legalNotice.attributionTerms` must appear in `rights.md` and `ATTRIBUTIONS.md`. Third-party archetypes need at least one; tribute characters also need at least one restriction.
+- `styleSheet.background` is optional. Add it only when the character should work on a page color the user can change, as Littlebox does. It holds a `default` color and optional `presets`, each with a lowercase `name`, an uppercase `#RRGGBB` `hex` light enough for black linework (relative luminance of at least 0.6), and optional `aliases`. The generation prompt then needs exactly one field naming the default, such as `[pure white background #FFFFFF]`, and `style.md` must state every color's hex. The command-line helper's `--background` and the gallery's picker read the same data; an archetype without it keeps a fixed page and refuses `--background`. Whatever the policy, every image of a set uses one page color unless the user asks for variety, and no pack may pick or rotate a color by mood or topic.
 
 ## 3. Write the pack
 

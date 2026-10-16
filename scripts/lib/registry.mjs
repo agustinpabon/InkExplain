@@ -76,7 +76,14 @@ const ARCHETYPE_KEYS = new Set([
   "contract",
 ]);
 const MOTION_KEYS = new Set(["actor", "signatureActions", "poses", "timing"]);
-const STYLE_KEYS = new Set(["medium", "canvas", "linework", "palette", "avoid"]);
+const STYLE_KEYS = new Set(["medium", "canvas", "linework", "palette", "avoid", "background"]);
+const BACKGROUND_KEYS = new Set(["default", "presets"]);
+const SWATCH_KEYS = new Set(["name", "hex", "aliases"]);
+const HEX_PATTERN = /^#[0-9A-F]{6}$/;
+const SWATCH_NAME_PATTERN = /^[a-z][a-z -]{0,29}$/;
+
+/** Backgrounds must be light enough for black linework and a white character body to stay legible. */
+export const MIN_BACKGROUND_LUMINANCE = 0.6;
 const LEGAL_KEYS = new Set(["credit", "rightsHolder", "license", "attributionTerms", "restrictions"]);
 const SAMPLE_KEYS = new Set(["status", "decision", "reviewer", "date", "directories", "authorization"]);
 const CONTRACT_KEYS = new Set(["identityMarkers", "isolationMarkers"]);
@@ -139,6 +146,71 @@ function validateBlock(block, where, issues, { keys, strings = [], arrays = {} }
     }
   }
   return true;
+}
+
+/** WCAG relative luminance of a #RRGGBB color, from 0 (black) to 1 (white). */
+export function relativeLuminance(hex) {
+  const [red, green, blue] = [1, 3, 5].map((start) => {
+    const channel = Number.parseInt(hex.slice(start, start + 2), 16) / 255;
+    return channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+}
+
+function validateSwatch(swatch, where, issues) {
+  if (!isPlainObject(swatch)) {
+    issues.push({ where, message: "must be an object with a name and a hex color" });
+    return;
+  }
+  checkKeys(swatch, SWATCH_KEYS, where, issues);
+  if (typeof swatch.name !== "string" || !SWATCH_NAME_PATTERN.test(swatch.name)) {
+    issues.push({ where: `${where}.name`, message: 'must be a lowercase color name such as "pale sky blue"' });
+  }
+  if (typeof swatch.hex !== "string" || !HEX_PATTERN.test(swatch.hex)) {
+    issues.push({ where: `${where}.hex`, message: "must be an uppercase #RRGGBB color" });
+  } else if (relativeLuminance(swatch.hex) < MIN_BACKGROUND_LUMINANCE) {
+    issues.push({
+      where: `${where}.hex`,
+      message: `must be a light color (relative luminance at least ${MIN_BACKGROUND_LUMINANCE}) so black linework stays legible`,
+    });
+  }
+  if (swatch.aliases !== undefined && !(Array.isArray(swatch.aliases) && swatch.aliases.every((alias) => typeof alias === "string" && SWATCH_NAME_PATTERN.test(alias)))) {
+    issues.push({ where: `${where}.aliases`, message: "must be an array of lowercase color names" });
+  }
+}
+
+/**
+ * An archetype may offer a choice of page color: one default plus named presets.
+ * The default is what every image of a set uses unless the user asks for another.
+ */
+function validateBackground(background, where, issues) {
+  if (!isPlainObject(background)) {
+    issues.push({ where, message: "must be an object with a default color and optional presets" });
+    return;
+  }
+  checkKeys(background, BACKGROUND_KEYS, where, issues);
+  validateSwatch(background.default, `${where}.default`, issues);
+  if (background.presets !== undefined && !Array.isArray(background.presets)) {
+    issues.push({ where: `${where}.presets`, message: "must be an array of colors" });
+    return;
+  }
+  const presets = background.presets ?? [];
+  presets.forEach((preset, index) => validateSwatch(preset, `${where}.presets[${index}]`, issues));
+  const seenNames = new Set();
+  const seenHexes = new Set();
+  for (const swatch of [background.default, ...presets]) {
+    if (!isPlainObject(swatch)) continue;
+    for (const name of [swatch.name, ...(Array.isArray(swatch.aliases) ? swatch.aliases : [])]) {
+      if (typeof name !== "string") continue;
+      const key = normalizeName(name);
+      if (seenNames.has(key)) issues.push({ where, message: `duplicate background name ${JSON.stringify(name)}` });
+      seenNames.add(key);
+    }
+    if (typeof swatch.hex === "string") {
+      if (seenHexes.has(swatch.hex)) issues.push({ where, message: `duplicate background color ${swatch.hex}` });
+      seenHexes.add(swatch.hex);
+    }
+  }
 }
 
 function validateLegalNotice(notice, category, where, issues) {
@@ -229,6 +301,9 @@ function validateArchetype(archetype, index, issues) {
     strings: ["medium", "canvas", "linework"],
     arrays: { palette: 1, avoid: 1 },
   });
+  if (isPlainObject(archetype.styleSheet) && archetype.styleSheet.background !== undefined) {
+    validateBackground(archetype.styleSheet.background, `${where}.styleSheet.background`, issues);
+  }
   validateLegalNotice(archetype.legalNotice, archetype.category, `${where}.legalNotice`, issues);
   validateSampleGates(archetype.sampleGates, `${where}.sampleGates`, issues);
   validateBlock(archetype.contract, `${where}.contract`, issues, {
@@ -384,6 +459,60 @@ export function referencePaths(archetype) {
 /** Repository-relative path of a file inside an archetype pack. */
 export function packFilePath(archetype, file) {
   return `${PATHS.packageDir}/${packDirectory(archetype)}/${file}`;
+}
+
+/** A background request that cannot be honored: not offered, not a color, or too dark. */
+export class BackgroundError extends Error {}
+
+/** The words a prompt uses for a page color: "pure white background #FFFFFF". */
+export function backgroundPhrase(swatch) {
+  return `${swatch.name} background ${swatch.hex}`;
+}
+
+/**
+ * Resolve the page color for an archetype that offers a choice (`styleSheet.background`).
+ * No request gives the default. A request may be a preset name or alias ("lavender"),
+ * a #RRGGBB color, or a name with one ("mint green #DFF5E6"); any light color is accepted,
+ * a dark one is refused. Returns { name, hex, kind, phrase }, kind being default, preset, or custom.
+ */
+export function resolveBackground(archetype, request) {
+  const policy = archetype.styleSheet.background;
+  if (policy === undefined) {
+    throw new BackgroundError(`${archetype.name} draws on a fixed background and takes no background option`);
+  }
+  const resolved = (swatch, kind) => ({ name: swatch.name, hex: swatch.hex, kind, phrase: backgroundPhrase(swatch) });
+  const text = request === undefined || request === null ? "" : String(request).trim();
+  if (text === "") return resolved(policy.default, "default");
+
+  const choices = [
+    { swatch: policy.default, kind: "default" },
+    ...policy.presets.map((swatch) => ({ swatch, kind: "preset" })),
+  ];
+  const wanted = normalizeName(text).replace(/ background$/, "");
+  for (const { swatch, kind } of choices) {
+    const names = [swatch.name, ...(swatch.aliases ?? [])].map(normalizeName);
+    if (names.includes(wanted)) return resolved(swatch, kind);
+  }
+
+  // The # is required: six letters from a to f ("facade") are a word, not a color.
+  const custom = /^(?:(.*?)\s+)?#([0-9a-f]{6})$/i.exec(text);
+  if (custom === null) {
+    const offered = choices.map(({ swatch, kind }) => (kind === "default" ? `${swatch.name} (default)` : swatch.name)).join(", ");
+    throw new BackgroundError(`unknown background ${JSON.stringify(text)}; ${archetype.name} offers ${offered}, or any light #RRGGBB color`);
+  }
+  const hex = `#${custom[2].toUpperCase()}`;
+  const known = choices.find(({ swatch }) => swatch.hex === hex);
+  if (known) return resolved(known.swatch, known.kind);
+  if (relativeLuminance(hex) < MIN_BACKGROUND_LUMINANCE) {
+    throw new BackgroundError(
+      `the background ${hex} is too dark: black marker lines and a white character body need a light page (relative luminance at least ${MIN_BACKGROUND_LUMINANCE}); choose a lighter color`,
+    );
+  }
+  const name = custom[1] === undefined ? "custom" : normalizeName(custom[1]);
+  if (!SWATCH_NAME_PATTERN.test(name)) {
+    throw new BackgroundError(`the color name ${JSON.stringify(custom[1])} must be lowercase words of at most 30 characters, such as "mint green"`);
+  }
+  return resolved({ name, hex }, "custom");
 }
 
 function editDistance(a, b) {

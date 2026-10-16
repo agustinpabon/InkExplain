@@ -1,8 +1,15 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createFixture, makePng, messages } from "../helpers/fixture.mjs";
+import { FIXTURE_BACKGROUND, createFixture, makePng, messages } from "../helpers/fixture.mjs";
 
 const PACK = "skills/inkexplain/references/archetypes";
+
+/** A fixture whose "demo" archetype offers a page color, with its pack rewritten to carry it. */
+function fixtureWithBackground(t) {
+  const fixture = createFixture(t);
+  fixture.updateRegistry((data) => (data.archetypes[1].styleSheet.background = structuredClone(FIXTURE_BACKGROUND)));
+  return fixture.rewritePack("demo").regenerateDocs();
+}
 
 test("a valid fixture passes every schema check", (t) => {
   const fixture = createFixture(t);
@@ -99,6 +106,37 @@ test("SCHEMA-008 detects a hand-edited or stale routing.md", (t) => {
   assert.match(messages(fixture.check("SCHEMA-008")), /out of date with registry\.json/);
   fixture.regenerateDocs();
   assert.equal(fixture.check("SCHEMA-008").status, "pass");
+});
+
+test("SCHEMA-009 passes when the style sheet and the prompt carry the page-color policy, and when there is none", (t) => {
+  assert.equal(fixtureWithBackground(t).check("SCHEMA-009").status, "pass");
+  assert.equal(createFixture(t).check("SCHEMA-009").status, "pass", "an archetype with a fixed page has nothing to carry");
+});
+
+test("SCHEMA-009 requires the generation prompt to name the registry's default page in exactly one field", (t) => {
+  const wrong = fixtureWithBackground(t);
+  wrong.replace(`${PACK}/demo/prompts.md`, "[pure white background #FFFFFF]", "[pale lavender background #E6E6FA]");
+  assert.match(messages(wrong.check("SCHEMA-009")), /demo\/prompts\.md: the generation prompt needs exactly one \[pure white background #FFFFFF\] field/);
+
+  const missing = fixtureWithBackground(t);
+  missing.replace(`${PACK}/demo/prompts.md`, "[pure white background #FFFFFF]", "pure white");
+  assert.match(messages(missing.check("SCHEMA-009")), /needs exactly one \[pure white background #FFFFFF\] field/);
+
+  const doubled = fixtureWithBackground(t);
+  doubled.replace(`${PACK}/demo/prompts.md`, "[pure white background #FFFFFF]", "[pure white background #FFFFFF] or [pure white background #FFFFFF]");
+  assert.match(messages(doubled.check("SCHEMA-009")), /needs exactly one \[pure white background #FFFFFF\] field/);
+});
+
+test("SCHEMA-009 requires every page color in the style sheet", (t) => {
+  const fixture = fixtureWithBackground(t);
+  fixture.write(`${PACK}/demo/style.md`, fixture.read(`${PACK}/demo/style.md`).replaceAll("#E6E6FA", "#E6E6F0"));
+  assert.match(messages(fixture.check("SCHEMA-009")), /demo\/style\.md: archetype demo background "pale lavender" #E6E6FA is missing/);
+});
+
+test("SCHEMA-009 rejects a page-color field in a pack whose archetype offers no choice", (t) => {
+  const fixture = createFixture(t);
+  fixture.replace(`${PACK}/ink/prompts.md`, "Scene: [core idea in one sentence].", "Style: [pure white background #FFFFFF].\n\nScene: [core idea in one sentence].");
+  assert.match(messages(fixture.check("SCHEMA-009")), /ink\/prompts\.md: has a \[pure white background #FFFFFF\] field, but archetype ink declares no styleSheet\.background/);
 });
 
 test("a new archetype needs only a registry entry, a pack, and regenerated docs", (t) => {

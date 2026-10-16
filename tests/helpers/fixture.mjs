@@ -83,6 +83,16 @@ export const FIXTURE_ORIGIN = Object.freeze({
   url: "https://github.com/example-origin/example-origin-kit",
 });
 
+/** A page-color policy like Littlebox's: white by default, three presets, each with its aliases. */
+export const FIXTURE_BACKGROUND = Object.freeze({
+  default: Object.freeze({ name: "pure white", hex: "#FFFFFF", aliases: Object.freeze(["white"]) }),
+  presets: Object.freeze([
+    Object.freeze({ name: "warm off-white", hex: "#FFFCF5", aliases: Object.freeze(["off-white", "cream"]) }),
+    Object.freeze({ name: "pale sky blue", hex: "#E3F2FD", aliases: Object.freeze(["sky blue"]) }),
+    Object.freeze({ name: "pale lavender", hex: "#E6E6FA", aliases: Object.freeze(["lavender"]) }),
+  ]),
+});
+
 function motion(actor, signatureActions) {
   return { actor, signatureActions, poses: ["leans into the work"], timing: "One decisive beat per image" };
 }
@@ -177,9 +187,13 @@ export function packFiles(archetype) {
   const rightsNote = thirdParty
     ? `\n## Rights note\n\n\`\`\`text\n${status.replace(/\n/g, " ").trim()} Credit: ${legal.credit}. ${legal.restrictions.join(" ")}\n\`\`\`\n`
     : "";
+  // An archetype that offers a page color names its default in a field of the generation prompt and every color in the style sheet.
+  const policy = archetype.styleSheet.background;
+  const backgrounds = policy ? [policy.default, ...policy.presets].map((swatch) => `${swatch.name} ${swatch.hex}`).join(", ") : "";
   // The first sentence is quoted by SCHEMA tests; the fields after it are the ones the CLI and the gallery fill.
   const generationPrompt = [
     `Draw one idea with ${identity}. Colors: ${palette}.`,
+    ...(policy ? [`Style: a perfectly flat [${policy.default.name} background ${policy.default.hex}].`] : []),
     "Action: The actor performs [specific physical action], caught at its decisive moment.",
     "Scene: [core idea in one sentence].",
     'Labels: ["label 1", "label 2", "label 3"].',
@@ -190,7 +204,9 @@ export function packFiles(archetype) {
       body: `Category \`${archetype.category}\`, status \`${archetype.status}\`. Rights holder: ${legal.rightsHolder}. Credit: ${legal.attributionTerms.join(", ")}.`,
     }),
     "identity.md": doc(`${archetype.name} Identity`, ["Identity", "Recognition", "Failure modes"], { body: `Keep ${identity}.` }),
-    "style.md": doc(`${archetype.name} Style`, ["Canvas", "Linework", "Color", "Labels", "Avoid"], { body: `Clean. ${palette}` }),
+    "style.md": doc(`${archetype.name} Style`, ["Canvas", "Linework", "Color", "Labels", "Avoid"], {
+      body: `Clean. ${palette}${policy ? ` Backgrounds: ${backgrounds}.` : ""}`,
+    }),
     "motion-and-acting.md": doc(`${archetype.name} Motion and Acting`, ["Actions", "Patterns", "Supporting objects", "Originality"], {
       body: `Signature actions: ${archetype.motionDna.signatureActions.join(", ")}.`,
     }),
@@ -407,6 +423,15 @@ export class Fixture {
   /** Add an archetype to the registry and write a valid pack for it. */
   addArchetype(archetype) {
     this.updateRegistry((data) => data.archetypes.push(archetype));
+    const pack = packFiles(archetype);
+    for (const file of PACK_FILES) this.write(`skills/inkexplain/${packDirectory(archetype)}/${file}`, pack[file]);
+    return this;
+  }
+
+  /** Write fresh, valid pack files for an archetype already in the registry, after its registry entry changed. */
+  rewritePack(id) {
+    const archetype = JSON.parse(this.read("skills/inkexplain/registry.json")).archetypes.find((candidate) => candidate.id === id);
+    if (!archetype) throw new Error(`no archetype ${id} in the fixture registry`);
     const pack = packFiles(archetype);
     for (const file of PACK_FILES) this.write(`skills/inkexplain/${packDirectory(archetype)}/${file}`, pack[file]);
     return this;

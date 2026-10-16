@@ -3,16 +3,21 @@ import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import {
+  BackgroundError,
+  MIN_BACKGROUND_LUMINANCE,
+  backgroundPhrase,
   buildAliasIndex,
   findAliasMentions,
   isValidIsoDate,
   normalizeName,
   outputDirectory,
   parseRegistry,
+  relativeLuminance,
   resolveArchetypeRequest,
+  resolveBackground,
   validateRegistryData,
 } from "../../scripts/lib/registry.mjs";
-import { fixtureRegistryData } from "../helpers/fixture.mjs";
+import { FIXTURE_BACKGROUND, fixtureRegistryData } from "../helpers/fixture.mjs";
 
 const REAL_REGISTRY_TEXT = fs.readFileSync(path.join(import.meta.dirname, "../../skills/inkexplain/registry.json"), "utf8");
 
@@ -212,4 +217,106 @@ test("the shipped registry has no gated archetypes, so 'all archetypes' is every
   const xiaohei = registry.byId.get("xiaohei");
   assert.equal(xiaohei.legalNotice.license, "MIT");
   assert.match(xiaohei.legalNotice.credit, /Ian Xiaohei Illustrations by Ian/);
+});
+
+// A fixture whose "demo" archetype offers a page color, the way Littlebox does.
+function withBackground(mutate = () => {}) {
+  const data = fixtureRegistryData();
+  data.archetypes[1].styleSheet.background = structuredClone(FIXTURE_BACKGROUND);
+  mutate(data.archetypes[1].styleSheet.background);
+  return data;
+}
+
+function backgroundIssues(mutate) {
+  return validateRegistryData(withBackground(mutate)).map((issue) => `${issue.where}: ${issue.message}`).join("\n");
+}
+
+test("relativeLuminance runs from black to white, and every shipped page color is light", () => {
+  assert.equal(relativeLuminance("#000000"), 0);
+  assert.equal(relativeLuminance("#FFFFFF"), 1);
+  assert.ok(relativeLuminance("#E6E6FA") > MIN_BACKGROUND_LUMINANCE);
+  assert.ok(relativeLuminance("#222222") < MIN_BACKGROUND_LUMINANCE);
+  const { registry } = parseRegistry(REAL_REGISTRY_TEXT);
+  for (const archetype of registry.archetypes) {
+    const policy = archetype.styleSheet.background;
+    if (policy === undefined) continue;
+    for (const swatch of [policy.default, ...policy.presets]) {
+      assert.ok(relativeLuminance(swatch.hex) >= MIN_BACKGROUND_LUMINANCE, `${archetype.id} ${swatch.name}`);
+    }
+  }
+});
+
+test("a page-color policy validates: one default, optional presets, light uppercase colors, no repeated names", () => {
+  assert.equal(backgroundIssues(() => {}), "");
+  assert.equal(backgroundIssues((background) => delete background.presets), "", "presets are optional");
+  const cases = [
+    [(background) => (background.default.hex = "#ffffff"), /default\.hex: must be an uppercase #RRGGBB color/],
+    [(background) => (background.default.hex = "white"), /default\.hex: must be an uppercase #RRGGBB color/],
+    [(background) => (background.presets[1].hex = "#1A237E"), /presets\[1\]\.hex: must be a light color/],
+    [(background) => (background.presets[0].name = "Warm Off-White"), /presets\[0\]\.name: must be a lowercase color name/],
+    [(background) => (background.presets[0].aliases = ["Cream"]), /presets\[0\]\.aliases: must be an array of lowercase color names/],
+    [(background) => (background.presets[2].hex = "#E3F2FD"), /duplicate background color #E3F2FD/],
+    [(background) => background.presets[2].aliases.push("pale sky blue"), /duplicate background name "pale sky blue"/],
+    [(background) => background.presets[0].aliases.push("White"), /duplicate background name "White"/],
+    [(background) => (background.colour = "red"), /styleSheet\.background: unknown field "colour"/],
+    [(background) => (background.presets = "lavender"), /presets: must be an array of colors/],
+    [(background) => (background.presets[0] = "lavender"), /presets\[0\]: must be an object with a name and a hex color/],
+    [(background) => delete background.default, /default: must be an object with a name and a hex color/],
+  ];
+  for (const [mutate, pattern] of cases) assert.match(backgroundIssues(mutate), pattern);
+  const data = fixtureRegistryData();
+  data.archetypes[1].styleSheet.background = "white";
+  assert.match(validateRegistryData(data).map((issue) => issue.message).join("\n"), /must be an object with a default color and optional presets/);
+});
+
+test("resolveBackground gives the default, picks a preset by name, alias, or color, and accepts other light colors", () => {
+  const { registry } = load(withBackground());
+  const demo = registry.byId.get("demo");
+  const pick = ({ name, hex, kind }) => ({ name, hex, kind });
+  const white = { name: "pure white", hex: "#FFFFFF", kind: "default" };
+  for (const request of [undefined, null, "", "   ", "white", "White", "pure white", "Pure White Background", "#ffffff", "#FFFFFF"]) {
+    assert.deepEqual(pick(resolveBackground(demo, request)), white, JSON.stringify(request));
+  }
+  const lavender = { name: "pale lavender", hex: "#E6E6FA", kind: "preset" };
+  for (const request of ["lavender", "Pale Lavender", "pale-lavender", "pale lavender background", "#e6e6fa", "my lilac #E6E6FA"]) {
+    assert.deepEqual(pick(resolveBackground(demo, request)), lavender, request);
+  }
+  assert.deepEqual(pick(resolveBackground(demo, "cream")), { name: "warm off-white", hex: "#FFFCF5", kind: "preset" });
+  assert.deepEqual(pick(resolveBackground(demo, "off white")), { name: "warm off-white", hex: "#FFFCF5", kind: "preset" });
+  assert.deepEqual(pick(resolveBackground(demo, "sky blue")), { name: "pale sky blue", hex: "#E3F2FD", kind: "preset" });
+
+  const mint = resolveBackground(demo, "Mint Green #dff5e6");
+  assert.deepEqual(pick(mint), { name: "mint green", hex: "#DFF5E6", kind: "custom" });
+  assert.equal(mint.phrase, "mint green background #DFF5E6");
+  assert.deepEqual(pick(resolveBackground(demo, "#FDF6E3")), { name: "custom", hex: "#FDF6E3", kind: "custom" });
+  assert.equal(resolveBackground(demo).phrase, backgroundPhrase({ name: "pure white", hex: "#FFFFFF" }));
+});
+
+test("resolveBackground refuses what it cannot honor and says why", () => {
+  const { registry } = load(withBackground());
+  const demo = registry.byId.get("demo");
+  const refuses = (request, pattern) => assert.throws(() => resolveBackground(demo, request), (error) => error instanceof BackgroundError && pattern.test(error.message), String(request));
+  refuses("mint", /unknown background "mint"; Demo Crab offers pure white \(default\), warm off-white, pale sky blue, pale lavender, or any light #RRGGBB color/);
+  refuses("facade", /unknown background "facade"/);
+  refuses("#12345", /unknown background/);
+  refuses("#GGGGGG", /unknown background/);
+  refuses("#222222", /#222222 is too dark: black marker lines and a white character body need a light page/);
+  refuses("navy #1A237E", /#1A237E is too dark/);
+  refuses("Mint Green! #DFF5E6", /color name "Mint Green!" must be lowercase words/);
+  refuses(`${"long ".repeat(10)}#DFF5E6`, /color name .* must be lowercase words of at most 30 characters/);
+  // An archetype that offers no choice has a fixed page.
+  assert.throws(() => resolveBackground(registry.byId.get("ink"), "white"), (error) => error instanceof BackgroundError && /InkExplain Sketch draws on a fixed background/.test(error.message));
+});
+
+test("the shipped Littlebox registry entry makes pure white the default, with the other three as presets", () => {
+  const { registry } = parseRegistry(REAL_REGISTRY_TEXT);
+  const littlebox = registry.byId.get("littlebox");
+  const policy = littlebox.styleSheet.background;
+  assert.deepEqual([policy.default.name, policy.default.hex], ["pure white", "#FFFFFF"]);
+  assert.deepEqual(policy.presets.map((preset) => preset.hex), ["#FFFCF5", "#E3F2FD", "#E6E6FA"]);
+  assert.equal(resolveBackground(littlebox).phrase, "pure white background #FFFFFF");
+  assert.equal(resolveBackground(littlebox, "pale lavender").hex, "#E6E6FA");
+  for (const archetype of registry.archetypes.filter((candidate) => candidate.id !== "littlebox")) {
+    assert.equal(archetype.styleSheet.background, undefined, `${archetype.id} keeps its fixed background`);
+  }
 });

@@ -78,6 +78,41 @@ test("the page fills every archetype's prompt exactly as the library does", () =
   }
 });
 
+test("the page's page-color picker fills a prompt exactly as the library does", () => {
+  const offering = data.archetypes.filter((archetype) => archetype.prompt.backgrounds.length > 0);
+  assert.deepEqual(offering.map((archetype) => archetype.id), ["littlebox"]);
+  for (const archetype of offering) {
+    const entry = registry.byId.get(archetype.id);
+    const options = { concept: "A queue waits behind one slow worker.", action: "bracing under a heap of coins" };
+    const form = { ...options, labels: "" };
+    for (const [index, choice] of archetype.prompt.backgrounds.entries()) {
+      // The picker's first choice is the default and holds an empty value, as the page builds it.
+      const picked = helpers.fillPrompt(archetype.prompt.template, archetype.prompt.defaults, { ...form, background: index === 0 ? "" : choice.phrase });
+      const library = assemblePrompt(repo, entry, { ...options, background: choice.name });
+      assert.equal(picked.text === library.prompt, true, `${archetype.id} on ${choice.name}: page text differs from the library`);
+      assert.equal(picked.fieldsLeft, library.unfilled.length, `${archetype.id} on ${choice.name}: fields left`);
+      assert.ok(picked.text.includes(`on a perfectly flat ${choice.phrase}.`), `${archetype.id} on ${choice.name}`);
+      assert.ok(!picked.text.includes("@@"), "no placeholder leaks into the prompt");
+    }
+    // Naming the default phrase explicitly is the same as saying nothing.
+    const explicit = helpers.fillPrompt(archetype.prompt.template, archetype.prompt.defaults, { ...form, background: archetype.prompt.defaults.background });
+    assert.equal(explicit.text, helpers.fillPrompt(archetype.prompt.template, archetype.prompt.defaults, form).text);
+  }
+});
+
+test("fillPrompt treats the default page as already chosen, and a picked page as given", () => {
+  const littlebox = data.archetypes.find((archetype) => archetype.id === "littlebox");
+  const bare = { concept: "", action: "", labels: "" };
+  const standard = helpers.fillPrompt(littlebox.prompt.template, littlebox.prompt.defaults, bare);
+  assert.ok(standard.text.includes("on a perfectly flat pure white background #FFFFFF."));
+  assert.equal(plain(standard.segments).some((segment) => segment.field && /background/.test(segment.text)), false, "the default page is not highlighted as a field to plan");
+
+  const lavender = helpers.fillPrompt(littlebox.prompt.template, littlebox.prompt.defaults, { ...bare, background: "pale lavender background #E6E6FA" });
+  assert.deepEqual(plain(lavender.segments).filter((segment) => segment.given).map((segment) => segment.text), ["pale lavender background #E6E6FA"]);
+  assert.equal(lavender.fieldsLeft, standard.fieldsLeft, "choosing a page does not change what is left to plan");
+  assert.ok(!lavender.text.includes("#FFFFFF"));
+});
+
 test("fillPrompt marks bracketed fields and what the visitor gave", () => {
   const archetype = data.archetypes.find((candidate) => candidate.id === "ferris");
   const empty = helpers.fillPrompt(archetype.prompt.template, archetype.prompt.defaults, { concept: "", action: "", labels: "" });
@@ -97,7 +132,9 @@ test("palette words get a colour, and unknown words get none", () => {
   assert.equal(helpers.swatchFor("explainer blue"), "#2F6FED");
   assert.equal(helpers.swatchFor("highlighter yellow"), "#FFD84D");
   assert.equal(helpers.swatchFor("orange or rust-red"), "#B7410E");
-  assert.equal(helpers.swatchFor("pale sky blue or lavender"), "#E3F2FD");
+  assert.equal(helpers.swatchFor("pale sky blue"), "#E3F2FD");
+  assert.equal(helpers.swatchFor("pale lavender"), "#E6E6FA");
+  assert.equal(helpers.swatchFor("pure white"), "#FFFFFF");
   assert.equal(helpers.swatchFor("Black"), "#17181A");
   assert.equal(helpers.swatchFor("iridescent"), null);
   for (const archetype of data.archetypes) {
@@ -125,6 +162,9 @@ test("the page is one offline file with the controls the task asks for", () => {
   }
   for (const id of ["category-chips", "technique-chips", "grid", "detail", "theme", "count", "reset"]) {
     assert.ok(html.includes(`id="${id}"`), `the page has #${id}`);
+  }
+  for (const text of ['id: "in-background"', "Background (optional)", '"Background"']) {
+    assert.ok(html.includes(text), `the page offers the page-color picker (${text})`);
   }
   assert.match(html, /prefers-color-scheme: dark/);
   assert.deepEqual(data.archetypes.map((archetype) => archetype.id), ["ink", "xiaohei", "littlebox", "ferris", "seal", "openclaw", "gopher", "tux"]);

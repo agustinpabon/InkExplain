@@ -7,19 +7,19 @@ Archetype `littlebox` (Littlebox), status `active`. Output folder: `assets/<arti
 Use the shared shot list from `references/workflow/concept-extraction.md`, plus:
 
 - **Littlebox state**: always `closed`.
-- **Background**: pale sky blue or lavender (`#E3F2FD` or `#E6E6FA`), assigned for the whole set before any prompt is written and kept balanced (see `style.md`).
+- **Background**: pure white `#FFFFFF`, or the one background the user named; the same for every image in the set (see `style.md`). State it once for the set.
 - **Composition family**: one from `motion-and-acting.md`.
 - **Visual metaphor**: the physical box action, such as "folds a large sheet into a small parcel".
 - **Rights note**: the note below, attached to the plan.
 
 ## Generation prompt
 
-Replace every bracketed field; one prompt per image.
+Replace every bracketed field; one prompt per image. The background field already holds the default, pure white: keep it as written unless the user named another background, and then write that background in the same form, such as `pale lavender background #E6E6FA`.
 
 ```text
 Generate one standalone [16:9] horizontal article illustration.
 
-Style: minimalist hand-drawn illustration on a flat [pale sky blue background #E3F2FD / pale lavender background #E6E6FA]. Bold marker illustration, chunky brush-pen style, fat-tipped black marker lines, not thin pen lines, very thick black outlines, dry brush texture with tiny gaps in ink coverage, organic rough edges, natural line weight variation, imperfect boxes and wobbly folds, warm handmade feel. Keep the set consistent: same stroke thickness, ink roughness, handwritten label feel, and Littlebox proportions. Generous whitespace, sparse and strange but clear. No gradients, shadows, paper texture, polished vector style, ruler-straight geometry, auto-traced edges, or thresholded or posterized bitmap look.
+Style: minimalist hand-drawn illustration on a perfectly flat [pure white background #FFFFFF]. Bold marker illustration, chunky brush-pen style, fat-tipped black marker lines, not thin pen lines, very thick black outlines, dry brush texture with tiny gaps in ink coverage, organic rough edges, natural line weight variation, imperfect boxes and wobbly folds, warm handmade feel. Keep the set consistent: same background, stroke thickness, ink roughness, handwritten label feel, and Littlebox proportions. Generous whitespace, sparse and strange but clear. No gradients, shadows, paper texture, borders, frames, polished vector style, ruler-straight geometry, auto-traced edges, or thresholded or posterized bitmap look.
 
 Character: Littlebox, a compact, squat closed paper-box character in front-left three-quarter view. White or near-white body as negative space, not tan cardboard, kraft brown, beige, or shaded material. The front panel is the largest visible face; one narrower side panel and the closed top lid are visible. Two calm black dot eyes centered on the upper-middle front panel. Tiny thin legs under the front panel. No mouth, smile, eyebrows, blush, costume, or accessories.
 Littlebox state: closed. The top flaps meet cleanly along one central front-to-back seam. Exactly one narrow amber seam tape #F59E0B runs along that seam; its small front tab hangs over the top front lip with an irregular sawtooth / jagged torn cut, usually 2-3 little teeth. Preserve the jagged front tab as the main tape cue.
@@ -62,11 +62,19 @@ Regenerate as a loose hand-drawn article illustration instead of a formal diagra
 Rights note: [append the rights note from this file].
 ```
 
+### Restore the background
+
+```text
+Regenerate the image with the same core idea, composition, Littlebox, labels, and marker style, but on a perfectly flat [pure white background #FFFFFF, or the background the user named] with no tint, gradient, texture, border, or frame. Keep Littlebox's body white, separated from the page by its thick black outline alone. Preserve everything else.
+
+Rights note: [append the rights note from this file].
+```
+
 ## Review and repair
 
 Check every image against `references/workflow/qa-checklist.md`, then:
 
-- One clean, flat `#E3F2FD` or `#E6E6FA` background; a set keeps sky blue and lavender balanced.
+- One clean, flat background: `#FFFFFF` unless the user named another, and identical in every image of the set.
 - The closed paper-box character is recognizable, with at least five markers from `identity.md`, including the single amber seam tape and its jagged torn front tab.
 - Littlebox is the active operator, using at most two side-seam twig arms and external props.
 - Outlines and labels share the same thick, rough, dry-brush marker; three to six handwritten labels in the user's language.
@@ -86,7 +94,7 @@ Any failure mode in `identity.md`, anything under Avoid in `style.md`, or a labe
 | Arm count wrong | Move extra categories into external props |
 | Body stretched, or the composition depends on opening the box | Move the action into a separate prop; keep Littlebox compact and closed |
 | Style drift: thin, smooth, or vector lines | Regenerate with the prompt's Style block, stressing rough hand-drawn marker labels and dry-brush linework |
-| Textured, shaded, or scenic background, or one color overused across a set without a thematic reason | Regenerate on the flat background assigned in the plan, and rebalance the set |
+| Tinted, textured, shaded, framed, or scenic background, or a background that differs from the rest of the set without a request | "Restore the background", filled with the set's background |
 | Wrong, crowded, or typeset labels | "When text fails" under Labels in `style.md` |
 | Missing rights note or credit | Restore the rights note |
 
@@ -94,7 +102,7 @@ Any failure mode in `identity.md`, anything under Avoid in `style.md`, or a labe
 
 - Archetype: Littlebox (`littlebox`), status `active`. Folder: `assets/<article-slug>-littlebox/`.
 - Repeat the rights note in the report: credit okooo5km or the 5km Littlebox Illustrations project in derived documentation (see this archetype's `rights.md`).
-- List each image's background, so the set's balance shows and re-renders keep it.
+- State the set's background once, so re-renders keep it; list each image's background only when the user asked for variety.
 - A strong image makes the reader think "That box is doing the idea."
 
 ## Rights note
@@ -102,5 +110,5 @@ Any failure mode in `identity.md`, anything under Avoid in `style.md`, or a labe
 Append this note to every generation and edit prompt, attach it to every plan, and repeat it in the delivery report:
 
 ```text
-Littlebox is adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commit 37cd93e. Credit okooo5km or the 5km Littlebox Illustrations project in any documentation derived from it. The credit belongs in plans, reports, and documentation, not in the image: draw no credit text, signature, or logo.
+Littlebox is adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004. Credit okooo5km or the 5km Littlebox Illustrations project in any documentation derived from it. The credit belongs in plans, reports, and documentation, not in the image: draw no credit text, signature, or logo.
 ```

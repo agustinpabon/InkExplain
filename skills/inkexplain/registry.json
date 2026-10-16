@@ -103,7 +103,7 @@
       "name": "Littlebox",
       "category": "tribute-character",
       "status": "active",
-      "summary": "A closed paper-box character in thick rough marker on pale sky-blue or lavender backgrounds that turns ideas into collecting, packaging, sorting, and delivering.",
+      "summary": "A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering.",
       "aliases": ["Littlebox", "小盒", "纸盒", "paper-box", "carton"],
       "outputSuffix": "littlebox",
       "motionDna": {
@@ -114,26 +114,40 @@
       },
       "styleSheet": {
         "medium": "Bold rough marker illustration with a handmade dry-brush feel",
-        "canvas": "16:9 on one flat pale sky-blue or lavender background; Littlebox fills 35-55%",
+        "canvas": "16:9 on one flat pure white background (#FFFFFF) unless the user names another; Littlebox fills 35-55%",
         "linework": "Thick, rough black marker with dry-brush gaps and wobbly folds",
-        "palette": ["black", "amber", "coral", "pale sky blue or lavender"],
+        "palette": ["black", "amber", "coral", "pure white"],
+        "background": {
+          "default": { "name": "pure white", "hex": "#FFFFFF", "aliases": ["white"] },
+          "presets": [
+            { "name": "warm off-white", "hex": "#FFFCF5", "aliases": ["off-white", "cream"] },
+            { "name": "pale sky blue", "hex": "#E3F2FD", "aliases": ["sky blue", "light blue"] },
+            { "name": "pale lavender", "hex": "#E6E6FA", "aliases": ["lavender"] }
+          ]
+        },
         "avoid": [
           "an open, half-open, or cutaway box",
           "realistic cardboard or a clean vector box icon",
           "cute mascot, sticker, or delivery-company looks",
-          "thin, ruler-straight, or auto-traced lines"
+          "thin, ruler-straight, or auto-traced lines",
+          "tinted, alternating, or mood-picked backgrounds the user did not ask for"
         ]
       },
       "legalNotice": {
-        "credit": "Adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commit 37cd93e",
+        "credit": "Adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004",
         "rightsHolder": "okooo5km",
         "license": "MIT",
-        "attributionTerms": ["okooo5km", "5km Littlebox Illustrations", "37cd93ee516da0324577b7bbc8ca3146e5c8d8d7"],
+        "attributionTerms": [
+          "okooo5km",
+          "5km Littlebox Illustrations",
+          "37cd93ee516da0324577b7bbc8ca3146e5c8d8d7",
+          "d760004243e8a8613f7d140dbe1c6ee0e0df352a"
+        ],
         "restrictions": ["Credit okooo5km or the 5km Littlebox Illustrations project in derived documentation."]
       },
       "sampleGates": {
         "status": "approved",
-        "decision": "Approved when these renders were first published; the character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.",
+        "decision": "Historical examples of the pale sky-blue and lavender options, which are no longer the default: pure white is. The character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.",
         "reviewer": "Agustin Pabon",
         "date": "2026-06-16",
         "directories": ["examples/gallery/en/littlebox", "examples/gallery/zh/littlebox"]

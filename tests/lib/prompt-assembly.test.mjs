@@ -20,7 +20,7 @@ import {
 } from "../../scripts/lib/prompt-assembly.mjs";
 import { loadRegistry, packFilePath } from "../../scripts/lib/registry.mjs";
 import { Repository } from "../../scripts/lib/repository.mjs";
-import { createFixture } from "../helpers/fixture.mjs";
+import { FIXTURE_BACKGROUND, createFixture } from "../helpers/fixture.mjs";
 
 const REPO_ROOT = path.resolve(import.meta.dirname, "../..");
 
@@ -295,4 +295,131 @@ test("the shipped templates keep the fields the CLI and the gallery fill, and Xi
   const pack = parsePromptPack(repo.readText(packFilePath(xiaohei, "prompts.md")));
   assert.ok(pack.negativePrompt?.startsWith("cute mascot, kawaii"));
   assert.equal(assemblePrompt(repo, xiaohei, {}).negativePrompt, pack.negativePrompt);
+});
+
+// A template whose style paragraph names its default page color in a field, as Littlebox's does.
+const BACKGROUND_TEMPLATE = [
+  "Generate one standalone [16:9] horizontal article illustration.",
+  "Style: a flat [pure white background #FFFFFF]. No gradients.",
+  "Scene: [core idea in one sentence].",
+].join("\n\n");
+
+test("a page-color field names its own default; the default is used as written and is not left to plan", () => {
+  const fields = scanTemplate(BACKGROUND_TEMPLATE);
+  assert.deepEqual(fields.map((field) => field.slot), ["aspect", "background", "scene"]);
+  assert.equal(fields[1].field, "pure white background #FFFFFF");
+
+  const standard = fillTemplate(BACKGROUND_TEMPLATE, {});
+  assert.match(standard.text, /^Style: a flat pure white background #FFFFFF\. No gradients\.$/m);
+  assert.deepEqual(standard.unfilled.map((entry) => entry.slot), ["scene"]);
+
+  const lavender = fillTemplate(BACKGROUND_TEMPLATE, { scene: "S", background: "pale lavender background #E6E6FA" });
+  assert.match(lavender.text, /^Style: a flat pale lavender background #E6E6FA\. No gradients\.$/m);
+  assert.deepEqual(matchesTemplate(BACKGROUND_TEMPLATE, lavender.text), { ok: true, problems: [] });
+  // A gallery placeholder is used verbatim, like the other tokens.
+  assert.match(fillTemplate(BACKGROUND_TEMPLATE, { background: "@@background@@" }).text, /^Style: a flat @@background@@\. No gradients\.$/m);
+
+  // Only a color with a hex names a page: other bracketed text stays a field for the planner.
+  const other = scanTemplate("Style: a flat [pale blue / lavender background #E3F2FD] and [pure white background].\n\nScene: [core idea in one sentence].");
+  assert.deepEqual(other.map((field) => field.slot), [null, null, "scene"]);
+});
+
+function fixtureWithBackground(t) {
+  const fixture = createFixture(t);
+  fixture.updateRegistry((data) => (data.archetypes[1].styleSheet.background = structuredClone(FIXTURE_BACKGROUND)));
+  fixture.rewritePack("demo").regenerateDocs();
+  const repo = new Repository(fixture.root);
+  return { fixture, repo, registry: loadRegistry(repo).registry };
+}
+
+test("assemblePrompt draws on the archetype's default page, and on another only when asked", (t) => {
+  const { repo, registry } = fixtureWithBackground(t);
+  const demo = registry.byId.get("demo");
+
+  const standard = assemblePrompt(repo, demo, { concept: "A crab sorts slips." });
+  assert.deepEqual({ name: standard.background.name, kind: standard.background.kind }, { name: "pure white", kind: "default" });
+  assert.match(standard.prompt, /^Style: a perfectly flat pure white background #FFFFFF\.$/m);
+  assert.deepEqual(standard.unfilled.map((entry) => entry.slot), ["action", "labels"], "the default page is not a field left to plan");
+
+  const lavender = assemblePrompt(repo, demo, { concept: "A crab sorts slips.", background: "lavender" });
+  assert.equal(lavender.background.kind, "preset");
+  assert.match(lavender.prompt, /^Style: a perfectly flat pale lavender background #E6E6FA\.$/m);
+  assert.doesNotMatch(lavender.prompt, /#FFFFFF/);
+
+  const custom = assemblePrompt(repo, demo, { background: "mint green #DFF5E6" });
+  assert.match(custom.prompt, /^Style: a perfectly flat mint green background #DFF5E6\.$/m);
+  assert.equal(custom.background.kind, "custom");
+
+  // Asking for the default by name changes nothing.
+  assert.equal(assemblePrompt(repo, demo, { background: "white" }).prompt, assemblePrompt(repo, demo, {}).prompt);
+
+  // A finished prompt on another page is still a faithful instance of the template.
+  const pack = parsePromptPack(repo.readText(packFilePath(demo, "prompts.md")));
+  assert.deepEqual(matchesTemplate(pack.template, lavender.prompt), { ok: true, problems: [] });
+});
+
+test("every image of a set gets the same page: the answer never depends on the idea or the position", (t) => {
+  const { repo, registry } = fixtureWithBackground(t);
+  const demo = registry.byId.get("demo");
+  const concepts = [
+    "A bottleneck sets the speed of the whole pipeline.",
+    "Regret grows when a decision is postponed.",
+    "A feeling of uncertainty before a launch.",
+    "A technical index speeds up a query.",
+    "An emotional reflection on a year of work.",
+    "A system diagram of three services.",
+  ];
+  const stylePage = (options) => concepts.map((concept) => assemblePrompt(repo, demo, { concept, ...options }).prompt.match(/^Style: .*$/m)[0]);
+  assert.deepEqual([...new Set(stylePage({}))], ["Style: a perfectly flat pure white background #FFFFFF."]);
+  assert.deepEqual([...new Set(stylePage({ background: "pale sky blue" }))], ["Style: a perfectly flat pale sky blue background #E3F2FD."]);
+});
+
+test("assemblePrompt refuses a page color it cannot honor, and one an archetype does not offer", (t) => {
+  const { fixture, repo, registry } = fixtureWithBackground(t);
+  const demo = registry.byId.get("demo");
+  const refused = (options, pattern) =>
+    assert.throws(() => assemblePrompt(repo, demo, options), (error) => error instanceof PromptInputError && pattern.test(error.message), JSON.stringify(options));
+  refused({ background: "mint" }, /unknown background "mint"/);
+  refused({ background: "#222222" }, /too dark/);
+  refused({ background: "navy #1A237E" }, /too dark/);
+
+  const house = registry.byId.get("ink");
+  assert.equal(assemblePrompt(repo, house, {}).background, null);
+  assert.throws(
+    () => assemblePrompt(repo, house, { background: "white" }),
+    (error) => error instanceof PromptInputError && /InkExplain Sketch draws on a fixed background and takes no background option/.test(error.message),
+  );
+
+  // A pack that lost its page-color field is a pack problem, not something the person typed wrong.
+  fixture.write(
+    packFilePath(demo, "prompts.md"),
+    "# Demo Prompts\n\n## Generation prompt\n\n```text\nDraw one idea.\n\nScene: [core idea in one sentence].\n```\n",
+  );
+  assert.throws(
+    () => assemblePrompt(new Repository(fixture.root), demo, { background: "lavender" }),
+    (error) => error instanceof PromptAssemblyError && !(error instanceof PromptInputError) && /lacks a \[<color> background #RRGGBB\] field/.test(error.message),
+  );
+  assert.doesNotThrow(() => assemblePrompt(new Repository(fixture.root), demo, {}), "the default needs no field");
+});
+
+test("Littlebox assembles on pure white by default, and on another page only when asked", () => {
+  const repo = new Repository(REPO_ROOT);
+  const { registry } = loadRegistry(repo);
+  const littlebox = registry.byId.get("littlebox");
+  const options = { concept: "A queue waits behind one slow worker.", action: "bracing under a heap of coins", labels: ["requests", "one clerk"] };
+
+  const standard = assemblePrompt(repo, littlebox, options);
+  assert.match(standard.prompt, /^Style: minimalist hand-drawn illustration on a perfectly flat pure white background #FFFFFF\./m);
+  assert.doesNotMatch(standard.prompt, /#E3F2FD|#E6E6FA|lavender|sky blue/i, "no stray blue or lavender anywhere in the prompt");
+  assert.equal(standard.background.hex, "#FFFFFF");
+  assert.deepEqual(standard.unfilled.filter((entry) => entry.slot === "background"), []);
+
+  const template = parsePromptPack(repo.readText(packFilePath(littlebox, "prompts.md"))).template;
+  for (const [request, hex] of [["pale lavender", "#E6E6FA"], ["sky blue", "#E3F2FD"], ["warm off-white", "#FFFCF5"], ["#FDF6E3", "#FDF6E3"]]) {
+    const chosen = assemblePrompt(repo, littlebox, { ...options, background: request });
+    assert.match(chosen.prompt, new RegExp(`on a perfectly flat [a-z -]+ background ${hex}\\.`), request);
+    assert.doesNotMatch(chosen.prompt, /#FFFFFF/, request);
+    assert.deepEqual(matchesTemplate(template, chosen.prompt), { ok: true, problems: [] }, request);
+  }
+  assert.throws(() => assemblePrompt(repo, littlebox, { ...options, background: "black" }), PromptInputError);
 });

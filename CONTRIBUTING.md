@@ -23,8 +23,8 @@ InkExplain enforces a **zero-dependency policy** for runtime and tooling. You do
 
 ### Available Scripts
 ```bash
-npm test             # Run all automated tests (196+ tests)
-npm run validate     # Run all repository compliance checks (36 checks)
+npm test             # Run all automated tests
+npm run validate     # Run all repository compliance checks
 npm run build:docs   # Recompile routing.md, README tables, and gallery data
 npm run check        # Full CI simulation (build:docs --check + validate + test)
 npm run explain -- --list   # Run the prompt generator CLI

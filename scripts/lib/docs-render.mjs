@@ -7,7 +7,7 @@ import path from "node:path";
 import { DOC_REGIONS, LOCALE_STRING_KEYS, PATHS } from "./config.mjs";
 import { buildGalleryData, renderGalleryData } from "./gallery-data.mjs";
 import { readRegion, replaceRegion } from "./markdown.mjs";
-import { CATEGORIES, STATUSES, outputDirectory, referencePaths } from "./registry.mjs";
+import { CATEGORIES, STATUSES, backgroundPhrase, outputDirectory, referencePaths } from "./registry.mjs";
 
 export const GENERATED_NOTICE =
   "<!-- Generated from skills/inkexplain/registry.json by `npm run build:docs`. Do not edit by hand. -->";
@@ -112,6 +112,16 @@ function renderSelectionTable(registry) {
   return rows.join("\n");
 }
 
+/** The page-color rule of an archetype that offers a choice, in one agent-facing line. */
+function renderBackgroundRule(background) {
+  const offered = background.presets.map((preset) => {
+    const aliases = preset.aliases?.length > 0 ? ` (also ${preset.aliases.map((alias) => `"${alias}"`).join(", ")})` : "";
+    return `${preset.name} ${preset.hex}${aliases}`;
+  });
+  const alternatives = offered.length === 0 ? "" : ` Offered only when the user asks: ${offered.join("; ")}.`;
+  return `- Background: ${backgroundPhrase(background.default)} by default, and the same in every image of a set.${alternatives} A light color the user names is used exactly as given. Never alternate backgrounds, rotate them for rhythm, or choose one from the idea's mood or topic.`;
+}
+
 function renderArchetypeCard(registry, archetype) {
   const { motionDna: motion, styleSheet: style, legalNotice: legal, sampleGates: samples } = archetype;
   const lines = [
@@ -125,6 +135,7 @@ function renderArchetypeCard(registry, archetype) {
     `- Output folder: ${code(outputDirectory(archetype))}`,
     `- Motion DNA: ${sentence(motion.actor)} Signature actions: ${motion.signatureActions.join(", ")}. Poses: ${motion.poses.join("; ")}. Timing: ${sentence(motion.timing)}`,
     `- Style sheet: ${sentence(style.medium)} Canvas: ${sentence(style.canvas)} Linework: ${sentence(style.linework)} Palette: ${style.palette.join(", ")}. Avoid: ${style.avoid.join("; ")}.`,
+    ...(style.background === undefined ? [] : [renderBackgroundRule(style.background)]),
     `- Credit: ${sentence(legal.credit)} Rights holder: ${sentence(legal.rightsHolder)} License: ${sentence(legal.license)}`,
   ];
   if (legal.restrictions.length > 0) {

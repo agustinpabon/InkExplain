@@ -40,6 +40,8 @@ export const USAGE = [
   "  --action <text>           what the actor physically does",
   "  --label <text>            a visible label; repeat it for two to six labels",
   "  --aspect <w:h>            aspect ratio (default: the archetype's canvas, 16:9)",
+  "  --background <color>      page color, for archetypes that offer one (Littlebox: pure white by default;",
+  '                            a preset name such as "lavender", or a light "#RRGGBB")',
   "  --format <format>         text (default), json, or prompt (the prompt alone)",
   "  --root <dir>              repository root (default: this checkout)",
   "",
@@ -68,8 +70,17 @@ function listing(registry) {
     thirdParty: archetype.thirdParty,
     samples: archetype.sampleGates.status,
     outputFolder: `assets/<article-slug>-${archetype.outputSuffix}/`,
+    background: backgroundListing(archetype),
     aliases: archetype.aliases,
   }));
+}
+
+/** The page colors an archetype offers, or null when its background is fixed. */
+function backgroundListing(archetype) {
+  const policy = archetype.styleSheet.background;
+  if (policy === undefined) return null;
+  const describe = ({ name, hex }) => `${name} ${hex}`;
+  return { default: describe(policy.default), presets: policy.presets.map(describe) };
 }
 
 function renderList(rows) {
@@ -122,6 +133,7 @@ function renderText(result, notices) {
     `Aspect ratio: ${result.aspectRatio}`,
     `Output folder: ${result.outputFolder}`,
   ];
+  if (result.background !== null) lines.push(`Background: ${result.background.name} ${result.background.hex} (${result.background.kind})`);
   if (archetype.thirdParty) lines.push(`Credit: ${archetype.legalNotice.credit}`);
   for (const notice of notices) lines.push(notice);
   lines.push("", "PROMPT", "------", result.prompt, "", "NEGATIVE PROMPT", "---------------", result.negativePrompt);
@@ -144,6 +156,7 @@ function renderJson(result, notices) {
     {
       archetype: { id: archetype.id, name: archetype.name, category: archetype.category, status: archetype.status },
       aspectRatio: result.aspectRatio,
+      background: result.background === null ? null : { name: result.background.name, hex: result.background.hex, kind: result.background.kind },
       prompt: result.prompt,
       negativePrompt: result.negativePrompt,
       rightsNote: result.rightsNote,
@@ -188,6 +201,7 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
         action: { type: "string" },
         label: { type: "string", multiple: true },
         aspect: { type: "string" },
+        background: { type: "string" },
         format: { type: "string" },
         root: { type: "string" },
       },
@@ -206,8 +220,9 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
   const format = options.format ?? "text";
   if (!FORMATS.includes(format)) return usageError(`--format must be one of ${FORMATS.join(", ")}, got ${JSON.stringify(format)}`);
   if (options.archetype !== undefined && options.archetype.trim() === "") return usageError("--archetype needs an id or an alias");
+  if (options.background !== undefined && options.background.trim() === "") return usageError("--background needs a color name or a #RRGGBB value");
 
-  const promptFlags = ["archetype", "concept", "action", "label", "aspect"].filter((flag) => options[flag] !== undefined);
+  const promptFlags = ["archetype", "concept", "action", "label", "aspect", "background"].filter((flag) => options[flag] !== undefined);
   if (options.list) {
     if (promptFlags.length > 0) return usageError(`--list cannot be combined with --${promptFlags[0]}`);
     if (format === "prompt") return usageError("--format prompt applies to a prompt, not to --list");
@@ -246,6 +261,7 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
       action: options.action,
       labels: options.label,
       aspect: options.aspect,
+      background: options.background,
     });
   } catch (error) {
     if (error instanceof PromptInputError) return usageError(error.message);

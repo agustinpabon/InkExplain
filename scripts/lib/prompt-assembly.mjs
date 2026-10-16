@@ -10,7 +10,7 @@
 // instance of its template. It reads files only through Repository.
 
 import { extractCodeBlocks, sectionBody } from "./markdown.mjs";
-import { outputDirectory, packFilePath } from "./registry.mjs";
+import { BackgroundError, outputDirectory, packFilePath, resolveBackground } from "./registry.mjs";
 
 /** A template, pack, or repository problem: the person who ran the tool cannot fix it by retyping. */
 export class PromptAssemblyError extends Error {}
@@ -26,6 +26,8 @@ export const MAX_ACTION_LENGTH = 300;
 export const MAX_LABEL_LENGTH = 40;
 
 const LABELS_FIELD_START = '"label 1"';
+// A page-color field names its own default, as in [pure white background #FFFFFF].
+const BACKGROUND_FIELD = /^[a-z][a-z -]*\sbackground\s#[0-9A-F]{6}$/i;
 const OPTIONAL_FIELD_START = "Reference sentence:";
 const ACTION_TAIL = ", caught at its decisive moment";
 const PARAGRAPH_BREAK = /\n{2,}/;
@@ -128,6 +130,7 @@ function slotOf(field, after, paragraphIndex) {
   if (field === SCENE_FIELD) return "scene";
   if (field === RIGHTS_NOTE_FIELD) return "rightsNote";
   if (field.startsWith(LABELS_FIELD_START)) return "labels";
+  if (BACKGROUND_FIELD.test(field)) return "background";
   if (after.startsWith(ACTION_TAIL)) return "action";
   return null;
 }
@@ -160,6 +163,7 @@ const SLOT_DESCRIPTIONS = Object.freeze({
   scene: `the [${SCENE_FIELD}] field`,
   action: `the action field before "${ACTION_TAIL.slice(2)}"`,
   labels: 'the ["label 1", "label 2", "label 3"] field',
+  background: "a [<color> background #RRGGBB] field",
 });
 
 /**
@@ -198,9 +202,10 @@ function joinValue(value, after) {
 
 /**
  * Fill the shared slots of a template. `values` may hold aspect, scene, action,
- * labels (an array, or text used verbatim), and rightsNote; slots without a value stay
- * bracketed. Returns { text, unfilled } where unfilled lists every bracketed field
- * left in the text as { section, field, slot, optional }.
+ * labels (an array, or text used verbatim), background, and rightsNote; slots without
+ * a value stay bracketed, except a background field, whose bracket text is itself the
+ * default color and is used as written. Returns { text, unfilled } where unfilled lists
+ * every bracketed field left in the text as { section, field, slot, optional }.
  */
 export function fillTemplate(template, values = {}) {
   const unfilled = [];
@@ -214,6 +219,7 @@ export function fillTemplate(template, values = {}) {
       if (slot === "scene") value = values.scene;
       else if (slot === "action") value = values.action;
       else if (slot === "rightsNote") value = values.rightsNote;
+      else if (slot === "background") value = values.background ?? field;
       else if (slot === "labels") value = typeof values.labels === "string" || values.labels === undefined ? values.labels : formatLabels(values.labels);
       if (value === undefined || value === null) {
         if (slot !== "aspect") unfilled.push({ section, field, slot, optional: field.startsWith(OPTIONAL_FIELD_START) });
@@ -303,21 +309,38 @@ export function withRightsNote(prompt, archetype, rightsNote) {
 }
 
 /**
+ * The page color of one image: the archetype's default unless the person asked for
+ * another, and null for an archetype whose background is fixed. Every image of a set
+ * gets the same answer; nothing here depends on the idea or on the image's position.
+ */
+function pageBackground(archetype, request) {
+  if (request === undefined && archetype.styleSheet.background === undefined) return null;
+  try {
+    return resolveBackground(archetype, request);
+  } catch (error) {
+    if (error instanceof BackgroundError) throw new PromptInputError(error.message);
+    throw error;
+  }
+}
+
+/**
  * Assemble the prompt for one archetype. `options` may hold concept, action,
- * labels (array), and aspect. Everything else in the template stays bracketed
- * and is listed in `unfilled`.
+ * labels (array), aspect, and background (for archetypes that offer a page color).
+ * Everything else in the template stays bracketed and is listed in `unfilled`.
  */
 export function assemblePrompt(repo, archetype, options = {}) {
   const file = packFilePath(archetype, "prompts.md");
   const text = repo.readTextIfExists(file);
   if (text === null) throw new PromptAssemblyError(`${file} is missing`);
   const { template, rightsNote, negativePrompt } = parsePromptPack(text);
+  const background = pageBackground(archetype, options.background);
   requireSlots(
     template,
     [
       options.concept === undefined ? null : "scene",
       options.action === undefined ? null : "action",
       options.labels === undefined || options.labels.length === 0 ? null : "labels",
+      options.background === undefined ? null : "background",
     ].filter(Boolean),
     file,
   );
@@ -328,12 +351,14 @@ export function assemblePrompt(repo, archetype, options = {}) {
     scene: options.concept === undefined ? undefined : cleanLine(options.concept, "the concept", MAX_CONCEPT_LENGTH),
     action: options.action === undefined ? undefined : cleanLine(options.action, "the action", MAX_ACTION_LENGTH),
     labels: options.labels === undefined || options.labels.length === 0 ? undefined : options.labels,
+    background: background?.phrase,
     rightsNote: rightsNote ?? undefined,
   });
 
   return {
     archetype,
     aspectRatio,
+    background,
     prompt: withRightsNote(filled.text, archetype, rightsNote),
     negativePrompt: buildNegativePrompt(archetype, negativePrompt),
     rightsNote: rightsNote ?? null,

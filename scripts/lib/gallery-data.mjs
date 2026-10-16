@@ -18,10 +18,10 @@ import {
   slotDefaults,
   withRightsNote,
 } from "./prompt-assembly.mjs";
-import { CATEGORIES, STATUSES, outputDirectory, packFilePath } from "./registry.mjs";
+import { CATEGORIES, STATUSES, backgroundPhrase, outputDirectory, packFilePath } from "./registry.mjs";
 
-/** Placeholders the page replaces with what the visitor types. */
-export const TOKENS = Object.freeze({ concept: "@@concept@@", action: "@@action@@", labels: "@@labels@@" });
+/** Placeholders the page replaces with what the visitor types or picks. */
+export const TOKENS = Object.freeze({ concept: "@@concept@@", action: "@@action@@", labels: "@@labels@@", background: "@@background@@" });
 
 export const CATEGORY_LABELS = Object.freeze({
   "house-style": "House style",
@@ -84,20 +84,40 @@ function promptData(repo, archetype) {
   // The page's three inputs fill these fields, so every pack must keep them.
   requireSlots(pack.template, ["scene", "action", "labels"], file);
   const aspectRatio = defaultAspect(archetype);
+  const policy = archetype.styleSheet.background;
   const filled = fillTemplate(pack.template, {
     aspect: aspectRatio,
     scene: TOKENS.concept,
     action: TOKENS.action,
     labels: TOKENS.labels,
+    background: policy === undefined ? undefined : TOKENS.background,
     rightsNote: pack.rightsNote ?? undefined,
   });
   const defaults = slotDefaults(pack.template);
   return {
     aspectRatio,
     template: withRightsNote(filled.text, archetype, pack.rightsNote),
-    defaults: { concept: defaults.scene ?? null, action: defaults.action ?? null, labels: defaults.labels ?? null },
+    defaults: {
+      concept: defaults.scene ?? null,
+      action: defaults.action ?? null,
+      labels: defaults.labels ?? null,
+      background: policy === undefined ? null : backgroundPhrase(policy.default),
+    },
+    // The page colors a visitor may pick; the first is the default, which needs no field.
+    backgrounds:
+      policy === undefined
+        ? []
+        : [policy.default, ...policy.presets].map((swatch) => ({ name: swatch.name, hex: swatch.hex, phrase: backgroundPhrase(swatch) })),
     negative: buildNegativePrompt(archetype, pack.negativePrompt),
   };
+}
+
+/** The page colors an archetype offers, for display. Null when its background is fixed. */
+function backgroundData(archetype) {
+  const policy = archetype.styleSheet.background;
+  if (policy === undefined) return null;
+  const plain = ({ name, hex }) => ({ name, hex });
+  return { default: plain(policy.default), presets: policy.presets.map(plain) };
 }
 
 /** The complete, JSON-ready gallery data for a registry. Throws when a pack has no usable template. */
@@ -114,7 +134,14 @@ export function buildGalleryData(repo, registry) {
       summary: archetype.summary,
       outputFolder: outputDirectory(archetype),
       motion: { actor: motion.actor, signatureActions: motion.signatureActions, poses: motion.poses, timing: motion.timing },
-      style: { medium: style.medium, canvas: style.canvas, linework: style.linework, palette: style.palette, avoid: style.avoid },
+      style: {
+        medium: style.medium,
+        canvas: style.canvas,
+        linework: style.linework,
+        palette: style.palette,
+        avoid: style.avoid,
+        background: backgroundData(archetype),
+      },
       legal: {
         credit: legal.credit,
         rightsHolder: legal.rightsHolder,

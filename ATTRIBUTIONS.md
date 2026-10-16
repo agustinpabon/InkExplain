@@ -33,8 +33,9 @@ Each archetype's rights record, `skills/inkexplain/references/archetypes/<id>/ri
 ### Littlebox
 
 - Adapted from 5km Littlebox Illustrations by okooo5km: <https://github.com/okooo5km/5km-littlebox-illustrations>
-- License: MIT; source copyright `Copyright (c) 2026 okooo5km`. Inspected commit: `37cd93ee516da0324577b7bbc8ca3146e5c8d8d7`.
-- When redistributing or adapting Littlebox-derived documentation, credit okooo5km or the 5km Littlebox Illustrations project.
+- License: MIT; source copyright `Copyright (c) 2026 okooo5km`. Inspected commits: `37cd93ee516da0324577b7bbc8ca3146e5c8d8d7`, from which the pack was adapted, and `d760004243e8a8613f7d140dbe1c6ee0e0df352a`, whose pure white default background the pack follows.
+- The source's `NOTICE.md` asks that redistributions keep the `5km Littlebox Illustrations` name or credit okooo5km in derived documentation. Do so when redistributing or adapting Littlebox-derived documentation.
+- Gallery samples: the Littlebox images in `examples/gallery/` are historical examples on the pale sky-blue and lavender options, predating the white default.
 
 ### OpenClaw
 

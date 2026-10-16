@@ -38,7 +38,7 @@ test("--help and -h print the usage and exit 0", () => {
     assert.equal(stdout, `${USAGE}\n`);
     assert.equal(stderr, "");
   }
-  for (const flag of ["--list", "--archetype", "--concept", "--action", "--label", "--aspect", "--format", "--root", "--help"]) {
+  for (const flag of ["--list", "--archetype", "--concept", "--action", "--label", "--aspect", "--background", "--format", "--root", "--help"]) {
     assert.ok(USAGE.includes(flag), `usage documents ${flag}`);
   }
   assert.equal(run(["--help", "--bogus"]).code, 2, "an unknown flag is still an error");
@@ -76,6 +76,60 @@ test("--list --format json is the same listing with rights holders and aliases",
   assert.equal(ferris.outputFolder, "assets/<article-slug>-ferris/");
   assert.ok(ferris.aliases.includes("Rust mascot"));
   assert.equal(rows.find((row) => row.id === "ink").thirdParty, false);
+  assert.deepEqual(rows.find((row) => row.id === "littlebox").background, {
+    default: "pure white #FFFFFF",
+    presets: ["warm off-white #FFFCF5", "pale sky blue #E3F2FD", "pale lavender #E6E6FA"],
+  });
+  assert.deepEqual(rows.filter((row) => row.background !== null).map((row) => row.id), ["littlebox"], "only Littlebox offers a page color");
+});
+
+test("--background keeps Littlebox on pure white by default and honors a preset or a light color", () => {
+  const base = ["--archetype", "littlebox", "--concept", "A queue waits behind one slow worker."];
+  const standard = run(base);
+  assert.equal(standard.code, 0, standard.stderr);
+  assert.match(standard.stdout, /^Background: pure white #FFFFFF \(default\)$/m);
+  assert.match(standard.stdout, /on a perfectly flat pure white background #FFFFFF\./);
+  assert.doesNotMatch(standard.stdout, /#E3F2FD|#E6E6FA|lavender|sky blue/i);
+  assert.doesNotMatch(standard.stdout, /^ *\d+\. .*background/im, "the default page is not a field left to plan");
+
+  const lavender = run([...base, "--background", "lavender"]);
+  assert.equal(lavender.code, 0, lavender.stderr);
+  assert.match(lavender.stdout, /^Background: pale lavender #E6E6FA \(preset\)$/m);
+  assert.match(lavender.stdout, /on a perfectly flat pale lavender background #E6E6FA\./);
+  assert.doesNotMatch(lavender.stdout, /#FFFFFF/);
+
+  assert.match(run([...base, "--background", "#E3F2FD"]).stdout, /^Background: pale sky blue #E3F2FD \(preset\)$/m);
+  assert.match(run([...base, "--background", "Pale Sky Blue"]).stdout, /^Background: pale sky blue #E3F2FD \(preset\)$/m);
+  assert.match(run([...base, "--background", "#FDF6E3"]).stdout, /^Background: custom #FDF6E3 \(custom\)$/m);
+  assert.match(run([...base, "--background", "mint green #DFF5E6"]).stdout, /on a perfectly flat mint green background #DFF5E6\./);
+  // Asking for the default by name is the same as saying nothing.
+  assert.equal(run([...base, "--background", "white"]).stdout, standard.stdout);
+});
+
+test("--background --format json and prompt report the page, and a series never alternates it", () => {
+  const concepts = ["A bottleneck sets the speed of the whole pipeline.", "A tender memory.", "A technical index speeds up a query.", "A quiet reflection.", "A system of three services."];
+  const pages = (extra) =>
+    concepts.map((concept) => JSON.parse(run(["--archetype", "littlebox", "--concept", concept, ...extra, "--format", "json"]).stdout).background);
+  assert.deepEqual([...new Set(pages([]).map((page) => JSON.stringify(page)))], [JSON.stringify({ name: "pure white", hex: "#FFFFFF", kind: "default" })]);
+  assert.deepEqual(
+    [...new Set(pages(["--background", "pale lavender"]).map((page) => JSON.stringify(page)))],
+    [JSON.stringify({ name: "pale lavender", hex: "#E6E6FA", kind: "preset" })],
+  );
+  assert.equal(JSON.parse(run(["--archetype", "ferris", "--concept", "x", "--format", "json"]).stdout).background, null);
+  const prompt = run(["--archetype", "littlebox", "--concept", "x", "--background", "cream", "--format", "prompt"]).stdout;
+  assert.match(prompt, /on a perfectly flat warm off-white background #FFFCF5\./);
+});
+
+test("--background is refused when the color is dark or unknown, or the archetype has a fixed page", () => {
+  const base = ["--archetype", "littlebox", "--concept", "x"];
+  refused([...base, "--background", "#222222"], 2, /the background #222222 is too dark: black marker lines and a white character body need a light page/);
+  refused([...base, "--background", "mint"], 2, /unknown background "mint"; Littlebox offers pure white \(default\), warm off-white, pale sky blue, pale lavender, or any light #RRGGBB color/);
+  refused([...base, "--background", "facade"], 2, /unknown background "facade"/);
+  refused([...base, "--background", "  "], 2, /--background needs a color name or a #RRGGBB value/);
+  refused(["--archetype", "ferris", "--concept", "x", "--background", "lavender"], 2, /Ferris draws on a fixed background and takes no background option/);
+  refused(["--concept", "x", "--background", "white"], 2, /InkExplain Sketch draws on a fixed background and takes no background option/);
+  refused(["--list", "--background", "white"], 2, /--list cannot be combined with --background/);
+  refused(["--background", "white"], 2, /--concept is required/);
 });
 
 test("--archetype and --concept assemble the prompt, negative prompt, and aspect ratio", () => {

@@ -7,7 +7,8 @@ import { defineCheck } from "../check-runner.mjs";
 import { PACK_FILES, PACK_FILE_SECTIONS, PATHS, RIGHTS_NOTE_SECTION } from "../config.mjs";
 import { planGeneratedDocuments } from "../docs-render.mjs";
 import { extractCodeBlocks, extractHeadings, sectionBody } from "../markdown.mjs";
-import { outputDirectory, packFilePath } from "../registry.mjs";
+import { parsePromptPack, scanTemplate } from "../prompt-assembly.mjs";
+import { backgroundPhrase, outputDirectory, packFilePath } from "../registry.mjs";
 import { includesFolded, lineOf } from "./support.mjs";
 
 // Each registry list must reach the pack files that put it to work: identity
@@ -214,6 +215,48 @@ export const schemaChecks = [
       if (plan.current === null) return [{ path: plan.path, message: "missing; run `npm run build:docs`" }];
       if (plan.current !== plan.expected) return [{ path: plan.path, message: "out of date with registry.json; run `npm run build:docs`" }];
       return [];
+    },
+  }),
+
+  defineCheck({
+    id: "SCHEMA-009",
+    area: "SCHEMA",
+    title: "page-color policy reaches the style sheet and the generation prompt",
+    requires: ["registry"],
+    run({ repo, registry }) {
+      const issues = [];
+      for (const archetype of registry.archetypes) {
+        const policy = archetype.styleSheet.background;
+        const prompts = readPackFile(repo, archetype, "prompts.md");
+        const style = readPackFile(repo, archetype, "style.md");
+        let template = null;
+        try {
+          template = prompts.text === null ? null : parsePromptPack(prompts.text).template;
+        } catch {
+          // SCHEMA-006 reports a prompts.md without a generation block.
+        }
+        const fields = template === null ? [] : scanTemplate(template).filter((field) => field.slot === "background");
+        if (policy === undefined) {
+          if (fields.length > 0) {
+            issues.push({ path: prompts.filePath, message: `has a [${fields[0].field}] field, but archetype ${archetype.id} declares no styleSheet.background` });
+          }
+          continue;
+        }
+        // The registry is the truth: the template's field must say the registry's default, so an agent
+        // that keeps the field as written draws on the default page.
+        const expected = backgroundPhrase(policy.default);
+        if (template !== null && (fields.length !== 1 || fields[0].field !== expected)) {
+          issues.push({ path: prompts.filePath, message: `the generation prompt needs exactly one [${expected}] field` });
+        }
+        if (style.text !== null) {
+          for (const swatch of [policy.default, ...policy.presets]) {
+            if (!includesFolded(style.text, swatch.hex)) {
+              issues.push({ path: style.filePath, message: `archetype ${archetype.id} background ${JSON.stringify(swatch.name)} ${swatch.hex} is missing` });
+            }
+          }
+        }
+      }
+      return issues;
     },
   }),
 ];

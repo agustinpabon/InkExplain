@@ -68,13 +68,13 @@ Plan before generating. For each image, give:
 6. **Visible labels**: two to six short labels in the user's language.
 7. **File name**: `NN-topic-slug.png`.
 
-Add the archetype's own planning fields from its `prompts.md`, such as an assigned background or a rights note.
+Add the archetype's own planning fields from its `prompts.md`, such as a page color or a rights note.
 
 Write planning notes in the user's language. Image prompts stay in English; see `references/workflow/prompt-assembly.md`.
 
 ## Planning a series
 
-- Keep the style constant: same archetype, palette, stroke weight, actor design, and label handwriting.
+- Keep the style constant: same archetype, palette, page color, stroke weight, actor design, and label handwriting. Change the page color within a set only when the user asks for that.
 - Vary the metaphor: no two images in a set share both the structure type and the main object.
 - Give each image its own entry point, so the set reads as a sequence rather than a grid of look-alikes.
 

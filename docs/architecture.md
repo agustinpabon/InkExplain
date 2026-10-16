@@ -76,7 +76,7 @@ InkExplain Sketch (`ink`) is original to InkExplain and brand-neutral. Its actor
 
 ## Archetype registry
 
-`skills/inkexplain/registry.json` holds, for each archetype: id, display name, category, status, summary, aliases, excluded terms, output suffix, `motionDna` (actor, signature actions, poses, timing), `styleSheet` (medium, canvas, linework, palette, things to avoid), `legalNotice` (credit, rights holder, license, attribution terms, restrictions), `sampleGates` (the public-sample decision), and the contract markers used by validation. Three consumers read it:
+`skills/inkexplain/registry.json` holds, for each archetype: id, display name, category, status, summary, aliases, excluded terms, output suffix, `motionDna` (actor, signature actions, poses, timing), `styleSheet` (medium, canvas, linework, palette, things to avoid, and optionally a `background` policy: a default page color plus presets the user may ask for), `legalNotice` (credit, rights holder, license, attribution terms, restrictions), `sampleGates` (the public-sample decision), and the contract markers used by validation. Three consumers read it:
 
 - `scripts/build-docs.mjs` renders `references/routing.md`, the archetype table and language selector in every README, and the data block of the offline gallery page;
 - `scripts/validate.mjs` checks the registry and everything derived from it;
@@ -120,7 +120,7 @@ scripts/
 | Area | Module | Checks |
 |---|---|---|
 | `PKG` | `package.mjs` | required files, SKILL.md frontmatter, length, and links, references that resolve inside the installed package, `openai.yaml`, package hygiene |
-| `SCHEMA` | `schema.mjs` | registry schema, alias integrity, the five pack files and their sections, registry-to-pack contracts, prompts and rights notes, isolation between packs, generated `routing.md` |
+| `SCHEMA` | `schema.mjs` | registry schema, alias integrity, the five pack files and their sections, registry-to-pack contracts, prompts and rights notes, isolation between packs, generated `routing.md`, the page-color policy reaching the style sheet and the generation prompt |
 | `DOC` | `docs.mjs` | README identity, links and anchors, generated README and gallery regions, translations, example prompt coverage |
 | `LEGAL` | `legal.mjs` | MIT terms and original copyright, ATTRIBUTIONS origins and credits, every `rights.md`, gated-archetype boundaries |
 | `ASSET` | `assets.mjs` | PNG and SVG integrity, the public-sample gate |

@@ -310,9 +310,9 @@ $inkexplain Use Littlebox. Prompt mode: one image for why every request stalls w
 | **Structure** | Pressure and overflow |
 | **Actor and action** | Littlebox braces both twig arms under a heap of loose coins that blocks the service window, lid shut |
 | **Metaphor** | A post office with one clerk. The clerk is the event loop, the coin heap is the blocking call, and each waiting ticket slip is a request. |
-| **Archetype** | `littlebox`: a closed paper box in thick rough marker on flat pale blue, adapted from okooo5km's Littlebox |
+| **Archetype** | `littlebox`: a closed paper box in thick rough marker on a flat pure white page, adapted from okooo5km's Littlebox |
 
-Littlebox draws itself plus two to four supporting elements, so the queue is three plain ticket slips on an amber path rather than a crowd. The fix is to move the work off the loop, for example with `await asyncio.to_thread(...)`, or a process pool for CPU-bound work.
+Littlebox draws itself plus two to four supporting elements, so the queue is three plain ticket slips on an amber path rather than a crowd. Its page is pure white unless you ask for another: add "on a pale lavender background" to the request, or `--background lavender` on the command line. The fix is to move the work off the loop, for example with `await asyncio.to_thread(...)`, or a process pool for CPU-bound work.
 
 <details>
 <summary>Complete prompt, aspect ratio, and negative prompt</summary>
@@ -320,7 +320,7 @@ Littlebox draws itself plus two to four supporting elements, so the queue is thr
 ```text
 Generate one standalone 16:9 horizontal article illustration.
 
-Style: minimalist hand-drawn illustration on a flat pale sky blue background #E3F2FD. Bold marker illustration, chunky brush-pen style, fat-tipped black marker lines, not thin pen lines, very thick black outlines, dry brush texture with tiny gaps in ink coverage, organic rough edges, natural line weight variation, imperfect boxes and wobbly folds, warm handmade feel. Keep the set consistent: same stroke thickness, ink roughness, handwritten label feel, and Littlebox proportions. Generous whitespace, sparse and strange but clear. No gradients, shadows, paper texture, polished vector style, ruler-straight geometry, auto-traced edges, or thresholded or posterized bitmap look.
+Style: minimalist hand-drawn illustration on a perfectly flat pure white background #FFFFFF. Bold marker illustration, chunky brush-pen style, fat-tipped black marker lines, not thin pen lines, very thick black outlines, dry brush texture with tiny gaps in ink coverage, organic rough edges, natural line weight variation, imperfect boxes and wobbly folds, warm handmade feel. Keep the set consistent: same background, stroke thickness, ink roughness, handwritten label feel, and Littlebox proportions. Generous whitespace, sparse and strange but clear. No gradients, shadows, paper texture, borders, frames, polished vector style, ruler-straight geometry, auto-traced edges, or thresholded or posterized bitmap look.
 
 Character: Littlebox, a compact, squat closed paper-box character in front-left three-quarter view. White or near-white body as negative space, not tan cardboard, kraft brown, beige, or shaded material. The front panel is the largest visible face; one narrower side panel and the closed top lid are visible. Two calm black dot eyes centered on the upper-middle front panel. Tiny thin legs under the front panel. No mouth, smile, eyebrows, blush, costume, or accessories.
 Littlebox state: closed. The top flaps meet cleanly along one central front-to-back seam. Exactly one narrow amber seam tape #F59E0B runs along that seam; its small front tab hangs over the top front lip with an irregular sawtooth / jagged torn cut, usually 2-3 little teeth. Preserve the jagged front tab as the main tape cue.
@@ -340,12 +340,12 @@ Color: black #000000 for strokes, the Littlebox outline, objects, and labels; am
 
 Constraints: one image, one core idea. No title, top-left title, or structure-type text. No formal PPT diagram, dense explainer, UI screenshot, logistics logo, cute mascot poster, realistic cardboard render, or clean vector box icon. No open box, raised flap, half-open lid, cutaway, visible interior, back-hinged lid, laptop/toolbox/chest/pizza-box lid, or tray, bucket, or mailbox opening. No third arm, lower arm, or tail-like helper line. No clean digital font labels. Do not stretch the Littlebox body.
 
-Rights note: Littlebox is adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commit 37cd93e. Credit okooo5km or the 5km Littlebox Illustrations project in any documentation derived from it. The credit belongs in plans, reports, and documentation, not in the image: draw no credit text, signature, or logo.
+Rights note: Littlebox is adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004. Credit okooo5km or the 5km Littlebox Illustrations project in any documentation derived from it. The credit belongs in plans, reports, and documentation, not in the image: draw no credit text, signature, or logo.
 ```
 
 ```text
 Aspect ratio: 16:9
-Negative prompt: an open, half-open, or cutaway box, realistic cardboard or a clean vector box icon, cute mascot, sticker, or delivery-company looks, thin, ruler-straight, or auto-traced lines, title, heading, or caption text, slide, infographic, flowchart, or dashboard look, crowded nodes and arrows, gradients, drop shadows, paper texture, 3D rendering, UI or code screenshots, logos, watermarks
+Negative prompt: an open, half-open, or cutaway box, realistic cardboard or a clean vector box icon, cute mascot, sticker, or delivery-company looks, thin, ruler-straight, or auto-traced lines, tinted, alternating, or mood-picked backgrounds the user did not ask for, title, heading, or caption text, slide, infographic, flowchart, or dashboard look, crowded nodes and arrows, gradients, drop shadows, paper texture, 3D rendering, UI or code screenshots, logos, watermarks
 ```
 
 </details>
@@ -359,7 +359,7 @@ An archetype fixes who performs the idea, how they move, and how the scene is dr
 |---|---|---|---|
 | InkExplain Sketch (`ink`, default) | `house-style` | InkExplain's own brand-neutral style: black ink line art, one explainer-blue flow accent, a single highlighter-yellow emphasis, and a neutral ink figure or hands that perform the idea. | `active` · MIT · InkExplain contributors |
 | Xiaohei (`xiaohei`) | `mascot` | Ian's Xiaohei, a small solid-black creature with white dot eyes and thin legs, doing serious, slightly absurd work inside sparse black-ink sketches on a pure white page. | `active` · MIT · Ian |
-| Littlebox (`littlebox`) | `tribute-character` | A closed paper-box character in thick rough marker on pale sky-blue or lavender backgrounds that turns ideas into collecting, packaging, sorting, and delivering. | `active` · MIT · okooo5km |
+| Littlebox (`littlebox`) | `tribute-character` | A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering. | `active` · MIT · okooo5km |
 | Ferris (`ferris`) | `mascot` | Ferris the Rustacean, the Rust community crab, performing the idea in sparse hand-drawn article sketches without Rust logos or endorsement cues. | `active` · CC0 public-domain dedication · Karen Rustad Tolva |
 | Seal (`seal`) | `mascot` | A product-neutral white seal in a plain navy cap and deep-blue hoodie, always logo-free, performing the idea in sparse article sketches. | `active` · No separate character license recorded; the pack text is MIT as part of InkExplain · Sealos (original mascot image) |
 | OpenClaw (`openclaw`) | `mascot` | The OpenClaw mascot, a red round character with claw-like arms, two antennae, and cyan pupils, performing the idea in sparse hand-drawn article sketches. | `active` · MIT · OpenClaw Foundation |
@@ -382,7 +382,7 @@ Renders shown with their archetype. InkExplain Sketch renders will be added afte
 | **OpenClaw** | **Go Gopher** | **Xiaohei** |
 | ![Idea press: the OpenClaw mascot works a press](examples/gallery/en/openclaw/06-idea-press.png) | ![Trust bridge: the gopher lays planks across a gap](examples/gallery/en/gopher/08-trust-bridge.png) | ![One fish, many uses: Xiaohei saws a source fish into an insight, a quote, and an example](examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
-Littlebox is adapted from okooo5km's 5km Littlebox Illustrations (MIT). Ferris by Karen Rustad Tolva (CC0). The Go gopher was designed by Renee French (CC BY 4.0). The OpenClaw mascot comes from the OpenClaw project (MIT). Xiaohei is Ian's character from Ian Xiaohei Illustrations (MIT). All renders are in [examples/gallery](examples/gallery): English labels for six archetypes, Chinese labels for four.
+Littlebox is adapted from okooo5km's 5km Littlebox Illustrations (MIT). Ferris by Karen Rustad Tolva (CC0). The Go gopher was designed by Renee French (CC BY 4.0). The OpenClaw mascot comes from the OpenClaw project (MIT). Xiaohei is Ian's character from Ian Xiaohei Illustrations (MIT). All renders are in [examples/gallery](examples/gallery): English labels for six archetypes, Chinese labels for four. The Littlebox renders are historical examples on the pale sky-blue and lavender options; Littlebox's own default is a pure white page.
 
 To browse them, open the [interactive gallery](examples/gallery/index.html) in a browser. It lists all eight archetypes with their motion rules, style, rights, and approved renders; filters them by category and technique; and assembles a prompt for your own idea with one-click copy. It is a single file that works from a checkout with no server and no network, and it lists no samples for an archetype whose renders are still pending review.
 

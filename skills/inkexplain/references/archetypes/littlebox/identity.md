@@ -6,7 +6,7 @@ Littlebox is a recurring closed paper-box character: a small, calm, deadpan oper
 
 - **State**: always closed (`Littlebox state: closed`).
 - **View**: front-left three-quarter. The front panel is the largest face; one narrower side panel and the closed top lid are visible.
-- **Body**: compact and squat, the front panel slightly wider than tall; white or near-white, never tan, kraft brown, beige, or realistic cardboard. Fat, rough, wobbly black marker outline.
+- **Body**: compact and squat, the front panel slightly wider than tall; white or near-white, never tan, kraft brown, beige, or realistic cardboard. Fat, rough, wobbly black marker outline; on the default white page that outline alone carries the shape.
 - **Face**: two small dot eyes centered on the upper-middle front panel. No mouth, smile, eyebrows, blush, costume, or accessories.
 - **Legs**: tiny, short vertical black strokes under the front panel.
 - **Arms**: side-seam twig arms whenever Littlebox handles, carries, pushes, catches, sorts, points, or holds: thin, curved, branch-like black strokes without hands, gloves, fingers, or sleeves. At most two, one from each side seam; never from the face, lid, lower body, eyes, or a prop.
@@ -28,6 +28,6 @@ Markers: box body, dot eyes, front-left three-quarter view, closed top flaps, ti
 - Missing twig arms in an action scene; extra or lower arms, tail-like helper lines, a wrong arm origin, mascot hands, fingers, gloves, or sleeves.
 - Tape missing, misplaced, duplicated, or so wide it reads as an orange flap; a smooth rectangular front tab instead of the jagged one; amber patches on panels or props.
 - Eyes off the front panel, or the three-quarter face lost.
-- A tan, brown, beige, or cardboard body; a box that reads as another object or stretches into a carton, tray, bridge, machine, pipe, or anonymous package.
+- A tan, brown, beige, or cardboard body; a tinted or shaded body fill or a drop shadow added to separate the box from a white page; a box that reads as another object or stretches into a carton, tray, bridge, machine, pipe, or anonymous package.
 - Thin, smooth, ruler-straight, auto-traced, thresholded, posterized, or clean vector linework.
 - A smiling cute mascot, accessories, or a delivery-company icon look.

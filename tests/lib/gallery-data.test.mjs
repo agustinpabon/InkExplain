@@ -14,7 +14,7 @@ import {
 } from "../../scripts/lib/gallery-data.mjs";
 import { CATEGORIES, STATUSES, loadRegistry, packFilePath } from "../../scripts/lib/registry.mjs";
 import { Repository } from "../../scripts/lib/repository.mjs";
-import { makePng, createFixture } from "../helpers/fixture.mjs";
+import { FIXTURE_BACKGROUND, makePng, createFixture } from "../helpers/fixture.mjs";
 
 const REPO_ROOT = path.resolve(import.meta.dirname, "../..");
 
@@ -94,19 +94,66 @@ test("each archetype carries a prompt template with the page's placeholders and 
   const data = buildGalleryData(repo, registry);
   for (const archetype of data.archetypes) {
     assert.equal(archetype.prompt.aspectRatio, "16:9", archetype.id);
-    for (const token of Object.values(TOKENS)) assert.ok(archetype.prompt.template.includes(token), `${archetype.id} ${token}`);
+    for (const token of [TOKENS.concept, TOKENS.action, TOKENS.labels]) {
+      assert.ok(archetype.prompt.template.includes(token), `${archetype.id} ${token}`);
+    }
+    assert.ok(!archetype.prompt.template.includes(TOKENS.background), `${archetype.id} offers no page color, so its template has no background token`);
     assert.match(archetype.prompt.template.split("\n")[0], /^Draw one idea with /, archetype.id);
     assert.deepEqual(archetype.prompt.defaults, {
       concept: "[core idea in one sentence]",
       action: "[specific physical action]",
       labels: '["label 1", "label 2", "label 3"]',
+      background: null,
     });
+    assert.deepEqual(archetype.prompt.backgrounds, [], archetype.id);
+    assert.equal(archetype.style.background, null, archetype.id);
     assert.ok(archetype.prompt.negative.length > 20, archetype.id);
   }
   const [ink, demo] = data.archetypes;
   assert.doesNotMatch(ink.prompt.template, /Rights note/);
   assert.match(demo.prompt.template, /^Rights note: .*Credit: Demo Crab by Example Author\./m);
   assert.ok(demo.prompt.negative.startsWith("logos"), "the avoid list leads");
+});
+
+test("an archetype that offers a page color gets a background token, its default, and the choices", (t) => {
+  const fixture = createFixture(t);
+  fixture.updateRegistry((data) => (data.archetypes[1].styleSheet.background = structuredClone(FIXTURE_BACKGROUND)));
+  fixture.rewritePack("demo");
+  const { repo, registry } = load(fixture.root);
+  const [ink, demo] = buildGalleryData(repo, registry).archetypes;
+
+  assert.ok(demo.prompt.template.includes(`flat ${TOKENS.background}.`), "the field became the page placeholder");
+  assert.doesNotMatch(demo.prompt.template, /#FFFFFF|\[pure white/, "no default is baked into the template, so a visitor's pick can replace it");
+  assert.equal(demo.prompt.defaults.background, "pure white background #FFFFFF");
+  assert.deepEqual(demo.prompt.backgrounds.map((choice) => choice.phrase), [
+    "pure white background #FFFFFF",
+    "warm off-white background #FFFCF5",
+    "pale sky blue background #E3F2FD",
+    "pale lavender background #E6E6FA",
+  ]);
+  assert.deepEqual(demo.style.background, {
+    default: { name: "pure white", hex: "#FFFFFF" },
+    presets: [
+      { name: "warm off-white", hex: "#FFFCF5" },
+      { name: "pale sky blue", hex: "#E3F2FD" },
+      { name: "pale lavender", hex: "#E6E6FA" },
+    ],
+  });
+  assert.equal(ink.style.background, null);
+  assert.deepEqual(ink.prompt.backgrounds, []);
+});
+
+test("the shipped gallery data gives Littlebox, and only Littlebox, a page color with pure white first", () => {
+  const { repo, registry } = load(REPO_ROOT);
+  const data = buildGalleryData(repo, registry);
+  const withChoice = data.archetypes.filter((archetype) => archetype.prompt.backgrounds.length > 0);
+  assert.deepEqual(withChoice.map((archetype) => archetype.id), ["littlebox"]);
+  const [littlebox] = withChoice;
+  assert.equal(littlebox.prompt.backgrounds[0].hex, "#FFFFFF");
+  assert.equal(littlebox.style.background.default.name, "pure white");
+  assert.ok(littlebox.prompt.template.includes(`flat ${TOKENS.background}.`));
+  assert.deepEqual(littlebox.style.palette, ["black", "amber", "coral", "pure white"]);
+  assert.doesNotMatch(`${littlebox.summary} ${littlebox.style.canvas}`, /E3F2FD|E6E6FA|lavender|sky/i, "the default is not described as blue or lavender");
 });
 
 test("a pack that drops a shared field fails the build with the file named", (t) => {
