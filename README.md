@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![CI](https://github.com/agustinpabon/InkExplain/actions/workflows/ci.yml/badge.svg)](https://github.com/agustinpabon/InkExplain/actions/workflows/ci.yml)
-[![Security: NVIDIA SkillSpector](https://img.shields.io/badge/Security-SkillSpector%20Passed-brightgreen)](SECURITY.md)
+[![Security scan: SkillSpector, 0 findings](https://img.shields.io/badge/Security%20scan-SkillSpector%2C%200%20findings-brightgreen)](SECURITY.md)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22-brightgreen)](package.json)
 
 *Ideas made visual.*
@@ -17,101 +17,65 @@ Turn complex ideas into beautiful, consistent hand-drawn illustrations with AI.
 **English** | [Español](./readmes/README.es.md) | [Português](./readmes/README.pt.md) | [Deutsch](./readmes/README.de.md) | [Français](./readmes/README.fr.md) | [简体中文](./readmes/README.zh.md) | [繁體中文](./readmes/README.zh-Hant.md) | [한국어](./readmes/README.ko.md) | [日本語](./readmes/README.ja.md) | [العربية](./readmes/README.ar.md) | [Русский](./readmes/README.ru.md) | [Türkçe](./readmes/README.tr.md) | [Українська](./readmes/README.uk.md)
 <!-- inkexplain:languages:end -->
 
-InkExplain is a visual-reasoning skill for AI agents. Give it an article, a document, a code snippet, or a single idea: it extracts the ideas worth drawing, turns each one into a physical action a character performs, and writes prompts that keep a whole series consistent. When your agent has an image-generation tool, it also generates, reviews, and saves the images.
+InkExplain is a skill for AI agents. Give it an article, a document, a piece of code, or a single idea. It finds the ideas worth drawing, turns each one into a physical action that a character performs, and writes a prompt for every image so that the whole series stays consistent. If your agent has an image tool, it also generates, reviews, and saves the images.
 
-## What it does
+| ![Ferris, the Rust crab, sorts a heap of loose pages into three labeled stacks.](examples/gallery/en/ferris/02-sort-by-purpose.png) | ![The Go gopher lays planks across a gap to build a bridge.](examples/gallery/en/gopher/08-trust-bridge.png) | ![Xiaohei saws a source fish into an insight, a quote, and an example.](examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
+|---|---|---|
+| **Ferris** (CC0) | **Go Gopher** (CC BY 4.0) | **Xiaohei** (MIT) |
 
-- **Plans** a shot list: where each image goes, the idea it carries, and the physical metaphor that shows it.
-- **Directs the actor**: every image has one character, hand, or machine performing the idea, posed at its decisive moment.
-- **Writes prompts** that hold a series together: one archetype, one style, a fresh metaphor per image.
-- **Generates and reviews** images with your agent's image tool, then saves them under predictable names.
-- **Repairs** illustrations: removes stray titles, fixes labels, simplifies crowded scenes, restores a character.
-
-It suits technical articles, product and architecture explanations, workflows, comparisons, cause-and-effect, course material, and long-form writing that needs a consistent visual voice.
-
-## How it works
-
-1. **Choose an archetype**: a character, its motion, and its visual style. With no request, InkExplain uses its own house style, InkExplain Sketch.
-2. **Extract the concept**: the core thesis and the cognitive anchors, such as breakpoints, handoffs, trade-offs, loops, and before-and-after changes.
-3. **Plan** one image per idea, each with a structure type, a place on the composition grid, and an everyday metaphor that the actor performs.
-4. **Assemble the prompt** from the archetype's template, in a fixed order, then generate one image per tool call.
-5. **Review** every image against the shared QA checklist and the archetype's own checks; repair or regenerate.
-6. **Save and report** to `assets/<article-slug>-…/` in your workspace.
-
-Planning and generation are separate on purpose. InkExplain does not include an image model; it uses the image-generation tool your agent provides. Without one, it switches to **prompt mode** and hands you complete, ready-to-run prompts. It never claims to have generated an image it did not.
+*Sample renders from the projects InkExplain builds on, shown unmodified with their credits ([where each came from](docs/provenance.md)). InkExplain's own styles, Sketch and Stickman, have no reviewed renders yet.*
 
 ## Install
 
-The skill is the folder `skills/inkexplain/`. Copy it to wherever your agent looks for skills.
-
-From a checkout of this repository:
-
 ```bash
-# Codex
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
-
-# Claude Code (personal skills; use .claude/skills/ inside a project to scope it)
-mkdir -p ~/.claude/skills
-cp -R skills/inkexplain ~/.claude/skills/
-
-# Cursor (personal skills; use .cursor/skills/ inside a project to scope it)
-mkdir -p ~/.cursor/skills
-cp -R skills/inkexplain ~/.cursor/skills/
+npx skills add agustinpabon/InkExplain --skill inkexplain
 ```
 
-Cursor also loads skills from the Claude Code and Codex folders, so a copy in either one is enough there.
+This uses the open [skills CLI](https://skills.sh) (Node.js 22.20 or newer). It detects your agent, such as Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, or Windsurf, and copies the skill into the folder that agent reads. Add `-g` to install it for all your projects, or `-a <agent>` to choose the agent. By default the CLI sends anonymous usage telemetry; set `DISABLE_TELEMETRY=1` to turn it off. InkExplain itself collects nothing.
 
-The planned public home of this repository is `agustinpabon/inkexplain`. It is not published yet; once it is, the [skills CLI](https://skills.sh) should be able to install it with:
-
-```bash
-npx skills add agustinpabon/inkexplain --skill inkexplain
-```
+Without Node.js, copy the folder `skills/inkexplain/` into your agent's skills folder yourself; [Supported environments](#supported-environments) lists them.
 
 ## Use
 
-In Codex, invoke the skill as `$inkexplain`. In Cursor, type `/` in Agent chat and pick `inkexplain`. In Claude Code and other hosts, ask for InkExplain by name or describe the task; the agent loads the skill when the request matches its description.
+Ask for InkExplain by name, or describe the task and let your agent pick the skill up. In Claude Code run `/inkexplain`; in Codex use `$inkexplain`.
 
 ```text
-$inkexplain Plan illustrations for this article. Don't generate yet.
+/inkexplain Illustrate this article with four images in the Littlebox style and save them in the project.
 
 <paste the article>
 ```
 
-```text
-$inkexplain Illustrate this post with four images and save them in the project.
-```
+More prompts, for every character, mixed requests, prompt-only runs, and repairs, are in [examples/prompts.md](examples/prompts.md).
 
-```text
-$inkexplain Use Ferris. One image for: "ownership means exactly one owner at a time."
-```
+Without an image tool (Claude Code has none built in), InkExplain switches to **prompt mode**: a shot list and one ready-to-paste prompt per image, saved as `prompts.md` in your project. It never claims to have generated an image it did not.
 
-```text
-$inkexplain Explain this algorithm using a stickman. Generate three illustrations.
-```
+## Supported environments
 
-```text
-$inkexplain Prompt mode: write prompts for three images that I can paste into my image tool.
-```
+| Agent | Skill folder in a project |
+|---|---|
+| Claude Code | `.claude/skills/inkexplain` |
+| Codex | `.agents/skills/inkexplain` |
+| Cursor | `.agents/skills/inkexplain`; Cursor also reads `.claude/skills/` and `.codex/skills/` |
+| Gemini CLI, GitHub Copilot, OpenCode | `.agents/skills/inkexplain` |
+| Windsurf | `.windsurf/skills/inkexplain` |
+| Other agents that read `SKILL.md` packages | their skills folder |
 
-More examples, including every archetype and mixed requests, are in [examples/prompts.md](examples/prompts.md).
+With `-g`, the CLI installs into the agent's personal folder instead (for example `~/.claude/skills/` for Claude Code and `~/.agents/skills/` for Codex).
 
-### From the command line
+What has been tested: the skills CLI places the skill correctly for each agent above, and Claude Code lists it and follows it (this release was exercised in Claude Code sessions with no image tool, in prompt mode). Not tested: running the skill inside Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, or Windsurf, and image generation with any image tool.
 
-No agent at hand? `scripts/explain.mjs` assembles a prompt from an archetype's own template. It needs Node.js 22 or newer, installs nothing, makes no network call, and writes no file.
+## What it does
 
-```bash
-node scripts/explain.mjs --list
-node scripts/explain.mjs --archetype ferris --concept "Two threads wait on each other" --label "lock A" --label "lock B"
-```
+1. **Choose a character.** An archetype fixes who performs the idea, how they move, and how the scene is drawn. With no request, InkExplain uses its own brand-neutral style, InkExplain Sketch.
+2. **Extract the concept.** The core thesis and the cognitive anchors: breakpoints, handoffs, trade-offs, loops, before-and-after changes.
+3. **Plan.** One image per idea, each with a structure type, a place on the composition grid, and an everyday metaphor that the character performs.
+4. **Write the prompts** from the archetype's own template, in a fixed order, and generate one image per tool call when your agent can.
+5. **Review and repair** every image against a shared checklist and the archetype's own: stray titles, misspelled labels, crowded scenes, off-model characters.
+6. **Save and report** to `assets/<article-slug>-…/` in your workspace, with a short delivery report.
 
-It prints the prompt, the negative prompt, and the aspect ratio, then lists the fields only you can plan (the structure, the positions, the props), which stay in `[brackets]` instead of being invented. `--action` fills the action field, `--aspect 1:1` changes the ratio, and `--format prompt` or `--format json` prints the prompt alone or everything for another tool. `--archetype` takes an id or any alias, and the default archetype is used when you give none. Run `node scripts/explain.mjs --help` for every option.
+It suits technical articles, product and architecture explanations, workflows, comparisons, course material, and code. [docs/walkthroughs.md](docs/walkthroughs.md) follows four examples from a snippet to the finished prompt: a Rust deadlock drawn by Ferris, a Go channel by the Go Gopher, an async Python loop by Littlebox, and a binary search by Stickman. Modes, output conventions, and the command-line prompt helper are in [docs/usage.md](docs/usage.md).
 
-## From code to hand-drawn metaphor
-
-InkExplain works on code as readily as on prose. [docs/walkthroughs.md](docs/walkthroughs.md) follows four examples from a code snippet to the complete prompt: a Rust deadlock drawn by Ferris, blocked senders on a Go channel drawn by the Go Gopher, a blocked Python event loop drawn by Littlebox, and a binary search drawn by Stickman.
-
-## Archetypes
+## Characters
 
 An archetype fixes who performs the idea, how they move, and how the scene is drawn. InkExplain Sketch is the default; every other archetype is chosen by name. Archetypes never mix inside one image.
 
@@ -129,14 +93,11 @@ An archetype fixes who performs the idea, how they move, and how the scene is dr
 | Tux (`tux`) | `mascot` | Tux, the Linux penguin created by Larry Ewing, performing the idea in sparse article sketches without distro logos, product graphics, or endorsement claims. | `active` · Free to use and modify with credit to Larry Ewing and The GIMP · Larry Ewing |
 <!-- inkexplain:archetypes:end -->
 
-- **Categories**: `house-style` is original to InkExplain; `mascot` is a project or community mascot used with credit; `tribute-character` is a character created by a third party, drawn within its rights boundary; `animation-preset` is reserved for original motion and staging presets.
-- **Statuses**: `active` archetypes are ready to use; `experimental` ones are selected only by name and flagged in every delivery; `gated-authorized` ones are used only when named, only within your own authorization, and never published without a recorded authorization.
-
-Aliases, motion DNA, style sheets, credits, and restrictions for every archetype are in [routing.md](skills/inkexplain/references/routing.md), generated from the archetype registry [registry.json](skills/inkexplain/registry.json).
+`active` archetypes are ready to use. `experimental` ones are selected only by name and flagged in every delivery. Aliases, motion rules, style sheets, credits, and restrictions for each are in [routing.md](skills/inkexplain/references/routing.md), generated from the registry [registry.json](skills/inkexplain/registry.json). Littlebox draws on a pure white page unless you ask for warm off-white, pale sky blue, pale lavender, or a light color of your own.
 
 ## Example gallery
 
-Renders shown with their archetype. InkExplain Sketch renders will be added after review.
+Renders shown with their archetype.
 
 | Littlebox | Ferris | Seal |
 |---|---|---|
@@ -148,66 +109,42 @@ Renders shown with their archetype. InkExplain Sketch renders will be added afte
 Littlebox is adapted from okooo5km's 5km Littlebox Illustrations (MIT). Ferris by Karen Rustad Tolva (CC0). The Go gopher was designed by Renee French (CC BY 4.0). The OpenClaw mascot comes from the OpenClaw project (MIT). Xiaohei is Ian's character from Ian Xiaohei Illustrations (MIT). All renders are in [examples/gallery](examples/gallery): English labels for six archetypes, Chinese labels for four. The Littlebox renders are historical examples on the pale sky-blue and lavender options; Littlebox's own default is a pure white page.
 <!-- inkexplain:gallery-credits:end -->
 
-To browse them, open the [interactive gallery](examples/gallery/index.html) in a browser. It lists all eight archetypes with their motion rules, style, rights, and approved renders; filters them by category and technique; and assembles a prompt for your own idea with one-click copy. It is a single file that works from a checkout with no server and no network, and it lists no samples for an archetype whose renders are still pending review.
+Open the [interactive gallery](examples/gallery/index.html) in a browser to see every archetype with its motion rules, style, rights, and approved renders, to filter by category and technique, and to assemble a prompt for your own idea with one-click copy. It is a single file that works from a checkout with no server and no network.
+
+Stickman is InkExplain's own character. Its reference sheet below is hand-built vector art, not an AI render; no render of Stickman has been reviewed yet.
+
+<p align="center">
+  <img src="skills/inkexplain/references/archetypes/stickman/pose-sheet.png" alt="Stickman reference sheet: the same stick figure in eight poses (carry, pull, push, point, weigh, bridge, stack, shrug) and five brow expressions." width="70%">
+</p>
 
 ## Adding New Characters and Animation Styles
 
-Archetypes are data plus Markdown. Adding one needs no validator code.
+```bash
+npm run archetype:add -- --id example-fox --name "Example Fox"
+```
 
-1. **Register it.** Add an entry to `archetypes` in [`skills/inkexplain/registry.json`](skills/inkexplain/registry.json): id, name, category, status, summary, aliases, output suffix, `motionDna`, `styleSheet`, `legalNotice`, `sampleGates`, and the identity and isolation markers in `contract`. Third-party characters need their rights holder, license, and attribution terms; protected ones start as `gated-authorized`.
-2. **Write the pack.** Create `skills/inkexplain/references/archetypes/<id>/` with the five pack files: `rights.md`, `identity.md`, `style.md`, `motion-and-acting.md`, and `prompts.md`. Copy the structure of an existing pack; the shared method in `references/workflow/` already covers everything else.
-3. **Generate and validate.** Add the credit to [ATTRIBUTIONS.md](ATTRIBUTIONS.md) and an example to [examples/prompts.md](examples/prompts.md), then run `npm run build:docs` and `npm run check`. The archetype table above, `routing.md`, and every translation update themselves.
-
-The full walkthrough, with a complete registry entry and the rights questions to answer first, is in [docs/adding-an-archetype.md](docs/adding-an-archetype.md).
-
-## Output conventions
-
-- Each archetype writes to its own folder in your workspace: `assets/<article-slug>-illustrations/` for the default, `assets/<article-slug>-<id>/` for the others.
-- Files are numbered English slugs: `01-two-breakpoints.png`, `02-handoff-path.png`.
-- Existing files are never overwritten; new versions get the next number or a `-v2` suffix.
-- In prompt mode inside a project, the prompts are saved as `prompts.md` in the same folder.
-- Every delivery ends with a short report: archetype, images and their purpose, paths, the strongest and optional images, open issues, and the rights note for third-party archetypes.
-
-## Supported environments
-
-| Host | Where the skill goes | Images |
-|---|---|---|
-| Codex | `${CODEX_HOME:-$HOME/.codex}/skills/inkexplain` | Uses the host's image-generation tool when one is available; the package also ships Codex metadata in `agents/openai.yaml`. |
-| Claude Code | `~/.claude/skills/inkexplain` or `.claude/skills/inkexplain` | Claude Code has no built-in image generator. InkExplain works in prompt mode unless you connect an image-generation tool, for example through an MCP server. |
-| Cursor | `~/.cursor/skills/inkexplain` or `.cursor/skills/inkexplain`; Cursor also reads the Claude Code and Codex folders | Generates when the agent has an image-generation tool, otherwise prompt mode. |
-| Other agents that load `SKILL.md` packages | the host's skills folder | Same rule: generate when an image tool exists, otherwise prompt mode. |
-
-## Customize
-
-- **Per request**: choose an archetype, the number of images, the aspect ratio, the label language, or the article slug in plain words.
-- **House style**: InkExplain Sketch lives in `skills/inkexplain/references/archetypes/ink/`. Change `style.md` and `prompts.md` together, and keep the palette in `registry.json` in step.
-- **New archetypes**: see [Adding New Characters and Animation Styles](#adding-new-characters-and-animation-styles).
-
-## Requirements
-
-- An agent that supports `SKILL.md` skill packages.
-- For generated images: an image-generation tool available to that agent.
-- For development: Node.js 22 or newer. There are no dependencies to install.
+One command writes the registry entry, the five-file pack, a credit, an example prompt, and the regenerated documents. It checks the whole result before it writes anything and never overwrites a file. The new archetype starts `experimental`, and whatever it cannot know, such as who holds the rights, is marked `UNRESOLVED` or `TODO` instead of being guessed; the checks refuse to promote a pack while a marker remains. The full walkthrough, with the rights questions to answer first, is in [docs/adding-an-archetype.md](docs/adding-an-archetype.md).
 
 ## Limitations
 
-- InkExplain ships no image model; image quality depends on the tool your agent uses.
+- InkExplain ships no image model; image quality depends on the tool your agent uses, and no image tool was available while this release was prepared.
 - Image models misspell labels, non-Latin scripts most of all. Keep labels short and review them.
-- InkExplain Sketch has no reviewed sample renders yet, and Stickman is `experimental`: its pack and pose sheet are complete, but no render has been reviewed, so each delivery says so.
-- Third-party archetypes carry their owners' restrictions. Gated archetypes are for use within your own authorization, and InkExplain does not publish samples for them.
-- The README translations were produced with AI assistance and have not been reviewed by professional translators. Generated tables keep registry data in English.
+- InkExplain Sketch has no reviewed sample renders, and Stickman is `experimental`: its pack and reference sheet are complete, but no render has been reviewed, so each delivery says so. The gallery images are copies from the projects InkExplain builds on; none was generated for this project.
+- Third-party archetypes carry their owners' terms, and not every right is settled: [docs/provenance.md](docs/provenance.md) lists what is still open, including the Seal's source mascot.
+- The README translations were produced with AI assistance, have not been reviewed by professional translators, and follow an earlier layout of this page, so they may lag behind it. Generated tables keep registry data in English.
 
-## Development
+## Documentation
 
-```bash
-npm test               # unit, check, CLI, and repository tests (Node's built-in runner)
-npm run validate       # validate the repository and skill package
-npm run build:docs     # regenerate routing.md, the README archetype tables, language selectors, and the gallery data
-npm run explain -- --list   # the command-line prompt helper; see "From the command line"
-npm run check          # everything CI runs
-```
-
-The architecture, progressive-disclosure model, check catalog, and release process are documented in [docs/architecture.md](docs/architecture.md) and [docs/release-checklist.md](docs/release-checklist.md). Contributor and agent guidelines are in [AGENTS.md](AGENTS.md).
+| | |
+|---|---|
+| [Using InkExplain](docs/usage.md) | modes, output conventions, command-line prompt helper, customizing |
+| [Code walkthroughs](docs/walkthroughs.md) | four snippets taken to a finished prompt |
+| [Adding a character](docs/adding-an-archetype.md) | rights first, the scaffold, promotion, publishing samples |
+| [Visual system](docs/visual-system.md) | what makes each style recognizable |
+| [Architecture](docs/architecture.md) | progressive disclosure, the registry, the checks |
+| [Provenance and rights record](docs/provenance.md) | where everything came from and what is still open |
+| [Security](SECURITY.md) | what the skill does and does not do, and how to report a problem |
+| [Contributing](CONTRIBUTING.md), [AGENTS.md](AGENTS.md) | development workflow; `npm run check` runs everything CI runs |
 
 ## Credits and license
 

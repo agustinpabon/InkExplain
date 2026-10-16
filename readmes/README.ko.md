@@ -37,29 +37,13 @@ InkExplain은 AI 에이전트를 위한 시각적 사고(visual reasoning) 스�
 
 ## 설치
 
-스킬은 `skills/inkexplain/` 폴더 그 자체입니다. 에이전트가 스킬을 찾는 위치에 이 폴더를 복사하세요.
-
-이 저장소를 체크아웃한 위치에서 다음을 실행합니다.
-
 ```bash
-# Codex
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
-
-# Claude Code (personal skills; use .claude/skills/ inside a project to scope it)
-mkdir -p ~/.claude/skills
-cp -R skills/inkexplain ~/.claude/skills/
-
-# Cursor (personal skills; use .cursor/skills/ inside a project to scope it)
-mkdir -p ~/.cursor/skills
-cp -R skills/inkexplain ~/.cursor/skills/
+npx skills add agustinpabon/InkExplain --skill inkexplain
 ```
 
-이 저장소는 `agustinpabon/inkexplain`에 공개될 예정입니다. 아직 공개되지 않았지만, 공개된 뒤에는 [skills CLI](https://skills.sh)로 다음과 같이 설치할 수 있을 것입니다.
+이 명령은 오픈 [skills CLI](https://skills.sh)를 사용합니다(Node.js 22.20 이상). 사용 중인 에이전트(예: Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, Windsurf)를 감지해, 그 에이전트가 읽는 폴더에 스킬을 복사합니다. `-g`를 붙이면 모든 프로젝트에 설치하고, `-a <agent>`를 붙이면 에이전트를 직접 고릅니다. 기본적으로 CLI는 익명 사용 텔레메트리를 보내며, `DISABLE_TELEMETRY=1`을 설정하면 끌 수 있습니다. InkExplain 자체는 아무것도 수집하지 않습니다.
 
-```bash
-npx skills add agustinpabon/inkexplain --skill inkexplain
-```
+Node.js가 없다면 `skills/inkexplain/` 폴더를 에이전트의 스킬 폴더에 직접 복사하세요. 폴더 목록은 "지원 환경" 절에 있습니다.
 
 ## 사용법
 
@@ -142,11 +126,18 @@ Littlebox는 okooo5km의 5km Littlebox Illustrations를 바탕으로 변형한 �
 
 ## 지원 환경
 
-| 호스트 | 스킬 위치 | 이미지 |
-|---|---|---|
-| Codex | `${CODEX_HOME:-$HOME/.codex}/skills/inkexplain` | 호스트에 이미지 생성 도구가 있으면 그것을 사용합니다. 패키지에는 `agents/openai.yaml`에 담긴 Codex 메타데이터도 포함되어 있습니다. |
-| Claude Code | `~/.claude/skills/inkexplain` 또는 `.claude/skills/inkexplain` | Claude Code에는 이미지 생성 기능이 내장되어 있지 않습니다. MCP 서버 등을 통해 이미지 생성 도구를 연결하지 않으면 InkExplain은 프롬프트 모드로 동작합니다. |
-| `SKILL.md` 패키지를 불러오는 기타 에이전트 | 호스트의 스킬 폴더 | 규칙은 같습니다. 이미지 도구가 있으면 생성하고, 없으면 프롬프트 모드로 동작합니다. |
+| 에이전트 | 프로젝트 안의 스킬 폴더 |
+|---|---|
+| Claude Code | `.claude/skills/inkexplain` |
+| Codex | `.agents/skills/inkexplain` |
+| Cursor | `.agents/skills/inkexplain`; Cursor는 `.claude/skills/`와 `.codex/skills/`도 읽습니다 |
+| Gemini CLI, GitHub Copilot, OpenCode | `.agents/skills/inkexplain` |
+| Windsurf | `.windsurf/skills/inkexplain` |
+| `SKILL.md` 패키지를 읽는 다른 에이전트 | 해당 에이전트의 스킬 폴더 |
+
+`-g`를 쓰면 CLI는 에이전트의 개인 폴더에 설치합니다(예: Claude Code는 `~/.claude/skills/`, Codex는 `~/.agents/skills/`).
+
+테스트한 것: skills CLI가 위의 각 에이전트에 스킬을 올바르게 배치하고, Claude Code가 이를 목록에 표시하고 따릅니다(이 릴리스는 이미지 도구 없이 프롬프트 모드로 Claude Code 세션에서 실행해 보았습니다). 테스트하지 않은 것: Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, Windsurf 안에서 스킬 실행, 그리고 어떤 이미지 도구로든 이미지 생성.
 
 ## 사용자 지정
 

@@ -37,29 +37,13 @@ InkExplain 是一個供 AI 代理程式使用的視覺推理技能（skill）。
 
 ## 安裝
 
-這個技能就是 `skills/inkexplain/` 資料夾。把它複製到你的代理程式讀取技能的位置即可。
-
-將本儲存庫 clone 到本機後，在根目錄執行：
-
 ```bash
-# Codex
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
-
-# Claude Code（個人技能；若只想用於特定專案，請改用專案內的 .claude/skills/）
-mkdir -p ~/.claude/skills
-cp -R skills/inkexplain ~/.claude/skills/
-
-# Cursor（個人技能；若只想用於特定專案，請改用專案內的 .cursor/skills/）
-mkdir -p ~/.cursor/skills
-cp -R skills/inkexplain ~/.cursor/skills/
+npx skills add agustinpabon/InkExplain --skill inkexplain
 ```
 
-本儲存庫預計公開託管於 `agustinpabon/inkexplain`，目前尚未發布；發布之後，應該就能透過 [skills CLI](https://skills.sh) 用以下指令安裝：
+這會使用開放的 [skills CLI](https://skills.sh)（需要 Node.js 22.20 或更新版本）。它會偵測你的智慧代理，例如 Claude Code、Codex、Cursor、Gemini CLI、GitHub Copilot、OpenCode 或 Windsurf，並把這個 skill 複製到該代理讀取的資料夾。加上 `-g` 可為你的所有專案安裝，加上 `-a <agent>` 可指定代理。預設情況下，該 CLI 會傳送匿名使用遙測；設定 `DISABLE_TELEMETRY=1` 即可關閉。InkExplain 本身不蒐集任何資料。
 
-```bash
-npx skills add agustinpabon/inkexplain --skill inkexplain
-```
+沒有 Node.js 時，請自行把資料夾 `skills/inkexplain/` 複製到你的代理的 skills 資料夾；「支援的環境」一節列出了這些資料夾。
 
 ## 使用方式
 
@@ -142,11 +126,18 @@ Littlebox 改編自 okooo5km 的 5km Littlebox Illustrations（MIT）。Ferris �
 
 ## 支援的環境
 
-| 宿主環境 | 技能安裝位置 | 圖片生成 |
-|---|---|---|
-| Codex | `${CODEX_HOME:-$HOME/.codex}/skills/inkexplain` | 宿主環境有提供圖像生成工具時就會使用；技能套件另外在 `agents/openai.yaml` 中附有 Codex 中繼資料。 |
-| Claude Code | `~/.claude/skills/inkexplain` 或 `.claude/skills/inkexplain` | Claude Code 沒有內建的圖像生成器。除非你接上圖像生成工具（例如透過 MCP 伺服器），否則 InkExplain 會以提示詞模式運作。 |
-| 其他能載入 `SKILL.md` 套件的代理程式 | 宿主環境的技能資料夾 | 規則相同：有圖像工具就生成，否則使用提示詞模式。 |
+| 代理 | 專案中的 skill 資料夾 |
+|---|---|
+| Claude Code | `.claude/skills/inkexplain` |
+| Codex | `.agents/skills/inkexplain` |
+| Cursor | `.agents/skills/inkexplain`; Cursor 也會讀取 `.claude/skills/` 和 `.codex/skills/` |
+| Gemini CLI, GitHub Copilot, OpenCode | `.agents/skills/inkexplain` |
+| Windsurf | `.windsurf/skills/inkexplain` |
+| 其他讀取 `SKILL.md` 套件的代理 | 它們的 skills 資料夾 |
+
+使用 `-g` 時，CLI 會改為安裝到該代理的個人資料夾（例如 Claude Code 的 `~/.claude/skills/` 與 Codex 的 `~/.agents/skills/`）。
+
+已測試：skills CLI 會為上面每個代理正確放置該 skill，Claude Code 會列出並遵循它（本版本在沒有圖像工具的 Claude Code 工作階段中，以提示詞模式試用）。未測試：在 Codex、Cursor、Gemini CLI、GitHub Copilot、OpenCode 或 Windsurf 中執行該 skill，以及使用任何圖像工具生成圖像。
 
 ## 自訂
 

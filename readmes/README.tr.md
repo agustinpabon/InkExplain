@@ -37,29 +37,13 @@ Planlama ve üretim bilerek birbirinden ayrılmıştır. InkExplain bir görsel 
 
 ## Kurulum
 
-Beceri, `skills/inkexplain/` klasörüdür. Bu klasörü, ajanınızın becerileri aradığı konuma kopyalayın.
-
-Bu deponun yerel bir kopyasından:
-
 ```bash
-# Codex
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
-
-# Claude Code (personal skills; use .claude/skills/ inside a project to scope it)
-mkdir -p ~/.claude/skills
-cp -R skills/inkexplain ~/.claude/skills/
-
-# Cursor (personal skills; use .cursor/skills/ inside a project to scope it)
-mkdir -p ~/.cursor/skills
-cp -R skills/inkexplain ~/.cursor/skills/
+npx skills add agustinpabon/InkExplain --skill inkexplain
 ```
 
-Bu deponun herkese açık olarak `agustinpabon/inkexplain` adresinde yayımlanması planlanıyor. Henüz yayımlanmadı; yayımlandığında [skills CLI](https://skills.sh) aracının beceriyi şu komutla kurabilmesi bekleniyor:
+Bu komut açık [skills CLI](https://skills.sh) aracını kullanır (Node.js 22.20 veya üzeri). Ajanınızı (Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode veya Windsurf gibi) algılar ve skill'i o ajanın okuduğu klasöre kopyalar. Tüm projeleriniz için kurmak üzere `-g`, ajanı seçmek için `-a <agent>` ekleyin. Varsayılan olarak CLI anonim kullanım telemetrisi gönderir; kapatmak için `DISABLE_TELEMETRY=1` ayarlayın. InkExplain'in kendisi hiçbir şey toplamaz.
 
-```bash
-npx skills add agustinpabon/inkexplain --skill inkexplain
-```
+Node.js yoksa `skills/inkexplain/` klasörünü ajanınızın skill klasörüne kendiniz kopyalayın; klasörler "Desteklenen ortamlar" bölümünde listelenmiştir.
 
 ## Kullanım
 
@@ -142,11 +126,18 @@ Eksiksiz bir kayıt girdisi örneğini ve önce yanıtlanması gereken hak sorul
 
 ## Desteklenen ortamlar
 
-| Ortam | Becerinin konumu | Görseller |
-|---|---|---|
-| Codex | `${CODEX_HOME:-$HOME/.codex}/skills/inkexplain` | Varsa ortamın görsel üretme aracını kullanır; paket ayrıca `agents/openai.yaml` içinde Codex meta verilerini de barındırır. |
-| Claude Code | `~/.claude/skills/inkexplain` veya `.claude/skills/inkexplain` | Claude Code'da yerleşik bir görsel üretici yoktur. Bir görsel üretme aracı bağlamadığınız sürece (örneğin bir MCP sunucusu üzerinden) InkExplain istem modunda çalışır. |
-| `SKILL.md` paketlerini yükleyen diğer ajanlar | ortamın beceri klasörü | Aynı kural: görsel aracı varsa üretir, yoksa istem modunda çalışır. |
+| Ajan | Bir projedeki skill klasörü |
+|---|---|
+| Claude Code | `.claude/skills/inkexplain` |
+| Codex | `.agents/skills/inkexplain` |
+| Cursor | `.agents/skills/inkexplain`; Cursor ayrıca `.claude/skills/` ve `.codex/skills/` klasörlerini de okur |
+| Gemini CLI, GitHub Copilot, OpenCode | `.agents/skills/inkexplain` |
+| Windsurf | `.windsurf/skills/inkexplain` |
+| `SKILL.md` paketlerini okuyan diğer ajanlar | kendi skill klasörleri |
+
+`-g` ile CLI, bunun yerine ajanın kişisel klasörüne kurar (örneğin Claude Code için `~/.claude/skills/`, Codex için `~/.agents/skills/`).
+
+Test edilenler: skills CLI, skill'i yukarıdaki her ajan için doğru yere koyar ve Claude Code onu listeler ve izler (bu sürüm, görsel aracı olmayan Claude Code oturumlarında istem modunda denendi). Test edilmeyenler: skill'i Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode veya Windsurf içinde çalıştırmak ve herhangi bir görsel aracıyla görsel üretmek.
 
 ## Özelleştirme
 

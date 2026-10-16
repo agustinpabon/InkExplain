@@ -37,29 +37,13 @@ InkExplain підходить для технічних статей, поясн
 
 ## Встановлення
 
-Навичка — це тека `skills/inkexplain/`. Скопіюйте її туди, де ваш агент шукає навички.
-
-З локальної копії цього репозиторію:
-
 ```bash
-# Codex
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
-
-# Claude Code (особисті навички; щоб навичка працювала лише в одному проєкті, використовуйте .claude/skills/ усередині нього)
-mkdir -p ~/.claude/skills
-cp -R skills/inkexplain ~/.claude/skills/
-
-# Cursor (особисті навички; щоб навичка працювала лише в одному проєкті, використовуйте .cursor/skills/ усередині нього)
-mkdir -p ~/.cursor/skills
-cp -R skills/inkexplain ~/.cursor/skills/
+npx skills add agustinpabon/InkExplain --skill inkexplain
 ```
 
-Запланована публічна адреса цього репозиторію — `agustinpabon/inkexplain`. Репозиторій ще не опубліковано; щойно це станеться, його, як очікується, можна буде встановити через [skills CLI](https://skills.sh) командою:
+Для цього використовується відкритий [skills CLI](https://skills.sh) (потрібен Node.js 22.20 або новіший). Він визначає вашого агента, наприклад Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode або Windsurf, і копіює навичку в папку, яку цей агент читає. Додайте `-g`, щоб встановити її для всіх ваших проєктів, або `-a <agent>`, щоб вибрати агента. За замовчуванням CLI надсилає анонімну телеметрію використання; задайте `DISABLE_TELEMETRY=1`, щоб вимкнути її. Сам InkExplain нічого не збирає.
 
-```bash
-npx skills add agustinpabon/inkexplain --skill inkexplain
-```
+Без Node.js скопіюйте папку `skills/inkexplain/` у папку навичок вашого агента самостійно; список папок наведено в розділі «Підтримувані середовища».
 
 ## Використання
 
@@ -142,11 +126,18 @@ Littlebox — адаптація 5km Littlebox Illustrations авторства 
 
 ## Підтримувані середовища
 
-| Середовище | Куди помістити навичку | Зображення |
-|---|---|---|
-| Codex | `${CODEX_HOME:-$HOME/.codex}/skills/inkexplain` | Використовує інструмент генерування зображень середовища, якщо він доступний; крім того, пакет містить метадані для Codex в `agents/openai.yaml`. |
-| Claude Code | `~/.claude/skills/inkexplain` або `.claude/skills/inkexplain` | Claude Code не має вбудованого генератора зображень. InkExplain працює в режимі промптів, доки ви не підключите інструмент генерування зображень, наприклад через MCP-сервер. |
-| Інші агенти, які завантажують пакети `SKILL.md` | тека навичок цього середовища | Те саме правило: генерування, якщо є інструмент для зображень, інакше — режим промптів. |
+| Агент | Папка навички в проєкті |
+|---|---|
+| Claude Code | `.claude/skills/inkexplain` |
+| Codex | `.agents/skills/inkexplain` |
+| Cursor | `.agents/skills/inkexplain`; Cursor також читає `.claude/skills/` і `.codex/skills/` |
+| Gemini CLI, GitHub Copilot, OpenCode | `.agents/skills/inkexplain` |
+| Windsurf | `.windsurf/skills/inkexplain` |
+| Інші агенти, що читають пакети `SKILL.md` | їхня папка навичок |
+
+З прапорцем `-g` CLI встановлює навичку в особисту папку агента (наприклад, `~/.claude/skills/` для Claude Code і `~/.agents/skills/` для Codex).
+
+Що перевірено: skills CLI правильно розміщує навичку для кожного агента з таблиці, а Claude Code показує її у списку й дотримується її (цей випуск випробовували в сесіях Claude Code без інструмента для зображень, у режимі промптів). Не перевірено: запуск навички всередині Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode або Windsurf і генерацію зображень будь-яким інструментом.
 
 ## Налаштування
 

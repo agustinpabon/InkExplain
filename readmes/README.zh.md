@@ -37,29 +37,13 @@ InkExplain 是一个面向 AI 智能体的视觉推理技能（skill）。交给
 
 ## 安装
 
-这个技能就是 `skills/inkexplain/` 目录。把它复制到你的智能体查找技能的位置即可。
-
-克隆本仓库后，在仓库根目录中执行：
-
 ```bash
-# Codex
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
-
-# Claude Code（个人技能；如果只想在某个项目中使用，请改用项目内的 .claude/skills/）
-mkdir -p ~/.claude/skills
-cp -R skills/inkexplain ~/.claude/skills/
-
-# Cursor（个人技能；如果只想在某个项目中使用，请改用项目内的 .cursor/skills/）
-mkdir -p ~/.cursor/skills
-cp -R skills/inkexplain ~/.cursor/skills/
+npx skills add agustinpabon/InkExplain --skill inkexplain
 ```
 
-本仓库计划公开托管于 `agustinpabon/inkexplain`，但目前尚未发布；发布之后，应该就能通过 [skills CLI](https://skills.sh) 用以下命令安装：
+这会使用开放的 [skills CLI](https://skills.sh)（需要 Node.js 22.20 或更高版本）。它会检测你的智能体，例如 Claude Code、Codex、Cursor、Gemini CLI、GitHub Copilot、OpenCode 或 Windsurf，并把这个 skill 复制到该智能体读取的文件夹中。加上 `-g` 可为你的所有项目安装，加上 `-a <agent>` 可指定智能体。默认情况下，该 CLI 会发送匿名使用遥测；设置 `DISABLE_TELEMETRY=1` 可将其关闭。InkExplain 本身不收集任何数据。
 
-```bash
-npx skills add agustinpabon/inkexplain --skill inkexplain
-```
+没有 Node.js 时，请自行把文件夹 `skills/inkexplain/` 复制到你的智能体的 skills 文件夹；“支持的环境”一节列出了这些文件夹。
 
 ## 使用方法
 
@@ -142,11 +126,18 @@ Littlebox 改编自 okooo5km 的 5km Littlebox Illustrations（MIT）。Ferris �
 
 ## 支持的环境
 
-| 宿主环境 | 技能安装位置 | 图片生成 |
-|---|---|---|
-| Codex | `${CODEX_HOME:-$HOME/.codex}/skills/inkexplain` | 宿主提供图像生成工具时就使用它；技能包还在 `agents/openai.yaml` 中附带了 Codex 元数据。 |
-| Claude Code | `~/.claude/skills/inkexplain` 或 `.claude/skills/inkexplain` | Claude Code 没有内置的图像生成器。除非你接入图像生成工具（例如通过 MCP 服务器），否则 InkExplain 会以提示词模式工作。 |
-| 其他能加载 `SKILL.md` 技能包的智能体 | 宿主的技能目录 | 规则相同：有图像工具就生成图片，否则使用提示词模式。 |
+| 智能体 | 项目中的 skill 文件夹 |
+|---|---|
+| Claude Code | `.claude/skills/inkexplain` |
+| Codex | `.agents/skills/inkexplain` |
+| Cursor | `.agents/skills/inkexplain`; Cursor 也会读取 `.claude/skills/` 和 `.codex/skills/` |
+| Gemini CLI, GitHub Copilot, OpenCode | `.agents/skills/inkexplain` |
+| Windsurf | `.windsurf/skills/inkexplain` |
+| 其他读取 `SKILL.md` 包的智能体 | 它们的 skills 文件夹 |
+
+使用 `-g` 时，CLI 会改为安装到该智能体的个人文件夹（例如 Claude Code 的 `~/.claude/skills/` 和 Codex 的 `~/.agents/skills/`）。
+
+已测试的内容：skills CLI 会为上面每个智能体正确放置该 skill，Claude Code 会列出并遵循它（本版本在没有图像工具的 Claude Code 会话中、以提示词模式进行了试用）。未测试的内容：在 Codex、Cursor、Gemini CLI、GitHub Copilot、OpenCode 或 Windsurf 中运行该 skill，以及使用任何图像工具生成图像。
 
 ## 自定义
 

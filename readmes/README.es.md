@@ -37,29 +37,13 @@ La planificación y la generación están separadas a propósito. InkExplain no 
 
 ## Instalación
 
-La skill es la carpeta `skills/inkexplain/`. Cópiala donde tu agente busque las skills.
-
-Desde una copia local de este repositorio:
-
 ```bash
-# Codex
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
-
-# Claude Code (skills personales; para limitarla a un proyecto, usa .claude/skills/ dentro de él)
-mkdir -p ~/.claude/skills
-cp -R skills/inkexplain ~/.claude/skills/
-
-# Cursor (skills personales; para limitarla a un proyecto, usa .cursor/skills/ dentro de él)
-mkdir -p ~/.cursor/skills
-cp -R skills/inkexplain ~/.cursor/skills/
+npx skills add agustinpabon/InkExplain --skill inkexplain
 ```
 
-La ubicación pública prevista de este repositorio es `agustinpabon/inkexplain`. Todavía no está publicado; cuando lo esté, la [CLI de skills](https://skills.sh) debería poder instalar la skill con:
+Usa la [CLI de skills](https://skills.sh) abierta (Node.js 22.20 o superior). Detecta tu agente, como Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode o Windsurf, y copia la skill en la carpeta que ese agente lee. Añade `-g` para instalarla en todos tus proyectos, o `-a <agente>` para elegir el agente. Por defecto, la CLI envía telemetría de uso anónima; define `DISABLE_TELEMETRY=1` para desactivarla. InkExplain no recopila nada.
 
-```bash
-npx skills add agustinpabon/inkexplain --skill inkexplain
-```
+Sin Node.js, copia tú mismo la carpeta `skills/inkexplain/` en la carpeta de skills de tu agente; la sección «Entornos compatibles» las enumera.
 
 ## Uso
 
@@ -142,11 +126,18 @@ La guía completa, con una entrada de registro completa y las preguntas sobre de
 
 ## Entornos compatibles
 
-| Entorno | Dónde va la skill | Imágenes |
-|---|---|---|
-| Codex | `${CODEX_HOME:-$HOME/.codex}/skills/inkexplain` | Usa la herramienta de generación de imágenes del entorno cuando hay una disponible; el paquete también incluye metadatos para Codex en `agents/openai.yaml`. |
-| Claude Code | `~/.claude/skills/inkexplain` o `.claude/skills/inkexplain` | Claude Code no tiene un generador de imágenes integrado. InkExplain funciona en modo de prompts, a menos que conectes una herramienta de generación de imágenes, por ejemplo mediante un servidor MCP. |
-| Otros agentes que cargan paquetes `SKILL.md` | la carpeta de skills del entorno | La misma regla: genera imágenes si hay una herramienta de imágenes; si no, usa el modo de prompts. |
+| Agente | Carpeta de la skill en un proyecto |
+|---|---|
+| Claude Code | `.claude/skills/inkexplain` |
+| Codex | `.agents/skills/inkexplain` |
+| Cursor | `.agents/skills/inkexplain`; Cursor también lee `.claude/skills/` y `.codex/skills/` |
+| Gemini CLI, GitHub Copilot, OpenCode | `.agents/skills/inkexplain` |
+| Windsurf | `.windsurf/skills/inkexplain` |
+| Otros agentes que leen paquetes `SKILL.md` | su carpeta de skills |
+
+Con `-g`, la CLI instala en la carpeta personal del agente (por ejemplo `~/.claude/skills/` para Claude Code y `~/.agents/skills/` para Codex).
+
+Qué se ha probado: la CLI de skills coloca la skill correctamente para cada agente de la tabla, y Claude Code la lista y la sigue (esta versión se ejercitó en sesiones de Claude Code sin herramienta de imágenes, en modo prompt). No se ha probado: ejecutar la skill dentro de Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode o Windsurf, ni generar imágenes con ninguna herramienta de imágenes.
 
 ## Personalización
 

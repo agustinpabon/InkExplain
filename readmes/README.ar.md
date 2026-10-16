@@ -37,29 +37,13 @@
 
 ## التثبيت
 
-المهارة هي المجلد `skills/inkexplain/`&lrm;. انسخه إلى المكان الذي يبحث فيه وكيلك عن المهارات.
-
-انطلاقًا من نسخة محلية من هذا المستودع:
-
 ```bash
-# Codex
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
-
-# Claude Code (personal skills; use .claude/skills/ inside a project to scope it)
-mkdir -p ~/.claude/skills
-cp -R skills/inkexplain ~/.claude/skills/
-
-# Cursor (personal skills; use .cursor/skills/ inside a project to scope it)
-mkdir -p ~/.cursor/skills
-cp -R skills/inkexplain ~/.cursor/skills/
+npx skills add agustinpabon/InkExplain --skill inkexplain
 ```
 
-العنوان العام المخطّط لهذا المستودع هو `agustinpabon/inkexplain`. لم يُنشر بعد؛ وبعد نشره، يُفترض أن تتمكّن [أداة سطر الأوامر skills](https://skills.sh) من تثبيت المهارة بالأمر التالي:
+يستخدم هذا الأمر [skills CLI](https://skills.sh) المفتوحة (تتطلب Node.js 22.20 أو أحدث). تكتشف الأداة وكيلك، مثل Claude Code أو Codex أو Cursor أو Gemini CLI أو GitHub Copilot أو OpenCode أو Windsurf، وتنسخ المهارة إلى المجلد الذي يقرأه ذلك الوكيل. أضف `-g` للتثبيت لكل مشاريعك، أو `-a <agent>` لاختيار الوكيل. افتراضيًا ترسل الأداة قياسات استخدام مجهولة؛ اضبط `DISABLE_TELEMETRY=1` لإيقافها. أما InkExplain نفسه فلا يجمع أي بيانات.
 
-```bash
-npx skills add agustinpabon/inkexplain --skill inkexplain
-```
+بدون Node.js، انسخ المجلد `skills/inkexplain/` بنفسك إلى مجلد المهارات الخاص بوكيلك؛ ويسرد قسم «البيئات المدعومة» هذه المجلدات.
 
 ## الاستخدام
 
@@ -142,15 +126,18 @@ $inkexplain وضع الموجّهات: اكتب موجّهات لثلاث صور
 
 ## البيئات المدعومة
 
-<div dir="rtl">
+| الوكيل | مجلد المهارة داخل المشروع |
+|---|---|
+| Claude Code | `.claude/skills/inkexplain` |
+| Codex | `.agents/skills/inkexplain` |
+| Cursor | `.agents/skills/inkexplain`; ويقرأ Cursor أيضًا `.claude/skills/` و`.codex/skills/` |
+| Gemini CLI, GitHub Copilot, OpenCode | `.agents/skills/inkexplain` |
+| Windsurf | `.windsurf/skills/inkexplain` |
+| وكلاء آخرون يقرؤون حزم `SKILL.md` | مجلد المهارات الخاص بهم |
 
-| البيئة المضيفة | مكان المهارة | الصور |
-|---|---|---|
-| Codex | &lrm;`${CODEX_HOME:-$HOME/.codex}/skills/inkexplain` | يستخدم أداة توليد الصور في البيئة المضيفة عند توفّرها؛ وتضمّ الحزمة أيضًا بيانات Codex الوصفية في `agents/openai.yaml`. |
-| Claude Code | &lrm;`~/.claude/skills/inkexplain` أو &lrm;`.claude/skills/inkexplain` | لا يتضمّن Claude Code مولّدًا مدمجًا للصور، لذا يعمل InkExplain في وضع الموجّهات ما لم توصِل أداةً لتوليد الصور، عبر خادم MCP مثلًا. |
-| الوكلاء الآخرون الذين يحمّلون حزم `SKILL.md` | مجلد المهارات في البيئة المضيفة | القاعدة نفسها: يولّد الصور عند توفّر أداة لها، وإلا يعمل في وضع الموجّهات. |
+مع `-g` تثبّت الأداة في المجلد الشخصي للوكيل بدلًا من ذلك (مثل `~/.claude/skills/` لـ Claude Code و`~/.agents/skills/` لـ Codex).
 
-</div>
+ما جرى اختباره: تضع skills CLI المهارة في المكان الصحيح لكل وكيل في الجدول أعلاه، ويعرضها Claude Code ويتبعها (جُرّب هذا الإصدار في جلسات Claude Code بلا أداة صور، في وضع المطالبات). وما لم يُختبر: تشغيل المهارة داخل Codex أو Cursor أو Gemini CLI أو GitHub Copilot أو OpenCode أو Windsurf، وتوليد الصور بأي أداة صور.
 
 ## التخصيص
 

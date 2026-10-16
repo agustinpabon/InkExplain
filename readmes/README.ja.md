@@ -37,29 +37,13 @@ InkExplain は AI エージェント向けのビジュアル推論スキルで�
 
 ## インストール
 
-スキルの実体は `skills/inkexplain/` フォルダーです。エージェントがスキルを探す場所に、このフォルダーをコピーしてください。
-
-このリポジトリをチェックアウトしたディレクトリで、次を実行します。
-
 ```bash
-# Codex
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R skills/inkexplain "${CODEX_HOME:-$HOME/.codex}/skills/"
-
-# Claude Code（個人用スキル。特定のプロジェクトだけで使う場合は、プロジェクト内の .claude/skills/ を使用）
-mkdir -p ~/.claude/skills
-cp -R skills/inkexplain ~/.claude/skills/
-
-# Cursor（個人用スキル。特定のプロジェクトだけで使う場合は、プロジェクト内の .cursor/skills/ を使用）
-mkdir -p ~/.cursor/skills
-cp -R skills/inkexplain ~/.cursor/skills/
+npx skills add agustinpabon/InkExplain --skill inkexplain
 ```
 
-このリポジトリは `agustinpabon/inkexplain` で公開する予定です。まだ公開されていませんが、公開後は [skills CLI](https://skills.sh) を使って次のようにインストールできるようになる見込みです。
+これはオープンな [skills CLI](https://skills.sh)（Node.js 22.20 以上）を使います。お使いのエージェント（Claude Code、Codex、Cursor、Gemini CLI、GitHub Copilot、OpenCode、Windsurf など）を検出し、そのエージェントが読み込むフォルダにスキルをコピーします。`-g` を付けるとすべてのプロジェクト向けに、`-a <agent>` を付けるとエージェントを指定してインストールします。既定では CLI は匿名の利用テレメトリを送信します。`DISABLE_TELEMETRY=1` を設定すると無効にできます。InkExplain 自体は何も収集しません。
 
-```bash
-npx skills add agustinpabon/inkexplain --skill inkexplain
-```
+Node.js がない場合は、フォルダ `skills/inkexplain/` をエージェントのスキルフォルダに自分でコピーしてください。フォルダの一覧は「対応環境」にあります。
 
 ## 使い方
 
@@ -142,11 +126,18 @@ Littlebox は okooo5km の 5km Littlebox Illustrations（MIT）を翻案した�
 
 ## 対応環境
 
-| ホスト | スキルの配置先 | 画像 |
-|---|---|---|
-| Codex | `${CODEX_HOME:-$HOME/.codex}/skills/inkexplain` | ホストに画像生成ツールがあれば、それを使います。パッケージには Codex 用のメタデータ（`agents/openai.yaml`）も含まれています。 |
-| Claude Code | `~/.claude/skills/inkexplain` または `.claude/skills/inkexplain` | Claude Code には画像生成機能が組み込まれていません。MCP サーバー経由などで画像生成ツールを接続しない限り、InkExplain はプロンプトモードで動作します。 |
-| `SKILL.md` パッケージを読み込むその他のエージェント | ホストのスキルフォルダー | ルールは同じです。画像ツールがあれば生成し、なければプロンプトモードで動作します。 |
+| エージェント | プロジェクト内のスキルフォルダ |
+|---|---|
+| Claude Code | `.claude/skills/inkexplain` |
+| Codex | `.agents/skills/inkexplain` |
+| Cursor | `.agents/skills/inkexplain`; Cursor は `.claude/skills/` と `.codex/skills/` も読み込みます |
+| Gemini CLI, GitHub Copilot, OpenCode | `.agents/skills/inkexplain` |
+| Windsurf | `.windsurf/skills/inkexplain` |
+| `SKILL.md` パッケージを読み込むその他のエージェント | そのエージェントのスキルフォルダ |
+
+`-g` を付けると、CLI はエージェントの個人用フォルダにインストールします（例: Claude Code は `~/.claude/skills/`、Codex は `~/.agents/skills/`）。
+
+テスト済み: skills CLI は上記の各エージェントにスキルを正しく配置し、Claude Code はそれを一覧に表示して従います（このリリースは、画像ツールなしのプロンプトモードで Claude Code のセッションで試しました）。未テスト: Codex、Cursor、Gemini CLI、GitHub Copilot、OpenCode、Windsurf の中でのスキルの実行と、いずれかの画像ツールによる画像生成。
 
 ## カスタマイズ
 
