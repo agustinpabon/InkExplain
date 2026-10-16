@@ -21,7 +21,7 @@ In prompt mode inside a project, save `prompts.md` in the archetype's output fol
 
 ## Plan mode
 
-Plan mode saves nothing and has no separate report: the shot list is the deliverable. Each archetype's block names its folder, its status when it is not `active`, and its rights note, so the plan can be turned into prompts later without asking again.
+Plan mode saves nothing and has no separate report: the shot list is the deliverable. Each archetype's block names its folder, its status when it is not `active`, and its rights note, so the plan carries everything needed to write the prompts later.
 
 ## Delivery report
 
