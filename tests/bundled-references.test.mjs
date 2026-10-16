@@ -29,7 +29,14 @@ test("the Go gopher reference is an unmodified copy of Takuya Ueda's drawing, as
 test("the credit for the reference drawing travels with the character: registry, rights record, credits, and the rights note", () => {
   const registry = JSON.parse(repo.readText("skills/inkexplain/registry.json"));
   const gopher = registry.archetypes.find((archetype) => archetype.id === "gopher");
-  for (const term of ["Takuya Ueda", "Creative Commons Attribution 3.0", "https://github.com/golang-samples/gopher-vector"]) {
+  // Both Creative Commons licenses ask for a copy of the license or its link with every copy of the work.
+  for (const term of [
+    "Takuya Ueda",
+    "Creative Commons Attribution 3.0",
+    "https://creativecommons.org/licenses/by/3.0/",
+    "https://creativecommons.org/licenses/by/4.0/",
+    "https://github.com/golang-samples/gopher-vector",
+  ]) {
     assert.ok(gopher.legalNotice.attributionTerms.includes(term), `the registry names ${term}`);
     for (const file of ["ATTRIBUTIONS.md", "skills/inkexplain/references/archetypes/gopher/rights.md", "skills/inkexplain/references/archetypes/gopher/prompts.md"]) {
       assert.ok(repo.readText(file).includes(term), `${file} names ${term}`);

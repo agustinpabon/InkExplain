@@ -167,7 +167,7 @@ Color use: black for main strokes, objects, the gopher's outline, and labels. Go
 
 Constraints: one image explains one core idea. No title, no top-left heading, no structure-type text, no dense text, no clean digital font labels, no crowded nodes, no formal diagrams. No Go logo and no logo-forward composition. No text or cues suggesting official Go project affiliation, approval, sponsorship, or endorsement. No credit line, URL, or license text in the image. No mascot asset-sheet layout, no code screenshots, no IDE or terminal scenes, no UI screenshots. Nothing from other archetypes, and no copied prior composition.
 
-Rights note: The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0; credit Renee French whenever these images are published. If the reference drawing gopher.png was attached, it is by Takuya Ueda (https://github.com/golang-samples/gopher-vector) under Creative Commons Attribution 3.0, so credit Takuya Ueda as well. No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement.
+Rights note: The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/); credit Renee French whenever these images are published. If the reference drawing gopher.png was attached, it is by Takuya Ueda (https://github.com/golang-samples/gopher-vector) under Creative Commons Attribution 3.0 (https://creativecommons.org/licenses/by/3.0/), so credit Takuya Ueda as well. No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement.
 ```
 
 ```text

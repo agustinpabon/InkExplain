@@ -96,7 +96,7 @@ Check every image against `references/workflow/qa-checklist.md`, then:
 ## Delivery notes
 
 - Archetype: Go Gopher (`gopher`), status `active`. Folder: `assets/<article-slug>-gopher/`.
-- Credit line: "The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0." Repeat the rights note in the report, and remind the user to credit Renee French next to any published image, and Takuya Ueda too when `gopher.png` was attached.
+- Credit line: "The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/)." Repeat the rights note in the report, and remind the user to credit Renee French next to any published image, and Takuya Ueda too when `gopher.png` was attached.
 - Say whether `gopher.png` was attached as the identity reference, and name any marker that needed repair.
 - Never call the images official Go artwork or imply that the Go project approved them.
 
@@ -105,5 +105,5 @@ Check every image against `references/workflow/qa-checklist.md`, then:
 Append this note to every generation and edit prompt, attach it to every plan, and repeat it in the delivery report:
 
 ```text
-The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0; credit Renee French whenever these images are published. If the reference drawing gopher.png was attached, it is by Takuya Ueda (https://github.com/golang-samples/gopher-vector) under Creative Commons Attribution 3.0, so credit Takuya Ueda as well. No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement.
+The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/); credit Renee French whenever these images are published. If the reference drawing gopher.png was attached, it is by Takuya Ueda (https://github.com/golang-samples/gopher-vector) under Creative Commons Attribution 3.0 (https://creativecommons.org/licenses/by/3.0/), so credit Takuya Ueda as well. No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement.
 ```
