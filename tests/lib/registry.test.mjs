@@ -187,7 +187,7 @@ test("the shipped registry keeps its archetypes with InkExplain Sketch as the de
   assert.deepEqual(aliasIssues, []);
   assert.equal(registry.skill, "inkexplain");
   // New archetypes may be added freely; these must not disappear by accident.
-  for (const id of ["ink", "stickman", "xiaohei", "littlebox", "ferris", "seal", "openclaw", "gopher", "tux"]) {
+  for (const id of ["ink", "stickman", "xiaohei", "littlebox", "ferris", "openclaw", "gopher", "tux"]) {
     assert.ok(registry.byId.has(id), id);
   }
   assert.equal(registry.archetypes[0].id, "ink", "the default archetype is listed first");
@@ -203,7 +203,6 @@ test("shipped aliases resolve to their archetypes", () => {
     xiaohei: ["Xiaohei", "xiaohei", "小黑", "Ian Xiaohei"],
     littlebox: ["小盒", "Littlebox", "纸盒", "paper-box", "carton"],
     ferris: ["Ferris", "Rust mascot", "Rust crab", "Rustacean", "Rust 吉祥物", "Rust 螃蟹"],
-    seal: ["Seal", "hoodie seal", "white seal", "blue hoodie seal", "海豹", "连帽衫海豹", "白色海豹", "蓝色连帽衫海豹"],
     openclaw: ["OpenClaw", "openclaw", "OpenClaw logo", "OpenClaw mascot", "OpenClaw 助手", "OpenClaw 吉祥物"],
     gopher: ["Go Gopher", "Gopher", "golang gopher", "Go mascot", "Go 吉祥物", "Gopher 吉祥物"],
     tux: ["Tux", "tux", "Linux Mascot", "Linux mascot", "Linux", "linux", "Linux penguin", "Tux penguin"],

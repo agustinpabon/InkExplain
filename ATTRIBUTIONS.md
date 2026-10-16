@@ -6,7 +6,7 @@ Each archetype's rights record, `skills/inkexplain/references/archetypes/<id>/ri
 
 ## Origins
 
-InkExplain builds on three earlier projects, all released under the MIT License. Its own code, tests, shared workflow, default style, Stickman, and documentation were written for InkExplain. Its project layout and release process follow the first project below, the wording of six of its character packs (Ferris, Go Gopher, Littlebox, OpenClaw, Seal, and Tux) adapts text from it, and the images in its example gallery are unmodified copies of files from the first two projects.
+InkExplain builds on three earlier projects, all released under the MIT License. Its own code, tests, shared workflow, default style, Stickman, and documentation were written for InkExplain. Its project layout and release process follow the first project below, the wording of five of its character packs (Ferris, Go Gopher, Littlebox, OpenClaw, and Tux) adapts text from it, and the images in its example gallery are unmodified copies of files from the first two projects.
 
 - **Visual IP Illustrations** by yangchuansheng (Carson Yang), a fork of Ian Xiaohei Illustrations: <https://github.com/yangchuansheng/visual-ip-illustrations>. MIT License; the fork keeps `Copyright (c) 2026 Ian`. Inspected commit: `30a9d4e05124fda05356acb679fa2989ed5cb51c`.
 - **Ian Xiaohei Illustrations** by Ian (helloianneo): <https://github.com/helloianneo/ian-xiaohei-illustrations>. MIT License; `Copyright (c) 2026 Ian`. Inspected commit: `4102eb807f03bcb6e538a16e8b31b41db8b5b954`. The original skill that Visual IP Illustrations forks, and the source of Xiaohei and of the Chinese-labeled Xiaohei images.
@@ -91,11 +91,6 @@ Only Xiaohei's images are published. The samples of the other characters that ea
 - The OpenClaw mascot comes from the OpenClaw project: <https://github.com/openclaw/openclaw>
 - License: MIT; `Copyright (c) 2026 OpenClaw Foundation`; reviewed at commit `c14793d35a10936ddea833e7808083fe57930616`.
 - The archetype makes no claim of official OpenClaw affiliation or endorsement.
-
-### Seal
-
-- A product-neutral hoodie seal derived from a historical Sealos mascot image. That image is not bundled.
-- The archetype is logo-free and is not an official Sealos mascot or a product endorsement.
 
 ## Trademarks
 

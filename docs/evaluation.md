@@ -32,10 +32,10 @@ Whether a metaphor is good is a judgment, and nothing here scores it.
 | 11 | "Use Xiaohei. One image: ..." | Xiaohei | prompt | 9/9 |
 | 12 | "Use the Go Gopher. One image: ..." | Go Gopher | prompt | 9/9 |
 | 13 | "Draw it with Tux. One image: ..." | Tux | prompt | 9/9 |
-| 14 | "Use the hoodie seal. One image: ..." | Seal | prompt | 9/9 |
+| 14 | "Use the hoodie seal. One image: ..." | Seal (since withdrawn) | prompt | 9/9 |
 | 15 | "Use OpenClaw. One image: ..." | OpenClaw | prompt | 9/9 |
 
-That is 164 mechanical checks, and every run passed all of them against the pack it ran on. Three notes on how to read it:
+That is 164 mechanical checks, and every run passed all of them against the pack it ran on. Scenario 14 ran against the Seal pack, which has since been withdrawn because permission to redistribute the character could not be established ([provenance](provenance.md#withdrawn-characters)); no other scenario depends on it. Three notes on how to read it:
 
 - The checker itself needed two corrections, both about the request and not the skill: it first looked for English words when judging whether a Spanish reply admitted that nothing was generated (#5), and it first expected saved prompts from a request that asked only to plan (#10). The agents' replies were right both times.
 - The skill was installed twice. #1 to #10 ran on the first install. #11 to #15, and new runs of #1 and #4, ran on a second install made after the first round of fixes below; the fixes that came out of those later runs were not tried again, and neither were the last few edits (Generate mode saving its prompts, the license file's wording). #2, #3, and #5 to #10 were not repeated at all. #7 passed against the Sketch template of its day; the template later gained the words "no structure-type text", and #1, run again, passes on the final template.

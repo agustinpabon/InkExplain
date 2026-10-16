@@ -8,7 +8,7 @@ Last checked: 2026-10-16. Licenses were read from each repository's `LICENSE` fi
 
 | Project | Maintainer | License as read | Commit inspected | What InkExplain took from it |
 |---|---|---|---|---|
-| [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations) | yangchuansheng (Carson Yang) | MIT, `Copyright (c) 2026 Ian`. A fork of the project below, created 2026-06-12. | `30a9d4e05124fda05356acb679fa2989ed5cb51c` | the project layout and release process, the wording of six character packs, the English Xiaohei images (it also supplied the withheld sets below), `gopher.png` |
+| [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations) | yangchuansheng (Carson Yang) | MIT, `Copyright (c) 2026 Ian`. A fork of the project below, created 2026-06-12. | `30a9d4e05124fda05356acb679fa2989ed5cb51c` | the project layout and release process, the wording of five character packs, the English Xiaohei images (it also supplied the withheld sets below), `gopher.png` |
 | [Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations) | Ian (helloianneo) | MIT, `Copyright (c) 2026 Ian`. Created 2026-05-27. | `4102eb807f03bcb6e538a16e8b31b41db8b5b954` | Xiaohei, the Chinese-labeled Xiaohei images, the original skill concept |
 | [5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations) | okooo5km | MIT, `Copyright (c) 2026 okooo5km`. Its `NOTICE.md` asks for the project name or a credit to okooo5km in derived documentation. | `37cd93ee516da0324577b7bbc8ca3146e5c8d8d7` and `d760004243e8a8613f7d140dbe1c6ee0e0df352a` | the Littlebox rules, and the pure white default background |
 | [OpenClaw](https://github.com/openclaw/openclaw) | OpenClaw Foundation | MIT, `Copyright (c) 2026 OpenClaw Foundation`. The repository states no separate license or trademark policy for its mascot. | `c14793d35a10936ddea833e7808083fe57930616` | a description of the OpenClaw mascot |
@@ -26,10 +26,10 @@ Wording shared with the upstream projects was measured by comparing runs of cons
 | InkExplain Sketch and Stickman packs | 0% | 1% |
 | Xiaohei pack | 1% | 4% |
 | README, contributor guides, and example prompts | 4% | 6% |
-| Ferris, Go Gopher, OpenClaw, Seal, and Tux packs | 13-16% | 22-24% |
+| Ferris, Go Gopher, OpenClaw, and Tux packs (measured with the withdrawn Seal pack in the group) | 13-16% | 22-24% |
 | Littlebox pack | 13%: 12% in Visual IP Illustrations, 6% in the Littlebox source | 23%: 22% in Visual IP Illustrations, 13% in the Littlebox source |
 
-So the code, tests, shared method, default style, Stickman, and documentation were written for InkExplain, while about a quarter of the wording of the six character packs, mostly in their motion guides, adapts text from Visual IP Illustrations. The project layout (an agents guide, a language policy, a release checklist, README translations in the same twelve languages, a package validator) follows that project too, with different text.
+So the code, tests, shared method, default style, Stickman, and documentation were written for InkExplain, while about a quarter of the wording of the character packs it supplied (six when measured; Seal's has since been withdrawn), mostly in their motion guides, adapts text from Visual IP Illustrations. The project layout (an agents guide, a language policy, a release checklist, README translations in the same twelve languages, a package validator) follows that project too, with different text.
 
 ## Gallery images
 
@@ -54,7 +54,7 @@ Earlier versions of the gallery showed 64 more images, for five other characters
 | `zh/littlebox` | 8 | `examples/images/littlebox/` | 2026-06-16 | same backgrounds |
 | `en/openclaw` | 8 | `examples/images-en/openclaw/` | 2026-06-17 | |
 | `en/gopher` | 8 | `examples/images-en/gopher/` | 2026-06-17 | made with the old reference image (open item 3) |
-| `en/seal`, `zh/seal` | 16 | `examples/images-en/seal/`, `examples/images/seal/` | 2026-06-15, 2026-06-16 | the character's rights are unresolved (open item 1); do not restore these without permission |
+| `en/seal`, `zh/seal` | 16 | `examples/images-en/seal/`, `examples/images/seal/` | 2026-06-15, 2026-06-16 | the character was withdrawn (see Withdrawn characters); do not restore these without permission |
 
 To publish a withheld set once you have reviewed it:
 
@@ -78,11 +78,25 @@ All sixteen sat on the pale sky-blue or lavender option, alternating by position
 | Ferris | Karen Rustad Tolva | CC0, as recorded from rustacean.net | pending, the earlier samples are withheld |
 | Go Gopher | Renee French | CC BY 4.0, as stated on go.dev, so attribution travels with every published image; the bundled reference image is not one of go.dev's files (open item 3) | pending, the earlier samples are withheld |
 | Tux | Larry Ewing | free to use and modify with credit to Larry Ewing and The GIMP; his page is offline, so the pack cites an archived copy and the Linux kernel's `COPYING-logo` | pending |
-| Seal | Sealos (original mascot image) | none recorded for the character; see open item 1 | pending, the earlier samples are withheld |
+
+## Withdrawn characters
+
+### Seal
+
+Seal was withdrawn on 2026-10-16. Its registry entry, its five-file pack, its example prompt, its credits, and its 16 gallery images are no longer in the repository, because permission to redistribute the character could not be established. A request that names Seal, the hoodie seal, or Sealos now stops and asks, like any unknown name, and a test keeps it that way.
+
+What was checked, and what it showed:
+
+- **What the character is.** A white seal in a plain navy cap and a plain deep-blue hoodie. Visual IP Illustrations, which InkExplain took the pack and the images from, records its source as "the previous Sealos Seal uploaded hoodie seal image". Earlier in that project the route was called `brand-owned` and described as the Sealos brand mascot; the project removed the logos from the mascot on 2026-06-14, then on 2026-06-15 renamed the route and dropped the Sealos name (its "Seal Route Debranding" milestone), and kept the character's shape locked to the same image. A new name and the removal of logos do not move the rights in a character.
+- **No permission was found.** Visual IP Illustrations is MIT-licensed, which covers what its maintainer owns. A fork's license cannot grant rights in someone else's mascot, and the project records no permission from the rights holder. The Sealos project's own license (Sealos Sustainable Use License v1.0, `LICENSE.md` at commit `8d630cf28c39ce836b118c446bc8c5206fe377b2`, read 2026-10-16) covers the software. It allows use only for internal business or personal non-commercial purposes, permits distribution only when free and non-commercial, grants no other rights, and leaves the licensor's trademarks to applicable law. Its file tree was searched for mascot, brand, trademark, and notice files, and none states terms for the mascot. The upstream maintainer's public GitHub profile lists Labring, the company behind Sealos; that is not a record of permission.
+- **What was shipped.** The pack, five files that describe the character and how to draw it, in the installable skill; 16 gallery images that were unmodified copies of Visual IP Illustrations files; and credits that named the Sealos origin.
+- **Git history.** Removing the files from the current tree does not remove them from history. They remain in earlier commits and in the branches, tags, and pull request refs of the maintainer's private repository, and a public repository that carries that history distributes them. The history must not be published as it stands: see [Git history](release-checklist.md#git-history).
+
+To bring Seal back, get written permission from the rights holder that covers the character, a public pack, and public renders. Record it in a new `rights.md` and in `sampleGates.authorization`, restore the files from the private repository's history, review the renders, and approve them with your own name and the day you did. The test "withdrawn characters stay withdrawn" refuses the original pack names and image files until it is changed on purpose.
 
 ## Open items for the maintainer
 
-1. **Seal has no recorded rights for its source mascot.** The archetype depicts a hoodie seal derived from a Sealos mascot image that is not bundled. The Sealos project's own license (Sealos Sustainable Use License v1.0, read 2026-10-16) allows use only for internal business or personal non-commercial purposes, permits distribution only free and non-commercial, grants no other rights, and leaves its trademarks to applicable law. The 16 Seal images come from Visual IP Illustrations, whose maintainer's public GitHub profile lists Labring, the company behind Sealos, as his company; that does not by itself record permission from the rights holder, and an MIT license on a fork cannot grant rights in someone else's mascot. Until permission is recorded, either mark Seal `gated-authorized` and withhold its images, remove the archetype, or obtain written permission from the rights holder and record it in its `rights.md` and in `sampleGates.authorization`.
+1. **Seal is withdrawn, and its history is not.** The character was removed because its rights could not be confirmed (see [Withdrawn characters](#withdrawn-characters)). The files are still in the Git history of the private repository, so that history must not be published; the safest release that keeps the history untouched is a new repository made from the current tree. [Git history](release-checklist.md#git-history) says how to check and what to do.
 2. **Five sample sets are withheld until you review them.** `sampleGates` recorded Agustin Pabon as reviewer for Ferris, Seal, Littlebox, OpenClaw, and Go Gopher on 2026-06-15 to 2026-06-17. Those are the days the upstream project first published the images, not the dates of a review for InkExplain, so the records are now `pending` and the images are out of the gallery (see [Samples withheld pending review](#samples-withheld-pending-review)). Review the images, and for every set you approve, restore it and record your name and the day you did. Do not backdate a review, and do not restore the Seal sets before its rights are settled.
 3. **The Go Gopher reference image has no recorded origin.** `gopher.png` is a clean, front-facing, cyan vector, 500 x 500, identical to the file in Visual IP Illustrations, which lists go.dev as its source without saying who drew this image. It is not one of the images on go.dev, whose own files are tan and hand-inked. It closely resembles the vector gopher by Takuya Ueda in `golang-samples/gopher-vector` (Creative Commons Attribution 3.0), itself drawn after Renee French's design, but that match was judged by eye and is unproven. Renee French's credit applies either way, and the pack's marker list was transcribed from this file, so it is kept in place and its rights record says plainly that its origin is unconfirmed. Confirm where it came from, or replace it with an official go.dev image and re-derive the markers.
 4. **OpenClaw's mascot rests on a repository-wide MIT license.** The OpenClaw project states no separate license or trademark policy for its mascot, so the record is only as strong as that license; the pack forbids any claim of affiliation or endorsement. If you want more than that, ask the OpenClaw Foundation to confirm.

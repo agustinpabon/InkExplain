@@ -25,7 +25,6 @@ An archetype fixes who performs the idea, how they move, and how the scene is dr
 | Xiaohei | `xiaohei` | `mascot` | `active` | `Xiaohei`, `小黑`, `Ian Xiaohei` | `assets/<article-slug>-xiaohei/` |
 | Littlebox | `littlebox` | `tribute-character` | `active` | `Littlebox`, `小盒`, `纸盒`, `paper-box`, `carton` | `assets/<article-slug>-littlebox/` |
 | Ferris | `ferris` | `mascot` | `active` | `Ferris`, `Rust mascot`, `Rust crab`, `Rustacean`, `Rust 吉祥物`, `Rust 螃蟹` | `assets/<article-slug>-ferris/` |
-| Seal | `seal` | `mascot` | `active` | `Seal`, `hoodie seal`, `white seal`, `blue hoodie seal`, `海豹`, `连帽衫海豹`, `白色海豹`, `蓝色连帽衫海豹` | `assets/<article-slug>-seal/` |
 | OpenClaw | `openclaw` | `mascot` | `active` | `OpenClaw`, `OpenClaw logo`, `OpenClaw mascot`, `OpenClaw 助手`, `OpenClaw 吉祥物` | `assets/<article-slug>-openclaw/` |
 | Go Gopher | `gopher` | `mascot` | `active` | `Go Gopher`, `Gopher`, `golang gopher`, `Go mascot`, `Go 吉祥物`, `Gopher 吉祥物` | `assets/<article-slug>-gopher/` |
 | Tux | `tux` | `mascot` | `active` | `Tux`, `Linux Mascot`, `Linux`, `Linux penguin`, `Tux penguin` | `assets/<article-slug>-tux/` |
@@ -114,21 +113,6 @@ Ferris the Rustacean, the Rust community crab, performing the idea in sparse han
   - No Rust or Cargo logos.
   - No claims of official Rust project affiliation or endorsement.
 - Public samples: pending. Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, so they are withheld until the maintainer reviews them. Ferris is CC0, credited to Karen Rustad Tolva.
-
-### Seal (`seal`)
-
-A product-neutral white seal in a plain navy cap and deep-blue hoodie, always logo-free, performing the idea in sparse article sketches.
-
-- Category: `mascot`. Status: `active`.
-- Load, in order: `references/archetypes/seal/rights.md`, `references/archetypes/seal/identity.md`, `references/archetypes/seal/style.md`, `references/archetypes/seal/motion-and-acting.md`, `references/archetypes/seal/prompts.md`
-- Output folder: `assets/<article-slug>-seal/`
-- Motion DNA: Seal, the product-neutral hoodie seal, as the central operator. Signature actions: inspect, repair, shield, bridge, weigh, untangle. Poses: flippers, eyes, body, cap, hoodie, and tail turned toward the action; compact legs planted under a lift or a carry; calm, careful focus while inspecting or weighing. Timing: One decisive moment per image; mini comics use two or three beats with Seal consistent and active.
-- Style sheet: A sparse hand-drawn article sketch. Canvas: 16:9 on a clean white or near-white page; Seal's action fills 35-55%. Linework: Loose black hand-drawn lines with visible human looseness. Palette: black, white, navy and deep blue, red/orange. Avoid: logos, emblems, wave or cloud marks, and badges; brand or product names and endorsement cues; plush-toy or over-detailed mascot rendering; formal diagrams, UI, and code screenshots.
-- Credit: A product-neutral hoodie seal derived from a historical Sealos mascot image, which is not bundled. Rights holder: Sealos (original mascot image). License: No separate character license recorded; the pack text is MIT as part of InkExplain.
-- Restrictions:
-  - Keep the seal logo-free: no cap, chest, or body logos, emblems, wave marks, or text badges.
-  - Do not present the seal as an official Sealos mascot or as a product endorsement.
-- Public samples: pending. Not reviewed for InkExplain, and the rights to the character are unresolved (see docs/provenance.md). The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, so they are withheld.
 
 ### OpenClaw (`openclaw`)
 

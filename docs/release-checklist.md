@@ -46,6 +46,13 @@ Sample images are published only where `registry.json` records an approved sampl
 - [ ] Credits for published samples appear next to the gallery in `README.md`.
 
 
+## Git history
+
+Publishing a repository publishes everything reachable from its branches, tags, and pull request refs, not only the files in the current tree. Removing a file from the tree does not remove it from history.
+
+- [ ] Nothing that was withdrawn is reachable from a ref that will be published. For Seal ([docs/provenance.md](provenance.md#withdrawn-characters)), `git log --all --oneline -- skills/inkexplain/references/archetypes/seal examples/gallery/en/seal examples/gallery/zh/seal` prints nothing in the repository that is made public.
+- [ ] If it prints commits, do not publish that repository. Publish a new one made from the current tree (for example `git archive HEAD` into an empty folder, then `git init`, a signed first commit, and a push to the new repository), or remove the files from every ref and get GitHub to drop the cached pull request refs, which only GitHub Support can do. Rewriting history is a maintainer decision and is never done by a script in this repository.
+
 ## Security
 
 - [ ] The `Security` workflow is green. If `skills/inkexplain/` changed since the audit statement in [SECURITY.md](../SECURITY.md), re-run the scan it describes and update the statement's result and tree hash.

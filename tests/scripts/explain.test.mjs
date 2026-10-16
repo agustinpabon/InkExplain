@@ -236,7 +236,8 @@ test("a name that selects nothing is refused with the closest archetypes", () =>
   assert.match(typo.stderr, /^Usage:/m, "the usage follows the error");
   refused(["--archetype", "penguin", "--concept", "x"], 2, /"penguin" is too generic to select an archetype\. Did you mean: tux/);
   refused(["--archetype", "nonsense words", "--concept", "x"], 2, /Unknown archetype "nonsense words"\./);
-  refused(["--archetype", "all archetypes", "--concept", "x"], 2, /takes one archetype; "all archetypes" selects 8/);
+  const everyActive = registry.archetypes.filter((archetype) => archetype.inAll).length;
+  refused(["--archetype", "all archetypes", "--concept", "x"], 2, new RegExp(`takes one archetype; "all archetypes" selects ${everyActive}`));
   refused(["--archetype", "  ", "--concept", "x"], 2, /--archetype needs an id or an alias/);
 });
 
@@ -300,7 +301,7 @@ test("the real entry point works from any directory and sets the exit code", () 
   const list = spawn(["--list"], elsewhere);
   assert.equal(list.status, 0, list.stderr);
   assert.match(list.stdout, /ferris\s+Ferris\s+mascot/);
-  const assembled = spawn(["--archetype", "seal", "--concept", "A reviewer weighs two claims.", "--format", "prompt"], elsewhere);
+  const assembled = spawn(["--archetype", "ferris", "--concept", "A reviewer weighs two claims.", "--format", "prompt"], elsewhere);
   assert.equal(assembled.status, 0, assembled.stderr);
   assert.match(assembled.stdout, /^Generate one standalone 16:9 horizontal article illustration\./);
   assert.equal(spawn(["--archetype", "nope", "--concept", "x"], REPO_ROOT).status, 2);

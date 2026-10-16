@@ -248,56 +248,6 @@
       }
     },
     {
-      "id": "seal",
-      "name": "Seal",
-      "category": "mascot",
-      "status": "active",
-      "summary": "A product-neutral white seal in a plain navy cap and deep-blue hoodie, always logo-free, performing the idea in sparse article sketches.",
-      "aliases": ["Seal", "hoodie seal", "white seal", "blue hoodie seal", "海豹", "连帽衫海豹", "白色海豹", "蓝色连帽衫海豹"],
-      "outputSuffix": "seal",
-      "motionDna": {
-        "actor": "Seal, the product-neutral hoodie seal, as the central operator",
-        "signatureActions": ["inspect", "repair", "shield", "bridge", "weigh", "untangle"],
-        "poses": [
-          "flippers, eyes, body, cap, hoodie, and tail turned toward the action",
-          "compact legs planted under a lift or a carry",
-          "calm, careful focus while inspecting or weighing"
-        ],
-        "timing": "One decisive moment per image; mini comics use two or three beats with Seal consistent and active"
-      },
-      "styleSheet": {
-        "medium": "A sparse hand-drawn article sketch",
-        "canvas": "16:9 on a clean white or near-white page; Seal's action fills 35-55%",
-        "linework": "Loose black hand-drawn lines with visible human looseness",
-        "palette": ["black", "white", "navy and deep blue", "red/orange"],
-        "avoid": [
-          "logos, emblems, wave or cloud marks, and badges",
-          "brand or product names and endorsement cues",
-          "plush-toy or over-detailed mascot rendering",
-          "formal diagrams, UI, and code screenshots"
-        ]
-      },
-      "legalNotice": {
-        "credit": "A product-neutral hoodie seal derived from a historical Sealos mascot image, which is not bundled",
-        "rightsHolder": "Sealos (original mascot image)",
-        "license": "No separate character license recorded; the pack text is MIT as part of InkExplain",
-        "attributionTerms": ["Sealos", "product-neutral hoodie seal"],
-        "restrictions": [
-          "Keep the seal logo-free: no cap, chest, or body logos, emblems, wave marks, or text badges.",
-          "Do not present the seal as an official Sealos mascot or as a product endorsement."
-        ]
-      },
-      "sampleGates": {
-        "status": "pending",
-        "decision": "Not reviewed for InkExplain, and the rights to the character are unresolved (see docs/provenance.md). The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, so they are withheld.",
-        "directories": []
-      },
-      "contract": {
-        "identityMarkers": ["white rounded seal body", "plain navy cap", "plain deep-blue hoodie", "logo-free"],
-        "isolationMarkers": ["hoodie seal", "Sealos"]
-      }
-    },
-    {
       "id": "openclaw",
       "name": "OpenClaw",
       "category": "mascot",

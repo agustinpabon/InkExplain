@@ -93,12 +93,6 @@ Littlebox draws on pure white by default, with the same background in every imag
 $inkexplain Use Ferris. Two images for a post about ownership in Rust: one owner at a time, and borrowing without taking.
 ```
 
-### Seal
-
-```text
-$inkexplain Use the hoodie seal. One image: "rollbacks are a safety net you test before you need it."
-```
-
 ### OpenClaw
 
 ```text

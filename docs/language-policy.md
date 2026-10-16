@@ -20,7 +20,7 @@ Write these in English:
 
 Other languages appear only in these categories:
 
-- **archetype aliases**: names users type to select an archetype, such as the Chinese aliases of the Littlebox, Seal, and Go Gopher archetypes. They live in `skills/inkexplain/registry.json` and may appear anywhere an archetype is named.
+- **archetype aliases**: names users type to select an archetype, such as the Chinese aliases of the Littlebox and Go Gopher archetypes. They live in `skills/inkexplain/registry.json` and may appear anywhere an archetype is named.
 - **user-language visible labels**: example labels that show how text is copied exactly in the user's language inside an English prompt.
 - **attribution and source names**: names that must stay exact for credit, rights, or trademark records.
 - **README language selector labels**: each localized README is named in its own language.
