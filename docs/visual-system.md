@@ -29,11 +29,30 @@ The default archetype is InkExplain's own visual identity: an explainer sketchin
 
 The highlighter swipe is the signature: in every InkExplain Sketch image, the reader's eye lands first on the one thing the author would underline.
 
-The style needs no mascot, so it suits any topic and any brand. Character archetypes remain available when a character helps, but they are never required.
+The style needs no mascot, so it suits any topic and any brand. Character archetypes remain available when a character helps, but they are never required. For a recurring human-like figure without a third-party character, see Stickman below.
+
+## Stickman
+
+Stickman is InkExplain's second house style, for when you want the same recognizable character in every image of a series. It is a stick figure with a fixed contract: an open round head, two dot eyes, a curved spine, bendy two-segment limbs, and foot ticks, drawn in one bold black marker on a pure white page with at most one vermilion accent. Its whole body leans into the idea.
+
+| | InkExplain Sketch | Stickman |
+|---|---|---|
+| Pick it when | you want a brand-neutral look, and the idea may be better acted by hands or a machine than by a person | you want one recognizable figure acting out every idea in a series |
+| Actor | a neutral ink figure, a pair of hands, or the working object | always the same stick figure |
+| Line | medium-thin ink pen | one bold black marker, a little heavier on the figure |
+| Color | black ink, explainer blue for movement, one highlighter swipe, signal red for problems | black ink and at most one vermilion accent |
+| Face | none, or two dots at most | two dot eyes and optional brow strokes, never a mouth |
+| Signature | the highlighter swipe | the pose: the figure leans into the work |
+
+Both draw on a white page and avoid mascots, so neither needs a character license. Ask for "a stickman" or "a stick figure" to get the second; name nothing to get the first.
+
+![Stickman pose and expression reference sheet: eight poses and five expressions of the same figure](../assets/brand/stickman-pose-sheet.svg)
+
+The sheet above is hand-built vector art, not an image-model render. The Stickman pack bundles a PNG copy as an identity and proportion reference for image tools that accept one. Stickman is `experimental` until its renders have been reviewed; the rules for promoting it are in [adding-an-archetype.md](adding-an-archetype.md#5-validate).
 
 ## Brand assets
 
-`assets/brand/` holds the InkExplain mark and the README hero, drawn as hand-coded SVG in the same palette. They are original to InkExplain and use no third-party characters.
+`assets/brand/` holds the InkExplain mark, the README hero, and the editable source of the Stickman pose sheet, drawn as hand-coded SVG in the same palette. They are original to InkExplain and use no third-party characters.
 
 ## Character archetypes
 

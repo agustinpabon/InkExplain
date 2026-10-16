@@ -332,6 +332,79 @@ noscript p { padding: 16px; }
       }
     },
     {
+      "id": "stickman",
+      "name": "Stickman",
+      "isDefault": false,
+      "category": "house-style",
+      "status": "experimental",
+      "technique": "Marker",
+      "summary": "InkExplain's own recurring stick figure: a bold black marker line, a round head with two dot eyes, and bendy limbs that act out the idea on a pure white page, with at most one vermilion accent.",
+      "outputFolder": "assets/\u003carticle-slug>-stickman/",
+      "motion": {
+        "actor": "Stickman, one recurring stick figure who works the idea with its whole body",
+        "signatureActions": [
+          "carry",
+          "pull",
+          "push",
+          "point",
+          "weigh",
+          "sort",
+          "bridge",
+          "hold back",
+          "stack",
+          "turn a crank"
+        ],
+        "poses": [
+          "the spine leans into the work and the weight sits on one leg",
+          "arms bend at one soft elbow and reach, brace, or hold against the object",
+          "head and dot eyes turn to where the idea changes"
+        ],
+        "timing": "One decisive moment per image; mini comics use two to four beats with Stickman drawn the same way in every panel"
+      },
+      "style": {
+        "medium": "A skilled illustrator's hand-drawn marker sketch",
+        "canvas": "16:9 on a pure white background, at least 35% empty; the standing figure is about a third of the canvas high",
+        "linework": "One confident medium-bold black brush-pen marker line with slight pressure variation and tapered ends; props a little lighter",
+        "palette": [
+          "black ink",
+          "pure white",
+          "vermilion accent"
+        ],
+        "avoid": [
+          "pictogram, restroom-sign, emoji, or children's activity-book figures",
+          "hands, mouths, hair, clothes, shoes, and accessories on the figure",
+          "stiff T-poses and mirrored stances",
+          "uniform vector lines, perfect circles, gradients, and shadows",
+          "slides, infographics, and UI"
+        ],
+        "background": null
+      },
+      "legal": {
+        "credit": "Original to InkExplain",
+        "rightsHolder": "InkExplain contributors",
+        "license": "MIT",
+        "restrictions": [],
+        "thirdParty": false
+      },
+      "samples": {
+        "status": "pending",
+        "decision": "No rendered samples yet. Stickman is original to InkExplain; publish renders after a quality review.",
+        "images": []
+      },
+      "prompt": {
+        "aspectRatio": "16:9",
+        "template": "Generate one standalone 16:9 horizontal article illustration.\n\nStyle: a skilled editorial illustrator's hand-drawn explainer sketch on a perfectly flat pure white background #FFFFFF. One confident black ink brush-pen marker line, medium-bold, with slight pressure variation, tapered stroke ends, and small handmade wobbles; props drawn in the same marker, a little lighter. Sparse composition with generous whitespace: one idea, one figure, a few low-tech objects, at least 35% of the canvas empty. Line art only. No gradients, shadows, paper texture, borders, frames, polished vector style, uniform-width lines, perfect circles, or clip-art look.\n\nCharacter: Stickman, the same hand-drawn stick figure in every image. Head: an open round head, one outlined circle, never filled, one head wide, drawn in a single loop whose ends overlap slightly. Face: two dot eyes, small and solid, set just below the head's midline and turned toward the action, plus at most two short brow strokes for focus, doubt, or surprise; no mouth, nose, ears, or hair. Body: one curved spine line from the base of the head to the hips, 1.6 heads long, leaning into the action. Limbs: two-segment limbs, two arms and two legs, each a line with one soft visible bend at the elbow or knee; each arm is two heads long, attached a quarter head below the head, and reaches about mid-thigh when hanging; each leg is 2.4 heads long, so the legs are longer than the spine. Hands: none; each arm ends in a plain rounded stroke end that touches or overlaps the object it works on. Feet: foot ticks, one short stroke at the end of each leg pointing the way the figure faces. Posture: asymmetrical, weight on one leg, spine and limbs showing effort; never a stiff T-pose, a mirrored stance, or standing beside the action. Size: standing height is five heads, and the standing figure is about one third of the canvas high, larger when it bends or reaches.\n\nAction: Stickman performs the central action: @@action@@, caught at its decisive moment. The whole body does the work, and the metaphor must lose its meaning if Stickman is removed.\n\nScene: @@concept@@.\n\nComposition: [structure type]. Pose: [pose from the pose vocabulary, different from the previous image]. Expression: [calm, focused, puzzled, startled, or pleased]. [Positions of Stickman and one to three supporting objects, and what Stickman does with which.] Spread elements across the canvas; the action sits in the middle third, and the figure's arms end on the object it works on.\n\nSupporting objects: [one to three low-tech objects drawn in the same marker, a little lighter].\n\nVisible handwritten labels, copied exactly in the user's language: @@labels@@. Neat handwritten print drawn with the same marker, one to three words each, placed beside the objects they name and clear of the figure. Copy non-Latin scripts exactly; do not translate them.\n\nColor use: black ink for the figure, props, and labels; pure white for the page; one vermilion accent #E4572E only on [the one object, mark, or label that carries the idea, or \"none\"], a few small marks at most. No other color.\n\nConstraints: one image, one core idea, one figure unless the idea compares two states, and then both figures are the same Stickman drawn the same way. No title, top-left heading, or structure-type text. No pictogram, restroom-sign, emoji, mascot, or children's activity-book look. No hands, fingers, shoes, clothes, hat, hair, mouth, ears, or accessories on the figure, and no name tag or logo. No slide, infographic, flowchart, dashboard, UI screenshot, or code screenshot. No clean digital font labels. Draw no text other than the labels.",
+        "defaults": {
+          "concept": "[core idea in one sentence]",
+          "action": "[specific physical action]",
+          "labels": "[\"label 1\", \"label 2\", \"label 3\"]",
+          "background": null
+        },
+        "backgrounds": [],
+        "negative": "pictogram, restroom sign, emoji, mascot, cute chibi, children's activity book, clip art, vector art, uniform line width, perfect circle, hands, fingers, mittens, shoes, clothes, hat, hair, mouth, smile, nose, ears, blush, T-pose, symmetrical pose, filled head, gradient, drop shadow, 3D render, paper texture, colored background, multiple accent colors, title text, infographic, flowchart, slide, UI screenshot, logo, watermark, signature"
+      }
+    },
+    {
       "id": "xiaohei",
       "name": "Xiaohei",
       "isDefault": false,
@@ -1352,7 +1425,7 @@ function fillPrompt(template, defaults, values) {
 // Palette entries are words ("explainer blue"); this gives each a dot of the right colour.
 const SWATCHES = [
   [/pale sky blue/, "#E3F2FD"], [/lavender/, "#E6E6FA"], [/explainer blue/, "#2F6FED"],
-  [/highlighter yellow/, "#FFD84D"], [/signal red/, "#E5484D"], [/gopher blue/, "#6AD7E5"],
+  [/highlighter yellow/, "#FFD84D"], [/signal red/, "#E5484D"], [/vermilion/, "#E4572E"], [/gopher blue/, "#6AD7E5"],
   [/navy/, "#1B2A5C"], [/deep blue/, "#1E40AF"], [/rust/, "#B7410E"], [/yellow-orange/, "#F6B21B"],
   [/amber/, "#F59E0B"], [/coral/, "#E85D75"], [/cyan/, "#22D3EE"], [/beige/, "#E8DCC0"],
   [/\bred\b/, "#E5484D"], [/orange/, "#F08C28"], [/blue/, "#2F6FED"], [/yellow/, "#FFD84D"],

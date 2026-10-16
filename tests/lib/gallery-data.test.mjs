@@ -191,7 +191,7 @@ test("the shipped gallery data covers every archetype, and every listed image ex
   const { repo, registry } = load(REPO_ROOT);
   const data = buildGalleryData(repo, registry);
   assert.deepEqual(data.archetypes.map((archetype) => archetype.id), registry.archetypes.map((archetype) => archetype.id));
-  assert.equal(data.archetypes.length, 8);
+  assert.equal(data.archetypes.length, 9);
   for (const archetype of data.archetypes) {
     const entry = registry.byId.get(archetype.id);
     if (archetype.samples.status !== "approved") {

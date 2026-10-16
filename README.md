@@ -87,6 +87,10 @@ $inkexplain Use Ferris. One image for: "ownership means exactly one owner at a t
 ```
 
 ```text
+$inkexplain Explain this algorithm using a stickman. Generate three illustrations.
+```
+
+```text
 $inkexplain Prompt mode: write prompts for three images that I can paste into my image tool.
 ```
 
@@ -358,6 +362,7 @@ An archetype fixes who performs the idea, how they move, and how the scene is dr
 | Archetype | Category | Style summary | Legal status |
 |---|---|---|---|
 | InkExplain Sketch (`ink`, default) | `house-style` | InkExplain's own brand-neutral style: black ink line art, one explainer-blue flow accent, a single highlighter-yellow emphasis, and a neutral ink figure or hands that perform the idea. | `active` · MIT · InkExplain contributors |
+| Stickman (`stickman`) | `house-style` | InkExplain's own recurring stick figure: a bold black marker line, a round head with two dot eyes, and bendy limbs that act out the idea on a pure white page, with at most one vermilion accent. | `experimental` · MIT · InkExplain contributors |
 | Xiaohei (`xiaohei`) | `mascot` | Ian's Xiaohei, a small solid-black creature with white dot eyes and thin legs, doing serious, slightly absurd work inside sparse black-ink sketches on a pure white page. | `active` · MIT · Ian |
 | Littlebox (`littlebox`) | `tribute-character` | A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering. | `active` · MIT · okooo5km |
 | Ferris (`ferris`) | `mascot` | Ferris the Rustacean, the Rust community crab, performing the idea in sparse hand-drawn article sketches without Rust logos or endorsement cues. | `active` · CC0 public-domain dedication · Karen Rustad Tolva |
@@ -429,7 +434,7 @@ The full walkthrough, with a complete registry entry and the rights questions to
 
 - InkExplain ships no image model; image quality depends on the tool your agent uses.
 - Image models misspell labels, non-Latin scripts most of all. Keep labels short and review them.
-- InkExplain Sketch has no reviewed sample renders yet.
+- InkExplain Sketch has no reviewed sample renders yet, and Stickman is `experimental`: its pack and pose sheet are complete, but no render has been reviewed, so each delivery says so.
 - Third-party archetypes carry their owners' restrictions. Gated archetypes are for use within your own authorization, and InkExplain does not publish samples for them.
 - The README translations were produced with AI assistance and have not been reviewed by professional translators. Generated tables keep registry data in English.
 

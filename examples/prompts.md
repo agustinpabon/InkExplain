@@ -51,6 +51,20 @@ $inkexplain One square (1:1) image for a social post: "Deadlines move work; prio
 
 ## Character archetypes
 
+### Stickman
+
+```text
+$inkexplain Explain this algorithm using a stickman. Generate three illustrations.
+
+[paste the algorithm]
+```
+
+```text
+$inkexplain Use a stick figure. One image: "a retry with backoff waits a little longer each time." Write the labels in Spanish.
+```
+
+Stickman is InkExplain's own recurring figure: the same head, face, and proportions in every image, drawn in black marker on pure white with at most one vermilion accent. It is `experimental` until its renders have been reviewed, so each delivery says so.
+
 ### Xiaohei
 
 ```text
@@ -139,6 +153,12 @@ $inkexplain In this image, change the label "Ouput" to "Output". Change nothing 
 
 ```text
 $inkexplain This illustration feels like a diagram with a character standing beside it. Regenerate it so the character performs the central action.
+```
+
+### Keep the character, change the scene
+
+```text
+$inkexplain Keep the same character, but simplify the scene and fix the labels: "Ouput" should read "Output". Change nothing else.
 ```
 
 ## How archetypes are chosen

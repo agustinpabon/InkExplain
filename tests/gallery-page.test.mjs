@@ -167,7 +167,7 @@ test("the page is one offline file with the controls the task asks for", () => {
     assert.ok(html.includes(text), `the page offers the page-color picker (${text})`);
   }
   assert.match(html, /prefers-color-scheme: dark/);
-  assert.deepEqual(data.archetypes.map((archetype) => archetype.id), ["ink", "xiaohei", "littlebox", "ferris", "seal", "openclaw", "gopher", "tux"]);
+  assert.deepEqual(data.archetypes.map((archetype) => archetype.id), ["ink", "stickman", "xiaohei", "littlebox", "ferris", "seal", "openclaw", "gopher", "tux"]);
   assert.deepEqual(data.categories.map((category) => category.label), ["House style", "Mascot", "Tribute character"]);
   assert.deepEqual(data.techniques, ["Ink sketch", "Marker"]);
 });

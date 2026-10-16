@@ -21,6 +21,7 @@ An archetype fixes who performs the idea, how they move, and how the scene is dr
 | Archetype | id | Category | Status | Select with | Output folder |
 |---|---|---|---|---|---|
 | InkExplain Sketch (default) | `ink` | `house-style` | `active` | `InkExplain Sketch`, `ink sketch`, `ink and highlighter`, `house style`, `no mascot`, `no character` | `assets/<article-slug>-illustrations/` |
+| Stickman | `stickman` | `house-style` | `experimental` | `Stickman`, `stick man`, `stick figure`, `stick person`, `stickperson`, `Inkman`, `monigote`, `muñeco de palitos`, `figura de palitos`, `bonhomme allumette`, `Strichmännchen`, `boneco palito`, `火柴人`, `棒人間` | `assets/<article-slug>-stickman/` |
 | Xiaohei | `xiaohei` | `mascot` | `active` | `Xiaohei`, `小黑`, `Ian Xiaohei` | `assets/<article-slug>-xiaohei/` |
 | Littlebox | `littlebox` | `tribute-character` | `active` | `Littlebox`, `小盒`, `纸盒`, `paper-box`, `carton` | `assets/<article-slug>-littlebox/` |
 | Ferris | `ferris` | `mascot` | `active` | `Ferris`, `Rust mascot`, `Rust crab`, `Rustacean`, `Rust 吉祥物`, `Rust 螃蟹` | `assets/<article-slug>-ferris/` |
@@ -55,6 +56,19 @@ InkExplain's own brand-neutral style: black ink line art, one explainer-blue flo
 - Style sheet: An explainer's hand-drawn ink sketch. Canvas: 16:9 by default on a clean white background, at least 35% empty. Linework: Medium-thin black ink with a slight wobble, rounded ends, and sparse hatching. Palette: black ink, explainer blue, highlighter yellow, signal red. Avoid: mascots, logos, and franchise characters; slides, infographics, and UI; textures, gradients, and shadows; 3D or glossy vector art.
 - Credit: Original to InkExplain. Rights holder: InkExplain contributors. License: MIT.
 - Public samples: pending. No rendered samples yet. InkExplain Sketch is original to InkExplain; publish renders after a quality review.
+
+### Stickman (`stickman`)
+
+InkExplain's own recurring stick figure: a bold black marker line, a round head with two dot eyes, and bendy limbs that act out the idea on a pure white page, with at most one vermilion accent.
+
+- Category: `house-style`. Status: `experimental`.
+- Load, in order: `references/archetypes/stickman/rights.md`, `references/archetypes/stickman/identity.md`, `references/archetypes/stickman/style.md`, `references/archetypes/stickman/motion-and-acting.md`, `references/archetypes/stickman/prompts.md`
+- Output folder: `assets/<article-slug>-stickman/`
+- Motion DNA: Stickman, one recurring stick figure who works the idea with its whole body. Signature actions: carry, pull, push, point, weigh, sort, bridge, hold back, stack, turn a crank. Poses: the spine leans into the work and the weight sits on one leg; arms bend at one soft elbow and reach, brace, or hold against the object; head and dot eyes turn to where the idea changes. Timing: One decisive moment per image; mini comics use two to four beats with Stickman drawn the same way in every panel.
+- Style sheet: A skilled illustrator's hand-drawn marker sketch. Canvas: 16:9 on a pure white background, at least 35% empty; the standing figure is about a third of the canvas high. Linework: One confident medium-bold black brush-pen marker line with slight pressure variation and tapered ends; props a little lighter. Palette: black ink, pure white, vermilion accent. Avoid: pictogram, restroom-sign, emoji, or children's activity-book figures; hands, mouths, hair, clothes, shoes, and accessories on the figure; stiff T-poses and mirrored stances; uniform vector lines, perfect circles, gradients, and shadows; slides, infographics, and UI.
+- Credit: Original to InkExplain. Rights holder: InkExplain contributors. License: MIT.
+- Never selects: `figure`, `person`, `human`, `man`, `people`, `doodle`
+- Public samples: pending. No rendered samples yet. Stickman is original to InkExplain; publish renders after a quality review.
 
 ### Xiaohei (`xiaohei`)
 

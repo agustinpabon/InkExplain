@@ -177,7 +177,7 @@ test("the shipped registry keeps its archetypes with InkExplain Sketch as the de
   assert.deepEqual(aliasIssues, []);
   assert.equal(registry.skill, "inkexplain");
   // New archetypes may be added freely; these must not disappear by accident.
-  for (const id of ["ink", "xiaohei", "littlebox", "ferris", "seal", "openclaw", "gopher", "tux"]) {
+  for (const id of ["ink", "stickman", "xiaohei", "littlebox", "ferris", "seal", "openclaw", "gopher", "tux"]) {
     assert.ok(registry.byId.has(id), id);
   }
   assert.equal(registry.archetypes[0].id, "ink", "the default archetype is listed first");
@@ -189,6 +189,7 @@ test("the shipped registry keeps its archetypes with InkExplain Sketch as the de
 test("shipped aliases resolve to their archetypes", () => {
   const { registry } = parseRegistry(REAL_REGISTRY_TEXT);
   const expectations = {
+    stickman: ["Stickman", "stickman", "STICK MAN", "stick figure", "Stick-Figure", "stick person", "stickperson", "Inkman", "monigote", "Muñeco de palitos", "figura de palitos", "bonhomme allumette", "Strichmännchen", "boneco palito", "火柴人", "棒人間"],
     xiaohei: ["Xiaohei", "xiaohei", "小黑", "Ian Xiaohei"],
     littlebox: ["小盒", "Littlebox", "纸盒", "paper-box", "carton"],
     ferris: ["Ferris", "Rust mascot", "Rust crab", "Rustacean", "Rust 吉祥物", "Rust 螃蟹"],
