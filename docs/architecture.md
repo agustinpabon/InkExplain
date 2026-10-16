@@ -100,6 +100,7 @@ The registry is a contract with the packs, not a copy of them. Identity markers 
 scripts/
 ├── validate.mjs             CLI: run checks, text or JSON output, exit codes 0/1/2
 ├── build-docs.mjs           CLI: regenerate derived documents, or --check them
+├── explain.mjs              CLI: list archetypes, or assemble a prompt from an archetype's template
 └── lib/
     ├── config.mjs           product identity, paths, pack layout, policy data
     ├── repository.mjs       root-anchored, traversal-safe, CRLF-normalizing file access
@@ -140,6 +141,7 @@ Per-archetype rules are data. Adding an archetype never requires new validator c
 - `tests/lib/`: unit tests for every library module;
 - `tests/checks/`: each check against a small, fully valid fixture repository that a test mutates in one place, including an end-to-end test that adds a new archetype;
 - `tests/cli.test.mjs`: exit codes, JSON output, filtering, and document generation;
+- `tests/scripts/`: the command-line prompt helper, in process and as a real process;
 - `tests/gallery-page.test.mjs`: the gallery page's prompt helpers against `prompt-assembly.mjs`;
 - `tests/readme-walkthroughs.test.mjs`: the README's example prompts against their archetypes' templates;
 - `tests/repository.test.mjs`: acceptance tests that run every check on the real repository.

@@ -92,6 +92,17 @@ $inkexplain Prompt mode: write prompts for three images that I can paste into my
 
 More examples, including every archetype and mixed requests, are in [examples/prompts.md](examples/prompts.md).
 
+### From the command line
+
+No agent at hand? `scripts/explain.mjs` assembles a prompt from an archetype's own template. It needs Node.js 22 or newer, installs nothing, makes no network call, and writes no file.
+
+```bash
+node scripts/explain.mjs --list
+node scripts/explain.mjs --archetype ferris --concept "Two threads wait on each other" --label "lock A" --label "lock B"
+```
+
+It prints the prompt, the negative prompt, and the aspect ratio, then lists the fields only you can plan (the structure, the positions, the props), which stay in `[brackets]` instead of being invented. `--action` fills the action field, `--aspect 1:1` changes the ratio, and `--format prompt` or `--format json` prints the prompt alone or everything for another tool. `--archetype` takes an id or any alias, and the default archetype is used when you give none. Run `node scripts/explain.mjs --help` for every option.
+
 ## From Code to Hand-Drawn Metaphor (Walkthroughs)
 
 InkExplain works on code as readily as on prose. Hand `$inkexplain` a snippet or a bug report and name an archetype: it finds the one idea worth drawing, turns it into a physical action that an actor performs, and assembles a prompt for your image model. Each walkthrough shows the input, the metaphor InkExplain extracts, the archetype that draws it, and the finished prompt.
@@ -428,6 +439,7 @@ The full walkthrough, with a complete registry entry and the rights questions to
 npm test               # unit, check, CLI, and repository tests (Node's built-in runner)
 npm run validate       # validate the repository and skill package
 npm run build:docs     # regenerate routing.md, the README archetype tables, language selectors, and the gallery data
+npm run explain -- --list   # the command-line prompt helper; see "From the command line"
 npm run check          # everything CI runs
 ```
 

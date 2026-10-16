@@ -13,7 +13,7 @@ InkExplain is an AI-agent skill that turns ideas into consistent hand-drawn illu
 - `skills/inkexplain/references/routing.md`: generated. Never edit it by hand.
 - `skills/inkexplain/references/workflow/`: shared method used by every archetype.
 - `skills/inkexplain/references/archetypes/<id>/`: one five-file pack per archetype (`rights.md`, `identity.md`, `style.md`, `motion-and-acting.md`, `prompts.md`).
-- `scripts/`: `validate.mjs`, `build-docs.mjs`, and `lib/` (no dependencies).
+- `scripts/`: `validate.mjs`, `build-docs.mjs`, `explain.mjs` (the prompt helper), and `lib/` (no dependencies).
 - `examples/`: example prompts, and the offline gallery `gallery/index.html` with its sample images. The gallery page carries a generated data block; never edit it by hand.
 - `tests/`: Node's built-in test runner; fixtures are generated in temporary directories.
 - `docs/`: architecture, language policy, release checklist, archetype authoring guide.
@@ -28,6 +28,7 @@ npm test             # all tests
 npm run validate     # all repository checks
 npm run build:docs   # regenerate routing.md, the README archetype tables, and the gallery data
 npm run check        # everything CI runs
+npm run explain -- --list   # list archetypes; assemble a prompt with --archetype and --concept
 ```
 
 Run `npm run build:docs` after editing `registry.json`, `readmes/locales.json`, an archetype's `prompts.md`, or the approved sample images, and `npm run check` before committing.

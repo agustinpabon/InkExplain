@@ -12,6 +12,7 @@
     "validate": "node scripts/validate.mjs",
     "test": "node --test \"tests/**/*.test.mjs\"",
     "build:docs": "node scripts/build-docs.mjs",
+    "explain": "node scripts/explain.mjs",
     "check": "node scripts/build-docs.mjs --check && node scripts/validate.mjs && node --test \"tests/**/*.test.mjs\""
   }
 }

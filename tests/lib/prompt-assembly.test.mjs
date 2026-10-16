@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   MAX_LABELS,
   PromptAssemblyError,
+  PromptInputError,
   assemblePrompt,
   buildNegativePrompt,
   defaultAspect,
@@ -142,6 +143,23 @@ test("formatLabels quotes labels and rejects what would break the template", () 
   assert.throws(() => formatLabels(["x".repeat(41)]), /a label is 41 characters; the limit is 40/);
   assert.doesNotThrow(() => formatLabels(["x".repeat(40)]));
   assert.throws(() => formatLabels(["   "]), /must not be empty/);
+});
+
+test("what a person typed wrong is a PromptInputError; a broken pack is only a PromptAssemblyError", (t) => {
+  const fixtureRepo = new Repository(createFixture(t).root);
+  const demo = loadRegistry(fixtureRepo).registry.byId.get("demo");
+  const mistakes = [
+    () => normalizeAspect("wide"),
+    () => formatLabels([]),
+    () => formatLabels(['say "hi"']),
+    () => formatLabels(Array.from({ length: MAX_LABELS + 1 }, () => "x")),
+    () => assemblePrompt(fixtureRepo, demo, { concept: " " }),
+  ];
+  for (const attempt of mistakes) assert.throws(attempt, (error) => error instanceof PromptInputError && error instanceof PromptAssemblyError);
+  const packProblems = [() => requireSlots("Draw.", ["scene"], "pack"), () => parsePromptPack("# nothing")];
+  for (const attempt of packProblems) {
+    assert.throws(attempt, (error) => error instanceof PromptAssemblyError && !(error instanceof PromptInputError));
+  }
 });
 
 test("matchesTemplate accepts faithful instances and names what was changed", () => {

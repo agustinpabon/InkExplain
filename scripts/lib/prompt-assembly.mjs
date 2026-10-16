@@ -12,7 +12,11 @@
 import { extractCodeBlocks, sectionBody } from "./markdown.mjs";
 import { outputDirectory, packFilePath } from "./registry.mjs";
 
+/** A template, pack, or repository problem: the person who ran the tool cannot fix it by retyping. */
 export class PromptAssemblyError extends Error {}
+
+/** Something the person typed is not usable: an aspect ratio, a concept, an action, or a label. */
+export class PromptInputError extends PromptAssemblyError {}
 
 export const SCENE_FIELD = "core idea in one sentence";
 export const RIGHTS_NOTE_FIELD = "append the rights note from this file";
@@ -77,7 +81,7 @@ export function parsePromptPack(promptsText) {
 export function normalizeAspect(value) {
   const match = /^(\d{1,2}):(\d{1,2})$/.exec(String(value).trim());
   if (match === null || Number(match[1]) < 1 || Number(match[2]) < 1) {
-    throw new PromptAssemblyError(`aspect ratio must look like 16:9, got ${JSON.stringify(String(value))}`);
+    throw new PromptInputError(`aspect ratio must look like 16:9, got ${JSON.stringify(String(value))}`);
   }
   return `${Number(match[1])}:${Number(match[2])}`;
 }
@@ -91,21 +95,21 @@ export function defaultAspect(archetype) {
 /** Collapse whitespace and reject empty, oversized, or control-character text. */
 function cleanLine(value, label, maxLength) {
   const text = String(value ?? "").replace(/\s+/g, " ").trim();
-  if (text === "") throw new PromptAssemblyError(`${label} must not be empty`);
-  if (text.length > maxLength) throw new PromptAssemblyError(`${label} is ${text.length} characters; the limit is ${maxLength}`);
-  if (/\p{Cc}/u.test(text)) throw new PromptAssemblyError(`${label} must not contain control characters`);
+  if (text === "") throw new PromptInputError(`${label} must not be empty`);
+  if (text.length > maxLength) throw new PromptInputError(`${label} is ${text.length} characters; the limit is ${maxLength}`);
+  if (/\p{Cc}/u.test(text)) throw new PromptInputError(`${label} must not contain control characters`);
   return text;
 }
 
 /** Labels as a quoted list, the way every template writes them: ["a", "b"]. */
 export function formatLabels(labels) {
-  if (labels.length === 0) throw new PromptAssemblyError("give at least one label, or none");
+  if (labels.length === 0) throw new PromptInputError("give at least one label, or none");
   if (labels.length > MAX_LABELS) {
-    throw new PromptAssemblyError(`a prompt carries two to six labels; got ${labels.length}`);
+    throw new PromptInputError(`a prompt carries two to six labels; got ${labels.length}`);
   }
   const cleaned = labels.map((label) => cleanLine(label, "a label", MAX_LABEL_LENGTH));
   for (const label of cleaned) {
-    if (/["[\]]/.test(label)) throw new PromptAssemblyError(`label ${JSON.stringify(label)} must not contain quotes or brackets`);
+    if (/["[\]]/.test(label)) throw new PromptInputError(`label ${JSON.stringify(label)} must not contain quotes or brackets`);
   }
   return `[${cleaned.map((label) => `"${label}"`).join(", ")}]`;
 }
