@@ -59,7 +59,7 @@ workspace: assets/<article-slug>-<suffix>/     (the only place InkExplain writes
 
 | | |
 |---|---|
-| Scanner | SkillSpector v2.12.0, commit `240421219409dc0bafef9f618a10d80c2d7e83a3` |
+| Scanner | SkillSpector at commit `240421219409dc0bafef9f618a10d80c2d7e83a3`, which reports itself as v2.12.0. It is a later commit than the one the `v2.12.0` tag points to, not the tagged release. |
 | Mode | Static analysis only (`--no-llm`). No file contents left the machine. |
 | Command | `skillspector scan skills/inkexplain/ --no-llm --fail-on-findings --fail-on-incomplete` |
 | Scanned | 2026-10-16, 53 files, 51 fully inspected, 2 binary images excluded |
