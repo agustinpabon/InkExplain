@@ -216,6 +216,7 @@ test("SCHEMA-010 reads a claim about the status and the marker's colon, not the 
     "Status: `experimental`.",
     "Status: experimental.",
     "This archetype is **experimental**.",
+    "Tag: **experimental**",
     "Still experimental!",
     "Marked as experimental until the renders are reviewed.",
     "It is considered experimental.",
