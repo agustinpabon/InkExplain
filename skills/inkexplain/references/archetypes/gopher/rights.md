@@ -6,13 +6,14 @@
 - Character: the Go gopher, designed by Renee French.
 - Official source: the Go blog, https://go.dev/blog/gopher.
 - License: Creative Commons Attribution 4.0 (CC BY 4.0).
-- Bundled reference: `references/archetypes/gopher/gopher.png`, the classic Go gopher design. It is the identity authority for the marker set in `identity.md`, which was transcribed from this image.
+- Bundled reference: `references/archetypes/gopher/gopher.png`, a front-facing vector gopher. It is the identity authority for the marker set in `identity.md`, which was transcribed from this image.
+- Origin of that file: not recorded. It is identical to the reference in Visual IP Illustrations, which names go.dev as its source without saying who drew this image, and it is not one of the images published on go.dev. It closely resembles the vector gopher by Takuya Ueda (golang-samples/gopher-vector, Creative Commons Attribution 3.0), itself drawn after Renee French's design; that match is unproven. Confirm the origin, or replace the file with an official go.dev image and re-derive the markers, before treating it as an unmodified copy of her work.
 
 ## Rights and restrictions
 
 - Credit line: "The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0."
 - Credit Renee French whenever generated images are published.
-- `gopher.png` is the licensed artwork itself: keep this record with it whenever the pack is redistributed.
+- Keep this record with `gopher.png` whenever the pack is redistributed.
 - No Go logo. The logo is not part of this archetype's identity and never appears in its images, prompts, or labels.
 - No claims of official Go project affiliation, approval, sponsorship, or endorsement, in images, labels, prompts, or delivery reports.
 - Status changes are a maintainer decision recorded in `registry.json`.

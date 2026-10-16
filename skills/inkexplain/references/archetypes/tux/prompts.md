@@ -95,5 +95,5 @@ Check every image against `references/workflow/qa-checklist.md`, then:
 Append this note to every generation and edit prompt, attach it to every plan, and repeat it in the delivery report:
 
 ```text
-Tux was created by Larry Ewing using The GIMP; credit Larry Ewing and The GIMP when asked. Linux is the registered trademark of Linus Torvalds in the U.S. and other countries. No distro logos and no Linux Foundation logos; no claims of endorsement, certification, compatibility, affiliation, sponsorship, or approval; no product posters, CLI screenshots, web hero graphics, kernel dashboards, or operating-system marketing graphics.
+Tux was created by Larry Ewing using The GIMP; credit Larry Ewing and The GIMP whenever Tux images are published. Linux is the registered trademark of Linus Torvalds in the U.S. and other countries. No distro logos and no Linux Foundation logos; no claims of endorsement, certification, compatibility, affiliation, sponsorship, or approval; no product posters, CLI screenshots, web hero graphics, kernel dashboards, or operating-system marketing graphics.
 ```

@@ -437,9 +437,9 @@
         ]
       },
       "legalNotice": {
-        "credit": "Tux was created by Larry Ewing using The GIMP (https://isc.tamu.edu/~lewing/linux/); Linux is the registered trademark of Linus Torvalds in the U.S. and other countries",
+        "credit": "Tux was created by Larry Ewing using The GIMP (his terms are archived at https://web.archive.org/web/20260409031334/https://isc.tamu.edu/~lewing/linux/ and repeated in the Linux kernel's Documentation/images/COPYING-logo); Linux is the registered trademark of Linus Torvalds in the U.S. and other countries",
         "rightsHolder": "Larry Ewing",
-        "license": "Free to use and modify with credit to Larry Ewing and The GIMP when asked",
+        "license": "Free to use and modify with credit to Larry Ewing and The GIMP",
         "attributionTerms": ["Larry Ewing", "The GIMP", "Linus Torvalds"],
         "restrictions": [
           "No distro logos and no Linux Foundation logos.",
