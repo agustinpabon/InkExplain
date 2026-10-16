@@ -15,6 +15,7 @@ import process from "node:process";
 import { parseArgs } from "node:util";
 import { EXIT } from "./lib/check-runner.mjs";
 import { loadLocales, planGeneratedDocuments } from "./lib/docs-render.mjs";
+import { isMain } from "./lib/entrypoint.mjs";
 import { loadRegistry } from "./lib/registry.mjs";
 import { Repository } from "./lib/repository.mjs";
 
@@ -75,6 +76,6 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
   return structural.length === 0 ? EXIT.ok : EXIT.failed;
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
+if (isMain(import.meta.filename)) {
   process.exitCode = main();
 }

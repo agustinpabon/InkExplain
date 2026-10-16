@@ -13,6 +13,7 @@ import process from "node:process";
 import { parseArgs } from "node:util";
 import { EXIT, createContext, exitCodeFor, filterChecks, formatJson, formatText, runChecks } from "./lib/check-runner.mjs";
 import { ALL_CHECKS } from "./lib/checks/index.mjs";
+import { isMain } from "./lib/entrypoint.mjs";
 
 const USAGE = `Usage: node scripts/validate.mjs [--root <dir>] [--only <ID|AREA>[,...]] [--json] [--verbose] [--list]`;
 
@@ -58,6 +59,6 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
   return exitCodeFor(results);
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
+if (isMain(import.meta.filename)) {
   process.exitCode = main();
 }

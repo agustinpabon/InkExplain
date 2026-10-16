@@ -16,6 +16,7 @@ import path from "node:path";
 import process from "node:process";
 import { parseArgs } from "node:util";
 import { EXIT } from "./lib/check-runner.mjs";
+import { isMain } from "./lib/entrypoint.mjs";
 import { techniqueOf } from "./lib/gallery-data.mjs";
 import { PromptAssemblyError, PromptInputError, assemblePrompt } from "./lib/prompt-assembly.mjs";
 import { loadRegistry, resolveArchetypeRequest } from "./lib/registry.mjs";
@@ -278,6 +279,6 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
   return EXIT.ok;
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
+if (isMain(import.meta.filename)) {
   process.exitCode = main();
 }

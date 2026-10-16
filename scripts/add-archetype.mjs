@@ -18,6 +18,7 @@ import process from "node:process";
 import { parseArgs } from "node:util";
 import { EXIT } from "./lib/check-runner.mjs";
 import { PATHS } from "./lib/config.mjs";
+import { isMain } from "./lib/entrypoint.mjs";
 import { Repository } from "./lib/repository.mjs";
 import { SCAFFOLD_CATEGORIES, ScaffoldInputError, ScaffoldRefusal, applyScaffold, checkRepository, planScaffold } from "./lib/scaffold.mjs";
 
@@ -232,6 +233,6 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
   return EXIT.ok;
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
+if (isMain(import.meta.filename)) {
   process.exitCode = main();
 }
