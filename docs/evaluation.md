@@ -55,9 +55,29 @@ Each agent was asked to report anything unclear, missing, or contradictory. Most
 
 Left as they are, on purpose: the rights note appears in the plan, in each prompt, and in the report, because a prompt can be pasted away from its plan; and the label list's square brackets may stay or go.
 
+## Does the description load the skill for the right requests?
+
+A host decides whether to load a skill from its name and description alone, so the description was tried apart from the runs above. One fresh agent, shown InkExplain's description beside eight invented neighbors (pdf, docx, pptx, frontend-design, canvas-design, diagram, imagegen, data-viz), was asked which single skill it would load first for each of twenty requests. It chose InkExplain for all ten requests below that it should handle, and for none of the ten that it should not. It called a few close: a repair against an image editor, prompts only against an image generator, and a sketchy process explanation against a diagram tool.
+
+| Should load InkExplain | Should not |
+|---|---|
+| "Illustrate this blog post with a few hand-drawn images." | "Create a bar chart of last quarter's revenue from this CSV." |
+| "Where should I put pictures in this article? Give me a shot list." | "Design a logo for my startup." |
+| "Explain how our retry logic works visually, using a cartoon character." | "Make a photorealistic image of a mountain lake at sunset." |
+| "Draw the idea 'a cache is a promise' for my newsletter." | "Write a Mermaid sequence diagram for this API flow." |
+| "Give me prompts for my image model for each section of this doc." | "Mock up the settings screen of a mobile app." |
+| "Use Ferris to explain Rust ownership in one picture." | "Summarize this PDF in three bullet points." |
+| "Fix the label in this illustration: 'Proof' should say 'Revisión'." | "Draw a portrait of my CEO for the About page." |
+| "Turn this explanation of OAuth into sketchy illustrations on a white background." | "Generate an architecture diagram in draw.io format." |
+| "I need a hand-drawn picture for each step of this onboarding guide." | "Turn this article into a slide deck." |
+| "Visualize this algorithm as a short series of illustrations with a stick figure." | "Fix this bug in my React component." |
+
+One model, one sitting, and neighbors I made up make this weak evidence, and it simulates a host's choice without being one. It is a regression list: run it in your own host, with your own installed skills, whenever the description changes.
+
 ## What this does not show
 
 - **No image was rendered.** The skill's prompts are well-formed and faithful to their packs; whether an image model draws Stickman's single figure consistently, keeps Littlebox's body white on a white page, or leaves the rights note's words out of the picture (every third-party prompt carries it, with a line saying not to draw it) is untested. The Littlebox gallery images predate the white default, and no Sketch or Stickman render has been reviewed.
+- **No host picked the skill up from a plain request.** The agents in the matrix were pointed at the installed skill, and the description test above is a simulation. Whether Claude Code, Codex, or Cursor loads InkExplain by itself for a request like "illustrate this post" is untested.
 - **Only Claude Code was a host.** The installer places the skill correctly for Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, and Windsurf (each installed into an empty folder and compared byte for byte with `skills/inkexplain/`), but the skill was run inside none of the others.
 - **The anonymous install is unverified.** `npx skills add agustinpabon/InkExplain --skill inkexplain` works with a GitHub login and fails for anyone else, with "For private repos, ensure you have access", while the repository is private. Run it without a login the day the repository is public.
 

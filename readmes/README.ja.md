@@ -137,7 +137,7 @@ Littlebox は okooo5km の 5km Littlebox Illustrations（MIT）を翻案した�
 
 `-g` を付けると、CLI はエージェントの個人用フォルダにインストールします（例: Claude Code は `~/.claude/skills/`、Codex は `~/.agents/skills/`）。
 
-テスト済み: skills CLI は上記の各エージェントにスキルを正しく配置し、Claude Code はそれを一覧に表示して従います（このリリースは、画像ツールなしのプロンプトモードで Claude Code のセッションで試しました）。未テスト: Codex、Cursor、Gemini CLI、GitHub Copilot、OpenCode、Windsurf の中でのスキルの実行と、いずれかの画像ツールによる画像生成。
+テスト済み: skills CLI は上記の各エージェントにスキルを正しく配置し、Claude Code はそれを一覧に表示します。インストール済みのスキルを指し示した新しい Claude Code エージェントのセッションは、画像ツールなしのプロンプトモードで 15 件のリクエストにおいてスキルに正しく従いました（[評価](../docs/evaluation.md)）。未テスト: ホストが平易なリクエストだけでスキルを自動的に読み込むか、Codex、Cursor、Gemini CLI、GitHub Copilot、OpenCode、Windsurf の中でのスキルの実行、そしていずれかの画像ツールによる画像生成。
 
 ## カスタマイズ
 

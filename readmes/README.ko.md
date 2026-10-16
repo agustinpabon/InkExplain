@@ -137,7 +137,7 @@ Littlebox는 okooo5km의 5km Littlebox Illustrations를 바탕으로 변형한 �
 
 `-g`를 쓰면 CLI는 에이전트의 개인 폴더에 설치합니다(예: Claude Code는 `~/.claude/skills/`, Codex는 `~/.agents/skills/`).
 
-테스트한 것: skills CLI가 위의 각 에이전트에 스킬을 올바르게 배치하고, Claude Code가 이를 목록에 표시하고 따릅니다(이 릴리스는 이미지 도구 없이 프롬프트 모드로 Claude Code 세션에서 실행해 보았습니다). 테스트하지 않은 것: Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, Windsurf 안에서 스킬 실행, 그리고 어떤 이미지 도구로든 이미지 생성.
+테스트한 것: skills CLI가 위의 각 에이전트에 스킬을 올바르게 배치하고, Claude Code가 이를 목록에 표시합니다. 설치된 스킬을 가리켜 준 새 Claude Code 에이전트 세션이 이미지 도구 없이 프롬프트 모드로 15개의 요청에서 스킬을 올바르게 따랐습니다([평가](../docs/evaluation.md)). 테스트하지 않은 것: 호스트가 평범한 요청만으로 스킬을 스스로 불러오는지, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, Windsurf 안에서 스킬 실행, 그리고 어떤 이미지 도구로든 이미지 생성.
 
 ## 사용자 지정
 

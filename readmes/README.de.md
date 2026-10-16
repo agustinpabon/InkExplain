@@ -137,7 +137,7 @@ Die vollständige Anleitung mit einem kompletten Registry-Eintrag und den Rechte
 
 Mit `-g` installiert die CLI stattdessen in den persönlichen Ordner des Agenten (zum Beispiel `~/.claude/skills/` für Claude Code und `~/.agents/skills/` für Codex).
 
-Was getestet wurde: Die skills-CLI legt die Skill für jeden oben genannten Agenten korrekt ab, und Claude Code listet sie und folgt ihr (diese Version wurde in Claude-Code-Sitzungen ohne Bildwerkzeug im Prompt-Modus erprobt). Nicht getestet: die Skill in Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode oder Windsurf auszuführen sowie Bilder mit einem Bildwerkzeug zu erzeugen.
+Was getestet wurde: Die skills-CLI legt die Skill für jeden oben genannten Agenten korrekt ab, und Claude Code listet sie. Frische Claude-Code-Agentensitzungen, denen die installierte Skill genannt wurde, sind ihr bei 15 Anfragen korrekt gefolgt, ohne Bildwerkzeug im Prompt-Modus ([Auswertung](../docs/evaluation.md)). Nicht getestet: ob ein Host die Skill aus einer schlichten Anfrage selbst lädt, die Skill in Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode oder Windsurf auszuführen sowie Bilder mit einem Bildwerkzeug zu erzeugen.
 
 ## Anpassen
 

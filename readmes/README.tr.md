@@ -137,7 +137,7 @@ Eksiksiz bir kayıt girdisi örneğini ve önce yanıtlanması gereken hak sorul
 
 `-g` ile CLI, bunun yerine ajanın kişisel klasörüne kurar (örneğin Claude Code için `~/.claude/skills/`, Codex için `~/.agents/skills/`).
 
-Test edilenler: skills CLI, skill'i yukarıdaki her ajan için doğru yere koyar ve Claude Code onu listeler ve izler (bu sürüm, görsel aracı olmayan Claude Code oturumlarında istem modunda denendi). Test edilmeyenler: skill'i Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode veya Windsurf içinde çalıştırmak ve herhangi bir görsel aracıyla görsel üretmek.
+Test edilenler: skills CLI, skill'i yukarıdaki her ajan için doğru yere koyar ve Claude Code onu listeler. Yüklü skill'in gösterildiği yeni Claude Code ajan oturumları, görsel aracı olmadan istem modunda 15 istekte skill'i doğru biçimde izledi ([değerlendirme](../docs/evaluation.md)). Test edilmeyenler: bir ana bilgisayarın skill'i sade bir istekten kendisinin yükleyip yüklemediği, skill'i Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode veya Windsurf içinde çalıştırmak ve herhangi bir görsel aracıyla görsel üretmek.
 
 ## Özelleştirme
 

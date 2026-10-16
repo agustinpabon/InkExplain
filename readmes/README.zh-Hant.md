@@ -137,7 +137,7 @@ Littlebox 改編自 okooo5km 的 5km Littlebox Illustrations（MIT）。Ferris �
 
 使用 `-g` 時，CLI 會改為安裝到該代理的個人資料夾（例如 Claude Code 的 `~/.claude/skills/` 與 Codex 的 `~/.agents/skills/`）。
 
-已測試：skills CLI 會為上面每個代理正確放置該 skill，Claude Code 會列出並遵循它（本版本在沒有圖像工具的 Claude Code 工作階段中，以提示詞模式試用）。未測試：在 Codex、Cursor、Gemini CLI、GitHub Copilot、OpenCode 或 Windsurf 中執行該 skill，以及使用任何圖像工具生成圖像。
+已測試：skills CLI 會為上面每個代理正確放置該 skill，Claude Code 會列出它。全新的 Claude Code 代理工作階段在被指向已安裝的 skill 後，對 15 個請求都正確地遵循了它（沒有圖像工具，使用提示詞模式；見[評估](../docs/evaluation.md)）。未測試：宿主是否會根據一句普通請求自行載入該 skill，在 Codex、Cursor、Gemini CLI、GitHub Copilot、OpenCode 或 Windsurf 中執行該 skill，以及使用任何圖像工具生成圖像。
 
 ## 自訂
 

@@ -62,7 +62,7 @@ Without an image tool (Claude Code has none built in), InkExplain switches to **
 
 With `-g`, the CLI installs into the agent's personal folder instead (for example `~/.claude/skills/` for Claude Code and `~/.agents/skills/` for Codex).
 
-What has been tested: the skills CLI places the skill correctly for each agent above, and Claude Code lists it and follows it (this release was exercised in Claude Code sessions with no image tool, in prompt mode). Not tested: running the skill inside Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, or Windsurf, and image generation with any image tool.
+What has been tested: the skills CLI places the skill correctly for each agent above, and Claude Code lists it. Fresh Claude Code agent sessions pointed at the installed skill followed it correctly on 15 requests, with no image tool, in prompt mode ([evaluation](docs/evaluation.md)). Not tested: whether a host picks the skill up from a plain request, running it inside Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, or Windsurf, and image generation with any image tool.
 
 ## What it does
 

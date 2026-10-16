@@ -137,7 +137,7 @@ La guía completa, con una entrada de registro completa y las preguntas sobre de
 
 Con `-g`, la CLI instala en la carpeta personal del agente (por ejemplo `~/.claude/skills/` para Claude Code y `~/.agents/skills/` para Codex).
 
-Qué se ha probado: la CLI de skills coloca la skill correctamente para cada agente de la tabla, y Claude Code la lista y la sigue (esta versión se ejercitó en sesiones de Claude Code sin herramienta de imágenes, en modo prompt). No se ha probado: ejecutar la skill dentro de Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode o Windsurf, ni generar imágenes con ninguna herramienta de imágenes.
+Qué se ha probado: la CLI de skills coloca la skill correctamente para cada agente de la tabla, y Claude Code la lista. Sesiones nuevas de agentes de Claude Code a las que se señaló la skill instalada la siguieron correctamente en 15 solicitudes, sin herramienta de imágenes y en modo prompt ([evaluación](../docs/evaluation.md)). No se ha probado: que un entorno cargue la skill a partir de una solicitud sencilla, ejecutarla dentro de Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode o Windsurf, ni generar imágenes con ninguna herramienta de imágenes.
 
 ## Personalización
 
