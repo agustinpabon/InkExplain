@@ -38,7 +38,7 @@ Whether a metaphor is good is a judgment, and nothing here scores it.
 That is 164 mechanical checks, and every run passed all of them against the pack it ran on. Three notes on how to read it:
 
 - The checker itself needed two corrections, both about the request and not the skill: it first looked for English words when judging whether a Spanish reply admitted that nothing was generated (#5), and it first expected saved prompts from a request that asked only to plan (#10). The agents' replies were right both times.
-- The skill was installed twice. #1 to #10 ran on the first install, and #11 to #15 on a second install made after the fixes below, together with new runs of #1 and #4. #2, #3, #5 to #10 were not repeated after the later wording fixes. #7 passed against the Sketch template of its day; the template later gained the words "no structure-type text", and #1, run again, passes on the final template.
+- The skill was installed twice. #1 to #10 ran on the first install. #11 to #15, and new runs of #1 and #4, ran on a second install made after the first round of fixes below; the fixes that came out of those later runs were not tried again, and neither were the last few edits (Generate mode saving its prompts, the license file's wording). #2, #3, and #5 to #10 were not repeated at all. #7 passed against the Sketch template of its day; the template later gained the words "no structure-type text", and #1, run again, passes on the final template.
 - Every agent was a Claude session reading the installed files. Another model, or a host that loads skills differently, may behave differently.
 
 ## What the runs found
