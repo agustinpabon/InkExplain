@@ -76,7 +76,7 @@ Only Xiaohei's images are published. The samples of the other characters that ea
 ### Go Gopher
 
 - The Go gopher was designed by Renee French and is licensed under the Creative Commons Attribution 4.0 license (<https://go.dev/blog/gopher>).
-- `skills/inkexplain/references/archetypes/gopher/gopher.png` is the archetype's identity reference, a front-facing vector gopher whose origin is not recorded. It is identical to the file in Visual IP Illustrations, which names go.dev as the source without saying who drew this image; it is not one of the images published on go.dev. It closely resembles the vector gopher by Takuya Ueda (<https://github.com/golang-samples/gopher-vector>, licensed Creative Commons Attribution 3.0), itself drawn after Renee French's design, but that match is unproven. Renee French's credit applies in every case; confirm or replace this image before relying on it as an unmodified copy of her work.
+- `skills/inkexplain/references/archetypes/gopher/gopher.png` is the archetype's identity reference: a vector drawing of the gopher by Takuya Ueda, an unmodified copy of `gopher.png` in <https://github.com/golang-samples/gopher-vector> at commit `9fe99fbf17b019125bf649f8a921882b54e151a6`. That repository states that the Go gopher was designed by Renee French and that the drawing was created by Takuya Ueda and is licensed under the Creative Commons Attribution 3.0 license. Credit Takuya Ueda as well as Renee French for images made with the drawing attached.
 - The archetype uses no Go logo and makes no claim of official Go project affiliation, approval, sponsorship, or endorsement.
 
 ### Littlebox

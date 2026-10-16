@@ -11,7 +11,7 @@ Sparse article sketches in which the Go gopher performs one cognitive action ins
 ## Linework
 
 - Rough black hand-drawn outlines with visible human looseness.
-- The gopher is drawn in the same loose line, simplified for article explanation, and keeps its black outline and white sticker-like border. Its marker set matters more than rendering detail.
+- The gopher is drawn in the same loose line, simplified for article explanation, and keeps its black outline. Its marker set matters more than rendering detail.
 - No polished vector finish, fur or texture rendering, or 3D.
 
 ## Color
@@ -25,7 +25,7 @@ Sparse article sketches in which the Go gopher performs one cognitive action ins
 
 - Usually two to six short labels, copied exactly in the user's language.
 - Rough handwritten text, never clean digital type.
-- Keep labels clear of the gopher's ears, eyes, nose, teeth, muzzle, paws, outline, and sticker border.
+- Keep labels clear of the gopher's ears, eyes, nose, teeth, muzzle, paws, and outline.
 - No titles, top-left headings, or dense text blocks.
 
 ## Avoid

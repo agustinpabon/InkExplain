@@ -4,7 +4,7 @@ The Go gopher, designed by Renee French, drawn as a compact, friendly operator o
 
 ## Identity
 
-Keep all eleven markers together, simplified for an article sketch:
+Keep all ten markers together, simplified for an article sketch:
 
 - blue rounded upright body
 - rounded head/body silhouette
@@ -16,9 +16,8 @@ Keep all eleven markers together, simplified for an article sketch:
 - compact limbs
 - friendly standing posture
 - black outline
-- white sticker-like border
 
-`references/archetypes/gopher/gopher.png`, the classic Go gopher design, is the bundled identity reference. It defines who the gopher is, never its pose or its layout in a scene.
+`references/archetypes/gopher/gopher.png`, Takuya Ueda's vector drawing of Renee French's gopher (the credit is in `rights.md`), is the bundled identity reference. It defines who the gopher is, never its pose or its layout in a scene.
 
 ## Personality
 
@@ -27,7 +26,7 @@ Keep all eleven markers together, simplified for an article sketch:
 
 ## Recognition
 
-- All eleven markers read together at article scale: the viewer sees the Go gopher, not a generic blue animal.
+- All ten markers read together at article scale: the viewer sees the Go gopher, not a generic blue animal.
 - The body stays blue, rounded, and upright; the muzzle and paws stay beige; the black nose and the two buck teeth stay visible.
 - Simplify the rendering, never the marker set. Keep proportions and colors identical across a series.
 - The gopher sits at the center of the action, never at the edge as a spectator.
@@ -36,7 +35,7 @@ Keep all eleven markers together, simplified for an article sketch:
 
 - Generic blue mascot drift: a generic blue character, animal mascot, plush toy, logo blob, vague blue silhouette, or generic programming-mascot look.
 - Realistic animal drift: a detailed rodent, groundhog, beaver, realistic gopher, fur-rendered mascot, or naturalistic creature.
-- A missing marker: missing ears, missing large simple eyes, missing buck teeth, missing beige muzzle/paws, missing black nose, missing black outline, or missing white sticker-like border; a body that is no longer blue, rounded, and upright; lost compact limbs or friendly standing posture.
+- A missing marker: missing ears, missing large simple eyes, missing buck teeth, missing beige muzzle/paws, missing black nose, or missing black outline; a body that is no longer blue, rounded, and upright; lost compact limbs or friendly standing posture.
 - An over-rendered toy or polished mascot-poster rendering.
 - Reference copying: the front-facing pose or centered layout of `gopher.png` reused instead of a new pose for the scene.
 - Go logo confusion: the Go logo replaces or accompanies the character, or the scene turns into a language logo graphic, language poster, or brand ad.

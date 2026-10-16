@@ -316,7 +316,7 @@
       "styleSheet": {
         "medium": "A sparse hand-drawn article sketch",
         "canvas": "16:9 on a white or very light background; the gopher's action fills 35-55%",
-        "linework": "Rough black outlines with visible human looseness; the gopher keeps its black outline and white sticker-like border",
+        "linework": "Rough black outlines with visible human looseness; the gopher keeps its black outline",
         "palette": ["black", "gopher blue", "beige", "red, orange, or blue accents"],
         "avoid": [
           "the Go logo and logo-forward layouts",
@@ -326,12 +326,19 @@
         ]
       },
       "legalNotice": {
-        "credit": "The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0",
+        "credit": "The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0; the bundled reference drawing is by Takuya Ueda (https://github.com/golang-samples/gopher-vector) under Creative Commons Attribution 3.0",
         "rightsHolder": "Renee French",
-        "license": "CC BY 4.0",
-        "attributionTerms": ["Renee French", "Creative Commons Attribution 4.0", "https://go.dev/blog/gopher"],
+        "license": "CC BY 4.0 (the design); CC BY 3.0 (the bundled reference drawing)",
+        "attributionTerms": [
+          "Renee French",
+          "Creative Commons Attribution 4.0",
+          "https://go.dev/blog/gopher",
+          "Takuya Ueda",
+          "Creative Commons Attribution 3.0",
+          "https://github.com/golang-samples/gopher-vector"
+        ],
         "restrictions": [
-          "Credit Renee French whenever generated images are published.",
+          "Credit Renee French whenever generated images are published, and Takuya Ueda as well when the bundled reference drawing was attached.",
           "No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement."
         ]
       },

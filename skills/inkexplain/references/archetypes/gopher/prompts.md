@@ -19,7 +19,7 @@ Generate one standalone [16:9] horizontal article illustration.
 
 Style: sparse hand-drawn article illustration on a white or very light background. Rough black hand-drawn outlines with visible human looseness, generous whitespace, one enlarged action subject, and a few low-tech supporting objects. No gradients, no shadows, no paper texture, no polished vector style, no dense infographic, no PPT slide, no UI screenshot, no poster composition.
 
-Character: the Go gopher, simplified for an article sketch and recognizable at a glance. Preserve every marker: blue rounded upright body, rounded head/body silhouette, small rounded ears, large simple eyes, black nose, buck teeth, beige muzzle and paws, compact limbs, friendly standing posture, black outline, and white sticker-like border. Not a realistic animal, not a generic blue mascot. [Reference sentence: Match the character in the attached reference image, but not its pose or layout.]
+Character: the Go gopher, simplified for an article sketch and recognizable at a glance. Preserve every marker: blue rounded upright body, rounded head/body silhouette, small rounded ears, large simple eyes, black nose, buck teeth, beige muzzle and paws, compact limbs, friendly standing posture, and black outline. Not a realistic animal, not a generic blue mascot. [Reference sentence: Match the character in the attached reference image, but not its pose or layout.]
 
 Action: the gopher performs the central cognitive action: [specific physical action and its object], caught at its decisive moment. Its eyes, paws, muzzle, and body direction serve that action. The metaphor must lose its meaning if the gopher is removed.
 
@@ -29,7 +29,7 @@ Structure: [Workflow / System close-up / Before and after / State change / Conce
 
 Supporting objects: [three to six low-tech article-metaphor objects, such as maps, bridges, knots, scales, lamps, stamps, keys, envelopes, threads, signposts, levers, or a small hand-built machine].
 
-Visible handwritten labels, copied exactly in the user's language: ["label 1", "label 2", "label 3"]. Rough handwritten text, sparse and legible; keep non-Latin scripts exactly as given, never translated. Keep labels away from the gopher's ears, eyes, nose, teeth, muzzle, paws, outline, and sticker border.
+Visible handwritten labels, copied exactly in the user's language: ["label 1", "label 2", "label 3"]. Rough handwritten text, sparse and legible; keep non-Latin scripts exactly as given, never translated. Keep labels away from the gopher's ears, eyes, nose, teeth, muzzle, paws, and outline.
 
 Color use: black for main strokes, objects, the gopher's outline, and labels. Gopher blue for the body, beige for the muzzle and paws. Restrained red, orange, or blue accents only for motion, stamps, warning marks, source tags, or decisive emphasis.
 
@@ -47,7 +47,7 @@ The shared edits in `references/workflow/editing.md` apply, including title remo
 For generic blue mascot drift, realistic animal drift, or any missing marker. Attach `references/archetypes/gopher/gopher.png` when the tool accepts reference images, and keep the reference sentence only then.
 
 ```text
-Edit the image to keep the same composition, action, labels, style, aspect ratio, and unaffected objects, but repair the character so it reads as the Go gopher. [Reference sentence: Match the character in the attached reference image, but not its pose or layout.] Restore every marker: blue rounded upright body, rounded head/body silhouette, small rounded ears, large simple eyes, black nose, buck teeth, beige muzzle and paws, compact limbs, friendly standing posture, black outline, and white sticker-like border. Remove [observed drift, such as a generic blue mascot, realistic animal features, fur rendering, or polished mascot-poster rendering]. Keep the gopher's current pose and action.
+Edit the image to keep the same composition, action, labels, style, aspect ratio, and unaffected objects, but repair the character so it reads as the Go gopher. [Reference sentence: Match the character in the attached reference image, but not its pose or layout.] Restore every marker: blue rounded upright body, rounded head/body silhouette, small rounded ears, large simple eyes, black nose, buck teeth, beige muzzle and paws, compact limbs, friendly standing posture, and black outline. Remove [observed drift, such as a generic blue mascot, realistic animal features, fur rendering, or polished mascot-poster rendering]. Keep the gopher's current pose and action.
 
 Rights note: [append the rights note from this file].
 ```
@@ -55,7 +55,7 @@ Rights note: [append the rights note from this file].
 ### Strengthen the gopher's participation
 
 ```text
-Regenerate this illustration with the same core idea, style, visible labels, aspect ratio, and unaffected supporting objects, but make the Go gopher perform the central cognitive action: [action]. The gopher must do the physical work that explains the idea, so the metaphor depends on it rather than on props, arrows, or labels. Keep the gopher's markers, colors, and proportions unchanged: blue rounded upright body, buck teeth, beige muzzle and paws, black outline, and white sticker-like border.
+Regenerate this illustration with the same core idea, style, visible labels, aspect ratio, and unaffected supporting objects, but make the Go gopher perform the central cognitive action: [action]. The gopher must do the physical work that explains the idea, so the metaphor depends on it rather than on props, arrows, or labels. Keep the gopher's markers, colors, and proportions unchanged: blue rounded upright body, buck teeth, beige muzzle and paws, and black outline.
 
 Rights note: [append the rights note from this file].
 ```
@@ -72,11 +72,11 @@ Rights note: [append the rights note from this file].
 
 Check every image against `references/workflow/qa-checklist.md`, then:
 
-- The Go gopher is recognizable at a glance: blue rounded upright body, rounded head/body silhouette, small rounded ears, large simple eyes, black nose, buck teeth, beige muzzle and paws, compact limbs, friendly standing posture, black outline, and white sticker-like border.
+- The Go gopher is recognizable at a glance: blue rounded upright body, rounded head/body silhouette, small rounded ears, large simple eyes, black nose, buck teeth, beige muzzle and paws, compact limbs, friendly standing posture, and black outline.
 - The gopher performs the central cognitive action; removing it breaks the metaphor.
 - Sparse hand-drawn black linework on a white or very light background; gopher blue and beige only on the gopher; red, orange, or blue accents only for motion, stamps, warnings, source tags, or emphasis.
 - Three to six low-tech supporting objects carry an original article metaphor.
-- Two to six short handwritten labels, copied exactly, clear of the gopher's face, paws, outline, and sticker border.
+- Two to six short handwritten labels, copied exactly, clear of the gopher's face, paws, and outline.
 - No Go logo, and nothing suggests official Go project affiliation, approval, sponsorship, or endorsement.
 - The pose and layout are new, not taken from `gopher.png` or an earlier image.
 - The plan, every prompt, and the delivery report carry the rights note.
@@ -88,7 +88,7 @@ Check every image against `references/workflow/qa-checklist.md`, then:
 | Go logo, badge, language poster, brand ad, or endorsement wording | "Logo and endorsement repair" |
 | The front-facing pose of `gopher.png`, an earlier image's composition, or a reused metaphor | Keep the core idea and the working labels; invent a new physical metaphor with a different main object and gopher action |
 | UI screenshots, IDE or terminal scenes, code screenshots, formal diagrams, dense PPT-like infographics, or poster layouts | Regenerate as a low-tech article metaphor with the constraints restated |
-| Full-sentence annotations, bilingual clutter, clean digital typography, labels crowding the gopher, or a credit line, URL, or license text drawn into the image | "Reduce text" in `references/workflow/editing.md`, keeping labels away from the ears, eyes, nose, teeth, muzzle, paws, outline, and border |
+| Full-sentence annotations, bilingual clutter, clean digital typography, labels crowding the gopher, or a credit line, URL, or license text drawn into the image | "Reduce text" in `references/workflow/editing.md`, keeping labels away from the ears, eyes, nose, teeth, muzzle, paws, and outline |
 | Titles or label typos | "Remove a title" or "Fix a label" in `references/workflow/editing.md` |
 | Missing rights note | Restore the rights note |
 | Characters, styles, or objects from other archetypes | Regenerate with this pack only |
@@ -96,7 +96,7 @@ Check every image against `references/workflow/qa-checklist.md`, then:
 ## Delivery notes
 
 - Archetype: Go Gopher (`gopher`), status `active`. Folder: `assets/<article-slug>-gopher/`.
-- Credit line: "The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0." Repeat the rights note in the report, and remind the user to credit Renee French next to any published image.
+- Credit line: "The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0." Repeat the rights note in the report, and remind the user to credit Renee French next to any published image, and Takuya Ueda too when `gopher.png` was attached.
 - Say whether `gopher.png` was attached as the identity reference, and name any marker that needed repair.
 - Never call the images official Go artwork or imply that the Go project approved them.
 
@@ -105,5 +105,5 @@ Check every image against `references/workflow/qa-checklist.md`, then:
 Append this note to every generation and edit prompt, attach it to every plan, and repeat it in the delivery report:
 
 ```text
-The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0; credit Renee French whenever these images are published. No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement.
+The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0; credit Renee French whenever these images are published. If the reference drawing gopher.png was attached, it is by Takuya Ueda (https://github.com/golang-samples/gopher-vector) under Creative Commons Attribution 3.0, so credit Takuya Ueda as well. No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement.
 ```

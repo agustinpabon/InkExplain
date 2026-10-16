@@ -151,7 +151,7 @@ Generate one standalone 16:9 horizontal article illustration.
 
 Style: sparse hand-drawn article illustration on a white or very light background. Rough black hand-drawn outlines with visible human looseness, generous whitespace, one enlarged action subject, and a few low-tech supporting objects. No gradients, no shadows, no paper texture, no polished vector style, no dense infographic, no PPT slide, no UI screenshot, no poster composition.
 
-Character: the Go gopher, simplified for an article sketch and recognizable at a glance. Preserve every marker: blue rounded upright body, rounded head/body silhouette, small rounded ears, large simple eyes, black nose, buck teeth, beige muzzle and paws, compact limbs, friendly standing posture, black outline, and white sticker-like border. Not a realistic animal, not a generic blue mascot.
+Character: the Go gopher, simplified for an article sketch and recognizable at a glance. Preserve every marker: blue rounded upright body, rounded head/body silhouette, small rounded ears, large simple eyes, black nose, buck teeth, beige muzzle and paws, compact limbs, friendly standing posture, and black outline. Not a realistic animal, not a generic blue mascot.
 
 Action: the gopher performs the central cognitive action: holding a wooden parcel against a one-parcel hatch that is still occupied, while a second, identical gopher on the far side lifts out one parcel at a time, caught at its decisive moment. Its eyes, paws, muzzle, and body direction serve that action. The metaphor must lose its meaning if the gopher is removed.
 
@@ -161,13 +161,13 @@ Structure: Workflow. Composition: A conveyor belt runs in from the left edge tow
 
 Supporting objects: a conveyor belt, four wooden parcels, a one-parcel hatch, and an output tray.
 
-Visible handwritten labels, copied exactly in the user's language: ["workers", "one slot", "consumer"]. Rough handwritten text, sparse and legible; keep non-Latin scripts exactly as given, never translated. Keep labels away from the gopher's ears, eyes, nose, teeth, muzzle, paws, outline, and sticker border.
+Visible handwritten labels, copied exactly in the user's language: ["workers", "one slot", "consumer"]. Rough handwritten text, sparse and legible; keep non-Latin scripts exactly as given, never translated. Keep labels away from the gopher's ears, eyes, nose, teeth, muzzle, paws, and outline.
 
 Color use: black for main strokes, objects, the gopher's outline, and labels. Gopher blue for the body, beige for the muzzle and paws. Restrained red, orange, or blue accents only for motion, stamps, warning marks, source tags, or decisive emphasis.
 
 Constraints: one image explains one core idea. No title, no top-left heading, no structure-type text, no dense text, no clean digital font labels, no crowded nodes, no formal diagrams. No Go logo and no logo-forward composition. No text or cues suggesting official Go project affiliation, approval, sponsorship, or endorsement. No credit line, URL, or license text in the image. No mascot asset-sheet layout, no code screenshots, no IDE or terminal scenes, no UI screenshots. Nothing from other archetypes, and no copied prior composition.
 
-Rights note: The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0; credit Renee French whenever these images are published. No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement.
+Rights note: The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0; credit Renee French whenever these images are published. If the reference drawing gopher.png was attached, it is by Takuya Ueda (https://github.com/golang-samples/gopher-vector) under Creative Commons Attribution 3.0, so credit Takuya Ueda as well. No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement.
 ```
 
 ```text
