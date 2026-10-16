@@ -90,7 +90,7 @@ The registry is a contract with the packs, not a copy of them. Identity markers 
 
 `examples/gallery/index.html` is one offline file: HTML, CSS, and JavaScript with no dependencies, opened from a checkout or served as static files. It lists every archetype with its style, motion rules, rights, and approved sample images, and it assembles a prompt for the concept a visitor types.
 
-- **Data**: the page cannot read the repository, so `npm run build:docs` embeds the registry data, each pack's generation template, and the approved sample paths in a generated `gallery-data` region. An archetype whose `sampleGates.status` is not `approved` lists no images. A pack that drops a field the page fills (the scene, the action, or the labels) fails the build.
+- **Data**: the page cannot read the repository, so `npm run build:docs` embeds the registry data, each pack's generation template, the approved sample paths, and a one-line source for each sample set (from `examples/gallery/provenance.json`) in a generated `gallery-data` region. An archetype whose `sampleGates.status` is not `approved` lists no images. A pack that drops a field the page fills (the scene, the action, or the labels) fails the build.
 - **Prompts**: the page fills a template with the same rules as `scripts/lib/prompt-assembly.mjs`. A test runs the page's helper functions against that library, so both assemble identical prompts.
 - **Policy**: a strict `Content-Security-Policy` (`default-src 'none'`) blocks every network request, and `SEC-006` rejects remote resources, network and dynamic-code APIs, and markup built from strings.
 
@@ -109,6 +109,7 @@ scripts/
     ├── registry.mjs         registry schema, alias index, archetype resolution
     ├── docs-render.mjs      routing.md, archetype tables, language selectors, the gallery data block
     ├── prompt-assembly.mjs  fills a pack's generation template, checks a prompt against it, derives negative prompts
+    ├── provenance.mjs       the gallery's provenance manifest: where each sample set came from, and git blob hashes
     ├── gallery-data.mjs     the data embedded in the gallery page
     ├── images.mjs           PNG structure and SVG safety
     ├── check-runner.mjs     check model, execution, skipping, formatting
@@ -122,15 +123,17 @@ scripts/
 | `PKG` | `package.mjs` | required files, SKILL.md frontmatter, length, and links, references that resolve inside the installed package, `openai.yaml`, package hygiene |
 | `SCHEMA` | `schema.mjs` | registry schema, alias integrity, the five pack files and their sections, registry-to-pack contracts, prompts and rights notes, isolation between packs, generated `routing.md`, the page-color policy reaching the style sheet and the generation prompt |
 | `DOC` | `docs.mjs` | README identity, links and anchors, generated README and gallery regions, translations, example prompt coverage |
-| `LEGAL` | `legal.mjs` | MIT terms and original copyright, ATTRIBUTIONS origins and credits, every `rights.md`, gated-archetype boundaries |
-| `ASSET` | `assets.mjs` | PNG and SVG integrity, the public-sample gate |
+| `LEGAL` | `legal.mjs` | MIT terms and original copyright, ATTRIBUTIONS credits for every archetype, the Origins section crediting every copyright holder LICENSE keeps, every `rights.md`, gated-archetype boundaries |
+| `ASSET` | `assets.mjs` | PNG and SVG integrity, the public-sample gate, and the provenance manifest: every published image has a recorded source and still matches its recorded hash |
 | `LANG` | `language.mjs` | English-default scan, allowlist narrowness, policy completeness |
 | `BRAND` | `branding.mjs` | origin project names only as attribution, one identity across surfaces |
 | `SEC` | `security.mjs` | credential patterns, machine paths, symlinks, offline and shell-free scripts, no dependencies, an offline gallery page |
 
 Each check returns structured issues (`path`, `line`, `message`); a check that crashes fails alone instead of aborting the run, and checks whose prerequisites failed are reported as skipped. `node scripts/validate.mjs --list` prints the catalog; `--only SCHEMA,DOC-002` selects areas or ids; `--json` produces machine-readable results.
 
-`BRAND-001` reads the names it guards from the Origins section of `ATTRIBUTIONS.md` instead of hardcoding them: the project names and GitHub accounts listed there may appear only in attribution (ATTRIBUTIONS, LICENSE, `rights.md` files, and the README credits regions). Crediting an origin and keeping the product's own identity are enforced by the same data.
+`BRAND-001` reads the names it guards from the Origins section of `ATTRIBUTIONS.md` instead of hardcoding them: the project names and GitHub accounts listed there may appear only in attribution. The allowlist in `scripts/lib/config.mjs` classifies each attribution surface: the credits themselves (ATTRIBUTIONS, LICENSE, the provenance record, the README credits and gallery-credits regions), the data and rights notes they are written from (`registry.json`, each pack's `rights.md` and `prompts.md`), the views generated from them (`routing.md`, the gallery page, the README archetype table), the walkthroughs that quote rights notes, and tests. Crediting an origin and keeping the product's own identity are enforced by the same data.
+
+`LEGAL-005` keeps that data from disappearing: ATTRIBUTIONS must keep an Origins section that names every copyright holder in LICENSE other than the maintainer, with a repository link and a license for each origin. [provenance.md](provenance.md) records what was taken from each origin and how that was measured.
 
 Per-archetype rules are data. Adding an archetype never requires new validator code: the registry entry carries the markers, palette, actions, credits, and sample decision that the generic checks enforce.
 

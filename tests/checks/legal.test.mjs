@@ -48,6 +48,31 @@ test("LEGAL-003 requires rights records to state status, category, holder, and a
   assert.match(text, /does not record attribution "Example Studio"/);
 });
 
+test("LEGAL-005 requires an Origins section that credits every origin with a link and a license", (t) => {
+  assert.equal(createFixture(t).check("LEGAL-005").status, "pass");
+
+  const missing = createFixture(t);
+  missing.write("ATTRIBUTIONS.md", missing.read("ATTRIBUTIONS.md").replace(/## Origins[\s\S]*?(?=## Trademarks)/, ""));
+  assert.match(messages(missing.check("LEGAL-005")), /needs a "## Origins" section that credits the projects InkExplain builds on/);
+
+  const empty = createFixture(t);
+  empty.write("ATTRIBUTIONS.md", empty.read("ATTRIBUTIONS.md").replace(/(## Origins\n\n)[^\n]*\n/, "$1Nothing to credit.\n"));
+  assert.match(messages(empty.check("LEGAL-005")), /must list each origin project with a bold name/);
+
+  const bare = createFixture(t);
+  bare.replace("ATTRIBUTIONS.md", ` (<https://github.com/example-origin/example-origin-kit>), MIT License`, "");
+  const text = messages(bare.check("LEGAL-005"));
+  assert.match(text, /origin "Example Origin Kit" needs a link to its repository, on the same line/);
+  assert.match(text, /origin "Example Origin Kit" needs its license, on the same line/);
+});
+
+test("LEGAL-005 requires the origins to name every copyright holder LICENSE keeps besides the maintainer", (t) => {
+  const fixture = createFixture(t).replace("ATTRIBUTIONS.md", "by Ian and Agustin Pabon", "by Agustin Pabon");
+  assert.match(messages(fixture.check("LEGAL-005")), /the Origins section must credit "Ian", whose copyright LICENSE keeps/);
+  const credited = createFixture(t).replace("ATTRIBUTIONS.md", "by Ian and Agustin Pabon", "by Ian");
+  assert.equal(credited.check("LEGAL-005").status, "pass", "the maintainer's own line needs no origin entry");
+});
+
 test("LEGAL-003 requires a rights record for the house style too", (t) => {
   const fixture = createFixture(t).remove(`${PACK}/ink/rights.md`);
   assert.match(messages(fixture.check("LEGAL-003")), /archetype ink has no rights record/);

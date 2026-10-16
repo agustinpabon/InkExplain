@@ -4,6 +4,55 @@ Third-party notices for InkExplain. InkExplain is distributed under the MIT Lice
 
 Each archetype's rights record, `skills/inkexplain/references/archetypes/<id>/rights.md`, is the operative authority for that archetype. `skills/inkexplain/registry.json` records each archetype's legal notice and its public-sample decision.
 
+## Origins
+
+InkExplain builds on three earlier projects, all released under the MIT License. Its own code, tests, shared workflow, default style, Stickman, and documentation were written for InkExplain. Its project layout and release process follow the first project below, the wording of six of its character packs (Ferris, Go Gopher, Littlebox, OpenClaw, Seal, and Tux) adapts text from it, and the images in its example gallery are unmodified copies of files from the first two projects.
+
+- **Visual IP Illustrations** by yangchuansheng (Carson Yang), a fork of Ian Xiaohei Illustrations: <https://github.com/yangchuansheng/visual-ip-illustrations>. MIT License; the fork keeps `Copyright (c) 2026 Ian`. Inspected commit: `30a9d4e05124fda05356acb679fa2989ed5cb51c`.
+- **Ian Xiaohei Illustrations** by Ian (helloianneo): <https://github.com/helloianneo/ian-xiaohei-illustrations>. MIT License; `Copyright (c) 2026 Ian`. Inspected commit: `4102eb807f03bcb6e538a16e8b31b41db8b5b954`. The original skill that Visual IP Illustrations forks, and the source of Xiaohei and of the Chinese-labeled Xiaohei images.
+- **5km Littlebox Illustrations** by okooo5km: <https://github.com/okooo5km/5km-littlebox-illustrations>. MIT License; `Copyright (c) 2026 okooo5km`. Inspected commits: `37cd93ee516da0324577b7bbc8ca3146e5c8d8d7` and `d760004243e8a8613f7d140dbe1c6ee0e0df352a`. The source of Littlebox (see below). Its own notice credits Ian Xiaohei Illustrations as the inspiration for its skill structure and workflow.
+
+The commit history of this repository was consolidated under the maintainer's name, so it does not show who wrote this earlier material. The upstream repositories are the record of authorship, and [docs/provenance.md](docs/provenance.md) records what InkExplain took from each, how that was checked, and what is still open.
+
+### MIT notice for the material above
+
+The following notice applies to the material taken from the projects above and from the OpenClaw project credited below.
+
+```text
+Copyright (c) 2026 Ian
+Copyright (c) 2026 okooo5km
+Copyright (c) 2026 OpenClaw Foundation
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## Example gallery images
+
+Every image in `examples/gallery/` is an unmodified copy of a file published by one of the projects above; none was generated for InkExplain. [examples/gallery/provenance.json](examples/gallery/provenance.json) records, for each set of images, the repository, the commit, the path, and the git blob hash of every file, so a copy can be checked against its source, and `npm run validate` fails if an image changes.
+
+| Images | Copied from |
+|---|---|
+| `en/` Xiaohei, Littlebox, Ferris, Seal, OpenClaw, and Go Gopher; `zh/` Littlebox, Ferris, and Seal | Visual IP Illustrations, `examples/images-en/` and `examples/images/` |
+| `zh/` Xiaohei | Ian Xiaohei Illustrations, `examples/images/` |
+
+The Littlebox images predate the pure white default and show its optional backgrounds. Each character's own notice below says what the character itself is licensed under; the license of a project's code or images does not extend to a character it merely depicts.
+
 ## Character archetypes
 
 ### Xiaohei

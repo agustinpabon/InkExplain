@@ -18,6 +18,7 @@ import {
   slotDefaults,
   withRightsNote,
 } from "./prompt-assembly.mjs";
+import { describeSet, loadProvenance, setFor } from "./provenance.mjs";
 import { CATEGORIES, STATUSES, backgroundPhrase, outputDirectory, packFilePath } from "./registry.mjs";
 
 /** Placeholders the page replaces with what the visitor types or picks. */
@@ -76,6 +77,28 @@ export function sampleImages(repo, archetype) {
   return images;
 }
 
+/**
+ * Where each approved sample directory came from, one entry per label language, so the page
+ * can say whether it shows unmodified copies of another project's images or InkExplain renders.
+ */
+function sampleSources(archetype, manifest) {
+  if (archetype.sampleGates.status !== "approved" || manifest === null) return [];
+  const pageDirectory = path.posix.dirname(PATHS.galleryPage);
+  const sources = [];
+  for (const directory of archetype.sampleGates.directories) {
+    const set = setFor(manifest, directory);
+    if (set === undefined) continue;
+    const language = path.posix.relative(pageDirectory, directory).split("/")[0];
+    sources.push({
+      language: /^[a-z]{2}$/.test(language) ? language : "en",
+      kind: set.origin,
+      summary: describeSet(set),
+      note: set.note ?? null,
+    });
+  }
+  return sources;
+}
+
 function promptData(repo, archetype) {
   const file = packFilePath(archetype, "prompts.md");
   const text = repo.readTextIfExists(file);
@@ -122,6 +145,8 @@ function backgroundData(archetype) {
 
 /** The complete, JSON-ready gallery data for a registry. Throws when a pack has no usable template. */
 export function buildGalleryData(repo, registry) {
+  // An invalid or missing manifest only means the page shows no source line; ASSET-003 reports it.
+  const { manifest } = loadProvenance(repo);
   const archetypes = registry.archetypes.map((archetype) => {
     const { motionDna: motion, styleSheet: style, legalNotice: legal, sampleGates: samples } = archetype;
     return {
@@ -149,7 +174,7 @@ export function buildGalleryData(repo, registry) {
         restrictions: legal.restrictions,
         thirdParty: archetype.thirdParty,
       },
-      samples: { status: samples.status, decision: samples.decision, images: sampleImages(repo, archetype) },
+      samples: { status: samples.status, decision: samples.decision, images: sampleImages(repo, archetype), sources: sampleSources(archetype, manifest) },
       prompt: promptData(repo, archetype),
     };
   });

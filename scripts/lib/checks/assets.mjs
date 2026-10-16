@@ -4,6 +4,7 @@ import path from "node:path";
 import { defineCheck } from "../check-runner.mjs";
 import { GALLERY_FILE_PATTERN, GALLERY_LANGUAGES, PATHS } from "../config.mjs";
 import { readPngInfo, svgProblems } from "../images.mjs";
+import { gitBlobSha1, loadProvenance } from "../provenance.mjs";
 
 const IMAGE_EXTENSIONS = new Set([".png", ".svg", ".gif", ".jpg", ".jpeg", ".webp"]);
 
@@ -80,6 +81,56 @@ export const assetChecks = [
         } else if (!gate.directories.includes(place.directory)) {
           issues.push({ path: file, message: `${place.directory} is not an approved sample directory for archetype ${archetype.id}` });
         }
+      }
+      return issues;
+    },
+  }),
+
+  defineCheck({
+    id: "ASSET-003",
+    area: "ASSET",
+    title: "every published sample has a recorded source and still matches the copy on record",
+    run({ repo }) {
+      const published = new Map();
+      for (const file of imageFiles(repo)) {
+        const place = classifyImage(file);
+        if (place.kind !== "gallery") continue;
+        if (!published.has(place.directory)) published.set(place.directory, []);
+        published.get(place.directory).push(place.name);
+      }
+      if (published.size === 0) return [];
+
+      const { manifest, issues: problems, missing } = loadProvenance(repo);
+      if (manifest === null) {
+        return missing
+          ? [{ path: PATHS.galleryProvenance, message: "missing; every published sample needs a recorded source (see docs/provenance.md)" }]
+          : problems.map((issue) => ({ path: PATHS.galleryProvenance, message: `${issue.where}: ${issue.message}` }));
+      }
+
+      const issues = [];
+      for (const [directory, names] of published) {
+        const set = manifest.sets.find((candidate) => candidate.directory === directory);
+        if (set === undefined) {
+          issues.push({ path: directory, message: `published samples have no set in ${PATHS.galleryProvenance}; record where they came from` });
+          continue;
+        }
+        for (const name of names) {
+          const recorded = set.files[name];
+          if (recorded === undefined) {
+            issues.push({ path: `${directory}/${name}`, message: "is not listed in the provenance manifest" });
+          } else if (gitBlobSha1(repo.readBuffer(`${directory}/${name}`)) !== recorded) {
+            issues.push({
+              path: `${directory}/${name}`,
+              message: `differs from the copy on record (git blob ${recorded.slice(0, 10)}...); an edited image is not a copy, so describe it as an inkexplain set`,
+            });
+          }
+        }
+        for (const name of Object.keys(set.files)) {
+          if (!names.includes(name)) issues.push({ path: `${directory}/${name}`, message: "is listed in the provenance manifest but the image is missing" });
+        }
+      }
+      for (const set of manifest.sets) {
+        if (!published.has(set.directory)) issues.push({ path: PATHS.galleryProvenance, message: `describes ${set.directory}, which has no gallery images` });
       }
       return issues;
     },

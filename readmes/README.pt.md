@@ -118,7 +118,9 @@ Imagens de exemplo, cada uma com o seu arquétipo. As imagens do InkExplain Sket
 | **OpenClaw** | **Go Gopher** | **Xiaohei** |
 | ![Prensa de ideias: o mascote do OpenClaw opera uma prensa](../examples/gallery/en/openclaw/06-idea-press.png) | ![Ponte de confiança: o gopher coloca tábuas sobre um vão](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Um peixe, muitos usos: Xiaohei corta um peixe de material em vários pedaços](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
+<!-- inkexplain:gallery-credits:start -->
 Littlebox é uma adaptação de 5km Littlebox Illustrations, de okooo5km (MIT). Ferris é obra de Karen Rustad Tolva (CC0). O gopher do Go foi criado por Renee French (CC BY 4.0). O mascote do OpenClaw vem do projeto OpenClaw (MIT). Xiaohei é o personagem de Ian em Ian Xiaohei Illustrations (MIT). Todas as imagens estão em [examples/gallery](../examples/gallery): com rótulos em inglês para seis arquétipos e em chinês para quatro.
+<!-- inkexplain:gallery-credits:end -->
 
 ## Como adicionar novos personagens e estilos de animação
 
@@ -180,7 +182,7 @@ A arquitetura, o modelo de divulgação progressiva, o catálogo de verificaçõ
 ## Créditos e licença
 
 <!-- inkexplain:credits:start -->
-Personagens e marcas de terceiros permanecem propriedade de seus respectivos titulares. Consulte [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) para avisos e licenças de cada personagem.
+O InkExplain se baseia em três projetos anteriores sob licença MIT: [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations) de yangchuansheng, [Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations) de Ian e [5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations) de okooo5km. As imagens da galeria são cópias sem modificação dos dois primeiros. Personagens e marcas de terceiros pertencem aos respectivos titulares. Veja [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) para as origens, os avisos e as licenças de cada personagem.
 <!-- inkexplain:credits:end -->
 
 InkExplain é distribuído sob a [Licença MIT](../LICENSE).

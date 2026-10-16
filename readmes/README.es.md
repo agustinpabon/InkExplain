@@ -118,7 +118,9 @@ Imágenes de muestra, cada una junto a su arquetipo. Las de InkExplain Sketch se
 | **OpenClaw** | **Go Gopher** | **Xiaohei** |
 | ![Prensa de ideas: la mascota de OpenClaw acciona una prensa](../examples/gallery/en/openclaw/06-idea-press.png) | ![Puente de confianza: el gopher coloca tablones sobre un hueco](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Un pez, muchos usos: Xiaohei corta un pez de material en varias piezas](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
+<!-- inkexplain:gallery-credits:start -->
 Littlebox es una adaptación de 5km Littlebox Illustrations, de okooo5km (MIT). Ferris es obra de Karen Rustad Tolva (CC0). El gopher de Go fue diseñado por Renee French (CC BY 4.0). La mascota de OpenClaw procede del proyecto OpenClaw (MIT). Xiaohei es el personaje de Ian en Ian Xiaohei Illustrations (MIT). Todas las imágenes están en [examples/gallery](../examples/gallery): con etiquetas en inglés para seis arquetipos y en chino para cuatro.
+<!-- inkexplain:gallery-credits:end -->
 
 ## Añadir nuevos personajes y estilos de animación
 
@@ -180,7 +182,7 @@ La arquitectura, el modelo de divulgación progresiva, el catálogo de comprobac
 ## Créditos y licencia
 
 <!-- inkexplain:credits:start -->
-Los personajes y marcas de terceros pertenecen a sus respectivos titulares. Consulta [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) para conocer las licencias y avisos de cada personaje.
+InkExplain se apoya en tres proyectos anteriores con licencia MIT: [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations) de yangchuansheng, [Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations) de Ian y [5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations) de okooo5km. Las imágenes de la galería son copias sin modificar de los dos primeros. Los personajes y marcas de terceros pertenecen a sus respectivos titulares. Consulta [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) para conocer los orígenes y las licencias y avisos de cada personaje.
 <!-- inkexplain:credits:end -->
 
 InkExplain se publica bajo la [licencia MIT](../LICENSE).

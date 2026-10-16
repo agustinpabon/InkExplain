@@ -83,7 +83,7 @@ test("only approved samples are listed, relative to the page, with their languag
     { src: "en/demo/01-demo-scene.png", caption: "Demo scene", language: "en" },
     { src: "zh/demo/02-second-scene.png", caption: "Second scene", language: "zh" },
   ]);
-  assert.deepEqual(data.archetypes[0].samples, { status: "pending", decision: "No samples in this fixture yet.", images: [] });
+  assert.deepEqual(data.archetypes[0].samples, { status: "pending", decision: "No samples in this fixture yet.", images: [], sources: [] });
   assert.equal(data.archetypes[2].samples.status, "withheld");
   assert.deepEqual(data.archetypes[2].samples.images, []);
   assert.deepEqual(sampleImages(repo, registry.byId.get("guarded")), []);
@@ -154,6 +154,49 @@ test("the shipped gallery data gives Littlebox, and only Littlebox, a page color
   assert.ok(littlebox.prompt.template.includes(`flat ${TOKENS.background}.`));
   assert.deepEqual(littlebox.style.palette, ["black", "amber", "coral", "pure white"]);
   assert.doesNotMatch(`${littlebox.summary} ${littlebox.style.canvas}`, /E3F2FD|E6E6FA|lavender|sky/i, "the default is not described as blue or lavender");
+});
+
+test("each approved sample directory says where its images came from, in its own label language", (t) => {
+  const { repo, registry } = load(createFixture(t).root);
+  const [ink, demo, guarded] = buildGalleryData(repo, registry).archetypes;
+  assert.deepEqual(demo.samples.sources, [
+    {
+      language: "en",
+      kind: "inkexplain",
+      summary: "InkExplain renders generated with Fixture image tool on 2026-01-02, reviewed by Fixture Reviewer on 2026-01-02.",
+      note: null,
+    },
+  ]);
+  assert.deepEqual(ink.samples.sources, [], "an archetype with pending samples lists no sources");
+  assert.deepEqual(guarded.samples.sources, []);
+});
+
+test("a missing or invalid provenance manifest leaves the sources empty instead of breaking the build", (t) => {
+  const fixture = createFixture(t);
+  fixture.write("examples/gallery/provenance.json", "{ not json");
+  const { repo, registry } = load(fixture.root);
+  assert.deepEqual(buildGalleryData(repo, registry).archetypes[1].samples.sources, []);
+  fixture.remove("examples/gallery/provenance.json");
+  assert.deepEqual(buildGalleryData(load(fixture.root).repo, registry).archetypes[1].samples.sources, []);
+});
+
+test("the shipped gallery data names the project each set was copied from, and flags the Littlebox backgrounds", () => {
+  const { repo, registry } = load(REPO_ROOT);
+  const archetypes = new Map(buildGalleryData(repo, registry).archetypes.map((archetype) => [archetype.id, archetype]));
+  for (const id of ["xiaohei", "littlebox", "ferris", "seal"]) {
+    assert.deepEqual(archetypes.get(id).samples.sources.map((source) => source.language), ["en", "zh"], id);
+  }
+  for (const id of ["openclaw", "gopher"]) assert.deepEqual(archetypes.get(id).samples.sources.map((source) => source.language), ["en"], id);
+  for (const id of ["ink", "stickman", "tux"]) assert.deepEqual(archetypes.get(id).samples.sources, [], `${id} has no published samples`);
+
+  const xiaohei = archetypes.get("xiaohei").samples.sources;
+  assert.match(xiaohei[0].summary, /Unmodified copies of Visual IP Illustrations images \(MIT, Copyright \(c\) 2026 Ian\), first published 2026-06-15\./);
+  assert.match(xiaohei[1].summary, /Unmodified copies of Ian Xiaohei Illustrations images \(MIT, Copyright \(c\) 2026 Ian\), first published 2026-05-27\./);
+  for (const source of archetypes.get("littlebox").samples.sources) {
+    assert.equal(source.kind, "historical");
+    assert.match(source.note, /alternating from one image to the next\. They predate InkExplain's pure white default/);
+  }
+  assert.ok(archetypes.get("ferris").samples.sources.every((source) => source.note === null));
 });
 
 test("a pack that drops a shared field fails the build with the file named", (t) => {

@@ -118,7 +118,9 @@ $inkexplain Режим промптов: напиши для трёх изобр
 | **OpenClaw** | **Go Gopher** | **Xiaohei** |
 | ![Пресс идей: талисман OpenClaw управляет прессом](../examples/gallery/en/openclaw/06-idea-press.png) | ![Мост доверия: гофер укладывает доски через пропасть](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Одна рыба, много применений: Xiaohei разрезает рыбу-материал на несколько частей](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
+<!-- inkexplain:gallery-credits:start -->
 Littlebox — адаптация 5km Littlebox Illustrations авторства okooo5km (MIT). Автор Ferris — Karen Rustad Tolva (CC0). Дизайн гофера Go создала Renee French (CC BY 4.0). Талисман OpenClaw взят из проекта OpenClaw (MIT). Xiaohei — персонаж Ian из Ian Xiaohei Illustrations (MIT). Все изображения — в [examples/gallery](../examples/gallery): с подписями на английском для шести архетипов и на китайском для четырёх.
+<!-- inkexplain:gallery-credits:end -->
 
 ## Добавление новых персонажей и стилей анимации
 
@@ -180,7 +182,7 @@ npm run check          # всё, что запускает CI
 ## Авторство и лицензия
 
 <!-- inkexplain:credits:start -->
-Сторонние персонажи и товарные знаки остаются собственностью их владельцев. Уведомления и лицензии для каждого персонажа приведены в [ATTRIBUTIONS.md](../ATTRIBUTIONS.md).
+InkExplain опирается на три более ранних проекта под лицензией MIT: [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations) автора yangchuansheng, [Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations) автора Ian и [5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations) автора okooo5km. Изображения в галерее — неизмененные копии из первых двух проектов. Сторонние персонажи и товарные знаки остаются собственностью их владельцев. Источники, уведомления по каждому персонажу и лицензии указаны в [ATTRIBUTIONS.md](../ATTRIBUTIONS.md).
 <!-- inkexplain:credits:end -->
 
 InkExplain распространяется на условиях [лицензии MIT](../LICENSE).

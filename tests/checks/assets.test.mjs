@@ -57,3 +57,59 @@ test("ASSET-002 treats package calibration folders like gallery folders", (t) =>
   fixture.updateRegistry((data) => data.archetypes[1].sampleGates.directories.push("skills/inkexplain/assets/demo"));
   assert.equal(fixture.check("ASSET-002").status, "pass");
 });
+
+const MANIFEST = "examples/gallery/provenance.json";
+
+test("ASSET-003 passes when every published image is recorded and unchanged, and when nothing is published", (t) => {
+  assert.equal(createFixture(t).check("ASSET-003").status, "pass");
+  const empty = createFixture(t).remove("examples/gallery/en/demo").remove(MANIFEST);
+  assert.equal(empty.check("ASSET-003").status, "pass", "no published samples, so nothing to explain");
+});
+
+test("ASSET-003 needs a manifest as soon as anything is published, and reports a broken one", (t) => {
+  const fixture = createFixture(t).remove(MANIFEST);
+  assert.match(messages(fixture.check("ASSET-003")), /provenance\.json: missing; every published sample needs a recorded source/);
+  fixture.write(MANIFEST, "{ not json");
+  assert.match(messages(fixture.check("ASSET-003")), /provenance\.json: \$: invalid JSON/);
+  fixture.write(MANIFEST, JSON.stringify({ schemaVersion: 1, sets: [{ directory: "examples/gallery/en/demo", origin: "found online", files: {} }] }));
+  assert.match(messages(fixture.check("ASSET-003")), /sets\[0\]\.origin: must be one of historical, inkexplain/);
+});
+
+test("ASSET-003 catches a changed copy, an unrecorded image, a missing one, and a set with no images", (t) => {
+  const fixture = createFixture(t);
+  fixture.write("examples/gallery/en/demo/01-demo-scene.png", makePng(6, 5));
+  fixture.write("examples/gallery/en/demo/02-extra.png", makePng());
+  fixture.write("examples/gallery/zh/demo/01-other.png", makePng());
+  const manifest = JSON.parse(fixture.read(MANIFEST));
+  manifest.sets[0].files["03-gone.png"] = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391";
+  manifest.sets.push({ ...structuredClone(manifest.sets[0]), directory: "examples/gallery/en/ghost", files: { "01-x.png": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391" } });
+  fixture.write(MANIFEST, JSON.stringify(manifest));
+  const text = messages(fixture.check("ASSET-003"));
+  assert.match(text, /en\/demo\/01-demo-scene\.png: differs from the copy on record \(git blob [0-9a-f]{10}\.\.\.\); an edited image is not a copy/);
+  assert.match(text, /en\/demo\/02-extra\.png: is not listed in the provenance manifest/);
+  assert.match(text, /en\/demo\/03-gone\.png: is listed in the provenance manifest but the image is missing/);
+  assert.match(text, /examples\/gallery\/zh\/demo: published samples have no set in examples\/gallery\/provenance\.json/);
+  assert.match(text, /provenance\.json: describes examples\/gallery\/en\/ghost, which has no gallery images/);
+});
+
+test("ASSET-003 accepts a copy of another project's files once its hash and source are recorded", (t) => {
+  const fixture = createFixture(t);
+  const manifest = JSON.parse(fixture.read(MANIFEST));
+  const [name, hash] = Object.entries(manifest.sets[0].files)[0];
+  manifest.sets[0] = {
+    directory: manifest.sets[0].directory,
+    origin: "historical",
+    source: {
+      project: "Example Illustrations",
+      repository: "https://github.com/example/example-illustrations",
+      commit: "30a9d4e05124fda05356acb679fa2989ed5cb51c",
+      path: "examples/images",
+      license: "MIT",
+      copyright: "Copyright (c) 2026 Example",
+      firstPublished: "2026-06-15",
+    },
+    files: { [name]: hash },
+  };
+  fixture.write(MANIFEST, JSON.stringify(manifest));
+  assert.equal(fixture.check("ASSET-003").status, "pass");
+});

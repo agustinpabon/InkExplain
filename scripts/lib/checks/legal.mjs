@@ -114,4 +114,37 @@ export const legalChecks = [
       return issues;
     },
   }),
+
+  defineCheck({
+    id: "LEGAL-005",
+    area: "LEGAL",
+    title: "ATTRIBUTIONS credits the projects InkExplain originates from",
+    run({ repo }) {
+      const text = repo.readTextIfExists(PATHS.attributions);
+      // LEGAL-002 reports a missing file.
+      if (text === null) return [];
+      const where = { path: PATHS.attributions };
+      const origins = sectionBody(text, LEGAL.originsSection);
+      if (origins === null || origins.trim() === "") {
+        return [{ ...where, message: `needs a "## ${LEGAL.originsSection}" section that credits the projects InkExplain builds on` }];
+      }
+      const issues = [];
+      const items = [...origins.matchAll(/^\s*[-*]\s+\*\*([^*]+)\*\*(.*)$/gm)];
+      if (items.length === 0) issues.push({ ...where, message: `the ${LEGAL.originsSection} section must list each origin project with a bold name` });
+      for (const [, name, rest] of items) {
+        if (!/https:\/\/github\.com\/[A-Za-z0-9-]+\/[A-Za-z0-9._-]+/.test(rest)) {
+          issues.push({ ...where, message: `origin ${JSON.stringify(name)} needs a link to its repository, on the same line` });
+        }
+        if (!/\b(?:MIT|CC0|CC BY|Apache|BSD)\b|licen[sc]e/i.test(rest)) {
+          issues.push({ ...where, message: `origin ${JSON.stringify(name)} needs its license, on the same line` });
+        }
+      }
+      // Every copyright holder LICENSE keeps, apart from the maintainer, is an origin and must be named.
+      for (const line of LEGAL.requiredCopyrightLines.filter((candidate) => candidate !== LEGAL.maintainerCopyrightLine)) {
+        const holder = copyrightHolder(line);
+        if (!mentionsName(origins, holder)) issues.push({ ...where, message: `the ${LEGAL.originsSection} section must credit ${JSON.stringify(holder)}, whose copyright LICENSE keeps` });
+      }
+      return issues;
+    },
+  }),
 ];

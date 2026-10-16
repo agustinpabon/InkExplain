@@ -29,7 +29,8 @@ All must pass on a clean checkout. CI runs the same commands on Linux and Window
 ## Rights and attribution
 
 - [ ] `LICENSE` keeps "Copyright (c) 2026 Agustin Pabon" and the MIT terms unchanged.
-- [ ] `ATTRIBUTIONS.md` credits every archetype's rights holder directly; the validator's `LEGAL` checks pass.
+- [ ] `ATTRIBUTIONS.md` credits every archetype's rights holder directly and keeps its Origins section; the validator's `LEGAL` checks pass.
+- [ ] Every open item in [provenance.md](provenance.md) is resolved or knowingly accepted, and the page is re-checked against the upstream projects it names.
 - [ ] Every rights record (`references/archetypes/<id>/rights.md`) reflects the current source, license, and restrictions. Re-check license pages for archetypes whose sources may have changed.
 - [ ] No archetype claims endorsement by, or affiliation with, a third party.
 
@@ -38,7 +39,8 @@ All must pass on a clean checkout. CI runs the same commands on Linux and Window
 Sample images are published only where `registry.json` records an approved sample gate.
 
 - [ ] Every image in `examples/gallery/` and `skills/inkexplain/assets/` belongs to an archetype whose `sampleGates.status` is `approved` and sits in one of its listed directories (`ASSET-002`).
-- [ ] New approvals record a named reviewer, a real review date, and the reasoning in `sampleGates.decision`.
+- [ ] Every published sample set has an entry in `examples/gallery/provenance.json` with its real source and the hash of each image (`ASSET-003`). Nothing is described as an InkExplain render unless it was generated and reviewed for this project.
+- [ ] New approvals record a named reviewer, a real review date, and the reasoning in `sampleGates.decision`. A date is the day that person reviewed the images, not the day a source project published them.
 - [ ] Gated archetypes publish samples only with a recorded `sampleGates.authorization` from the rights holder.
 - [ ] Credits for published samples appear next to the gallery in `README.md`.
 

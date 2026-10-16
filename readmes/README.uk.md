@@ -118,7 +118,9 @@ $inkexplain Режим промптів: напиши для трьох зобр
 | **OpenClaw** | **Go Gopher** | **Xiaohei** |
 | ![Прес ідей: талісман OpenClaw керує пресом](../examples/gallery/en/openclaw/06-idea-press.png) | ![Міст довіри: гофер кладе дошки через прірву](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Одна риба, багато застосувань: Xiaohei розрізає рибу-матеріал на кілька частин](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
+<!-- inkexplain:gallery-credits:start -->
 Littlebox — адаптація 5km Littlebox Illustrations авторства okooo5km (MIT). Авторка Ferris — Karen Rustad Tolva (CC0). Дизайн гофера Go створила Renee French (CC BY 4.0). Талісман OpenClaw походить із проєкту OpenClaw (MIT). Xiaohei — персонаж Ian з Ian Xiaohei Illustrations (MIT). Усі зображення — у [examples/gallery](../examples/gallery): з підписами англійською для шести архетипів і китайською для чотирьох.
+<!-- inkexplain:gallery-credits:end -->
 
 ## Додавання нових персонажів і стилів анімації
 
@@ -180,7 +182,7 @@ npm run check          # усе, що запускає CI
 ## Авторство та ліцензія
 
 <!-- inkexplain:credits:start -->
-Сторонні персонажі та торговельні марки залишаються власністю їхніх власників. Повідомлення та ліцензії для кожного персонажа наведено в [ATTRIBUTIONS.md](../ATTRIBUTIONS.md).
+InkExplain спирається на три попередні проєкти з ліцензією MIT: [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations) автора yangchuansheng, [Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations) автора Ian та [5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations) автора okooo5km. Зображення в галереї — незмінені копії з перших двох проєктів. Сторонні персонажі та торгові марки залишаються власністю їхніх власників. Джерела, повідомлення щодо кожного персонажа та ліцензії див. у [ATTRIBUTIONS.md](../ATTRIBUTIONS.md).
 <!-- inkexplain:credits:end -->
 
 InkExplain поширюється на умовах [ліцензії MIT](../LICENSE).

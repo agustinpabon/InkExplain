@@ -118,7 +118,9 @@ Rendus présentés avec leur archétype. Les rendus InkExplain Sketch seront ajo
 | **OpenClaw** | **Go Gopher** | **Xiaohei** |
 | ![Presse à idées : la mascotte OpenClaw actionne une presse](../examples/gallery/en/openclaw/06-idea-press.png) | ![Pont de confiance : le gopher pose des planches au-dessus d'un ravin](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Un poisson, plusieurs usages : Xiaohei découpe un poisson de matière en plusieurs morceaux](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
+<!-- inkexplain:gallery-credits:start -->
 Littlebox est adapté du projet 5km Littlebox Illustrations d'okooo5km (MIT). Ferris est une création de Karen Rustad Tolva (CC0). Le gopher de Go a été conçu par Renee French (CC BY 4.0). La mascotte OpenClaw provient du projet OpenClaw (MIT). Xiaohei est le personnage d'Ian dans Ian Xiaohei Illustrations (MIT). Toutes les images se trouvent dans [examples/gallery](../examples/gallery) : avec des étiquettes en anglais pour six archétypes et en chinois pour quatre.
+<!-- inkexplain:gallery-credits:end -->
 
 ## Ajouter de nouveaux personnages et styles d'animation
 
@@ -180,7 +182,7 @@ L'architecture, le modèle de divulgation progressive, le catalogue des vérific
 ## Crédits et licence
 
 <!-- inkexplain:credits:start -->
-Les personnages et marques de tiers restent la propriété de leurs détenteurs respectifs. Consultez [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) pour les avis et licences de chaque personnage.
+InkExplain s'appuie sur trois projets antérieurs sous licence MIT : [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations) de yangchuansheng, [Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations) d'Ian et [5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations) d'okooo5km. Les images de la galerie sont des copies non modifiées des deux premiers. Les personnages et marques de tiers restent la propriété de leurs détenteurs respectifs. Voir [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) pour les origines, les mentions et les licences de chaque personnage.
 <!-- inkexplain:credits:end -->
 
 InkExplain est distribué sous [licence MIT](../LICENSE).

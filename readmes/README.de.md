@@ -118,7 +118,9 @@ Beispielbilder, jeweils mit ihrem Archetyp. Bilder für InkExplain Sketch kommen
 | **OpenClaw** | **Go Gopher** | **Xiaohei** |
 | ![Ideenpresse: Das OpenClaw-Maskottchen bedient eine Presse](../examples/gallery/en/openclaw/06-idea-press.png) | ![Vertrauensbrücke: Der Gopher legt Bretter über eine Kluft](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Ein Fisch, viele Verwendungen: Xiaohei zerlegt einen Materialfisch in mehrere Stücke](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
+<!-- inkexplain:gallery-credits:start -->
 Littlebox ist eine Adaption des Projekts 5km Littlebox Illustrations von okooo5km (MIT). Ferris ist ein Werk von Karen Rustad Tolva (CC0). Den Go-Gopher hat Renee French entworfen (CC BY 4.0). Das OpenClaw-Maskottchen kommt aus dem OpenClaw-Projekt (MIT). Xiaohei ist Ians Figur aus Ian Xiaohei Illustrations (MIT). Alle Bilder liegen in [examples/gallery](../examples/gallery): mit englischen Beschriftungen für sechs Archetypen und mit chinesischen für vier.
+<!-- inkexplain:gallery-credits:end -->
 
 ## Neue Figuren und Animationsstile hinzufügen
 
@@ -180,7 +182,7 @@ Architektur, das Modell der schrittweisen Offenlegung (Progressive Disclosure), 
 ## Credits und Lizenz
 
 <!-- inkexplain:credits:start -->
-Figuren und Marken Dritter bleiben Eigentum ihrer jeweiligen Inhaber. Siehe [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) für individuelle Hinweise und Lizenzen.
+InkExplain baut auf drei früheren Projekten unter MIT-Lizenz auf: [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations) von yangchuansheng, [Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations) von Ian und [5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations) von okooo5km. Die Galeriebilder sind unveränderte Kopien aus den ersten beiden. Figuren und Marken Dritter bleiben Eigentum ihrer jeweiligen Inhaber. Siehe [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) für die Ursprünge, die Hinweise zu den einzelnen Figuren und die Lizenzen.
 <!-- inkexplain:credits:end -->
 
 InkExplain steht unter der [MIT-Lizenz](../LICENSE).

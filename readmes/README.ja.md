@@ -118,7 +118,9 @@ $inkexplain プロンプトモード：自分の画像ツールに貼り付け�
 | **OpenClaw** | **Go Gopher** | **Xiaohei** |
 | ![アイデアプレス：プレス機を操作する OpenClaw のマスコット](../examples/gallery/en/openclaw/06-idea-press.png) | ![信頼の橋：裂け目に板を渡していく Gopher](../examples/gallery/en/gopher/08-trust-bridge.png) | ![一匹の魚を何通りにも：素材の魚をいくつかに切り分ける Xiaohei](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
+<!-- inkexplain:gallery-credits:start -->
 Littlebox は okooo5km の 5km Littlebox Illustrations（MIT）を翻案したものです。Ferris の作者は Karen Rustad Tolva です（CC0）。Go gopher は Renee French がデザインしました（CC BY 4.0）。OpenClaw のマスコットは OpenClaw プロジェクトのものです（MIT）。Xiaohei は Ian Xiaohei Illustrations に登場する Ian のキャラクターです（MIT）。すべての画像は [examples/gallery](../examples/gallery) にあります。英語ラベル版は6アーキタイプ分、中国語ラベル版は4アーキタイプ分です。
+<!-- inkexplain:gallery-credits:end -->
 
 ## 新しいキャラクターとアニメーションスタイルの追加
 
@@ -180,7 +182,7 @@ npm run check          # CI で実行されるすべてのチェック
 ## クレジットとライセンス
 
 <!-- inkexplain:credits:start -->
-サードパーティのキャラクターおよび商標は、それぞれの所有者に帰属します。各キャラクターの通知とライセンスについては、[ATTRIBUTIONS.md](../ATTRIBUTIONS.md) を参照してください。
+InkExplain は、MIT ライセンスで公開されている 3 つの先行プロジェクトを土台にしています。yangchuansheng の [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations)、Ian の [Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations)、okooo5km の [5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations) です。ギャラリーの画像は、前の 2 つのプロジェクトから取り込んだ未加工のコピーです。第三者のキャラクターや商標は、それぞれの権利者に帰属します。成り立ちや各キャラクターの表示事項・ライセンスは [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) を参照してください。
 <!-- inkexplain:credits:end -->
 
 InkExplain は [MIT ライセンス](../LICENSE) のもとで公開されています。

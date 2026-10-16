@@ -1,0 +1,71 @@
+# Provenance and rights record
+
+Where InkExplain's material came from, what was checked, and what is still open. This is a maintainer's record, not legal advice and not a legal conclusion. The credits that travel with the product are in [ATTRIBUTIONS.md](../ATTRIBUTIONS.md), and each character's rights record is its pack's `rights.md`.
+
+Last checked: 2026-10-16. Licenses were read from each repository's `LICENSE` file at the commit named, through the GitHub API.
+
+## Lineage
+
+| Project | Maintainer | License as read | Commit inspected | What InkExplain took from it |
+|---|---|---|---|---|
+| [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations) | yangchuansheng (Carson Yang) | MIT, `Copyright (c) 2026 Ian`. A fork of the project below, created 2026-06-12. | `30a9d4e05124fda05356acb679fa2989ed5cb51c` | the project layout and release process, the wording of six character packs, all 80 gallery images, `gopher.png` |
+| [Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations) | Ian (helloianneo) | MIT, `Copyright (c) 2026 Ian`. Created 2026-05-27. | `4102eb807f03bcb6e538a16e8b31b41db8b5b954` | Xiaohei, the Chinese-labeled Xiaohei images, the original skill concept |
+| [5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations) | okooo5km | MIT, `Copyright (c) 2026 okooo5km`. Its `NOTICE.md` asks for the project name or a credit to okooo5km in derived documentation. | `37cd93ee516da0324577b7bbc8ca3146e5c8d8d7` and `d760004243e8a8613f7d140dbe1c6ee0e0df352a` | the Littlebox rules, and the pure white default background |
+| [OpenClaw](https://github.com/openclaw/openclaw) | OpenClaw Foundation | MIT, `Copyright (c) 2026 OpenClaw Foundation`. The repository states no separate license or trademark policy for its mascot. | `c14793d35a10936ddea833e7808083fe57930616` | a description of the OpenClaw mascot |
+
+The Littlebox source's own notice says its skill structure and workflow were inspired by Ian Xiaohei Illustrations. Visual IP Illustrations is a GitHub fork of it.
+
+## What is original and what is adapted
+
+Wording shared with the upstream projects was measured by comparing runs of consecutive words (8-word and 5-word windows) between each part of this repository and the upstream text at the commits above. A high share means shared wording; it says nothing about legal derivation.
+
+| Part of the repository | Shared 8-word runs | Shared 5-word runs |
+|---|---|---|
+| `scripts/`, `tests/`, `docs/`, `.github/` | 0% | 0% |
+| shared workflow modules, `SKILL.md`, registry | 0-2% | 2-5% |
+| InkExplain Sketch and Stickman packs | 0% | 1% |
+| Xiaohei pack | 1% | 4% |
+| README, contributor guides, and example prompts | 4% | 6% |
+| Ferris, Go Gopher, OpenClaw, Seal, and Tux packs | 13-16% | 22-24% |
+| Littlebox pack | 13%: 12% in Visual IP Illustrations, 6% in the Littlebox source | 23%: 22% in Visual IP Illustrations, 13% in the Littlebox source |
+
+So the code, tests, shared method, default style, Stickman, and documentation were written for InkExplain, while about a quarter of the wording of the six character packs, mostly in their motion guides, adapts text from Visual IP Illustrations. The project layout (an agents guide, a language policy, a release checklist, README translations in the same twelve languages, a package validator) follows that project too, with different text.
+
+## Gallery images
+
+All 80 images in `examples/gallery/` are unmodified copies: each has the same git blob hash as the file at the commit and path recorded in [provenance.json](../examples/gallery/provenance.json). None was generated for InkExplain. `npm run validate` (`ASSET-003`) fails if an image changes or has no recorded source.
+
+| Set | Copied from | First published there |
+|---|---|---|
+| `en/xiaohei` | Visual IP Illustrations, `examples/images-en/` | 2026-06-15 |
+| `zh/xiaohei` | Ian Xiaohei Illustrations, `examples/images/` | 2026-05-27 |
+| `en/littlebox`, `en/ferris`, `en/seal` | Visual IP Illustrations, `examples/images-en/<id>/` | 2026-06-15 |
+| `zh/littlebox`, `zh/ferris`, `zh/seal` | Visual IP Illustrations, `examples/images/<id>/` | 2026-06-16 |
+| `en/openclaw`, `en/gopher` | Visual IP Illustrations, `examples/images-en/<id>/` | 2026-06-17 |
+
+`skills/inkexplain/references/archetypes/gopher/gopher.png` is likewise a byte-identical copy of the identity reference in Visual IP Illustrations. The only images original to this repository are the two brand SVGs and the Stickman pose sheet, which is hand-built vector art, not a render.
+
+### What the Littlebox images show
+
+All sixteen sit on the pale sky-blue or lavender option, alternating by position: odd images blue, even images lavender. That was the rule before pure white became Littlebox's default, so they stay as historical examples of the optional backgrounds. All sixteen were viewed once during this audit (a visual review by an AI assistant, not an approval). Against the pack's own identity rules, a twig arm crosses the front panel and reads as a mouth in `en` images 04, 05, 07, and 08 and in `zh` image 06, `zh` image 04 shows a second box with eyes and legs, and `en` image 08 puts amber tape on props. They are good candidates to regenerate on a white page once an image tool is available.
+
+## Characters and their rights
+
+| Archetype | Rights holder | License recorded | Public samples |
+|---|---|---|---|
+| InkExplain Sketch, Stickman | InkExplain contributors | MIT, original to this project | pending |
+| Xiaohei | Ian | MIT; the project's MIT license covers its text and images, and it states no separate character or trademark terms | approved, copies of Ian's and the fork's images |
+| Littlebox | okooo5km | MIT, with the credit request above | approved, historical examples |
+| OpenClaw | OpenClaw Foundation | MIT repository license; no separate mascot or trademark terms stated, so the pack forbids any affiliation or endorsement claim | approved |
+| Ferris | Karen Rustad Tolva | CC0, as recorded from rustacean.net | approved |
+| Go Gopher | Renee French | CC BY 4.0, as recorded from go.dev, so attribution travels with every published image | approved |
+| Tux | Larry Ewing | permission to use and modify with credit when asked, as recorded in the pack | pending |
+| Seal | Sealos (original mascot image) | none recorded for the character; see open item 1 | approved |
+
+## Open items for the maintainer
+
+1. **Seal has no recorded rights for its source mascot.** The archetype depicts a hoodie seal derived from a Sealos mascot image that is not bundled. The Sealos project's own license (Sealos Sustainable Use License v1.0, read 2026-10-16) allows use only for internal business or personal non-commercial purposes, permits distribution only free and non-commercial, grants no other rights, and leaves its trademarks to applicable law. The 16 Seal images come from Visual IP Illustrations, whose maintainer's public GitHub profile lists Labring, the company behind Sealos, as his company; that does not by itself record permission from the rights holder, and an MIT license on a fork cannot grant rights in someone else's mascot. Until permission is recorded, either mark Seal `gated-authorized` and withhold its images, remove the archetype, or obtain written permission from the rights holder and record it in its `rights.md` and in `sampleGates.authorization`.
+2. **The sample approvals need your confirmation.** `sampleGates` records Agustin Pabon as reviewer for Ferris, Seal, Littlebox, OpenClaw, and Go Gopher, on 2026-06-15 to 2026-06-17. Those are the days the upstream project first published the images, before this repository existed, so they cannot be the dates of a review of this repository. Review the images and set each date to the day you did, or record the true source of each approval.
+3. **Stickman, and a white Littlebox, have not been rendered.** No image-generation tool was available during this audit. Stickman ships `experimental`, and the Littlebox samples still show the old backgrounds. Promoting Stickman and replacing those samples is a short real-render check: see [adding an archetype](adding-an-archetype.md#5-validate) and [publishing samples](adding-an-archetype.md#publishing-samples).
+4. **How the history reads.** The commit history was consolidated under the maintainer's identity, so GitHub will show the maintainer as the author of every commit, including those that hold text adapted from the projects above. The Origins section of `ATTRIBUTIONS.md` and the credits in the README are what attribute that material; consider repeating them in the release notes.
+5. **Gallery credits must stay visible.** Ferris is CC0, but the Go Gopher is CC BY (credit Renee French wherever its images are published), Littlebox asks for a credit to okooo5km, and Xiaohei asks for a credit to Ian. The README keeps these next to the gallery, and the delivery reports repeat them.

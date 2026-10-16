@@ -118,7 +118,9 @@ $inkexplain وضع الموجّهات: اكتب موجّهات لثلاث صور
 | **OpenClaw** | **Go Gopher** | **Xiaohei** |
 | ![مكبس الأفكار: تميمة OpenClaw تشغّل مكبسًا](../examples/gallery/en/openclaw/06-idea-press.png) | ![جسر الثقة: يمدّ الغوفر ألواحًا فوق هوّة](../examples/gallery/en/gopher/08-trust-bridge.png) | ![سمكة واحدة واستخدامات كثيرة: Xiaohei يقطّع سمكة المادة إلى عدة قطع](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
+<!-- inkexplain:gallery-credits:start -->
 شخصية Littlebox مقتبسة من مشروع 5km Littlebox Illustrations الذي أنشأه okooo5km (MIT). وشخصية Ferris من تصميم Karen Rustad Tolva (CC0)، وشخصية Go gopher من تصميم Renee French (CC BY 4.0)، أما تميمة OpenClaw فمصدرها مشروع OpenClaw (MIT). وشخصية Xiaohei من ابتكار Ian في مشروع Ian Xiaohei Illustrations (MIT). وتجد جميع الصور في [examples/gallery](../examples/gallery): بتسميات إنجليزية لستة نماذج، وبتسميات صينية لأربعة منها.
+<!-- inkexplain:gallery-credits:end -->
 
 ## إضافة شخصيات وأساليب تحريك جديدة
 
@@ -184,7 +186,7 @@ npm run check          # everything CI runs
 ## الإسناد والترخيص
 
 <!-- inkexplain:credits:start -->
-تبقى شخصيات وعلامات الأطراف الثالثة ملكًا لأصحابها المعنيين. راجع [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) للاطلاع على الإشعارات والتراخيص الخاصة بكل شخصية.
+يستند InkExplain إلى ثلاثة مشاريع سابقة مرخّصة بموجب MIT: [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations) لصاحبه yangchuansheng، و[Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations) لصاحبه Ian، و[5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations) لصاحبه okooo5km. صور المعرض نسخ غير معدّلة من أول مشروعين. تظل شخصيات وعلامات الأطراف الثالثة ملكًا لأصحابها. راجع [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) لمعرفة الأصول وإشعارات كل شخصية وتراخيصها.
 <!-- inkexplain:credits:end -->
 
 يُتاح InkExplain بموجب [ترخيص MIT](../LICENSE).

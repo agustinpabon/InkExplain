@@ -1,0 +1,238 @@
+{
+  "$comment": "Where every published gallery sample came from. A historical set is an unmodified copy of files in the upstream repository at the recorded commit; each hash is the git blob SHA-1 of the image, so it can be checked against the upstream tree. An inkexplain set is a render made for this project, with the tool, the date, and the reviewer. Validated by `npm run validate` (ASSET-003); see docs/provenance.md.",
+  "schemaVersion": 1,
+  "sets": [
+    {
+      "directory": "examples/gallery/en/xiaohei",
+      "origin": "historical",
+      "source": {
+        "project": "Visual IP Illustrations",
+        "repository": "https://github.com/yangchuansheng/visual-ip-illustrations",
+        "commit": "30a9d4e05124fda05356acb679fa2989ed5cb51c",
+        "path": "examples/images-en",
+        "license": "MIT",
+        "copyright": "Copyright (c) 2026 Ian",
+        "firstPublished": "2026-06-15"
+      },
+      "files": {
+        "01-two-breakpoints.png": "2cbd43173dee554bc0ac929961595e69f7baf2b6",
+        "02-sort-by-purpose.png": "e9aa80b907a6df9382d355b2bc033d5107a74b43",
+        "03-one-fish-many-uses.png": "0b2f282df8425f2527d326f79223e1cec9a42910",
+        "04-handoff-path.png": "a7978a0a8836d0389f70a24e220852f12c987bb2",
+        "05-information-well.png": "95f6ed8858fb67ec878f69a03970a529668ae304",
+        "06-idea-press.png": "991a179eb9f3f753fb9b6c7a46aa2bc8f5d33481",
+        "07-content-fermentation.png": "283fa9214fb979d3e67375d09afb54c17994ca28",
+        "08-trust-bridge.png": "d67a2da616ccdd96d831a94f2f860b6675454a5d"
+      }
+    },
+    {
+      "directory": "examples/gallery/zh/xiaohei",
+      "origin": "historical",
+      "source": {
+        "project": "Ian Xiaohei Illustrations",
+        "repository": "https://github.com/helloianneo/ian-xiaohei-illustrations",
+        "commit": "4102eb807f03bcb6e538a16e8b31b41db8b5b954",
+        "path": "examples/images",
+        "license": "MIT",
+        "copyright": "Copyright (c) 2026 Ian",
+        "firstPublished": "2026-05-27"
+      },
+      "files": {
+        "01-two-breakpoints.png": "44c197de02f927d22ffba1bb66bad56f212c9344",
+        "02-sort-by-purpose.png": "80b2989610dbcbb9c1c3623ee79b03ebfdef6ef1",
+        "03-one-fish-many-uses.png": "b87e74a08105322555e1d2848f189ce6766b0d74",
+        "04-handoff-path.png": "166b9c9ab9051a40af59062a2b4a9b529e3769f3",
+        "05-information-well.png": "f498931cae451d13f3e345d2eccd853fa43c1daa",
+        "06-idea-press.png": "5d124836b9083034c406516c85bf0c4504568285",
+        "07-content-fermentation.png": "c056506f8b54f8ec0dda9b5940adee8f511426a9",
+        "08-trust-bridge.png": "18d3556f23101047a142cdf2586a6e0eb1c7dee9"
+      }
+    },
+    {
+      "directory": "examples/gallery/en/littlebox",
+      "origin": "historical",
+      "source": {
+        "project": "Visual IP Illustrations",
+        "repository": "https://github.com/yangchuansheng/visual-ip-illustrations",
+        "commit": "30a9d4e05124fda05356acb679fa2989ed5cb51c",
+        "path": "examples/images-en/littlebox",
+        "license": "MIT",
+        "copyright": "Copyright (c) 2026 Ian",
+        "firstPublished": "2026-06-15"
+      },
+      "note": "Pale sky-blue and lavender backgrounds, alternating from one image to the next. They predate InkExplain's pure white default for Littlebox, so they show the optional backgrounds, not the default.",
+      "files": {
+        "01-two-breakpoints.png": "c04ff77f6cdfd73dcb444b7b2d18c6355db621ce",
+        "02-sort-by-purpose.png": "db5f162eea9cef2b46862d57fb1c050fbc62b1aa",
+        "03-one-fish-many-uses.png": "e72dd47283f5039c674db3cbe7df410c97039853",
+        "04-handoff-path.png": "19e48d9730954cdcca6d9be2c4c479c45cd9eebc",
+        "05-information-well.png": "ef7df027afa15b46f2b3ea370d036a52ab7ed186",
+        "06-idea-press.png": "d498ef35bab1b3adbe9e52d2b5ec210dfdff81ba",
+        "07-content-fermentation.png": "ae226ef9c652a4832749177cea1cf36f6114731b",
+        "08-trust-bridge.png": "337422deeef600fce45c16235230c9f3ea19d49a"
+      }
+    },
+    {
+      "directory": "examples/gallery/zh/littlebox",
+      "origin": "historical",
+      "source": {
+        "project": "Visual IP Illustrations",
+        "repository": "https://github.com/yangchuansheng/visual-ip-illustrations",
+        "commit": "30a9d4e05124fda05356acb679fa2989ed5cb51c",
+        "path": "examples/images/littlebox",
+        "license": "MIT",
+        "copyright": "Copyright (c) 2026 Ian",
+        "firstPublished": "2026-06-16"
+      },
+      "note": "Pale sky-blue and lavender backgrounds, alternating from one image to the next. They predate InkExplain's pure white default for Littlebox, so they show the optional backgrounds, not the default.",
+      "files": {
+        "01-two-breakpoints.png": "d48ac1350227191e14b825238786d603248c4dd3",
+        "02-sort-by-purpose.png": "f0d7decdcfadb073b2e9f8a5298278d9bdeb018c",
+        "03-one-fish-many-uses.png": "dae88a3987ef748c39101e8908d98efc3ad82c22",
+        "04-handoff-path.png": "528be6823d3fcaef50584351ac4708c262da8a2d",
+        "05-information-well.png": "9264ccc8affb3effd9d280406b2ecf06fd27921a",
+        "06-idea-press.png": "5788fd11c42d907eb3db0f0c58c90cb2d9d87c3e",
+        "07-content-fermentation.png": "f5203b25ebfe5b86872f21064b0d539a3de23f4d",
+        "08-trust-bridge.png": "7e8e5b27d1cb206278f9936be23f9f3dc1859f7d"
+      }
+    },
+    {
+      "directory": "examples/gallery/en/ferris",
+      "origin": "historical",
+      "source": {
+        "project": "Visual IP Illustrations",
+        "repository": "https://github.com/yangchuansheng/visual-ip-illustrations",
+        "commit": "30a9d4e05124fda05356acb679fa2989ed5cb51c",
+        "path": "examples/images-en/ferris",
+        "license": "MIT",
+        "copyright": "Copyright (c) 2026 Ian",
+        "firstPublished": "2026-06-15"
+      },
+      "files": {
+        "01-two-breakpoints.png": "170962da2fba85cf7d1669a0b300e8bd3f1f34a1",
+        "02-sort-by-purpose.png": "dd0e550953d0b0ddcb048a9381ae0491d257a3a3",
+        "03-one-fish-many-uses.png": "7537f7a0dc52244d63973ea33790fb5b837d5e65",
+        "04-handoff-path.png": "4c43019fa3dd4197e2483e6fdbc1120b459abcbc",
+        "05-information-well.png": "7ec278202fc03d42f9cbf01527785caa1974f8fa",
+        "06-idea-press.png": "1ac07cf714e8840200919830b23a8b26bcdd73ef",
+        "07-content-fermentation.png": "7574b603c1251b00803af2742decef6f8a8283e4",
+        "08-trust-bridge.png": "1ee9ac7bb109ada8e34ed1593e46442cbb8b8b21"
+      }
+    },
+    {
+      "directory": "examples/gallery/zh/ferris",
+      "origin": "historical",
+      "source": {
+        "project": "Visual IP Illustrations",
+        "repository": "https://github.com/yangchuansheng/visual-ip-illustrations",
+        "commit": "30a9d4e05124fda05356acb679fa2989ed5cb51c",
+        "path": "examples/images/ferris",
+        "license": "MIT",
+        "copyright": "Copyright (c) 2026 Ian",
+        "firstPublished": "2026-06-16"
+      },
+      "files": {
+        "01-two-breakpoints.png": "c3ae57804a316901daaf47f54a97cd3bbc02367f",
+        "02-sort-by-purpose.png": "71a0b392570faf70cddff57070cf893585a231e6",
+        "03-one-fish-many-uses.png": "f56abd064cd716a90ea33048b662713d73d5071e",
+        "04-handoff-path.png": "0716aebe00dbb3e1d3f4895464d938d771ef38b8",
+        "05-information-well.png": "6b77d292fb1fa945b49c7e0cdd30c18fa5848d57",
+        "06-idea-press.png": "4552eba23adf1bf710aec3d3eefcde9ec2cb9500",
+        "07-content-fermentation.png": "b0c5865f918b7f226f87e37ab5e8d2a46ffb2ecd",
+        "08-trust-bridge.png": "c95d29e3f855240fdded29aa8b99ed3f8822537c"
+      }
+    },
+    {
+      "directory": "examples/gallery/en/seal",
+      "origin": "historical",
+      "source": {
+        "project": "Visual IP Illustrations",
+        "repository": "https://github.com/yangchuansheng/visual-ip-illustrations",
+        "commit": "30a9d4e05124fda05356acb679fa2989ed5cb51c",
+        "path": "examples/images-en/seal",
+        "license": "MIT",
+        "copyright": "Copyright (c) 2026 Ian",
+        "firstPublished": "2026-06-15"
+      },
+      "files": {
+        "01-two-breakpoints.png": "323ba8b1b490b3f8ee453fe51577858232c3a44f",
+        "02-sort-by-purpose.png": "bffc6898dc989db41a81d7042ba4ded50238df12",
+        "03-one-fish-many-uses.png": "c3bf792e9087e69d613969f6974b9b5e858383fb",
+        "04-handoff-path.png": "3ff2951f332d3714424e0097a40f6383eaf9003b",
+        "05-information-well.png": "b6adffd74d160eb537d35ad67afea3f79bdec1e2",
+        "06-idea-press.png": "268e1f6dd948f108687732e798c3b211f0b9c23c",
+        "07-content-fermentation.png": "816d238ebc37d4577b5f99bc8e5f3e6c49bf753f",
+        "08-trust-bridge.png": "e3ce64e6162831fe461e8bfc3aebdfdcd9efc6c7"
+      }
+    },
+    {
+      "directory": "examples/gallery/zh/seal",
+      "origin": "historical",
+      "source": {
+        "project": "Visual IP Illustrations",
+        "repository": "https://github.com/yangchuansheng/visual-ip-illustrations",
+        "commit": "30a9d4e05124fda05356acb679fa2989ed5cb51c",
+        "path": "examples/images/seal",
+        "license": "MIT",
+        "copyright": "Copyright (c) 2026 Ian",
+        "firstPublished": "2026-06-16"
+      },
+      "files": {
+        "01-two-breakpoints.png": "1cbb89582781f5f0a08c5deff5e420814f975984",
+        "02-sort-by-purpose.png": "ac2554dad9f8b4b496789a17fe8f7027c2f5965a",
+        "03-one-fish-many-uses.png": "fe756fde427aa10f93703b6370d6545741ad51f3",
+        "04-handoff-path.png": "470416121c45a2c4397e1a26dc8c35292c2cbfca",
+        "05-information-well.png": "bffc913d8c4485d3368ed9992aa88a1bcaf7e363",
+        "06-idea-press.png": "33eceaa05ae85badb198ace1a766b36151a1d487",
+        "07-content-fermentation.png": "3400e6aeec256b677060653cfa2fe1893c79379c",
+        "08-trust-bridge.png": "ff45c2da4cbb3f43897a00fcaedc52564643eb71"
+      }
+    },
+    {
+      "directory": "examples/gallery/en/openclaw",
+      "origin": "historical",
+      "source": {
+        "project": "Visual IP Illustrations",
+        "repository": "https://github.com/yangchuansheng/visual-ip-illustrations",
+        "commit": "30a9d4e05124fda05356acb679fa2989ed5cb51c",
+        "path": "examples/images-en/openclaw",
+        "license": "MIT",
+        "copyright": "Copyright (c) 2026 Ian",
+        "firstPublished": "2026-06-17"
+      },
+      "files": {
+        "01-two-breakpoints.png": "ba703718cb62f42446636b21c8d3c8d1bdf55bc6",
+        "02-sort-by-purpose.png": "af826394204d1901e3e8487c63f4b0d38627b2f8",
+        "03-one-fish-many-uses.png": "2ca570f20a8708335b830f81bdb9ac906b226cac",
+        "04-handoff-path.png": "f21b30d07d6b0c2ffbe634432c90d8ce6a36f412",
+        "05-information-well.png": "4ec21daf08d8b198775c0cc02dca8eaf44959012",
+        "06-idea-press.png": "a7a17a8aaf5ef6a1f97fdcd67212898e67fa545c",
+        "07-content-fermentation.png": "89ccaafb95429d7643094072d73615bd12f9ceb2",
+        "08-trust-bridge.png": "7977496814a1492ecab7eae2c7aeeb9eee466a96"
+      }
+    },
+    {
+      "directory": "examples/gallery/en/gopher",
+      "origin": "historical",
+      "source": {
+        "project": "Visual IP Illustrations",
+        "repository": "https://github.com/yangchuansheng/visual-ip-illustrations",
+        "commit": "30a9d4e05124fda05356acb679fa2989ed5cb51c",
+        "path": "examples/images-en/gopher",
+        "license": "MIT",
+        "copyright": "Copyright (c) 2026 Ian",
+        "firstPublished": "2026-06-17"
+      },
+      "files": {
+        "01-two-breakpoints.png": "11b00c610b004fa8ab897fa7bffb5d5399e99822",
+        "02-sort-by-purpose.png": "5298b0afab4ed0ff1573156cdc9ef31caec9b278",
+        "03-one-fish-many-uses.png": "218279b0439b98e0507c647ac86972da8bf1e5b6",
+        "04-handoff-path.png": "acfc2265f10c1163ddb048b11f7261d3dfb83ffa",
+        "05-information-well.png": "bf7a9ba1c016de17a5d16e085d9d8fe15f80da94",
+        "06-idea-press.png": "c3b2e54b0f75a2cf3092b68242837de0ae514736",
+        "07-content-fermentation.png": "0a944042d0b301db46fd198bd848689ddeb76b97",
+        "08-trust-bridge.png": "a50ab4fb7a1d7b261905abe7cbd9cf6c1af39d23"
+      }
+    }
+  ]
+}

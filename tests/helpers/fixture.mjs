@@ -17,6 +17,7 @@ import {
   WORKFLOW_MODULES,
 } from "../../scripts/lib/config.mjs";
 import { planGeneratedDocuments } from "../../scripts/lib/docs-render.mjs";
+import { gitBlobSha1 } from "../../scripts/lib/provenance.mjs";
 import { CATEGORIES, outputDirectory, packDirectory, parseRegistry } from "../../scripts/lib/registry.mjs";
 import { Repository } from "../../scripts/lib/repository.mjs";
 
@@ -173,6 +174,23 @@ export function fixtureRegistryData() {
   };
 }
 
+/** The provenance manifest for the fixture's one published sample: an InkExplain render, reviewed by the fixture's reviewer. */
+export function fixtureProvenanceData() {
+  return {
+    schemaVersion: 1,
+    sets: [
+      {
+        directory: "examples/gallery/en/demo",
+        origin: "inkexplain",
+        generated: { tool: "Fixture image tool", date: "2026-01-02" },
+        reviewedBy: "Fixture Reviewer",
+        reviewedOn: "2026-01-02",
+        files: { "01-demo-scene.png": gitBlobSha1(makePng()) },
+      },
+    ],
+  };
+}
+
 function doc(title, headings, { body = SECTION_TEXT, preamble = "", extra = "" } = {}) {
   return `# ${title}\n\n${preamble}${headings.map((heading) => `## ${heading}\n\n${body}\n`).join("\n")}${extra}`;
 }
@@ -241,7 +259,7 @@ function attributionsText(registryData) {
     "",
     `## ${LEGAL.originsSection}`,
     "",
-    `- **${FIXTURE_ORIGIN.name}** by ${holders} (<${FIXTURE_ORIGIN.url}>): the project InkExplain began from.`,
+    `- **${FIXTURE_ORIGIN.name}** by ${holders} (<${FIXTURE_ORIGIN.url}>), MIT License: the project InkExplain began from.`,
     "",
     "## Trademarks",
     "",
@@ -365,6 +383,7 @@ function baseFiles(registryData) {
     for (const file of PACK_FILES) files[`${pkg}/${packDirectory(archetype)}/${file}`] = pack[file];
   }
   files["examples/gallery/en/demo/01-demo-scene.png"] = makePng();
+  files["examples/gallery/provenance.json"] = `${JSON.stringify(fixtureProvenanceData(), null, 2)}\n`;
   files["examples/gallery/index.html"] = GALLERY_PAGE;
   files["assets/brand/mark.svg"] =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#1F1F1F"/></svg>\n';

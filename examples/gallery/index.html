@@ -316,7 +316,8 @@ noscript p { padding: 16px; }
       "samples": {
         "status": "pending",
         "decision": "No rendered samples yet. InkExplain Sketch is original to InkExplain; publish renders after a quality review.",
-        "images": []
+        "images": [],
+        "sources": []
       },
       "prompt": {
         "aspectRatio": "16:9",
@@ -389,7 +390,8 @@ noscript p { padding: 16px; }
       "samples": {
         "status": "pending",
         "decision": "No rendered samples yet. Stickman is original to InkExplain; publish renders after a quality review.",
-        "images": []
+        "images": [],
+        "sources": []
       },
       "prompt": {
         "aspectRatio": "16:9",
@@ -542,6 +544,20 @@ noscript p { padding: 16px; }
             "src": "zh/xiaohei/08-trust-bridge.png",
             "caption": "Trust bridge",
             "language": "zh"
+          }
+        ],
+        "sources": [
+          {
+            "language": "en",
+            "kind": "historical",
+            "summary": "Unmodified copies of Visual IP Illustrations images (MIT, Copyright (c) 2026 Ian), first published 2026-06-15.",
+            "note": null
+          },
+          {
+            "language": "zh",
+            "kind": "historical",
+            "summary": "Unmodified copies of Ian Xiaohei Illustrations images (MIT, Copyright (c) 2026 Ian), first published 2026-05-27.",
+            "note": null
           }
         ]
       },
@@ -714,6 +730,20 @@ noscript p { padding: 16px; }
             "src": "zh/littlebox/08-trust-bridge.png",
             "caption": "Trust bridge",
             "language": "zh"
+          }
+        ],
+        "sources": [
+          {
+            "language": "en",
+            "kind": "historical",
+            "summary": "Unmodified copies of Visual IP Illustrations images (MIT, Copyright (c) 2026 Ian), first published 2026-06-15.",
+            "note": "Pale sky-blue and lavender backgrounds, alternating from one image to the next. They predate InkExplain's pure white default for Littlebox, so they show the optional backgrounds, not the default."
+          },
+          {
+            "language": "zh",
+            "kind": "historical",
+            "summary": "Unmodified copies of Visual IP Illustrations images (MIT, Copyright (c) 2026 Ian), first published 2026-06-16.",
+            "note": "Pale sky-blue and lavender backgrounds, alternating from one image to the next. They predate InkExplain's pure white default for Littlebox, so they show the optional backgrounds, not the default."
           }
         ]
       },
@@ -888,6 +918,20 @@ noscript p { padding: 16px; }
             "caption": "Trust bridge",
             "language": "zh"
           }
+        ],
+        "sources": [
+          {
+            "language": "en",
+            "kind": "historical",
+            "summary": "Unmodified copies of Visual IP Illustrations images (MIT, Copyright (c) 2026 Ian), first published 2026-06-15.",
+            "note": null
+          },
+          {
+            "language": "zh",
+            "kind": "historical",
+            "summary": "Unmodified copies of Visual IP Illustrations images (MIT, Copyright (c) 2026 Ian), first published 2026-06-16.",
+            "note": null
+          }
         ]
       },
       "prompt": {
@@ -1041,6 +1085,20 @@ noscript p { padding: 16px; }
             "caption": "Trust bridge",
             "language": "zh"
           }
+        ],
+        "sources": [
+          {
+            "language": "en",
+            "kind": "historical",
+            "summary": "Unmodified copies of Visual IP Illustrations images (MIT, Copyright (c) 2026 Ian), first published 2026-06-15.",
+            "note": null
+          },
+          {
+            "language": "zh",
+            "kind": "historical",
+            "summary": "Unmodified copies of Visual IP Illustrations images (MIT, Copyright (c) 2026 Ian), first published 2026-06-16.",
+            "note": null
+          }
         ]
       },
       "prompt": {
@@ -1152,6 +1210,14 @@ noscript p { padding: 16px; }
             "src": "en/openclaw/08-trust-bridge.png",
             "caption": "Trust bridge",
             "language": "en"
+          }
+        ],
+        "sources": [
+          {
+            "language": "en",
+            "kind": "historical",
+            "summary": "Unmodified copies of Visual IP Illustrations images (MIT, Copyright (c) 2026 Ian), first published 2026-06-17.",
+            "note": null
           }
         ]
       },
@@ -1266,6 +1332,14 @@ noscript p { padding: 16px; }
             "caption": "Trust bridge",
             "language": "en"
           }
+        ],
+        "sources": [
+          {
+            "language": "en",
+            "kind": "historical",
+            "summary": "Unmodified copies of Visual IP Illustrations images (MIT, Copyright (c) 2026 Ian), first published 2026-06-17.",
+            "note": null
+          }
         ]
       },
       "prompt": {
@@ -1339,7 +1413,8 @@ noscript p { padding: 16px; }
       "samples": {
         "status": "pending",
         "decision": "No public samples have been reviewed yet.",
-        "images": []
+        "images": [],
+        "sources": []
       },
       "prompt": {
         "aspectRatio": "16:9",
@@ -1670,6 +1745,11 @@ function shortLicense(license) {
         el("a", { href: image.src, target: "_blank", rel: "noopener noreferrer" },
           el("img", { src: image.src, alt: archetype.name + " sample: " + image.caption, loading: "lazy", decoding: "async" })),
         el("figcaption", { text: image.caption })))));
+    // Say where this language's images came from: another project's unmodified files, or InkExplain renders.
+    for (const source of (archetype.samples.sources || []).filter((entry) => entry.language === language)) {
+      section.append(el("p", { class: "small", text: source.summary }));
+      if (source.note) section.append(el("p", { class: "small", text: source.note }));
+    }
     section.append(el("p", { class: "small", text: archetype.samples.decision }));
     return section;
   }

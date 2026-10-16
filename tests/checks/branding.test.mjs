@@ -60,6 +60,47 @@ test("BRAND-001 allows origin names in ATTRIBUTIONS, rights records, and README 
   assert.match(text, /archetypes\/demo\/style\.md:\d+: origin project name "Example Origin Kit"/);
 });
 
+test("BRAND-001 also allows origin names in the records and views that are written from the credits, and nowhere else", () => {
+  const identifiers = originIdentifiers(ATTRIBUTIONS);
+  const text = "Paper Lantern Kit by ana-dev.";
+  const allowed = [
+    "docs/provenance.md",
+    "docs/walkthroughs.md",
+    "examples/gallery/provenance.json",
+    "skills/inkexplain/registry.json",
+    "skills/inkexplain/references/routing.md",
+    "examples/gallery/index.html",
+    "skills/inkexplain/references/archetypes/demo/rights.md",
+    "skills/inkexplain/references/archetypes/demo/prompts.md",
+    "tests/lib/registry.test.mjs",
+  ];
+  for (const file of allowed) assert.deepEqual(originIdentifierFindings(file, text, identifiers), [], file);
+  for (const file of ["docs/guide.md", "docs/architecture.md", "skills/inkexplain/SKILL.md", "skills/inkexplain/references/archetypes/demo/style.md", "scripts/explain.mjs", "package.json"]) {
+    assert.ok(originIdentifierFindings(file, text, identifiers).length > 0, `${file} is not an attribution surface`);
+  }
+});
+
+test("BRAND-001 allows origin names inside the gallery-credits and archetypes regions of a README, but not beside them", () => {
+  const identifiers = originIdentifiers(ATTRIBUTIONS);
+  const readme = [
+    "# InkExplain",
+    "",
+    "Built from Paper Lantern Kit.",
+    "",
+    "<!-- inkexplain:gallery-credits:start -->",
+    "Samples copied from Paper Lantern Kit by ana-dev.",
+    "<!-- inkexplain:gallery-credits:end -->",
+    "",
+    "<!-- inkexplain:archetypes:start -->",
+    "| Demo | `mascot` | A mascot | `active` · MIT · ana-dev |",
+    "<!-- inkexplain:archetypes:end -->",
+    "",
+    "Also from ana-dev.",
+  ].join("\n");
+  const lines = [...new Set(originIdentifierFindings("README.md", readme, identifiers).map((finding) => finding.line))];
+  assert.deepEqual(lines, [3, 13]);
+});
+
 test("BRAND-002 requires one identity across package, metadata, and docs", (t) => {
   const fixture = createFixture(t);
   fixture.replace("package.json", '"name": "inkexplain"', '"name": "visual-thing"');

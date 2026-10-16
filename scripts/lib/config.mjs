@@ -24,6 +24,8 @@ export const PATHS = Object.freeze({
   promptExamples: "examples/prompts.md",
   galleryDir: "examples/gallery",
   galleryPage: "examples/gallery/index.html",
+  galleryProvenance: "examples/gallery/provenance.json",
+  provenanceDoc: "docs/provenance.md",
   brandDir: "assets/brand",
   languagePolicy: "docs/language-policy.md",
   locales: "readmes/locales.json",
@@ -76,6 +78,8 @@ export const PACKAGE_MAX_FILE_BYTES = 3 * 1024 * 1024;
 // keep an Origins section that credits each holder.
 export const LEGAL = Object.freeze({
   requiredCopyrightLines: Object.freeze(["Copyright (c) 2026 Ian", "Copyright (c) 2026 Agustin Pabon"]),
+  // The maintainer's own line. Every other holder in LICENSE is an origin that ATTRIBUTIONS.md must credit.
+  maintainerCopyrightLine: "Copyright (c) 2026 Agustin Pabon",
   originsSection: "Origins",
   mitPermission:
     'Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:',
@@ -97,17 +101,29 @@ export const DOC_REGIONS = Object.freeze({
   languages: "languages",
   archetypes: "archetypes",
   credits: "credits",
+  galleryCredits: "gallery-credits",
   galleryData: "gallery-data",
 });
 
 // Projects InkExplain originates from are listed once, in the Origins section of
 // ATTRIBUTIONS.md. Their names and repository identifiers may appear only in the
-// places classified here as attribution.
+// places classified here as attribution: the credits themselves, the data and rights
+// notes they are written from, the views generated from that data, and tests that quote them.
 export const ORIGIN_IDENTIFIER_ALLOWLIST = Object.freeze([
   { scope: "file", path: "ATTRIBUTIONS.md", classification: "origins and third-party notices" },
   { scope: "file", path: "LICENSE", classification: "license notice" },
+  { scope: "file", path: "docs/provenance.md", classification: "provenance record" },
+  { scope: "file", path: "docs/walkthroughs.md", classification: "walkthrough prompts that quote archetype rights notes" },
+  { scope: "file", path: "examples/gallery/provenance.json", classification: "gallery sample provenance record" },
+  { scope: "file", path: "skills/inkexplain/registry.json", classification: "archetype legal notices" },
+  { scope: "file", path: "skills/inkexplain/references/routing.md", classification: "archetype credits generated from the registry" },
+  { scope: "file", path: "examples/gallery/index.html", classification: "gallery data generated from the registry and the provenance record" },
   { scope: "pack-file", file: "rights.md", classification: "archetype rights record" },
+  { scope: "pack-file", file: "prompts.md", classification: "archetype rights note carried by every prompt" },
+  { scope: "prefix", prefix: "tests/", classification: "tests that quote credits and rights notes" },
   { scope: "region", region: "credits", classification: "credits in README files" },
+  { scope: "region", region: "gallery-credits", classification: "credits next to the gallery images in README files" },
+  { scope: "region", region: "archetypes", classification: "archetype table generated from the registry, which names each rights holder" },
 ]);
 
 // English is the default for every surface listed here (see docs/language-policy.md).

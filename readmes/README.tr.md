@@ -118,7 +118,9 @@ Tüm arketiplerin takma adları, hareket DNA'sı, stil sayfaları, atıfları ve
 | **OpenClaw** | **Go Gopher** | **Xiaohei** |
 | ![Fikir presi: OpenClaw maskotu bir presi çalıştırıyor](../examples/gallery/en/openclaw/06-idea-press.png) | ![Güven köprüsü: gopher bir boşluğun üzerine kalaslar döşüyor](../examples/gallery/en/gopher/08-trust-bridge.png) | ![Bir balık, birçok kullanım: Xiaohei bir malzeme balığını birkaç parçaya ayırıyor](../examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
+<!-- inkexplain:gallery-credits:start -->
 Littlebox, okooo5km'nin 5km Littlebox Illustrations projesinden uyarlanmıştır (MIT). Ferris, Karen Rustad Tolva'nın eseridir (CC0). Go gopher, Renee French tarafından tasarlanmıştır (CC BY 4.0). OpenClaw maskotu, OpenClaw projesinden gelir (MIT). Xiaohei, Ian'ın Ian Xiaohei Illustrations projesindeki karakteridir (MIT). Tüm görseller [examples/gallery](../examples/gallery) klasöründedir: altı arketip için İngilizce, dört arketip için Çince etiketli.
+<!-- inkexplain:gallery-credits:end -->
 
 ## Yeni Karakterler ve Animasyon Stilleri Ekleme
 
@@ -180,7 +182,7 @@ Mimari, aşamalı açıklama (progressive disclosure) modeli, kontrol kataloğu 
 ## Atıflar ve lisans
 
 <!-- inkexplain:credits:start -->
-Üçüncü taraf karakterler ve markalar ilgili sahiplerinin mülkiyetindedir. Karakter bildirimleri ve lisanslar için [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) dosyasına bakın.
+InkExplain, MIT lisanslı üç önceki projeye dayanır: yangchuansheng'in [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations), Ian'ın [Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations) ve okooo5km'in [5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations) projeleri. Galerideki görseller, ilk iki projeden alınmış değiştirilmemiş kopyalardır. Üçüncü tarafların karakterleri ve markaları kendi sahiplerine aittir. Kaynaklar, her karakterin bildirimleri ve lisansları için [ATTRIBUTIONS.md](../ATTRIBUTIONS.md) dosyasına bakın.
 <!-- inkexplain:credits:end -->
 
 InkExplain, [MIT Lisansı](../LICENSE) kapsamında yayımlanmaktadır.

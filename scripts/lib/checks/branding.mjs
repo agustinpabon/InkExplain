@@ -42,6 +42,7 @@ function isAllowlistedFile(file, allowlist) {
   return allowlist.some(
     (entry) =>
       (entry.scope === "file" && entry.path === file) ||
+      (entry.scope === "prefix" && file.startsWith(entry.prefix)) ||
       (entry.scope === "pack-file" && file.startsWith(`${PATHS.archetypesDir}/`) && path.posix.basename(file) === entry.file),
   );
 }

@@ -144,7 +144,9 @@ Renders shown with their archetype. InkExplain Sketch renders will be added afte
 | **OpenClaw** | **Go Gopher** | **Xiaohei** |
 | ![Idea press: the OpenClaw mascot works a press](examples/gallery/en/openclaw/06-idea-press.png) | ![Trust bridge: the gopher lays planks across a gap](examples/gallery/en/gopher/08-trust-bridge.png) | ![One fish, many uses: Xiaohei saws a source fish into an insight, a quote, and an example](examples/gallery/en/xiaohei/03-one-fish-many-uses.png) |
 
+<!-- inkexplain:gallery-credits:start -->
 Littlebox is adapted from okooo5km's 5km Littlebox Illustrations (MIT). Ferris by Karen Rustad Tolva (CC0). The Go gopher was designed by Renee French (CC BY 4.0). The OpenClaw mascot comes from the OpenClaw project (MIT). Xiaohei is Ian's character from Ian Xiaohei Illustrations (MIT). All renders are in [examples/gallery](examples/gallery): English labels for six archetypes, Chinese labels for four. The Littlebox renders are historical examples on the pale sky-blue and lavender options; Littlebox's own default is a pure white page.
+<!-- inkexplain:gallery-credits:end -->
 
 To browse them, open the [interactive gallery](examples/gallery/index.html) in a browser. It lists all eight archetypes with their motion rules, style, rights, and approved renders; filters them by category and technique; and assembles a prompt for your own idea with one-click copy. It is a single file that works from a checkout with no server and no network, and it lists no samples for an archetype whose renders are still pending review.
 
@@ -210,7 +212,7 @@ The architecture, progressive-disclosure model, check catalog, and release proce
 ## Credits and license
 
 <!-- inkexplain:credits:start -->
-Third-party characters and marks remain the property of their respective owners. See [ATTRIBUTIONS.md](ATTRIBUTIONS.md) for individual character notices and licenses.
+InkExplain builds on three earlier MIT-licensed projects: [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations) by yangchuansheng, [Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations) by Ian, and [5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations) by okooo5km. Its gallery images are unmodified copies from the first two. Third-party characters and marks remain the property of their respective owners. See [ATTRIBUTIONS.md](ATTRIBUTIONS.md) for the origins, individual character notices, and licenses.
 <!-- inkexplain:credits:end -->
 
 InkExplain is released under the [MIT License](LICENSE).

@@ -118,7 +118,9 @@ $inkexplain 提示詞模式：幫三張圖寫好提示詞，讓我貼到自己�
 | **OpenClaw** | **Go Gopher** | **Xiaohei** |
 | ![想法壓製機：OpenClaw 吉祥物正在操作壓製機](../examples/gallery/en/openclaw/06-idea-press.png) | ![信任橋：Gopher 在斷崖間鋪上一塊塊木板](../examples/gallery/en/gopher/08-trust-bridge.png) | ![一魚多吃：小黑把一條素材魚切成幾份，分批發出](../examples/gallery/zh/xiaohei/03-one-fish-many-uses.png) |
 
+<!-- inkexplain:gallery-credits:start -->
 Littlebox 改編自 okooo5km 的 5km Littlebox Illustrations（MIT）。Ferris 的作者是 Karen Rustad Tolva（CC0）。Go gopher 由 Renee French 設計（CC BY 4.0）。OpenClaw 吉祥物來自 OpenClaw 專案（MIT）。小黑（Xiaohei）是 Ian 在 Ian Xiaohei Illustrations 中創作的角色（MIT）。所有範例圖都在 [examples/gallery](../examples/gallery)：英文標籤版涵蓋六個原型，中文標籤版涵蓋四個。
+<!-- inkexplain:gallery-credits:end -->
 
 ## 新增角色與動畫風格
 
@@ -180,7 +182,7 @@ npm run check          # 執行 CI 會跑的所有檢查
 ## 致謝與授權
 
 <!-- inkexplain:credits:start -->
-第三方角色與商標歸其各自所有者所有。有關各角色的詳細授權與說明，請參閱 [ATTRIBUTIONS.md](../ATTRIBUTIONS.md)。
+InkExplain 建立在三個先前採用 MIT 授權的專案之上：yangchuansheng 的 [Visual IP Illustrations](https://github.com/yangchuansheng/visual-ip-illustrations)、Ian 的 [Ian Xiaohei Illustrations](https://github.com/helloianneo/ian-xiaohei-illustrations) 與 okooo5km 的 [5km Littlebox Illustrations](https://github.com/okooo5km/5km-littlebox-illustrations)。圖庫中的圖片是前兩個專案圖片的未修改副本。第三方角色與商標歸其各自所有者所有。有關專案來源、各角色的詳細授權與說明，請參閱 [ATTRIBUTIONS.md](../ATTRIBUTIONS.md)。
 <!-- inkexplain:credits:end -->
 
 InkExplain 以 [MIT 授權條款](../LICENSE) 釋出。
