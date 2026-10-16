@@ -9,7 +9,7 @@ Adding a character means writing a registry entry, five pack files, a credit, an
 ## Decision
 `npm run archetype:add` writes everything it can derive and writes an explicit marker for the rest: `UNRESOLVED:` for rights (holder, license, source, credit) and `TODO:` for the character (identity markers, actions, palette, poses). The archetype is always `experimental`. `SCHEMA-010` fails when an archetype that is not experimental still carries a marker, or still says it is experimental, so a pack cannot be promoted by changing one word of the registry.
 
-The whole result is validated in memory against every repository check before any file is written, through an overlay of the checkout. New files are created exclusively, so nothing is overwritten, and if a write or the check after writing fails, every change is undone. The scaffold needs no new dependency and makes no network call.
+The whole result is validated in memory against every repository check before any file is written, through an overlay of the checkout. New files are created exclusively, so nothing is overwritten, and if a write or the check after writing fails, every change is undone, each step on its own so that one failure cannot stop the rest. A step that cannot be undone, such as a locked file, is reported instead of passed over, so the contributor knows what to fix by hand. The scaffold needs no new dependency and makes no network call.
 
 ## Consequences
 - **Positive:** a contributor starts from a repository that passes every check, a duplicate id, an alias collision, or a name that leaks into another pack is refused before anything changes, and an unsettled right can never reach an active archetype unnoticed.

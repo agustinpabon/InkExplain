@@ -21,8 +21,10 @@ const MARKER_CONTRACTS = Object.freeze([
   { label: "signature action", values: (archetype) => archetype.motionDna.signatureActions, files: ["motion-and-acting.md"] },
 ]);
 
-// A pack that has been promoted must stop saying it is experimental.
-const STALE_STATUS = /\bexperimental\b/i;
+// A promoted archetype must stop saying it is experimental. This matches the ways a status is
+// written (the status value in backticks, "is experimental", "stays experimental", "an experimental
+// pack"), not the word in other prose such as "experimental hatching".
+const STALE_STATUS = /`experimental`|\bexperimental (?:archetype|pack)\b|\b(?:is|are|stays?|remains?)\s+(?:still\s+)?experimental\b/i;
 
 function packDir(archetype) {
   return `${PATHS.packageDir}/references/archetypes/${archetype.id}`;
@@ -271,12 +273,14 @@ export const schemaChecks = [
     run({ repo, registry }) {
       const issues = [];
       const attributions = repo.readTextIfExists(PATHS.attributions);
+      const examples = repo.readTextIfExists(PATHS.promptExamples);
       for (const archetype of registry.archetypes.filter((candidate) => candidate.status !== "experimental")) {
-        // The registry entry, the five pack files, and the archetype's own credit in ATTRIBUTIONS.md.
+        // The registry entry, the five pack files, and the archetype's own section in ATTRIBUTIONS.md and in the example prompts.
         const sources = [
           { path: PATHS.registryFile, text: JSON.stringify(archetype, null, 1), says: [] },
           ...PACK_FILES.map((file) => ({ path: packFilePath(archetype, file), text: repo.readTextIfExists(packFilePath(archetype, file)), says: [STALE_STATUS] })),
-          { path: PATHS.attributions, text: attributions === null ? null : sectionBody(attributions, archetype.name), says: [] },
+          { path: PATHS.attributions, text: attributions === null ? null : sectionBody(attributions, archetype.name), says: [STALE_STATUS] },
+          { path: PATHS.promptExamples, text: examples === null ? null : sectionBody(examples, archetype.name), says: [STALE_STATUS] },
         ];
         for (const { path: filePath, text, says } of sources) {
           if (text === null) continue;
@@ -287,11 +291,12 @@ export const schemaChecks = [
               const shown = excerptAround(line, match.index);
               issues.push({
                 path: filePath,
-                line: filePath === PATHS.registryFile || filePath === PATHS.attributions ? undefined : index + 1,
+                // A slice of a shared file (the entry, a section) has no line numbers of its own.
+                line: PACK_FILES.some((name) => filePath === packFilePath(archetype, name)) ? index + 1 : undefined,
                 message:
                   pattern === SCAFFOLD_PLACEHOLDER
                     ? `archetype ${archetype.id} is ${archetype.status} but still has a scaffold placeholder: ${shown}`
-                    : `archetype ${archetype.id} is ${archetype.status} but its pack still says it is experimental: ${shown}`,
+                    : `archetype ${archetype.id} is ${archetype.status} but still says it is experimental: ${shown}`,
               });
               break;
             }

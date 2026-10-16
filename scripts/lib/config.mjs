@@ -91,9 +91,11 @@ export const LEGAL = Object.freeze({
 });
 
 // Draft markers that `npm run archetype:add` writes wherever only the contributor can decide:
-// what the character looks like, what it does, and who holds its rights. They are allowed while
-// an archetype is experimental and must be gone before it is promoted (SCHEMA-010).
-export const SCAFFOLD_PLACEHOLDER = /\b(?:TODO|UNRESOLVED)\b/;
+// what the character looks like, what it does, and who holds its rights. Every marker is the word
+// followed by a colon ("TODO: ...", "UNRESOLVED: ..."), so prose that merely contains the word is
+// not one. They are allowed while an archetype is experimental and must be gone before it is
+// promoted (SCHEMA-010).
+export const SCAFFOLD_PLACEHOLDER = /\b(?:TODO|UNRESOLVED):/;
 
 // Locale codes, selector labels, README paths, and translated table headings
 // live in readmes/locales.json next to the translations they describe.

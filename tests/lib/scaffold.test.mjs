@@ -2,13 +2,14 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
-import { PACK_FILES } from "../../scripts/lib/config.mjs";
+import { PACK_FILES, SCAFFOLD_PLACEHOLDER } from "../../scripts/lib/config.mjs";
 import { parseRegistry } from "../../scripts/lib/registry.mjs";
 import { Repository } from "../../scripts/lib/repository.mjs";
 import {
   OverlayRepository,
   ScaffoldInputError,
   ScaffoldRefusal,
+  ScaffoldRollbackError,
   applyScaffold,
   buildEntry,
   insertRegistryEntry,
@@ -45,6 +46,15 @@ function refusalOf(action) {
     return error;
   }
   return assert.fail("expected a refusal");
+}
+
+function thrownBy(action) {
+  try {
+    action();
+  } catch (error) {
+    return error;
+  }
+  return assert.fail("expected an error");
 }
 
 function inputError(options, message) {
@@ -85,6 +95,35 @@ test("normalizeInput rejects unusable names, text, categories, sources, and canv
   }
   inputError({ ...FOX, canvas: "white background" }, /--canvas .* must start with the aspect ratio/);
   assert.equal(normalizeInput({ ...FOX, canvas: "1:1 on warm paper" }).canvas, "1:1 on warm paper");
+});
+
+test("normalizeInput refuses an id that Windows treats as a device, because git there cannot make its folder", () => {
+  for (const id of ["con", "prn", "aux", "nul", "com1", "com9", "lpt1", "lpt9"]) inputError({ ...FOX, id }, /--id "[a-z0-9]+" is a reserved device name on Windows/);
+  for (const id of ["console", "com10", "auxiliary", "nul-fox"]) assert.equal(normalizeInput({ ...FOX, id }).id, id, "only the exact names are reserved");
+});
+
+test("normalizeInput reads names in any script, stores them composed, and keeps text that would break Markdown out", () => {
+  const acute = String.fromCodePoint(0x301);
+  assert.equal(normalizeInput({ ...FOX, name: `Cafe${acute} Fox` }).name, "Café Fox".normalize("NFC"), "a decomposed name is stored composed");
+  for (const name of ["Café Fox", "नमस्ते", "สวัสดี", "ポチ", "Zoë's Fox", "R2-D2 & Co.", "Fox 2"]) assert.equal(normalizeInput({ ...FOX, name }).name, name.normalize("NFC"), name);
+  assert.equal(normalizeInput({ ...FOX, aliases: [`Cafe${acute}`] }).aliases[0], "Café".normalize("NFC"));
+
+  // An alias or an excluded term is matched against the user's words, so it takes the same characters a name does.
+  for (const term of ["a\\b", "a|b", "fox/den", "a<b>", "~~~", "=fox"]) {
+    inputError({ ...FOX, aliases: [term] }, /--alias .* must be at most 59 characters of letters, digits/);
+    inputError({ ...FOX, excludedTerms: [term] }, /--exclude .* must be at most 59 characters of letters, digits/);
+  }
+  // Text that opens a line of Markdown must not be able to turn it into a heading, a list, a quote, or a code fence.
+  for (const opener of ["~~~ fence", "# Heading", "- item", "> quote", "| cell", "* star"]) {
+    inputError({ ...FOX, summary: opener }, /--summary must start with a letter or a digit/);
+    inputError({ ...FOX, medium: opener }, /--medium must start with a letter or a digit/);
+    inputError({ ...FOX, linework: opener }, /--linework must start with a letter or a digit/);
+  }
+});
+
+test("normalizeInput takes a canvas only when it opens with a real aspect ratio", () => {
+  for (const canvas of ["0:9 tall", "16:0 wide", "100:1 banner", "16:09 wide", ":9 tall", "16:9x", "wide 16:9"]) inputError({ ...FOX, canvas }, /--canvas .* must start with the aspect ratio/);
+  for (const canvas of ["1:1", "16:9", "3:4 portrait", "99:1 strip", "4:3, on kraft paper"]) assert.equal(normalizeInput({ ...FOX, canvas }).canvas, canvas);
 });
 
 test("normalizeInput refuses a third party's rights for a category that is original to InkExplain", () => {
@@ -174,7 +213,7 @@ test("planScaffold adds a third-party archetype and leaves its rights UNRESOLVED
   for (const file of ["skills/inkexplain/registry.json", "ATTRIBUTIONS.md", "examples/prompts.md", "skills/inkexplain/references/routing.md", "README.md", "examples/gallery/index.html"]) {
     assert.ok(modified.includes(file), `${file} is updated`);
   }
-  assert.deepEqual(result.validation, { checks: result.validation.checks, failedBefore: 0, failedAfter: 0 });
+  assert.deepEqual(result.validation, { checks: result.validation.checks, failedChecksBefore: 0, failedChecksAfter: 0, issuesBefore: 0, issuesAfter: 0, expectedIssues: [] });
 
   const rights = result.create[0].content;
   assert.match(rights, /- Rights holder: UNRESOLVED: record the rights holder\./);
@@ -186,8 +225,29 @@ test("planScaffold adds a third-party archetype and leaves its rights UNRESOLVED
   assert.match(prompts, /\nRights note: \[append the rights note from this file\]\.\n```/, "a third-party template keeps its rights-note field");
   assert.match(prompts, /## Rights note\n[\s\S]*experimental archetype and its rights are not yet confirmed\. UNRESOLVED: write the credit line the license requires, then replace this note\. No logos/);
   assert.ok(result.placeholders.length > 10);
-  assert.ok(result.placeholders.every((item) => /\b(?:TODO|UNRESOLVED)\b/.test(item.text)));
+  assert.ok(result.placeholders.every((item) => SCAFFOLD_PLACEHOLDER.test(item.text)));
   assert.ok(result.placeholders.some((item) => item.path === "ATTRIBUTIONS.md"));
+});
+
+test("the markers a plan reports sit on the lines they are reported at, in the files as written", (t) => {
+  const fixture = createFixture(t);
+  const result = plan(fixture);
+  applyScaffold(fixture.root, result);
+  assert.ok(result.placeholders.some((item) => item.path === "skills/inkexplain/registry.json"), "the registry entry carries markers");
+  for (const item of result.placeholders) {
+    const line = fixture.read(item.path).split("\n")[item.line - 1];
+    assert.match(line, SCAFFOLD_PLACEHOLDER, `${item.path}:${item.line} holds a marker`);
+  }
+});
+
+test("a tribute character's rights boundaries stay an open marker, because only the rights holder can set them", (t) => {
+  const entry = buildEntry(normalizeInput({ ...FOX, category: "tribute-character" }));
+  assert.equal(entry.legalNotice.restrictions.length, 2);
+  assert.match(entry.legalNotice.restrictions[1], /^UNRESOLVED: record the rights boundaries/);
+  const mascot = buildEntry(normalizeInput(FOX));
+  assert.equal(mascot.legalNotice.restrictions.length, 1, "a mascot needs no boundaries beyond the generic one");
+  const fixture = createFixture(t);
+  assert.equal(plan(fixture, { ...FOX, category: "tribute-character" }).archetype.category, "tribute-character");
 });
 
 test("planScaffold adds an original house style with no rights to settle", (t) => {
@@ -272,39 +332,183 @@ test("planScaffold refuses a result that would break a repository check, and wri
   const failing = createFixture(t).write("docs/language-policy.md", "# Language policy\n");
   assert.ok(failing.check("LANG-003").status === "fail");
   const result = plan(failing, FOX);
-  assert.ok(result.validation.failedBefore > 0 && result.validation.failedAfter === result.validation.failedBefore);
+  assert.ok(result.validation.issuesBefore > 0 && result.validation.issuesAfter === result.validation.issuesBefore);
+  assert.equal(result.validation.failedChecksBefore, 1);
 });
 
-test("applyScaffold never overwrites a file and undoes what it did when a write fails", (t) => {
+test("an issue that already existed is not new when the scaffold moves its line", (t) => {
+  // The new table row shifts every line below it, so a line-anchored issue the repository already had must not read as a new one.
+  const fixture = createFixture(t).append("README.md", "\nSee the [missing guide](docs/nope.md).\n");
+  assert.match(messages(fixture.check("DOC-002")), /README\.md:\d+: link docs\/nope\.md does not resolve/);
+  const result = plan(fixture, FOX);
+  assert.equal(result.validation.failedChecksBefore, 1);
+  assert.equal(result.validation.failedChecksAfter, 1);
+  applyScaffold(fixture.root, result, { verify: () => [] });
+  assert.match(messages(fixture.check("DOC-002")), /docs\/nope\.md does not resolve/);
+});
+
+/** The real file API, except that writing the named files fails the way a locked or read-only file does. */
+function failingIo(...names) {
+  return {
+    ...fs,
+    existsSync: fs.existsSync,
+    readFileSync: fs.readFileSync,
+    mkdirSync: fs.mkdirSync,
+    rmSync: fs.rmSync,
+    writeFileSync(file, ...rest) {
+      if (names.some((name) => String(file).replaceAll("\\", "/").endsWith(name))) {
+        throw Object.assign(new Error(`EPERM: operation not permitted, open '${path.basename(String(file))}'`), { code: "EPERM" });
+      }
+      return fs.writeFileSync(file, ...rest);
+    },
+  };
+}
+
+test("applyScaffold writes nothing when a file it would create exists, or a file it would edit has changed, since planning", (t) => {
   const fixture = createFixture(t);
   const result = plan(fixture, FULL);
   const before = snapshot(fixture.root);
-  // Something appears at a planned path after planning, as if another process had written it.
-  const taken = `${PACKS}/example-fox/style.md`;
-  fixture.write(taken, "keep me\n");
-  const withTaken = snapshot(fixture.root);
-  assert.throws(() => applyScaffold(fixture.root, result), /EEXIST/);
-  assert.equal(fixture.read(taken), "keep me\n", "the existing file is untouched");
-  assert.deepEqual(snapshot(fixture.root), withTaken, "the files created before the failure are gone, and no existing file changed");
-  assert.ok(before.size + 1 === withTaken.size);
+
+  fixture.write(`${PACKS}/example-fox/style.md`, "keep me\n");
+  const taken = snapshot(fixture.root);
+  const refused = refusalOf(() => applyScaffold(fixture.root, result));
+  assert.match(refused.message, /changed after the plan was made, so nothing was written/);
+  assert.deepEqual(refused.problems, [`${PACKS}/example-fox/style.md now exists`]);
+  assert.deepEqual(snapshot(fixture.root), taken, "nothing was written, and the file that appeared is untouched");
+  fixture.remove(`${PACKS}/example-fox`);
+
+  // An edit made to ATTRIBUTIONS.md after planning must not be overwritten by the plan's older copy.
+  fixture.append("ATTRIBUTIONS.md", "\nA paragraph added by hand after planning.\n");
+  const edited = snapshot(fixture.root);
+  assert.deepEqual(refusalOf(() => applyScaffold(fixture.root, result)).problems, ["ATTRIBUTIONS.md changed"]);
+  assert.deepEqual(snapshot(fixture.root), edited);
+  assert.notDeepEqual(edited, before);
+});
+
+test("applyScaffold undoes everything, and never overwrites, when a file appears while it writes", (t) => {
+  const fixture = createFixture(t);
+  const result = plan(fixture, FULL);
+  const before = snapshot(fixture.root);
+  // Another process creates style.md just before this one writes it: the exclusive create must fail, not overwrite.
+  const racing = {
+    ...failingIo(),
+    writeFileSync(file, ...rest) {
+      if (String(file).replaceAll("\\", "/").endsWith("/example-fox/style.md")) fs.writeFileSync(file, "written by someone else\n");
+      return fs.writeFileSync(file, ...rest);
+    },
+  };
+  assert.throws(() => applyScaffold(fixture.root, result, { io: racing }), /EEXIST/);
+  assert.equal(fixture.read(`${PACKS}/example-fox/style.md`), "written by someone else\n", "the other file is untouched");
+  fixture.remove(`${PACKS}/example-fox`);
+  assert.deepEqual(snapshot(fixture.root), before, "everything else is as it was");
+});
+
+/** The named file can be written once and is then locked: the first write succeeds, and so its undo fails. */
+function lockingIo(name) {
+  let written = false;
+  return {
+    ...failingIo(),
+    writeFileSync(file, ...rest) {
+      if (String(file).replaceAll("\\", "/").endsWith(name)) {
+        if (written) throw Object.assign(new Error(`EBUSY: resource busy or locked, open '${path.basename(String(file))}'`), { code: "EBUSY" });
+        written = true;
+      }
+      return fs.writeFileSync(file, ...rest);
+    },
+  };
+}
+
+test("a write that fails before it changes anything is undone completely, and nothing is reported as left behind", (t) => {
+  const fixture = createFixture(t);
+  const result = plan(fixture, FULL);
+  const before = snapshot(fixture.root);
+  // examples/prompts.md is read-only: the registry and ATTRIBUTIONS.md were already edited when its write fails.
+  const error = thrownBy(() => applyScaffold(fixture.root, result, { io: failingIo("examples/prompts.md") }));
+  assert.ok(!(error instanceof ScaffoldRollbackError), "the file never changed, so there is nothing to restore");
+  assert.equal(error.code, "EPERM");
+  assert.deepEqual(snapshot(fixture.root), before, "the pack, the registry entry, and the credit are all gone again");
+});
+
+test("when part of an undo fails, the rest is still undone and what remains is reported", (t) => {
+  const fixture = createFixture(t);
+  const result = plan(fixture, FULL);
+  // examples/prompts.md takes the new text, and is then locked, so it cannot be put back; README.md then fails to write.
+  const locked = lockingIo("examples/prompts.md");
+  const io = {
+    ...locked,
+    writeFileSync(file, ...rest) {
+      if (String(file).replaceAll("\\", "/").endsWith("/README.md")) throw Object.assign(new Error("ENOSPC: no space left on device, write"), { code: "ENOSPC" });
+      return locked.writeFileSync(file, ...rest);
+    },
+  };
+  const error = thrownBy(() => applyScaffold(fixture.root, result, { io }));
+  assert.ok(error instanceof ScaffoldRollbackError, String(error));
+  assert.match(error.message, /^Writing failed \(ENOSPC: no space left on device, write\), and one change could not be undone$/);
+  assert.deepEqual(error.leftovers.map((item) => item.split(":")[0]), ["restore examples/prompts.md"]);
+  assert.match(error.cause.message, /ENOSPC/);
+  assert.ok(fixture.read("examples/prompts.md").includes("$inkexplain Use Example Fox."), "the locked file still holds the new text, and the report says so");
+  assert.ok(!fixture.exists(`${PACKS}/example-fox`) && !fixture.read("ATTRIBUTIONS.md").includes("### Example Fox") && !fixture.read("skills/inkexplain/registry.json").includes("example-fox"), "everything else was undone");
+});
+
+test("when the checks fail after writing and the undo cannot finish, the message names the problem and what is left", (t) => {
+  const fixture = createFixture(t);
+  const result = plan(fixture, FULL);
+  const error = thrownBy(() => applyScaffold(fixture.root, result, { io: lockingIo("examples/prompts.md"), verify: () => ["SCHEMA-099 something broke"] }));
+  assert.ok(error instanceof ScaffoldRollbackError, String(error));
+  assert.match(error.message, /^Writing failed \(the repository checks failed after writing: SCHEMA-099 something broke\), and one change could not be undone$/);
+  assert.deepEqual(error.leftovers.map((item) => item.split(":")[0]), ["restore examples/prompts.md"]);
+  assert.ok(!fixture.exists(`${PACKS}/example-fox`), "everything else was undone, the pack folder included");
 });
 
 test("applyScaffold undoes everything when the verification it is given finds a problem", (t) => {
   const fixture = createFixture(t);
   const result = plan(fixture, FULL);
   const before = snapshot(fixture.root);
-  const error = (() => {
-    try {
-      applyScaffold(fixture.root, result, { verify: () => ["SCHEMA-099 something broke"] });
-    } catch (caught) {
-      return caught;
-    }
-    return null;
-  })();
+  const error = thrownBy(() => applyScaffold(fixture.root, result, { verify: () => ["SCHEMA-099 something broke"] }));
   assert.ok(error instanceof ScaffoldRefusal);
   assert.deepEqual(error.problems, ["SCHEMA-099 something broke"]);
   assert.deepEqual(snapshot(fixture.root), before, "created files, new directories, and edits are all undone");
   assert.ok(!fs.existsSync(path.join(fixture.root, PACKS, "example-fox")), "the pack folder is gone too");
+});
+
+test("a rollback removes every folder the run created, deepest first, and no folder that was already there", (t) => {
+  const fixture = createFixture(t);
+  const before = snapshot(fixture.root);
+  // Two sibling folders under one new parent: the parent can only go once both children have.
+  const nested = {
+    create: [
+      { path: "docs/new/deep/guide.md", content: "# Guide\n" },
+      { path: "docs/new/other/two.md", content: "# Two\n" },
+      { path: "docs/new/top.md", content: "# Top\n" },
+    ],
+    modify: [],
+  };
+  const error = thrownBy(() => applyScaffold(fixture.root, nested, { verify: () => ["SCHEMA-099 something broke"] }));
+  assert.ok(error instanceof ScaffoldRefusal, `the refusal, with nothing left over: ${error}`);
+  assert.ok(!fs.existsSync(path.join(fixture.root, "docs/new")), "every new folder is gone");
+  assert.ok(fs.existsSync(path.join(fixture.root, "docs")), "the folder that was already there stays");
+  assert.deepEqual(snapshot(fixture.root), before);
+});
+
+test("a rollback never deletes a file somebody else put into a folder it created, and says the folder is still there", (t) => {
+  const fixture = createFixture(t);
+  const result = plan(fixture, FULL);
+  const before = snapshot(fixture.root);
+  const racing = {
+    ...failingIo(),
+    writeFileSync(file, ...rest) {
+      // While the pack is being written, another process drops its own file into the new folder.
+      if (String(file).replaceAll("\\", "/").endsWith("/example-fox/style.md")) fs.writeFileSync(path.join(path.dirname(String(file)), "notes.md"), "mine\n");
+      return fs.writeFileSync(file, ...rest);
+    },
+  };
+  const error = thrownBy(() => applyScaffold(fixture.root, result, { io: racing, verify: () => ["SCHEMA-099 something broke"] }));
+  assert.ok(error instanceof ScaffoldRollbackError, String(error));
+  assert.deepEqual(error.leftovers.map((item) => item.split(":")[0]), [`remove ${PACKS}/example-fox`]);
+  assert.equal(fixture.read(`${PACKS}/example-fox/notes.md`), "mine\n", "the other file is untouched");
+  assert.deepEqual(fs.readdirSync(path.join(fixture.root, PACKS, "example-fox")), ["notes.md"], "the five pack files are gone");
+  fixture.remove(`${PACKS}/example-fox`);
+  assert.deepEqual(snapshot(fixture.root), before, "everything else is as it was");
 });
 
 test("from scaffold to active: a promoted archetype must settle every marker and stop calling itself experimental", (t) => {
@@ -320,14 +524,17 @@ test("from scaffold to active: a promoted archetype must settle every marker and
   promote();
   const refused = messages(fixture.check("SCHEMA-010"));
   assert.match(refused, /archetype example-fox is active but still has a scaffold placeholder: .*TODO: describe in two or three sentences/);
-  assert.match(refused, /archetype example-fox is active but its pack still says it is experimental: .*status `experimental`/);
+  assert.match(refused, /archetype example-fox is active but still says it is experimental: .*status `experimental`/);
+  assert.match(refused, /examples\/prompts\.md: archetype example-fox is active but still says it is experimental: .*stays `experimental`/, "the example prompt says it too");
   assert.match(messages(fixture.check("LEGAL-003")), /does not state status active/);
 
-  // The contributor writes the missing text and updates the status wording.
+  // The contributor writes the missing text and updates the status wording, in the pack and in the example prompt.
   for (const file of PACK_FILES) {
     const pack = `${PACKS}/example-fox/${file}`;
     fixture.write(pack, fixture.read(pack).replace(/TODO:[^|\n]*/g, "Written by the contributor.").replace(/experimental/gi, "active"));
   }
+  assert.match(messages(fixture.check("SCHEMA-010")), /examples\/prompts\.md/, "one claim is left, and it is named");
+  fixture.write("examples/prompts.md", fixture.read("examples/prompts.md").replace(/ and stays `experimental` until its renders have been reviewed, so each delivery says so/, ""));
   assert.equal(fixture.check("SCHEMA-010").status, "pass", messages(fixture.check("SCHEMA-010")));
   assert.equal(fixture.check("LEGAL-003").status, "pass");
   fixture.regenerateDocs();

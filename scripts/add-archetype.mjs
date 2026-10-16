@@ -20,7 +20,15 @@ import { EXIT } from "./lib/check-runner.mjs";
 import { PATHS } from "./lib/config.mjs";
 import { isMain } from "./lib/entrypoint.mjs";
 import { Repository } from "./lib/repository.mjs";
-import { SCAFFOLD_CATEGORIES, ScaffoldInputError, ScaffoldRefusal, applyScaffold, checkRepository, planScaffold } from "./lib/scaffold.mjs";
+import {
+  SCAFFOLD_CATEGORIES,
+  ScaffoldInputError,
+  ScaffoldRefusal,
+  ScaffoldRollbackError,
+  applyScaffold,
+  checkRepository,
+  planScaffold,
+} from "./lib/scaffold.mjs";
 
 export const USAGE = [
   "Usage:",
@@ -106,9 +114,9 @@ function renderText({ plan, dryRun }) {
     `${dryRun ? "Would regenerate" : "Regenerated"} (${regenerated.length}, ${GENERATED_NOTE}):`,
     ...regenerated.map((file) => `  ${file}`),
     "",
-    validation.failedAfter === 0
+    validation.issuesAfter === 0
       ? `Checks: all ${validation.checks} repository checks pass with the new archetype.`
-      : `Checks: ${validation.failedAfter} of ${validation.checks} fail, as they already did before this change.`,
+      : `Checks: ${validation.failedChecksAfter} of ${validation.checks} fail (${validation.issuesAfter} ${validation.issuesAfter === 1 ? "issue" : "issues"}), as they already did before this change.`,
     "",
   ];
   const perFile = countBy(placeholders, "path");
@@ -120,8 +128,9 @@ function renderText({ plan, dryRun }) {
 
 function renderJson({ plan, dryRun }) {
   const { archetype, validation, placeholders } = plan;
+  const { expectedIssues, ...checks } = validation;
   return JSON.stringify(
-    { dryRun, archetype, ...summarize(plan), checks: validation, placeholders, nextSteps: NEXT_STEPS.map((step) => step.replace("<id>", archetype.id)) },
+    { dryRun, archetype, ...summarize(plan), checks, placeholders, nextSteps: NEXT_STEPS.map((step) => step.replace("<id>", archetype.id)) },
     null,
     2,
   );
@@ -172,6 +181,7 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
     return EXIT.ok;
   }
 
+  if (options.root !== undefined && options.root.trim() === "") return usageError("--root needs a directory");
   const root = path.resolve(options.root ?? path.join(import.meta.dirname, ".."));
   const repo = new Repository(root);
   const dryRun = options["dry-run"];
@@ -215,15 +225,20 @@ export function main(argv = process.argv.slice(2), { stdout = process.stdout, st
 
   if (!dryRun) {
     try {
-      // The checks that passed in memory must pass on disk too; if they do not, everything is undone.
+      // The checks must report on disk exactly what they reported in memory; anything else undoes every change.
       applyScaffold(root, plan, {
         verify: () => {
-          const { failures } = checkRepository(new Repository(root), { policy });
-          return failures.length === plan.validation.failedAfter ? [] : failures.map((issue) => `${issue.id} ${issue.path ? `${issue.path}: ` : ""}${issue.message}`);
+          const { failures, keys } = checkRepository(new Repository(root), { policy });
+          const expected = new Set(plan.validation.expectedIssues);
+          return failures.filter((_, index) => !expected.has(keys[index])).map((issue) => `${issue.id} ${issue.path ? `${issue.path}: ` : ""}${issue.message}`);
         },
       });
     } catch (error) {
       if (error instanceof ScaffoldRefusal) return refuse(error);
+      if (error instanceof ScaffoldRollbackError) {
+        stderr.write(`${error.message}:\n${error.leftovers.map((item) => `  - ${item}`).join("\n")}\nThe repository is not as it was. Review \`git status\` and undo these by hand.\n`);
+        return EXIT.failed;
+      }
       stderr.write(`Could not write the archetype: ${error.message}.\nEvery change was undone.\n`);
       return EXIT.failed;
     }

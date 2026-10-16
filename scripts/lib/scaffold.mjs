@@ -33,9 +33,25 @@ export class ScaffoldRefusal extends Error {
   }
 }
 
+/** Writing failed, and some of what had been written could not be undone: `leftovers` says what remains. */
+export class ScaffoldRollbackError extends Error {
+  constructor(cause, leftovers) {
+    // A refusal's own message says the changes were undone, which is no longer true here; its problems are the reason.
+    const reason = cause instanceof ScaffoldRefusal && cause.problems.length > 0 ? `the repository checks failed after writing: ${cause.problems.join("; ")}` : cause.message;
+    super(`Writing failed (${reason}), and ${leftovers.length === 1 ? "one change" : `${leftovers.length} changes`} could not be undone`);
+    this.cause = cause;
+    this.leftovers = leftovers;
+  }
+}
+
 export const SCAFFOLD_CATEGORIES = Object.freeze(Object.keys(CATEGORIES));
 
-const NAME_PATTERN = /^[\p{L}\p{N}][\p{L}\p{N} .'&+-]{0,58}$/u;
+// Names and the terms that select an archetype: letters of any script (with their combining marks), digits, and a few separators.
+const NAME_PATTERN = /^[\p{L}\p{N}][\p{L}\p{M}\p{N} .'&+_-]{0,58}$/u;
+const WORD_START = /^[\p{L}\p{N}]/u;
+// Windows treats these as devices: most of its tools, and git for Windows, cannot create a folder with one of
+// these names, so a pack whose id is one could not be checked out there.
+const RESERVED_IDS = Object.freeze(["con", "prn", "aux", "nul", ...Array.from({ length: 10 }, (_, n) => `com${n}`), ...Array.from({ length: 10 }, (_, n) => `lpt${n}`)]);
 const SOURCE_PATTERN = /^https?:\/\/[^\s<>"'`[\]]+$/;
 const MAX_ID_LENGTH = 40;
 const ORDINALS = Object.freeze(["first", "second", "third"]);
@@ -50,10 +66,14 @@ const sentence = (text) => (/[.!?]$/.test(text.trim()) ? text.trim() : `${text.t
 const todo = (what) => `TODO: ${what}`;
 const unresolved = (what) => `UNRESOLVED: ${what}`;
 
-/** One line of free text: no control characters, no brackets (a prompt field) or backticks (a code span). */
-function cleanText(value, label, maxLength) {
-  const text = String(value ?? "").replace(/\s+/g, " ").trim();
+/**
+ * One line of free text: no control characters, no brackets (a prompt field) or backticks (a code span).
+ * `word` also requires it to start with a letter or digit, for text that opens a line of Markdown.
+ */
+function cleanText(value, label, maxLength, { word = false } = {}) {
+  const text = String(value ?? "").normalize("NFC").replace(/\s+/g, " ").trim();
   if (text === "") throw new ScaffoldInputError(`${label} must not be empty`);
+  if (word && !WORD_START.test(text)) throw new ScaffoldInputError(`${label} must start with a letter or a digit, not ${JSON.stringify(text.slice(0, 1))}`);
   if (text.length > maxLength) throw new ScaffoldInputError(`${label} is ${text.length} characters; the limit is ${maxLength}`);
   if (/\p{Cc}/u.test(text)) throw new ScaffoldInputError(`${label} must not contain control characters`);
   if (/[[\]`]/.test(text)) {
@@ -62,12 +82,15 @@ function cleanText(value, label, maxLength) {
   return text;
 }
 
-/** Cleaned entries of a repeatable flag, in order, without repeats. */
-function cleanList(values, label, maxLength) {
+/** Cleaned entries of a repeatable flag, in order, without repeats. `term` limits each to the characters of a name. */
+function cleanList(values, label, maxLength, { term = false } = {}) {
   const seen = new Set();
   const list = [];
   for (const value of values ?? []) {
     const text = cleanText(value, label, maxLength);
+    if (term && !NAME_PATTERN.test(text)) {
+      throw new ScaffoldInputError(`${label} ${JSON.stringify(text)} must be at most 59 characters of letters, digits, spaces, and . ' & + _ -`);
+    }
     const key = normalizeName(text);
     if (!seen.has(key)) list.push(text);
     seen.add(key);
@@ -88,33 +111,36 @@ export function normalizeInput(options = {}) {
       `--id ${JSON.stringify(id)} must be lowercase kebab-case (letters, digits, and single hyphens, starting with a letter) and at most ${MAX_ID_LENGTH} characters`,
     );
   }
-  const name = String(options.name ?? "").trim().replace(/\s+/g, " ");
+  if (RESERVED_IDS.includes(id)) {
+    throw new ScaffoldInputError(`--id ${JSON.stringify(id)} is a reserved device name on Windows, where git and most tools cannot create a folder with that name; choose another id`);
+  }
+  const name = String(options.name ?? "").normalize("NFC").trim().replace(/\s+/g, " ");
   if (name === "") throw new ScaffoldInputError('--name is required, for example --name "Example Fox"');
   if (!NAME_PATTERN.test(name)) {
-    throw new ScaffoldInputError(`--name ${JSON.stringify(name)} must be at most 59 characters of letters, digits, spaces, and . ' & + -`);
+    throw new ScaffoldInputError(`--name ${JSON.stringify(name)} must be at most 59 characters of letters, digits, spaces, and . ' & + _ -`);
   }
   const category = options.category ?? "mascot";
   if (!Object.hasOwn(CATEGORIES, category)) {
     throw new ScaffoldInputError(`--category must be one of ${SCAFFOLD_CATEGORIES.join(", ")}, got ${JSON.stringify(category)}`);
   }
   const thirdParty = CATEGORIES[category].thirdParty;
-  const optional = (key, label, maxLength) => (options[key] === undefined ? null : cleanText(options[key], label, maxLength));
+  const optional = (key, label, maxLength, flags) => (options[key] === undefined ? null : cleanText(options[key], label, maxLength, flags));
   const input = {
     id,
     name,
     category,
     thirdParty,
-    summary: optional("summary", "--summary", 240),
-    aliases: cleanList(options.aliases, "--alias", 60),
+    summary: optional("summary", "--summary", 240, { word: true }),
+    aliases: cleanList(options.aliases, "--alias", 60, { term: true }),
     poses: cleanList(options.poses, "--pose", 160),
-    excludedTerms: cleanList(options.excludedTerms, "--exclude", 60),
+    excludedTerms: cleanList(options.excludedTerms, "--exclude", 60, { term: true }),
     features: cleanList(options.features, "--feature", 120),
     actions: cleanList(options.actions, "--action", 40),
     palette: cleanList(options.palette, "--palette", 60),
     avoid: cleanList(options.avoid, "--avoid", 120),
-    medium: optional("medium", "--medium", 120),
+    medium: optional("medium", "--medium", 120, { word: true }),
     canvas: optional("canvas", "--canvas", 120),
-    linework: optional("linework", "--linework", 120),
+    linework: optional("linework", "--linework", 120, { word: true }),
     rightsHolder: optional("rightsHolder", "--rights-holder", 120),
     license: optional("license", "--license", 120),
     source: optional("source", "--source", 300),
@@ -123,8 +149,8 @@ export function normalizeInput(options = {}) {
   if (input.source !== null && !SOURCE_PATTERN.test(input.source)) {
     throw new ScaffoldInputError(`--source ${JSON.stringify(input.source)} must be an http or https URL`);
   }
-  if (input.canvas !== null && !/^\d{1,2}:\d{1,2}\b/.test(input.canvas)) {
-    throw new ScaffoldInputError(`--canvas ${JSON.stringify(input.canvas)} must start with the aspect ratio, such as "16:9 on a clean white background"`);
+  if (input.canvas !== null && !/^[1-9]\d?:[1-9]\d?\b/.test(input.canvas)) {
+    throw new ScaffoldInputError(`--canvas ${JSON.stringify(input.canvas)} must start with the aspect ratio (each side from 1 to 99), such as "16:9 on a clean white background"`);
   }
   if (!thirdParty) {
     const given = RIGHTS_FLAGS.find(([key]) => input[key] !== null);
@@ -149,7 +175,11 @@ export function buildEntry(input) {
         rightsHolder: input.rightsHolder ?? unresolved("record the rights holder"),
         license: input.license ?? unresolved("record the license"),
         attributionTerms: [input.rightsHolder ?? unresolved("record the rights holder"), ...(input.source ? [input.source] : [])],
-        restrictions: ["No logos, and no claims of affiliation, endorsement, sponsorship, or approval by the rights holder."],
+        restrictions: [
+          "No logos, and no claims of affiliation, endorsement, sponsorship, or approval by the rights holder.",
+          // A tribute character is drawn within boundaries its rights holder sets; the scaffold cannot know them.
+          ...(category === "tribute-character" ? [unresolved("record the rights boundaries the rights holder sets for this character")] : []),
+        ],
       }
     : { credit: "Original to InkExplain", rightsHolder: "InkExplain contributors", license: "MIT", attributionTerms: [], restrictions: [] };
 
@@ -592,7 +622,9 @@ export class OverlayRepository extends Repository {
   }
 }
 
-const issueKey = (result, issue) => `${result.id}|${issue.path ?? ""}|${issue.line ?? ""}|${issue.message}`;
+// An issue is the same issue in two runs when the check, the file, and the message agree. The line is
+// left out on purpose: a table row added to a file moves every issue below it, and none of them is new.
+const issueKey = (result, issue) => `${result.id}|${issue.path ?? ""}|${issue.message}`;
 
 /** Every issue of every failed check, keyed so two runs can be compared. */
 function failures(results) {
@@ -603,18 +635,27 @@ function failures(results) {
   return found;
 }
 
-/** Placeholder lines in text that the scaffold generated: [{ path, line, text }]. */
+/** How many distinct checks have at least one issue. */
+const failedChecks = (found) => new Set([...found.values()].map((issue) => issue.id)).size;
+
+/**
+ * Placeholder lines in text that the scaffold generated: [{ path, line, text }]. `firstLine` is the
+ * line of the file on which `text` begins, so a slice of a shared file reports its real line numbers.
+ */
 export function findPlaceholders(files) {
   const found = [];
-  for (const { path: file, text } of files) {
+  for (const { path: file, text, firstLine = 1 } of files) {
     for (const [index, line] of text.split("\n").entries()) {
       const match = SCAFFOLD_PLACEHOLDER.exec(line);
       // Show the part of the line around the marker, so a long line never hides what was found.
-      if (match) found.push({ path: file, line: index + 1, text: excerptAround(line, match.index, { before: 40 }) });
+      if (match) found.push({ path: file, line: firstLine + index, text: excerptAround(line, match.index, { before: 40 }) });
     }
   }
   return found;
 }
+
+/** The 1-based line of `text` on which character offset `offset` falls. */
+const lineAtOffset = (text, offset) => text.slice(0, offset).split("\n").length;
 
 function newAliasProblems(existing, entry) {
   const known = new Set(buildAliasIndex(existing).problems.map((problem) => problem.message));
@@ -674,10 +715,11 @@ export function planScaffold(repo, options, { policy } = {}) {
 
   const pack = buildPackFiles(entry, input);
   const attributionsSection = buildAttributionsSection(entry, input);
+  const attributionsAfter = insertAttributions(attributions, attributionsSection);
   const create = PACK_FILES.map((file) => ({ path: `${packDir}/${file}`, content: pack[file] }));
   const modify = [
     { path: PATHS.registryFile, before: registryBefore, after: registryAfter },
-    { path: PATHS.attributions, before: attributions, after: insertAttributions(attributions, attributionsSection) },
+    { path: PATHS.attributions, before: attributions, after: attributionsAfter },
     { path: PATHS.promptExamples, before: examples, after: insertExamplePrompt(examples, buildExamplePrompt(entry)) },
   ];
 
@@ -704,55 +746,103 @@ export function planScaffold(repo, options, { policy } = {}) {
     );
   }
 
+  // The new entry is the last thing in the registry file, and the new section sits wherever it was inserted:
+  // report the markers at their real lines in the files as they will be written.
+  const entryStart = lineAtOffset(registryAfter, registryAfter.lastIndexOf(`"id": ${JSON.stringify(entry.id)}`)) - 1;
+  const sectionStart = lineAtOffset(attributionsAfter, attributionsAfter.indexOf(attributionsSection));
   const placeholders = findPlaceholders([
     ...create.map(({ path: file, content }) => ({ path: file, text: content })),
-    { path: PATHS.registryFile, text: formatJson(entry, 2) },
-    { path: PATHS.attributions, text: attributionsSection },
+    { path: PATHS.registryFile, text: registryAfter.split("\n").slice(entryStart - 1).join("\n"), firstLine: entryStart },
+    { path: PATHS.attributions, text: attributionsSection, firstLine: sectionStart },
   ]);
   return {
     archetype: { id: entry.id, name: entry.name, category: entry.category, status: entry.status, outputFolder: outputDirectory(entry) },
     create,
     modify,
-    validation: { checks: afterResults.length, failedBefore: before.size, failedAfter: after.size },
+    validation: {
+      checks: afterResults.length,
+      failedChecksBefore: failedChecks(before),
+      failedChecksAfter: failedChecks(after),
+      issuesBefore: before.size,
+      issuesAfter: after.size,
+      // What the repository must still report once the files are written; anything else is a surprise.
+      expectedIssues: [...after.keys()],
+    },
     placeholders,
   };
 }
 
 /**
- * Write a plan. New files are created exclusively, so an existing file is never overwritten.
- * `verify` runs once everything is written and returns a list of problems; if it finds any, or if
- * any write fails, everything this call did is undone.
+ * Write a plan. First it checks that nothing changed since planning: every file the plan edits must
+ * still read as it did, and none it creates may exist. New files are created exclusively, so an
+ * existing file is never overwritten. `verify` runs once everything is written and returns a list of
+ * problems. If it finds any, or any write fails, everything this call did is undone, each step on its
+ * own so one that fails cannot stop the rest, and anything that could not be undone is reported in a
+ * ScaffoldRollbackError instead of being passed over. `io` is the file API it writes with (Node's `fs`);
+ * tests hand it one that fails on demand.
  */
-export function applyScaffold(root, plan, { verify } = {}) {
+export function applyScaffold(root, plan, { verify, io = fs } = {}) {
   const repo = new Repository(root);
+  const changed = [];
+  for (const { path: file } of plan.create) {
+    if (io.existsSync(repo.resolve(file))) changed.push(`${file} now exists`);
+  }
+  for (const { path: file, before } of plan.modify) {
+    const absolute = repo.resolve(file);
+    if (!io.existsSync(absolute) || normalizeText(io.readFileSync(absolute, "utf8")) !== before) changed.push(`${file} changed`);
+  }
+  if (changed.length > 0) throw new ScaffoldRefusal("The repository changed after the plan was made, so nothing was written", changed);
+
   const createdFiles = [];
   const createdDirectories = [];
   const replaced = [];
   try {
     for (const { path: file, content } of plan.create) {
       const absolute = repo.resolve(file);
-      const firstCreated = fs.mkdirSync(path.dirname(absolute), { recursive: true });
-      if (firstCreated !== undefined) createdDirectories.push(firstCreated);
-      fs.writeFileSync(absolute, content, { encoding: "utf8", flag: "wx" });
+      const directory = path.dirname(absolute);
+      // The folders that do not exist yet are the ones this run creates, and so the ones it may remove again.
+      // They are found before creating them: what mkdirSync returns is not comparable (Windows prefixes \\?\).
+      const missing = [];
+      for (let current = directory; !io.existsSync(current) && current !== path.dirname(current); current = path.dirname(current)) missing.push(current);
+      io.mkdirSync(directory, { recursive: true });
+      createdDirectories.push(...missing);
+      io.writeFileSync(absolute, content, { encoding: "utf8", flag: "wx" });
       createdFiles.push(absolute);
     }
     for (const { path: file, after } of plan.modify) {
       const absolute = repo.resolve(file);
-      replaced.push({ absolute, original: fs.readFileSync(absolute) });
-      fs.writeFileSync(absolute, after, "utf8");
+      replaced.push({ file, absolute, original: io.readFileSync(absolute) });
+      io.writeFileSync(absolute, after, "utf8");
     }
     const problems = verify?.() ?? [];
     if (problems.length > 0) throw new ScaffoldRefusal("The repository checks failed after writing, so the changes were undone", problems);
   } catch (error) {
-    for (const { absolute, original } of replaced.reverse()) fs.writeFileSync(absolute, original);
-    for (const absolute of createdFiles.reverse()) fs.rmSync(absolute, { force: true });
-    for (const directory of createdDirectories.reverse()) fs.rmSync(directory, { recursive: true, force: true });
+    const leftovers = [];
+    const undo = (what, action) => {
+      try {
+        action();
+      } catch (failure) {
+        leftovers.push(`${what}: ${failure.message}`);
+      }
+    };
+    // A file whose write failed before it changed has nothing to restore, so it is not reported as left behind.
+    for (const { file, absolute, original } of replaced.reverse()) {
+      undo(`restore ${file}`, () => {
+        if (!original.equals(io.readFileSync(absolute))) io.writeFileSync(absolute, original);
+      });
+    }
+    for (const absolute of createdFiles.reverse()) undo(`remove ${path.relative(repo.root, absolute).replaceAll("\\", "/")}`, () => io.rmSync(absolute, { force: true }));
+    // Only empty folders are removed, deepest first (a child's path is always longer than its parent's):
+    // a file somebody else put there is never deleted.
+    for (const directory of [...createdDirectories].sort((first, second) => second.length - first.length)) undo(`remove ${path.relative(repo.root, directory).replaceAll("\\", "/")}`, () => io.rmdirSync(directory));
+    if (leftovers.length > 0) throw new ScaffoldRollbackError(error, leftovers);
     throw error;
   }
 }
 
-/** Run every repository check on a checkout. Returns the issues keyed like planScaffold compares them. */
+/** Run every repository check on a checkout. Returns the issues, and the keys planScaffold compares them by. */
 export function checkRepository(repo, { policy } = {}) {
   const results = runChecks(ALL_CHECKS, createContext(repo, { policy }));
-  return { checks: results.length, failures: [...failures(results).values()] };
+  const found = failures(results);
+  return { checks: results.length, failures: [...found.values()], keys: [...found.keys()] };
 }

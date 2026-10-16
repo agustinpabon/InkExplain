@@ -197,9 +197,35 @@ test("SCHEMA-010 also reads the registry entry and the archetype's own credit in
 test("SCHEMA-010 refuses a promoted pack that still calls itself experimental", (t) => {
   const fixture = createFixture(t);
   fixture.append(`${PACK}/demo/prompts.md`, "\nEvery delivery says the pack is experimental.\n");
-  assert.match(messages(fixture.check("SCHEMA-010")), /demo\/prompts\.md:\d+: archetype demo is active but its pack still says it is experimental: .*Every delivery says the pack is experimental\./);
+  assert.match(messages(fixture.check("SCHEMA-010")), /demo\/prompts\.md:\d+: archetype demo is active but still says it is experimental: .*Every delivery says the pack is experimental\./);
   fixture.updateRegistry((data) => {
     data.archetypes[1].status = "experimental";
   });
   assert.equal(fixture.check("SCHEMA-010").status, "pass", "an experimental archetype may say so");
+});
+
+test("SCHEMA-010 reads a claim about the status and the marker's colon, not the bare words", (t) => {
+  const fixture = createFixture(t);
+  // Prose that merely uses the words is not a stale claim, so a promoted pack may keep it.
+  fixture.append(`${PACK}/demo/style.md`, "\nLoose, experimental linework is welcome here, a to-do list is a fine prop, and a sign that reads TODO needs no colon.\n");
+  assert.equal(fixture.check("SCHEMA-010").status, "pass", messages(fixture.check("SCHEMA-010")));
+  for (const claim of ["The look remains experimental.", "This pack is still experimental.", "It is an experimental archetype.", "Status: `experimental`."]) {
+    const pack = createFixture(t);
+    pack.append(`${PACK}/demo/style.md`, `\n${claim}\n`);
+    assert.match(messages(pack.check("SCHEMA-010")), /demo\/style\.md:\d+: archetype demo is active but still says it is experimental/, claim);
+  }
+});
+
+test("SCHEMA-010 also reads the archetype's own credit and example prompt", (t) => {
+  const credit = createFixture(t).append("ATTRIBUTIONS.md", "\n### Demo Crab\n\n- Demo Crab is still experimental.\n");
+  const flagged = credit.check("SCHEMA-010");
+  assert.match(messages(flagged), /ATTRIBUTIONS\.md: archetype demo is active but still says it is experimental: .*Demo Crab is still experimental\./);
+  assert.ok(flagged.issues.every((issue) => issue.line === undefined), "a section has no line of its own");
+
+  const example = createFixture(t).append("examples/prompts.md", "\n### Demo Crab\n\nDemo Crab stays experimental until its renders are reviewed.\n");
+  assert.match(messages(example.check("SCHEMA-010")), /examples\/prompts\.md: archetype demo is active but still says it is experimental/);
+
+  // A section that belongs to no active archetype is not read.
+  const other = createFixture(t).append("ATTRIBUTIONS.md", "\n### Other Crab\n\n- Other Crab is experimental.\n");
+  assert.equal(other.check("SCHEMA-010").status, "pass");
 });

@@ -91,7 +91,12 @@ test("--json reports what was done in a form a script can read", (t) => {
   assert.equal(report.created.length, 5);
   assert.deepEqual(report.updated, ["skills/inkexplain/registry.json", "ATTRIBUTIONS.md", "examples/prompts.md"]);
   assert.ok(report.regenerated.includes("README.md"));
-  assert.equal(report.checks.failedAfter, 0);
+  assert.deepEqual(
+    { ...report.checks, checks: undefined },
+    { checks: undefined, failedChecksBefore: 0, failedChecksAfter: 0, issuesBefore: 0, issuesAfter: 0 },
+    "the report says how many checks failed before and after, and not the private list the verification uses",
+  );
+  assert.ok(Number.isInteger(report.checks.checks) && report.checks.checks > 0);
   assert.ok(report.placeholders.length > 0 && report.placeholders.every((item) => item.path && item.line > 0 && /TODO|UNRESOLVED/.test(item.text)));
   assert.equal(report.nextSteps.length, 5);
   assert.ok(report.nextSteps.some((step) => step.includes("example-fox")), "the id is filled into the next steps");
@@ -159,9 +164,46 @@ test("input the contributor got wrong is a usage error that names the problem, a
   refused(fixture, [...FOX, "--source", "javascript:alert(1)"], 2, /--source .* must be an http or https URL/);
   refused(fixture, [...FOX, "--category", "house-style", "--license", "MIT"], 2, /--license records a third party's rights, but house-style is original to InkExplain/);
   refused(fixture, [...FOX, "--canvas", "white"], 2, /--canvas .* must start with the aspect ratio/);
+  refused(fixture, [...FOX, "--canvas", "0:9 tall"], 2, /--canvas .* must start with the aspect ratio/);
+  refused(fixture, ["--id", "con", "--name", "Con"], 2, /--id "con" is a reserved device name on Windows/);
+  refused(fixture, [...FOX, "--alias", "a\\b"], 2, /--alias .* must be at most 59 characters of letters/);
+  refused(fixture, [...FOX, "--summary", "~~~ not a sentence"], 2, /--summary must start with a letter or a digit/);
   refused(fixture, [...FOX, "--bogus"], 2, /Unknown option '--bogus'/);
   refused(fixture, [...FOX, "stray"], 2, /Unexpected argument 'stray'/);
   assert.match(run(FOX.slice(0, 2), fixture.root).stderr, /Usage:/, "a usage error repeats the usage");
+});
+
+test("an empty --root is a usage error, not the current folder", () => {
+  for (const root of ["", "   "]) {
+    const { code, stdout, stderr } = run([...FOX, "--root", root]);
+    assert.equal(code, 2);
+    assert.match(stderr, /--root needs a directory/);
+    assert.equal(stdout, "");
+  }
+});
+
+test("a name in another script, or written with combining marks, goes through every check", (t) => {
+  const acute = String.fromCodePoint(0x301);
+  for (const [id, name] of [["zoe-fox", "Zoë Fox"], ["cafe-fox", `Cafe${acute} Fox`], ["namaste", "नमस्ते"], ["sawasdee", "สวัสดี"]]) {
+    const fixture = createFixture(t);
+    const { code, stderr } = run(["--id", id, "--name", name], fixture.root);
+    assert.equal(code, 0, `${name}\n${stderr}`);
+    assert.match(fixture.read("ATTRIBUTIONS.md"), new RegExp(`### ${name.normalize("NFC")}\\n`), "the credit is headed by the composed name");
+    for (const check of fixture.run()) assert.equal(check.status, "pass", `${name}: ${check.id}\n${messages(check)}`);
+  }
+});
+
+test("a repository that already fails a check can still take an archetype, and the report says so", (t) => {
+  const fixture = createFixture(t).write("docs/language-policy.md", "# Language policy\n");
+  const dry = run([...FOX, "--dry-run"], fixture.root);
+  assert.equal(dry.code, 0, dry.stderr);
+  assert.match(dry.stdout, /Checks: 1 of \d+ fail \(\d+ issues?\), as they already did before this change\./);
+
+  // The check that failed before still fails after, and the run is not undone for it.
+  const real = run(FOX, fixture.root);
+  assert.equal(real.code, 0, real.stderr);
+  assert.ok(fixture.exists(`${PACK}/rights.md`));
+  assert.deepEqual(fixture.run().filter((check) => check.status !== "pass").map((check) => check.id), ["LANG-003"]);
 });
 
 test("the script imports only Node built-ins it needs, and none that reach the network or a shell", () => {
@@ -189,12 +231,13 @@ test("the real entry point works from any directory, sets the exit code, and a d
   assert.equal(spawn(["--nope"], REPO_ROOT).status, 2);
 
   // The scaffold has to keep working on the repository that ships it: plan a new archetype against the real
-  // registry and every real check, and write nothing.
+  // registry and every real check, and write nothing. The probe is not the documented example, so a
+  // contributor who ran the Quick start here for real does not turn this test red.
   const registry = fs.readFileSync(path.join(REPO_ROOT, "skills/inkexplain/registry.json"), "utf8");
-  const dry = spawn([...FOX, "--dry-run"], elsewhere);
+  const dry = spawn(["--id", "probe-zzq-fox", "--name", "Probe Zzq Fox", "--dry-run"], elsewhere);
   assert.equal(dry.status, 0, dry.stderr);
-  assert.match(dry.stdout, /would be added: mascot, experimental/);
+  assert.match(dry.stdout, /Probe Zzq Fox \(probe-zzq-fox\) would be added: mascot, experimental/);
   assert.match(dry.stdout, /Checks: all \d+ repository checks pass with the new archetype\./);
   assert.equal(fs.readFileSync(path.join(REPO_ROOT, "skills/inkexplain/registry.json"), "utf8"), registry);
-  assert.ok(!fs.existsSync(path.join(REPO_ROOT, PACK)), "no pack was written to this repository");
+  assert.ok(!fs.existsSync(path.join(REPO_ROOT, "skills/inkexplain/references/archetypes/probe-zzq-fox")), "no pack was written to this repository");
 });
