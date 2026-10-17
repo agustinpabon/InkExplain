@@ -334,6 +334,119 @@ noscript p { padding: 16px; }
       }
     },
     {
+      "id": "littlebox",
+      "name": "Littlebox",
+      "isDefault": false,
+      "category": "tribute-character",
+      "status": "active",
+      "technique": "Marker",
+      "summary": "A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering.",
+      "outputFolder": "assets/\u003carticle-slug>-littlebox/",
+      "motion": {
+        "actor": "Littlebox, a closed paper box that acts through two side-seam twig arms",
+        "signatureActions": [
+          "collect",
+          "seal",
+          "sort",
+          "fold",
+          "carry",
+          "stamp"
+        ],
+        "poses": [
+          "twig arms and tiny legs carry the effort while the box stays closed",
+          "both arms bracing an external pile",
+          "deadpan dot eyes whatever happens"
+        ],
+        "timing": "One decisive moment per image, such as the tape pressed down or the stamp landing; mini comics use two or three beats with Littlebox closed throughout"
+      },
+      "style": {
+        "medium": "Bold rough marker illustration with a handmade dry-brush feel",
+        "canvas": "16:9 on one flat pure white background (#FFFFFF) unless the user names another; Littlebox fills 35-55%",
+        "linework": "Thick, rough black marker with dry-brush gaps and wobbly folds",
+        "palette": [
+          "black",
+          "amber",
+          "coral",
+          "pure white"
+        ],
+        "avoid": [
+          "an open, half-open, or cutaway box",
+          "realistic cardboard or a clean vector box icon",
+          "cute mascot, sticker, or delivery-company looks",
+          "thin, ruler-straight, or auto-traced lines",
+          "tinted, alternating, or mood-picked backgrounds the user did not ask for"
+        ],
+        "background": {
+          "default": {
+            "name": "pure white",
+            "hex": "#FFFFFF"
+          },
+          "presets": [
+            {
+              "name": "warm off-white",
+              "hex": "#FFFCF5"
+            },
+            {
+              "name": "pale sky blue",
+              "hex": "#E3F2FD"
+            },
+            {
+              "name": "pale lavender",
+              "hex": "#E6E6FA"
+            }
+          ]
+        }
+      },
+      "legal": {
+        "credit": "Adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004",
+        "rightsHolder": "okooo5km",
+        "license": "MIT",
+        "restrictions": [
+          "Credit okooo5km or the 5km Littlebox Illustrations project in derived documentation."
+        ],
+        "thirdParty": true
+      },
+      "samples": {
+        "status": "pending",
+        "decision": "Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, on the pale sky-blue and lavender options rather than Littlebox's pure white default, so they are withheld until real renders are reviewed. The character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.",
+        "images": [],
+        "sources": []
+      },
+      "prompt": {
+        "aspectRatio": "16:9",
+        "template": "Generate one standalone 16:9 horizontal article illustration.\n\nStyle: minimalist hand-drawn illustration on a perfectly flat @@background@@. Bold marker illustration, chunky brush-pen style, fat-tipped black marker lines, not thin pen lines, very thick black outlines, dry brush texture with tiny gaps in ink coverage, organic rough edges, natural line weight variation, imperfect boxes and wobbly folds, warm handmade feel. Keep the set consistent: same background, stroke thickness, ink roughness, handwritten label feel, and Littlebox proportions. Generous whitespace, sparse and strange but clear. No gradients, shadows, paper texture, borders, frames, polished vector style, ruler-straight geometry, auto-traced edges, or thresholded or posterized bitmap look.\n\nCharacter: Littlebox, a compact, squat closed paper-box character in front-left three-quarter view. White or near-white body as negative space, not tan cardboard, kraft brown, beige, or shaded material. The front panel is the largest visible face; one narrower side panel and the closed top lid are visible. Two calm black dot eyes centered on the upper-middle front panel. Tiny thin legs under the front panel. No mouth, smile, eyebrows, blush, costume, or accessories.\nLittlebox state: closed. The top flaps meet cleanly along one central front-to-back seam. Exactly one narrow amber seam tape #F59E0B runs along that seam; its small front tab hangs over the top front lip with an irregular sawtooth / jagged torn cut, usually 2-3 little teeth. Preserve the jagged front tab as the main tape cue.\nArms: at most two side-seam twig arms, one from the left side seam and one from the right: thin black curved branch-like strokes with no hands, gloves, fingers, or sleeves, never emerging from the front face, lower body, lid, eyes, or props. Send extra targets to external trays, slots, tags, falling slips, paths, stacks, or parcels instead of adding limbs.\n\nAction: staying closed, Littlebox performs the core conceptual action: @@action@@, caught at its decisive moment.\n\nScene: @@concept@@.\n\nComposition: [composition family]. [Positions of Littlebox and two to four supporting elements, and what Littlebox does with which.] Spread elements across the canvas horizontally and vertically. Littlebox takes about 35%-55% of the canvas and stays compact and squat; separate props handle compression, redirection, bridging, or output packages. Flow paths and arrows are amber, curved, and lighter than Littlebox's black outline.\n\nSupporting objects: [two to four low-tech objects].\n\nVisible handwritten labels, copied exactly in the user's language: @@labels@@. Short, legible, separated, drawn as rough handwritten black marker strokes that match the linework. Copy non-Latin scripts exactly; do not translate them.\n\nColor: black #000000 for strokes, the Littlebox outline, objects, and labels; amber #F59E0B for the single seam tape and, away from the tape, flow or motion marks; coral #E85D75 only for a warning, stamp, error, result, or final emphasis. Use accents sparingly.\n\nConstraints: one image, one core idea. No title, top-left title, or structure-type text. No formal PPT diagram, dense explainer, UI screenshot, logistics logo, cute mascot poster, realistic cardboard render, or clean vector box icon. No open box, raised flap, half-open lid, cutaway, visible interior, back-hinged lid, laptop/toolbox/chest/pizza-box lid, or tray, bucket, or mailbox opening. No third arm, lower arm, or tail-like helper line. No clean digital font labels. Do not stretch the Littlebox body.\n\nRights note: Littlebox is adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004. Credit okooo5km or the 5km Littlebox Illustrations project in any documentation derived from it. The credit belongs in plans, reports, and documentation, not in the image: draw no credit text, signature, or logo.",
+        "defaults": {
+          "concept": "[core idea in one sentence]",
+          "action": "[physical box action]",
+          "labels": "[\"label 1\", \"label 2\", \"label 3\"]",
+          "background": "pure white background #FFFFFF"
+        },
+        "backgrounds": [
+          {
+            "name": "pure white",
+            "hex": "#FFFFFF",
+            "phrase": "pure white background #FFFFFF"
+          },
+          {
+            "name": "warm off-white",
+            "hex": "#FFFCF5",
+            "phrase": "warm off-white background #FFFCF5"
+          },
+          {
+            "name": "pale sky blue",
+            "hex": "#E3F2FD",
+            "phrase": "pale sky blue background #E3F2FD"
+          },
+          {
+            "name": "pale lavender",
+            "hex": "#E6E6FA",
+            "phrase": "pale lavender background #E6E6FA"
+          }
+        ],
+        "negative": "an open, half-open, or cutaway box, realistic cardboard or a clean vector box icon, cute mascot, sticker, or delivery-company looks, thin, ruler-straight, or auto-traced lines, tinted, alternating, or mood-picked backgrounds the user did not ask for, title, heading, or caption text, slide, infographic, flowchart, or dashboard look, crowded nodes and arrows, gradients, drop shadows, paper texture, 3D rendering, UI or code screenshots, logos, watermarks"
+      }
+    },
+    {
       "id": "stickman",
       "name": "Stickman",
       "isDefault": false,
@@ -573,119 +686,6 @@ noscript p { padding: 16px; }
         },
         "backgrounds": [],
         "negative": "cute mascot, kawaii, chibi, sticker, emoji, children's book, cartoon poster, glossy, 3D render, shading, gradient, drop shadow, paper texture, beige background, grey background, vector art, thick outlines, pupils, sparkling eyes, smile, blush, costume, hat, logo, title text, infographic, flowchart, slide, UI screenshot, watermark, signature"
-      }
-    },
-    {
-      "id": "littlebox",
-      "name": "Littlebox",
-      "isDefault": false,
-      "category": "tribute-character",
-      "status": "active",
-      "technique": "Marker",
-      "summary": "A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering.",
-      "outputFolder": "assets/\u003carticle-slug>-littlebox/",
-      "motion": {
-        "actor": "Littlebox, a closed paper box that acts through two side-seam twig arms",
-        "signatureActions": [
-          "collect",
-          "seal",
-          "sort",
-          "fold",
-          "carry",
-          "stamp"
-        ],
-        "poses": [
-          "twig arms and tiny legs carry the effort while the box stays closed",
-          "both arms bracing an external pile",
-          "deadpan dot eyes whatever happens"
-        ],
-        "timing": "One decisive moment per image, such as the tape pressed down or the stamp landing; mini comics use two or three beats with Littlebox closed throughout"
-      },
-      "style": {
-        "medium": "Bold rough marker illustration with a handmade dry-brush feel",
-        "canvas": "16:9 on one flat pure white background (#FFFFFF) unless the user names another; Littlebox fills 35-55%",
-        "linework": "Thick, rough black marker with dry-brush gaps and wobbly folds",
-        "palette": [
-          "black",
-          "amber",
-          "coral",
-          "pure white"
-        ],
-        "avoid": [
-          "an open, half-open, or cutaway box",
-          "realistic cardboard or a clean vector box icon",
-          "cute mascot, sticker, or delivery-company looks",
-          "thin, ruler-straight, or auto-traced lines",
-          "tinted, alternating, or mood-picked backgrounds the user did not ask for"
-        ],
-        "background": {
-          "default": {
-            "name": "pure white",
-            "hex": "#FFFFFF"
-          },
-          "presets": [
-            {
-              "name": "warm off-white",
-              "hex": "#FFFCF5"
-            },
-            {
-              "name": "pale sky blue",
-              "hex": "#E3F2FD"
-            },
-            {
-              "name": "pale lavender",
-              "hex": "#E6E6FA"
-            }
-          ]
-        }
-      },
-      "legal": {
-        "credit": "Adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004",
-        "rightsHolder": "okooo5km",
-        "license": "MIT",
-        "restrictions": [
-          "Credit okooo5km or the 5km Littlebox Illustrations project in derived documentation."
-        ],
-        "thirdParty": true
-      },
-      "samples": {
-        "status": "pending",
-        "decision": "Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, on the pale sky-blue and lavender options rather than Littlebox's pure white default, so they are withheld until real renders are reviewed. The character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.",
-        "images": [],
-        "sources": []
-      },
-      "prompt": {
-        "aspectRatio": "16:9",
-        "template": "Generate one standalone 16:9 horizontal article illustration.\n\nStyle: minimalist hand-drawn illustration on a perfectly flat @@background@@. Bold marker illustration, chunky brush-pen style, fat-tipped black marker lines, not thin pen lines, very thick black outlines, dry brush texture with tiny gaps in ink coverage, organic rough edges, natural line weight variation, imperfect boxes and wobbly folds, warm handmade feel. Keep the set consistent: same background, stroke thickness, ink roughness, handwritten label feel, and Littlebox proportions. Generous whitespace, sparse and strange but clear. No gradients, shadows, paper texture, borders, frames, polished vector style, ruler-straight geometry, auto-traced edges, or thresholded or posterized bitmap look.\n\nCharacter: Littlebox, a compact, squat closed paper-box character in front-left three-quarter view. White or near-white body as negative space, not tan cardboard, kraft brown, beige, or shaded material. The front panel is the largest visible face; one narrower side panel and the closed top lid are visible. Two calm black dot eyes centered on the upper-middle front panel. Tiny thin legs under the front panel. No mouth, smile, eyebrows, blush, costume, or accessories.\nLittlebox state: closed. The top flaps meet cleanly along one central front-to-back seam. Exactly one narrow amber seam tape #F59E0B runs along that seam; its small front tab hangs over the top front lip with an irregular sawtooth / jagged torn cut, usually 2-3 little teeth. Preserve the jagged front tab as the main tape cue.\nArms: at most two side-seam twig arms, one from the left side seam and one from the right: thin black curved branch-like strokes with no hands, gloves, fingers, or sleeves, never emerging from the front face, lower body, lid, eyes, or props. Send extra targets to external trays, slots, tags, falling slips, paths, stacks, or parcels instead of adding limbs.\n\nAction: staying closed, Littlebox performs the core conceptual action: @@action@@, caught at its decisive moment.\n\nScene: @@concept@@.\n\nComposition: [composition family]. [Positions of Littlebox and two to four supporting elements, and what Littlebox does with which.] Spread elements across the canvas horizontally and vertically. Littlebox takes about 35%-55% of the canvas and stays compact and squat; separate props handle compression, redirection, bridging, or output packages. Flow paths and arrows are amber, curved, and lighter than Littlebox's black outline.\n\nSupporting objects: [two to four low-tech objects].\n\nVisible handwritten labels, copied exactly in the user's language: @@labels@@. Short, legible, separated, drawn as rough handwritten black marker strokes that match the linework. Copy non-Latin scripts exactly; do not translate them.\n\nColor: black #000000 for strokes, the Littlebox outline, objects, and labels; amber #F59E0B for the single seam tape and, away from the tape, flow or motion marks; coral #E85D75 only for a warning, stamp, error, result, or final emphasis. Use accents sparingly.\n\nConstraints: one image, one core idea. No title, top-left title, or structure-type text. No formal PPT diagram, dense explainer, UI screenshot, logistics logo, cute mascot poster, realistic cardboard render, or clean vector box icon. No open box, raised flap, half-open lid, cutaway, visible interior, back-hinged lid, laptop/toolbox/chest/pizza-box lid, or tray, bucket, or mailbox opening. No third arm, lower arm, or tail-like helper line. No clean digital font labels. Do not stretch the Littlebox body.\n\nRights note: Littlebox is adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004. Credit okooo5km or the 5km Littlebox Illustrations project in any documentation derived from it. The credit belongs in plans, reports, and documentation, not in the image: draw no credit text, signature, or logo.",
-        "defaults": {
-          "concept": "[core idea in one sentence]",
-          "action": "[physical box action]",
-          "labels": "[\"label 1\", \"label 2\", \"label 3\"]",
-          "background": "pure white background #FFFFFF"
-        },
-        "backgrounds": [
-          {
-            "name": "pure white",
-            "hex": "#FFFFFF",
-            "phrase": "pure white background #FFFFFF"
-          },
-          {
-            "name": "warm off-white",
-            "hex": "#FFFCF5",
-            "phrase": "warm off-white background #FFFCF5"
-          },
-          {
-            "name": "pale sky blue",
-            "hex": "#E3F2FD",
-            "phrase": "pale sky blue background #E3F2FD"
-          },
-          {
-            "name": "pale lavender",
-            "hex": "#E6E6FA",
-            "phrase": "pale lavender background #E6E6FA"
-          }
-        ],
-        "negative": "an open, half-open, or cutaway box, realistic cardboard or a clean vector box icon, cute mascot, sticker, or delivery-company looks, thin, ruler-straight, or auto-traced lines, tinted, alternating, or mood-picked backgrounds the user did not ask for, title, heading, or caption text, slide, infographic, flowchart, or dashboard look, crowded nodes and arrows, gradients, drop shadows, paper texture, 3D rendering, UI or code screenshots, logos, watermarks"
       }
     },
     {

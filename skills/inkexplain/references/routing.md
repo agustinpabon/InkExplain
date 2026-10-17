@@ -21,9 +21,9 @@ An archetype fixes who performs the idea, how they move, and how the scene is dr
 | Archetype | id | Category | Status | Select with | Output folder |
 |---|---|---|---|---|---|
 | InkExplain Sketch (default) | `ink` | `house-style` | `active` | `InkExplain Sketch`, `ink sketch`, `ink and highlighter`, `house style`, `no mascot`, `no character` | `assets/<article-slug>-illustrations/` |
+| Littlebox | `littlebox` | `tribute-character` | `active` | `Littlebox`, `小盒`, `纸盒`, `paper-box`, `carton` | `assets/<article-slug>-littlebox/` |
 | Stickman | `stickman` | `house-style` | `experimental` | `Stickman`, `stick man`, `stick figure`, `stick person`, `stickperson`, `Inkman`, `monigote`, `muñeco de palitos`, `figura de palitos`, `bonhomme allumette`, `Strichmännchen`, `boneco palito`, `火柴人`, `棒人間` | `assets/<article-slug>-stickman/` |
 | Xiaohei | `xiaohei` | `mascot` | `active` | `Xiaohei`, `小黑`, `Ian Xiaohei` | `assets/<article-slug>-xiaohei/` |
-| Littlebox | `littlebox` | `tribute-character` | `active` | `Littlebox`, `小盒`, `纸盒`, `paper-box`, `carton` | `assets/<article-slug>-littlebox/` |
 | Ferris | `ferris` | `mascot` | `active` | `Ferris`, `Rust mascot`, `Rust crab`, `Rustacean`, `Rust 吉祥物`, `Rust 螃蟹` | `assets/<article-slug>-ferris/` |
 | OpenClaw | `openclaw` | `mascot` | `active` | `OpenClaw`, `OpenClaw logo`, `OpenClaw mascot`, `OpenClaw 助手`, `OpenClaw 吉祥物` | `assets/<article-slug>-openclaw/` |
 | Go Gopher | `gopher` | `mascot` | `active` | `Go Gopher`, `Gopher`, `golang gopher`, `Go mascot`, `Go 吉祥物`, `Gopher 吉祥物` | `assets/<article-slug>-gopher/` |
@@ -56,6 +56,21 @@ InkExplain's own brand-neutral style: black ink line art, one explainer-blue flo
 - Credit: Original to InkExplain. Rights holder: InkExplain contributors. License: MIT.
 - Public samples: pending. No rendered samples yet. InkExplain Sketch is original to InkExplain; publish renders after a quality review.
 
+### Littlebox (`littlebox`)
+
+A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering.
+
+- Category: `tribute-character`. Status: `active`.
+- Load, in order: `references/archetypes/littlebox/rights.md`, `references/archetypes/littlebox/identity.md`, `references/archetypes/littlebox/style.md`, `references/archetypes/littlebox/motion-and-acting.md`, `references/archetypes/littlebox/prompts.md`
+- Output folder: `assets/<article-slug>-littlebox/`
+- Motion DNA: Littlebox, a closed paper box that acts through two side-seam twig arms. Signature actions: collect, seal, sort, fold, carry, stamp. Poses: twig arms and tiny legs carry the effort while the box stays closed; both arms bracing an external pile; deadpan dot eyes whatever happens. Timing: One decisive moment per image, such as the tape pressed down or the stamp landing; mini comics use two or three beats with Littlebox closed throughout.
+- Style sheet: Bold rough marker illustration with a handmade dry-brush feel. Canvas: 16:9 on one flat pure white background (#FFFFFF) unless the user names another; Littlebox fills 35-55%. Linework: Thick, rough black marker with dry-brush gaps and wobbly folds. Palette: black, amber, coral, pure white. Avoid: an open, half-open, or cutaway box; realistic cardboard or a clean vector box icon; cute mascot, sticker, or delivery-company looks; thin, ruler-straight, or auto-traced lines; tinted, alternating, or mood-picked backgrounds the user did not ask for.
+- Background: pure white background #FFFFFF by default, and the same in every image of a set. Offered only when the user asks: warm off-white #FFFCF5 (also "off-white", "cream"); pale sky blue #E3F2FD (also "sky blue", "light blue"); pale lavender #E6E6FA (also "lavender"). A light color the user names is used exactly as given. Never alternate backgrounds, rotate them for rhythm, or choose one from the idea's mood or topic.
+- Credit: Adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004. Rights holder: okooo5km. License: MIT.
+- Restrictions:
+  - Credit okooo5km or the 5km Littlebox Illustrations project in derived documentation.
+- Public samples: pending. Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, on the pale sky-blue and lavender options rather than Littlebox's pure white default, so they are withheld until real renders are reviewed. The character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.
+
 ### Stickman (`stickman`)
 
 InkExplain's own recurring stick figure: a bold black marker line, a round head with two dot eyes, and bendy limbs that act out the idea on a pure white page, with at most one vermilion accent.
@@ -83,21 +98,6 @@ Ian's Xiaohei, a small solid-black creature with white dot eyes and thin legs, d
   - Keep the Ian Xiaohei Illustrations name or credit Ian in any documentation derived from this archetype.
   - No claims that Ian created, endorses, or is affiliated with InkExplain or the generated images.
 - Public samples: approved. Reviewed and approved for public gallery showcase with English and Chinese calibration sets.
-
-### Littlebox (`littlebox`)
-
-A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering.
-
-- Category: `tribute-character`. Status: `active`.
-- Load, in order: `references/archetypes/littlebox/rights.md`, `references/archetypes/littlebox/identity.md`, `references/archetypes/littlebox/style.md`, `references/archetypes/littlebox/motion-and-acting.md`, `references/archetypes/littlebox/prompts.md`
-- Output folder: `assets/<article-slug>-littlebox/`
-- Motion DNA: Littlebox, a closed paper box that acts through two side-seam twig arms. Signature actions: collect, seal, sort, fold, carry, stamp. Poses: twig arms and tiny legs carry the effort while the box stays closed; both arms bracing an external pile; deadpan dot eyes whatever happens. Timing: One decisive moment per image, such as the tape pressed down or the stamp landing; mini comics use two or three beats with Littlebox closed throughout.
-- Style sheet: Bold rough marker illustration with a handmade dry-brush feel. Canvas: 16:9 on one flat pure white background (#FFFFFF) unless the user names another; Littlebox fills 35-55%. Linework: Thick, rough black marker with dry-brush gaps and wobbly folds. Palette: black, amber, coral, pure white. Avoid: an open, half-open, or cutaway box; realistic cardboard or a clean vector box icon; cute mascot, sticker, or delivery-company looks; thin, ruler-straight, or auto-traced lines; tinted, alternating, or mood-picked backgrounds the user did not ask for.
-- Background: pure white background #FFFFFF by default, and the same in every image of a set. Offered only when the user asks: warm off-white #FFFCF5 (also "off-white", "cream"); pale sky blue #E3F2FD (also "sky blue", "light blue"); pale lavender #E6E6FA (also "lavender"). A light color the user names is used exactly as given. Never alternate backgrounds, rotate them for rhythm, or choose one from the idea's mood or topic.
-- Credit: Adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004. Rights holder: okooo5km. License: MIT.
-- Restrictions:
-  - Credit okooo5km or the 5km Littlebox Illustrations project in derived documentation.
-- Public samples: pending. Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, on the pale sky-blue and lavender options rather than Littlebox's pure white default, so they are withheld until real renders are reviewed. The character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.
 
 ### Ferris (`ferris`)
 

@@ -248,5 +248,9 @@ test("the gallery lists Stickman as a pending marker-style tile with no invented
   assert.equal(entry.legal.thirdParty, false);
   assert.deepEqual(entry.prompt.backgrounds, []);
   assert.ok(entry.prompt.template.includes("@@concept@@") && entry.prompt.template.includes("@@labels@@"));
-  assert.equal(data.archetypes[1].id, "stickman", "listed right after the default");
+  assert.deepEqual(
+    data.archetypes.slice(0, 4).map((archetype) => archetype.id),
+    ["ink", "littlebox", "stickman", "xiaohei"],
+    "the showcase order: the default, Littlebox, Stickman, then Xiaohei",
+  );
 });

@@ -47,6 +47,63 @@
       }
     },
     {
+      "id": "littlebox",
+      "name": "Littlebox",
+      "category": "tribute-character",
+      "status": "active",
+      "summary": "A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering.",
+      "aliases": ["Littlebox", "小盒", "纸盒", "paper-box", "carton"],
+      "outputSuffix": "littlebox",
+      "motionDna": {
+        "actor": "Littlebox, a closed paper box that acts through two side-seam twig arms",
+        "signatureActions": ["collect", "seal", "sort", "fold", "carry", "stamp"],
+        "poses": ["twig arms and tiny legs carry the effort while the box stays closed", "both arms bracing an external pile", "deadpan dot eyes whatever happens"],
+        "timing": "One decisive moment per image, such as the tape pressed down or the stamp landing; mini comics use two or three beats with Littlebox closed throughout"
+      },
+      "styleSheet": {
+        "medium": "Bold rough marker illustration with a handmade dry-brush feel",
+        "canvas": "16:9 on one flat pure white background (#FFFFFF) unless the user names another; Littlebox fills 35-55%",
+        "linework": "Thick, rough black marker with dry-brush gaps and wobbly folds",
+        "palette": ["black", "amber", "coral", "pure white"],
+        "background": {
+          "default": { "name": "pure white", "hex": "#FFFFFF", "aliases": ["white"] },
+          "presets": [
+            { "name": "warm off-white", "hex": "#FFFCF5", "aliases": ["off-white", "cream"] },
+            { "name": "pale sky blue", "hex": "#E3F2FD", "aliases": ["sky blue", "light blue"] },
+            { "name": "pale lavender", "hex": "#E6E6FA", "aliases": ["lavender"] }
+          ]
+        },
+        "avoid": [
+          "an open, half-open, or cutaway box",
+          "realistic cardboard or a clean vector box icon",
+          "cute mascot, sticker, or delivery-company looks",
+          "thin, ruler-straight, or auto-traced lines",
+          "tinted, alternating, or mood-picked backgrounds the user did not ask for"
+        ]
+      },
+      "legalNotice": {
+        "credit": "Adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004",
+        "rightsHolder": "okooo5km",
+        "license": "MIT",
+        "attributionTerms": [
+          "okooo5km",
+          "5km Littlebox Illustrations",
+          "37cd93ee516da0324577b7bbc8ca3146e5c8d8d7",
+          "d760004243e8a8613f7d140dbe1c6ee0e0df352a"
+        ],
+        "restrictions": ["Credit okooo5km or the 5km Littlebox Illustrations project in derived documentation."]
+      },
+      "sampleGates": {
+        "status": "pending",
+        "decision": "Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, on the pale sky-blue and lavender options rather than Littlebox's pure white default, so they are withheld until real renders are reviewed. The character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.",
+        "directories": []
+      },
+      "contract": {
+        "identityMarkers": ["closed paper-box", "side-seam twig arms", "amber seam tape"],
+        "isolationMarkers": ["Littlebox", "okooo5km"]
+      }
+    },
+    {
       "id": "stickman",
       "name": "Stickman",
       "category": "house-style",
@@ -145,63 +202,6 @@
       "contract": {
         "identityMarkers": ["solid black body", "white dot eyes", "thin legs", "deadpan expression"],
         "isolationMarkers": ["Xiaohei", "Ian Xiaohei Illustrations"]
-      }
-    },
-    {
-      "id": "littlebox",
-      "name": "Littlebox",
-      "category": "tribute-character",
-      "status": "active",
-      "summary": "A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering.",
-      "aliases": ["Littlebox", "小盒", "纸盒", "paper-box", "carton"],
-      "outputSuffix": "littlebox",
-      "motionDna": {
-        "actor": "Littlebox, a closed paper box that acts through two side-seam twig arms",
-        "signatureActions": ["collect", "seal", "sort", "fold", "carry", "stamp"],
-        "poses": ["twig arms and tiny legs carry the effort while the box stays closed", "both arms bracing an external pile", "deadpan dot eyes whatever happens"],
-        "timing": "One decisive moment per image, such as the tape pressed down or the stamp landing; mini comics use two or three beats with Littlebox closed throughout"
-      },
-      "styleSheet": {
-        "medium": "Bold rough marker illustration with a handmade dry-brush feel",
-        "canvas": "16:9 on one flat pure white background (#FFFFFF) unless the user names another; Littlebox fills 35-55%",
-        "linework": "Thick, rough black marker with dry-brush gaps and wobbly folds",
-        "palette": ["black", "amber", "coral", "pure white"],
-        "background": {
-          "default": { "name": "pure white", "hex": "#FFFFFF", "aliases": ["white"] },
-          "presets": [
-            { "name": "warm off-white", "hex": "#FFFCF5", "aliases": ["off-white", "cream"] },
-            { "name": "pale sky blue", "hex": "#E3F2FD", "aliases": ["sky blue", "light blue"] },
-            { "name": "pale lavender", "hex": "#E6E6FA", "aliases": ["lavender"] }
-          ]
-        },
-        "avoid": [
-          "an open, half-open, or cutaway box",
-          "realistic cardboard or a clean vector box icon",
-          "cute mascot, sticker, or delivery-company looks",
-          "thin, ruler-straight, or auto-traced lines",
-          "tinted, alternating, or mood-picked backgrounds the user did not ask for"
-        ]
-      },
-      "legalNotice": {
-        "credit": "Adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004",
-        "rightsHolder": "okooo5km",
-        "license": "MIT",
-        "attributionTerms": [
-          "okooo5km",
-          "5km Littlebox Illustrations",
-          "37cd93ee516da0324577b7bbc8ca3146e5c8d8d7",
-          "d760004243e8a8613f7d140dbe1c6ee0e0df352a"
-        ],
-        "restrictions": ["Credit okooo5km or the 5km Littlebox Illustrations project in derived documentation."]
-      },
-      "sampleGates": {
-        "status": "pending",
-        "decision": "Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, on the pale sky-blue and lavender options rather than Littlebox's pure white default, so they are withheld until real renders are reviewed. The character source is MIT-licensed by okooo5km and credited in ATTRIBUTIONS.md.",
-        "directories": []
-      },
-      "contract": {
-        "identityMarkers": ["closed paper-box", "side-seam twig arms", "amber seam tape"],
-        "isolationMarkers": ["Littlebox", "okooo5km"]
       }
     },
     {
