@@ -58,12 +58,12 @@ test("referencePaths lists the five pack files with rights first", () => {
 test("the character grid is localized in its marks, keeps identifiers and registry data, and shows previews only where one exists", () => {
   const grid = renderArchetypeList(registry, spanish, new Set(["demo"]));
   assert.ok(grid.startsWith("<table>") && grid.endsWith("</table>"));
-  assert.match(grid, /<td width="25%" valign="top"><b>InkExplain Sketch<\/b> · predeterminado<br>/);
+  assert.match(grid, /<td width="50%" valign="top"><b>InkExplain Sketch<\/b> · predeterminado<br>/);
   assert.match(grid, /<img src="\.\.\/assets\/examples\/thumbs\/demo\.png" alt="Demo Crab: a real render[^"]*" width="100%"><br><b>Demo Crab<\/b><br>.*<br><sub>CC0 · Example Author<\/sub><\/td>/);
   assert.equal((grid.match(/<img /g) ?? []).length, 1, "only the character with a render gets a thumbnail");
   assert.match(grid, /<b>[^<]+<\/b> · <code>gated-authorized<\/code>/);
   assert.equal((grid.match(/<td /g) ?? []).length, registry.archetypes.length);
-  assert.equal((grid.match(/<tr>/g) ?? []).length, Math.ceil(registry.archetypes.length / 4));
+  assert.equal((grid.match(/<tr>/g) ?? []).length, Math.ceil(registry.archetypes.length / 2));
   assert.match(renderArchetypeList(registry, english), /^<table>/, "no previews at all still renders the grid");
 });
 

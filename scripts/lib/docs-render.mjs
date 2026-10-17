@@ -76,7 +76,7 @@ export function legalStatus(archetype) {
 export const previewPath = (archetype) => `assets/examples/thumbs/${archetype.id}.png`;
 
 /**
- * The characters of the README for one locale, as a grid four across: a thumbnail when a real render of the
+ * The characters of the README for one locale, as a grid two across (four across overflows a phone): a thumbnail when a real render of the
  * character exists (`previews` is the set of ids that have one), the name, what is not yet settled (default,
  * or a status other than active), a one-line tagline (the summary when there is none), and the license and
  * credit in small type. Complete rights records stay in ATTRIBUTIONS.md and docs/provenance.md.
@@ -94,10 +94,10 @@ export function renderArchetypeList(registry, locale, previews = new Set()) {
       : "";
     const line = escapeInline(archetype.tagline ?? archetype.summary);
     const label = marks.length === 0 ? "" : ` · ${marks.join(" · ")}`;
-    return `<td width="25%" valign="top">${image}<b>${escapeInline(archetype.name)}</b>${label}<br>${line}<br><sub>${escapeInline(legal.license)} · ${escapeInline(legal.rightsHolder)}</sub></td>`;
+    return `<td width="50%" valign="top">${image}<b>${escapeInline(archetype.name)}</b>${label}<br>${line}<br><sub>${escapeInline(legal.license)} · ${escapeInline(legal.rightsHolder)}</sub></td>`;
   });
   const rows = [];
-  for (let i = 0; i < cells.length; i += 4) rows.push(`<tr>\n${cells.slice(i, i + 4).join("\n")}\n</tr>`);
+  for (let i = 0; i < cells.length; i += 2) rows.push(`<tr>\n${cells.slice(i, i + 2).join("\n")}\n</tr>`);
   return `<table>\n${rows.join("\n")}\n</table>`;
 }
 
