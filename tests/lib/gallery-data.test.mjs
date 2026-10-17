@@ -8,6 +8,7 @@ import {
   TOKENS,
   buildGalleryData,
   captionOf,
+  referenceImage,
   renderGalleryData,
   sampleImages,
   techniqueOf,
@@ -251,4 +252,36 @@ test("the shipped gallery data covers every archetype, and every listed image ex
   const xiaohei = data.archetypes.find((archetype) => archetype.id === "xiaohei").samples.images.map((image) => image.src);
   assert.equal(xiaohei.filter((src) => src.startsWith("en/xiaohei/")).length, 8, "Xiaohei ships the English-labeled set");
   assert.equal(xiaohei.filter((src) => src.startsWith("zh/xiaohei/")).length, 8, "Xiaohei ships the Chinese-labeled set");
+});
+
+test("a pack's own reference image stands in on the page, for an original archetype only, and is never a sample", (t) => {
+  const fixture = createFixture(t);
+  fixture.write("skills/inkexplain/references/archetypes/ink/pose-sheet.png", makePng());
+  // Another owner's drawing needs its credit beside it, which a card cannot carry, so it is never picked up.
+  fixture.write("skills/inkexplain/references/archetypes/demo/reference-drawing.png", makePng());
+  fixture.write("skills/inkexplain/references/archetypes/guarded/notes.txt", "not an image");
+  const { repo, registry } = load(fixture.root);
+  assert.deepEqual(referenceImage(repo, registry.byId.get("ink")), {
+    src: "../../skills/inkexplain/references/archetypes/ink/pose-sheet.png",
+    caption: "Pose sheet",
+  });
+  assert.equal(registry.byId.get("demo").thirdParty, true);
+  assert.equal(referenceImage(repo, registry.byId.get("demo")), null, "a third party's drawing is not shown");
+  assert.equal(referenceImage(repo, registry.byId.get("guarded")), null, "a folder with no image has no reference");
+  const data = buildGalleryData(repo, registry);
+  assert.deepEqual(data.archetypes.map((archetype) => archetype.reference?.caption ?? null), ["Pose sheet", null, null]);
+  assert.deepEqual(data.archetypes[0].samples.images, [], "a reference image is not counted as a sample");
+});
+
+test("the shipped gallery data gives Stickman, and only Stickman, a reference image that exists next to the page", () => {
+  const { repo, registry } = load(REPO_ROOT);
+  const data = buildGalleryData(repo, registry);
+  const withReference = data.archetypes.filter((archetype) => archetype.reference !== null);
+  assert.deepEqual(withReference.map((archetype) => archetype.id), ["stickman"]);
+  const [stickman] = withReference;
+  assert.equal(stickman.samples.status, "pending", "it stands in for samples that have not been approved");
+  assert.deepEqual(stickman.samples.images, []);
+  const file = path.posix.normalize(path.posix.join("examples/gallery", stickman.reference.src));
+  assert.equal(file, "skills/inkexplain/references/archetypes/stickman/pose-sheet.png");
+  assert.ok(repo.isFile(file), `${file} exists`);
 });

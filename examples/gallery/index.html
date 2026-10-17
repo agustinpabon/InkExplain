@@ -106,13 +106,17 @@ h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); line-height: 1.15; margin: 4px 0 8px
 .count { color: var(--muted); font-size: 0.92rem; }
 @media (pointer: coarse) { .chip, .btn, .icon-btn { min-width: 44px; min-height: 44px; } }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; padding: 12px 0 32px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); grid-auto-rows: 1fr; gap: 16px; padding: 12px 0 32px; }
 .grid [hidden] { display: none; }
 .card { display: flex; flex-direction: column; text-align: left; padding: 0; overflow: hidden; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); transition: transform 0.12s ease, border-color 0.12s ease; }
 .card:hover { transform: translateY(-2px); border-color: var(--accent); }
-.card-media { display: block; aspect-ratio: 16 / 9; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+.card-media { display: block; position: relative; overflow: hidden; aspect-ratio: 16 / 9; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+.card-media > * { position: absolute; inset: 0; }
 .card-img { display: block; width: 100%; height: 100%; object-fit: cover; background: #ffffff; }
-.placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 100%; padding: 12px; text-align: center; color: var(--muted); font-size: 0.9rem; border: 2px dashed var(--border); border-radius: 0; }
+.card-img.reference { object-fit: contain; padding: 8px; }
+.placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 100%; padding: 12px; text-align: center; color: var(--muted); font-size: 0.9rem; border: 2px dashed var(--border); border-radius: 0; }
+.placeholder .ph-title { color: var(--text); font-weight: 600; }
+.placeholder .ph-note { font-size: 0.82rem; max-width: 26ch; }
 .card-body { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px 14px; }
 .card-title { font-weight: 700; font-size: 1.08rem; }
 .card-meta { color: var(--muted); font-size: 0.9rem; }
@@ -122,6 +126,7 @@ h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); line-height: 1.15; margin: 4px 0 8px
 .badge.warn { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
 .badge.bad { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
 .badge.info { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.badge.license { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .swatches { display: flex; flex-wrap: wrap; gap: 6px 12px; }
 .swatch { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; }
 .swatch i { width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--border); display: inline-block; }
@@ -133,10 +138,13 @@ h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); line-height: 1.15; margin: 4px 0 8px
 dialog { width: min(940px, calc(100vw - 20px)); max-height: calc(100vh - 20px); padding: 0; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); color: var(--text); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35); }
 dialog[open] { display: flex; flex-direction: column; }
 dialog::backdrop { background: rgba(8, 9, 11, 0.6); }
-.dialog-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+.dialog-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: flex-start; padding: 16px 20px; border-bottom: 1px solid var(--border); }
 .dialog-head h2 { font-size: 1.4rem; line-height: 1.2; margin-bottom: 8px; }
+.dialog-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+.pos { color: var(--muted); font-size: 0.85rem; font-variant-numeric: tabular-nums; min-width: 3.6em; text-align: center; }
 .icon-btn { border: 1px solid var(--border); background: var(--surface); border-radius: 10px; width: 40px; height: 40px; font-size: 1.4rem; line-height: 1; }
-.icon-btn:hover { background: var(--surface-2); }
+.icon-btn:hover:not(:disabled) { background: var(--surface-2); }
+.icon-btn:disabled { opacity: 0.4; cursor: default; }
 .dialog-body { overflow: auto; padding: 8px 20px 28px; }
 .section { padding: 18px 0 6px; border-bottom: 1px solid var(--border); }
 .section:last-child { border-bottom: 0; }
@@ -151,6 +159,9 @@ dialog::backdrop { background: rgba(8, 9, 11, 0.6); }
 .samples figure { margin: 0; }
 .samples img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; }
 .samples figcaption { color: var(--muted); font-size: 0.85rem; padding-top: 4px; }
+.reference-fig { margin: 10px 0 14px; }
+.reference-fig img { display: block; width: 100%; max-width: 560px; height: auto; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; }
+.reference-fig figcaption { color: var(--muted); font-size: 0.85rem; padding-top: 4px; }
 .notice { background: var(--surface-2); border: 1px dashed var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; color: var(--muted); }
 .form { display: grid; gap: 10px; margin-bottom: 12px; }
 .field { display: grid; gap: 4px; }
@@ -215,7 +226,12 @@ noscript p { padding: 16px; }
       <h2 id="detail-title"></h2>
       <div id="detail-badges" class="badges"></div>
     </div>
-    <button id="close" class="icon-btn" type="button" aria-label="Close details">&times;</button>
+    <div class="dialog-actions">
+      <button id="prev" class="icon-btn" type="button" aria-label="Previous archetype">&lsaquo;</button>
+      <span id="position" class="pos" aria-live="polite"></span>
+      <button id="next" class="icon-btn" type="button" aria-label="Next archetype">&rsaquo;</button>
+      <button id="close" class="icon-btn" type="button" aria-label="Close details" autofocus>&times;</button>
+    </div>
   </div>
   <div id="detail-body" class="dialog-body"></div>
 </dialog>
@@ -320,6 +336,7 @@ noscript p { padding: 16px; }
         "images": [],
         "sources": []
       },
+      "reference": null,
       "prompt": {
         "aspectRatio": "16:9",
         "template": "Generate one standalone 16:9 illustration that explains a single idea.\n\nStyle: an explainer's hand-drawn sketch on a clean white background. Black ink line art with a slight natural wobble, medium-thin consistent strokes, rounded line ends, sparse hatching, and lots of empty white space. Restrained color: almost everything is black ink; explainer blue (#2F6FED) only for arrows, paths, and motion lines; one loose, translucent highlighter yellow (#FFD84D) swipe behind the single most important label or object; signal red (#E5484D) only for a problem or warning, if there is one. No paper texture, no gradients, no shadows, no glossy vector style, no 3D, no infographic or slide look, no UI, no logos, no mascot.\n\nActor: [choose one: the ink figure, a minimal anonymous person with a round head, a single-stroke body, and thin limbs, with no facial features except optional dot eyes and no clothing details | one or two hand-drawn hands entering from the edge of the frame | the working object itself]. The actor performs the central action: @@action@@, caught at its decisive moment. The idea must not work without this action.\n\nScene: @@concept@@.\n\nStructure: [structure type]. Composition: [where each element sits, which way the flow runs, and what the actor does with which object]. The main action fills about half the canvas; at least a third stays empty.\n\nSupporting objects: [one to four low-tech objects].\n\nHandwritten labels in neat print, copied exactly: @@labels@@. The label [\"key label\"] sits on the highlighter yellow swipe. No other text: no title, no caption, no structure-type text, no sentences.",
@@ -412,6 +429,7 @@ noscript p { padding: 16px; }
         "images": [],
         "sources": []
       },
+      "reference": null,
       "prompt": {
         "aspectRatio": "16:9",
         "template": "Generate one standalone 16:9 horizontal article illustration.\n\nStyle: minimalist hand-drawn illustration on a perfectly flat @@background@@. Bold marker illustration, chunky brush-pen style, fat-tipped black marker lines, not thin pen lines, very thick black outlines, dry brush texture with tiny gaps in ink coverage, organic rough edges, natural line weight variation, imperfect boxes and wobbly folds, warm handmade feel. Keep the set consistent: same background, stroke thickness, ink roughness, handwritten label feel, and Littlebox proportions. Generous whitespace, sparse and strange but clear. No gradients, shadows, paper texture, borders, frames, polished vector style, ruler-straight geometry, auto-traced edges, or thresholded or posterized bitmap look.\n\nCharacter: Littlebox, a compact, squat closed paper-box character in front-left three-quarter view. White or near-white body as negative space, not tan cardboard, kraft brown, beige, or shaded material. The front panel is the largest visible face; one narrower side panel and the closed top lid are visible. Two calm black dot eyes centered on the upper-middle front panel. Tiny thin legs under the front panel. No mouth, smile, eyebrows, blush, costume, or accessories.\nLittlebox state: closed. The top flaps meet cleanly along one central front-to-back seam. Exactly one narrow amber seam tape #F59E0B runs along that seam; its small front tab hangs over the top front lip with an irregular sawtooth / jagged torn cut, usually 2-3 little teeth. Preserve the jagged front tab as the main tape cue.\nArms: at most two side-seam twig arms, one from the left side seam and one from the right: thin black curved branch-like strokes with no hands, gloves, fingers, or sleeves, never emerging from the front face, lower body, lid, eyes, or props. Send extra targets to external trays, slots, tags, falling slips, paths, stacks, or parcels instead of adding limbs.\n\nAction: staying closed, Littlebox performs the core conceptual action: @@action@@, caught at its decisive moment.\n\nScene: @@concept@@.\n\nComposition: [composition family]. [Positions of Littlebox and two to four supporting elements, and what Littlebox does with which.] Spread elements across the canvas horizontally and vertically. Littlebox takes about 35%-55% of the canvas and stays compact and squat; separate props handle compression, redirection, bridging, or output packages. Flow paths and arrows are amber, curved, and lighter than Littlebox's black outline.\n\nSupporting objects: [two to four low-tech objects].\n\nVisible handwritten labels, copied exactly in the user's language: @@labels@@. Short, legible, separated, drawn as rough handwritten black marker strokes that match the linework. Copy non-Latin scripts exactly; do not translate them.\n\nColor: black #000000 for strokes, the Littlebox outline, objects, and labels; amber #F59E0B for the single seam tape and, away from the tape, flow or motion marks; coral #E85D75 only for a warning, stamp, error, result, or final emphasis. Use accents sparingly.\n\nConstraints: one image, one core idea. No title, top-left title, or structure-type text. No formal PPT diagram, dense explainer, UI screenshot, logistics logo, cute mascot poster, realistic cardboard render, or clean vector box icon. No open box, raised flap, half-open lid, cutaway, visible interior, back-hinged lid, laptop/toolbox/chest/pizza-box lid, or tray, bucket, or mailbox opening. No third arm, lower arm, or tail-like helper line. No clean digital font labels. Do not stretch the Littlebox body.\n\nRights note: Littlebox is adapted from 5km Littlebox Illustrations by okooo5km (MIT), inspected at commits 37cd93e and d760004. Credit okooo5km or the 5km Littlebox Illustrations project in any documentation derived from it. The credit belongs in plans, reports, and documentation, not in the image: draw no credit text, signature, or logo.",
@@ -506,6 +524,10 @@ noscript p { padding: 16px; }
         "decision": "No rendered samples yet. Stickman is original to InkExplain; publish renders after a quality review.",
         "images": [],
         "sources": []
+      },
+      "reference": {
+        "src": "../../skills/inkexplain/references/archetypes/stickman/pose-sheet.png",
+        "caption": "Pose sheet"
       },
       "prompt": {
         "aspectRatio": "16:9",
@@ -675,6 +697,7 @@ noscript p { padding: 16px; }
           }
         ]
       },
+      "reference": null,
       "prompt": {
         "aspectRatio": "16:9",
         "template": "Generate one standalone 16:9 horizontal article illustration.\n\nStyle: minimalist hand-drawn explainer sketch on a pure white background. Thin black ink lines with a slight hand wobble, not mechanical, not vector, no heavy outlines. Generous whitespace: the main subject fills about 40-60% of the canvas and at least 35% stays empty. Line art with minimal fill; the only large black area is the character. No gradients, shadows, 3D shading, paper texture, or beige or grey background.\n\nCharacter: Xiaohei, a small creature with a solid black body filled flat with black ink and a slightly irregular hand-drawn outline, two small white dot eyes, thin legs drawn as single black strokes, and a deadpan expression: blank, calm, completely serious. Thin single-stroke arms only if the action needs them. No mouth, smile, blush, pupils, highlights, costume, or accessories. Not cute, not a mascot sticker, not a children's cartoon.\n\nAction: Xiaohei performs the core conceptual action: @@action@@, caught at its decisive moment. Xiaohei's body and gaze point at the object it is changing. The metaphor must lose its meaning if Xiaohei is removed.\n\nScene: @@concept@@.\n\nComposition: [pattern]. [Positions of Xiaohei and two to four supporting objects, and what Xiaohei does with which.] Spread elements across the canvas horizontally and vertically.\n\nSupporting objects: [two to four low-tech objects in thin line art].\n\nVisible handwritten labels, copied exactly in the user's language: @@labels@@. Short, separated, thin handwritten black strokes that match the linework. Copy non-Latin scripts exactly; do not translate them.\n\nColor: black for the linework, Xiaohei, structure, and main labels; pure white for the page and Xiaohei's eyes; red only for a key note, problem, or result; orange only for the main flow or path; blue only for a secondary or system-state note. Use accents sparingly.\n\nConstraints: one image, one core idea. No title, top-left heading, or structure-type text. No commercial illustration, PPT infographic, formal flowchart, course slide, UI screenshot, or complex architecture diagram. No clean digital font labels. Draw no text other than the labels; the rights note below is not image text.\n\nRights note: Xiaohei comes from Ian Xiaohei Illustrations by Ian (MIT), https://github.com/helloianneo/ian-xiaohei-illustrations, inspected at commit 4102eb8. Keep the Ian Xiaohei Illustrations name or credit Ian in any documentation derived from it, and make no claim that Ian endorses the images. The credit belongs in plans, reports, and documentation, not in the image: draw no credit text, signature, or logo.",
@@ -747,6 +770,7 @@ noscript p { padding: 16px; }
         "images": [],
         "sources": []
       },
+      "reference": null,
       "prompt": {
         "aspectRatio": "16:9",
         "template": "Generate one standalone 16:9 horizontal article illustration.\n\nStyle: sparse hand-drawn article illustration on a clean white or near-white background. Rough black linework with visible human looseness, generous whitespace, one enlarged action subject, and a few low-tech supporting objects. No gradients, no shadows, no paper texture, no polished vector style, no dense infographic, no PPT slide, no UI screenshot, no poster composition.\n\nCharacter: Ferris, the crab mascot, simplified for a sparse article sketch. Keep these cues together: a compact orange/rust-red crab body, a broad crab shell silhouette, two visible claws, small legs, two eyes or eyestalk eyes, and active body language tied to the idea. Recognizable but simple: not a generic crab, beach crab, or seafood icon, and not an over-detailed mascot rendering.\n\nAction: Ferris is [focused / guarding / sorting / type-checking / borrowing / compiling / inspecting / untangling / bracing / stamping / releasing] and performs the central action: @@action@@, caught at its decisive moment. Ferris's claws, eyes, shell angle, and body direction point at the action. The metaphor must lose its meaning if Ferris is removed.\n\nScene: @@concept@@.\n\nComposition: [structure type]. [Exact positions, Ferris's body direction, what Ferris's claws do with which object, and which way the flow runs.] Ferris's action takes about 35-55% of the canvas, with generous whitespace around it.\n\nSupporting objects: [one or two low-tech, Rust-themed props, such as ownership tags, a borrow rope, a lifetime clock, a compiler gate, a type-check stamp, a safety net, an unsafe warning flag, a trait stamp, a dependency knot, a crate stack, a release lock, or a review gate], drawn as plain objects and used as a metaphor for [trust / proof / safety / review / dependency / handoff / hidden cost / failure mode / decision gate / resilience].\n\nLabels: rough handwritten labels, copied exactly in the user's language and script, never translated: @@labels@@. Two to six labels, placed near objects, paths, or gates and away from Ferris's eyes, claws, legs, and shell.\n\nColor use: black for main strokes, objects, Ferris's details, and labels. Orange or rust-red for Ferris and one selected action emphasis. Red only for warning flags, motion marks, stamps, or decisive emphasis.\n\nConstraints: one core idea only. No title, no structure-type text, no sentences, no clean digital font labels, no crowded nodes or arrows. No Rust or Cargo logos, no official marks or badges, no endorsement wording, no official Rust diagram layout. No code screenshots and no IDE, terminal, or UI scenes. Do not trace or recreate existing Ferris artwork, poses, or asset sheets; invent a fresh scene. Draw no text other than the labels; the rights note below is not image text.\n\nRights note: Ferris the Rustacean was created by Karen Rustad Tolva and dedicated to the public domain (CC0) via rustacean.net; keep this credit with published images. No Rust or Cargo logos, and no claims of official Rust project affiliation or endorsement.",
@@ -819,6 +843,7 @@ noscript p { padding: 16px; }
         "images": [],
         "sources": []
       },
+      "reference": null,
       "prompt": {
         "aspectRatio": "16:9",
         "template": "Generate one standalone 16:9 horizontal article illustration that explains a single idea.\n\nStyle: a sparse hand-drawn article sketch on a clean white or near-white background. Loose black linework with visible hand-drawn looseness, generous whitespace, and a low-density composition. Restrained red tied to OpenClaw's body; restrained cyan tied to the pupils or one small action emphasis. Sparse handwritten labels, no full-sentence annotations.\n\nCharacter: OpenClaw, the red logo-derived mascot, simplified for an article sketch: red round body, side claw-like arms, two antennae, black eyes, cyan pupils, and short legs. All six markers stay clear. Not a generic red mascot, not a generic robot, not an over-rendered toy or a logo icon.\n\nAction: OpenClaw is [state], @@action@@, caught at its decisive moment. Its claws, antennae, cyan pupils, and short legs all serve this action. The metaphor must lose its meaning if OpenClaw is removed.\n\nScene: @@concept@@.\n\nComposition: [structure type]. [Where OpenClaw is, what it does with which object, and which way the flow runs.] The main action fills about half the canvas; at least a third stays empty.\n\nSupporting objects: [three to six small low-tech metaphor objects, such as a map, bridge, knot, lamp, scale, stamp, key, or envelope].\n\nHandwritten labels, copied exactly in the user's language: @@labels@@. Keep labels away from OpenClaw's face, antennae, claws, pupils, and legs.\n\nColor use: black for line art, objects, and labels; red on OpenClaw's body and claws; cyan in the pupils and on [one small action emphasis, or nothing else].\n\nConstraints: one core idea; two to six short labels. No title, heading, structure-type text, or sentences, and no clean digital typography. No text besides the quoted labels: no credit line, URL, watermark, or logo. No product poster, launch graphic, or logo showcase; no UI screenshot, IDE or terminal scene, or code screenshot; no formal diagram or PPT-like infographic. An original composition: do not copy earlier images or trace a logo pose.\n\nRights note: The OpenClaw mascot comes from the OpenClaw project (https://github.com/openclaw/openclaw), MIT License, Copyright (c) 2026 OpenClaw Foundation, reviewed at commit c14793d. These are independent article illustrations: no claims of official OpenClaw affiliation or endorsement, and no product posters, UI screenshots, terminal scenes, or code screenshots.",
@@ -892,6 +917,7 @@ noscript p { padding: 16px; }
         "images": [],
         "sources": []
       },
+      "reference": null,
       "prompt": {
         "aspectRatio": "16:9",
         "template": "Generate one standalone 16:9 horizontal article illustration.\n\nStyle: sparse hand-drawn article illustration on a white or very light background. Rough black hand-drawn outlines with visible human looseness, generous whitespace, one enlarged action subject, and a few low-tech supporting objects. No gradients, no shadows, no paper texture, no polished vector style, no dense infographic, no PPT slide, no UI screenshot, no poster composition.\n\nCharacter: the Go gopher, simplified for an article sketch and recognizable at a glance. Preserve every marker: blue rounded upright body, rounded head/body silhouette, small rounded ears, large simple eyes, black nose, buck teeth, beige muzzle and paws, compact limbs, friendly standing posture, and black outline. Not a realistic animal, not a generic blue mascot. [Reference sentence: Match the character in the attached reference image, but not its pose or layout.]\n\nAction: the gopher performs the central cognitive action: @@action@@, caught at its decisive moment. Its eyes, paws, muzzle, and body direction serve that action. The metaphor must lose its meaning if the gopher is removed.\n\nScene: @@concept@@.\n\nStructure: [Workflow / System close-up / Before and after / State change / Concept metaphor / Layers / Route map / Mini comic]. Composition: [exact positions; the gopher's body direction, paw action, and eye direction; the supporting objects; the information flow]. The gopher's action takes about 35-55% of the canvas, with generous whitespace around it.\n\nSupporting objects: [three to six low-tech article-metaphor objects, such as maps, bridges, knots, scales, lamps, stamps, keys, envelopes, threads, signposts, levers, or a small hand-built machine].\n\nVisible handwritten labels, copied exactly in the user's language: @@labels@@. Rough handwritten text, sparse and legible; keep non-Latin scripts exactly as given, never translated. Keep labels away from the gopher's ears, eyes, nose, teeth, muzzle, paws, and outline.\n\nColor use: black for main strokes, objects, the gopher's outline, and labels. Gopher blue for the body, beige for the muzzle and paws. Restrained red, orange, or blue accents only for motion, stamps, warning marks, source tags, or decisive emphasis.\n\nConstraints: one image explains one core idea. No title, no top-left heading, no structure-type text, no dense text, no clean digital font labels, no crowded nodes, no formal diagrams. No Go logo and no logo-forward composition. No text or cues suggesting official Go project affiliation, approval, sponsorship, or endorsement. No credit line, URL, or license text in the image. No mascot asset-sheet layout, no code screenshots, no IDE or terminal scenes, no UI screenshots. Nothing from other archetypes, and no copied prior composition.\n\nRights note: The Go gopher was designed by Renee French (https://go.dev/blog/gopher) and is licensed under Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/); credit Renee French whenever these images are published. If the reference drawing gopher.png was attached, it is by Takuya Ueda (https://github.com/golang-samples/gopher-vector) under Creative Commons Attribution 3.0 (https://creativecommons.org/licenses/by/3.0/), so credit Takuya Ueda as well. No Go logo, and no claims of official Go project affiliation, approval, sponsorship, or endorsement.",
@@ -966,6 +992,7 @@ noscript p { padding: 16px; }
         "images": [],
         "sources": []
       },
+      "reference": null,
       "prompt": {
         "aspectRatio": "16:9",
         "template": "Generate one standalone 16:9 horizontal article illustration.\n\nStyle: sparse hand-drawn article illustration on a white or very light background. Rough black hand-drawn linework with visible human looseness, generous whitespace, one enlarged action subject, and a few low-tech supporting objects. No gradients, no shadows, no paper texture, no polished vector style, no dense infographic, no PPT slide, no UI screenshot, no poster composition.\n\nCharacter: Tux, the Linux penguin, simplified for an article sketch and clearly recognizable. Preserve all of these together: glossy black rounded penguin head and body, white face eye patches, large oval eyes with dark pupils and small highlights, yellow-orange beak with two nostril dots, white oval belly, long black flippers, seated rounded posture, and oversized yellow-orange webbed feet. Tux, [state], performs the central cognitive action: @@action@@, caught at its decisive moment. The metaphor must lose its meaning if Tux is removed.\n\nScene: @@concept@@.\n\nStructure: [structure type]. Composition: [exact positions, Tux's seated body direction, flipper action, eye and beak direction, the supporting objects, and the information flow]. Tux's main action fills about 35-55% of the canvas, with generous whitespace around it.\n\nSupporting objects: [objects from the shot list, such as maps, bridges, knots, compasses, shelves, lamps, shields, stamps, keys, trails, gates, scales, buckets, envelopes, threads, lenses, hooks, stepping stones, signposts, levers, source cards, review marks, or small hand-built machines] as physical metaphors for [the article concept, such as trust, proof, review, dependency, handoff, hidden cost, failure mode, decision gate, resilience, judgment, sequencing, source context, or conceptual repair].\n\nVisible handwritten labels, copied exactly in the user's language: @@labels@@. Short, sparse, legible rough handwriting, placed away from Tux's eyes, beak, belly, flippers, and feet. Copy non-Latin scripts exactly; do not translate.\n\nColor use: black for main strokes, objects, Tux's body, and labels; white for Tux's face patches and belly; yellow-orange only for the beak and webbed feet; restrained red, orange, or blue accents only for motion, stamps, warning marks, source tags, or decisive emphasis.\n\nConstraints: one core idea. No title, no top-left heading, no structure-type text, no dense text, no clean digital font labels, no crowded nodes, no formal diagram, no mascot asset-sheet layout. No generic penguin, plush toy, or generic server mascot, and no static frontal logo pose. No distro logos, distro mascots, distro badges, or Linux Foundation logos. No official endorsement, approval, sponsorship, certification, or compatibility claims. No product poster, CLI screenshot, kernel dashboard, web hero graphic, or operating-system marketing graphic. No other mascots, and no copied prior composition.\n\nRights note: Tux was created by Larry Ewing using The GIMP; credit Larry Ewing and The GIMP whenever Tux images are published. Linux is the registered trademark of Linus Torvalds in the U.S. and other countries. No distro logos and no Linux Foundation logos; no claims of endorsement, certification, compatibility, affiliation, sponsorship, or approval; no product posters, CLI screenshots, web hero graphics, kernel dashboards, or operating-system marketing graphics.",
@@ -1107,7 +1134,7 @@ function shortLicense(license) {
     return node;
   }
 
-  const badge = (text, tone) => el("span", { class: "badge" + (tone ? " " + tone : ""), text });
+  const badge = (text, tone, extra) => el("span", { class: "badge" + (tone ? " " + tone : "") + (extra ? " " + extra : ""), text });
   const label = (map, key) => (map && map[key]) || key;
 
   function categoryLabel(id) {
@@ -1183,16 +1210,28 @@ function shortLicense(license) {
   }
 
   /* ---- catalog ---- */
+  // No approved sample and no bundled reference image: say so, and show how the character acts and is colored.
+  function placeholderFor(archetype) {
+    return el("span", { class: "placeholder" },
+      el("span", { class: "ph-title", text: label(data.sampleStatuses, archetype.samples.status) }),
+      el("span", { class: "ph-note", text: "Acts: " + archetype.motion.signatureActions.slice(0, 3).join(", ") }),
+      swatches(archetype));
+  }
+
   function card(archetype) {
     const first = archetype.samples.images[0];
-    const media = first
-      ? el("img", { class: "card-img", src: first.src, alt: "", loading: "lazy", decoding: "async" })
-      : el("span", { class: "placeholder" }, label(data.sampleStatuses, archetype.samples.status), swatches(archetype));
-    if (first) {
+    // An approved sample wins; otherwise the pack's own reference image, labelled as one, never as a sample.
+    const shown = first || archetype.reference || null;
+    const media = shown
+      ? el("img", { class: "card-img" + (first ? "" : " reference"), src: shown.src, alt: "", loading: "lazy", decoding: "async" })
+      : placeholderFor(archetype);
+    if (shown) {
       media.addEventListener("error", () => {
-        media.replaceWith(el("span", { class: "placeholder" }, "Sample image not found next to this page"));
+        media.replaceWith(el("span", { class: "placeholder" }, "Image not found next to this page"));
       });
     }
+    const license = badge(shortLicense(archetype.legal.license), licenseTone(archetype.legal.license, archetype.status), "license");
+    license.title = archetype.legal.license;
     const titleId = "card-title-" + archetype.id;
     const button = el("button", { class: "card", type: "button", "data-id": archetype.id, "aria-haspopup": "dialog", "aria-labelledby": titleId },
       el("span", { class: "card-media" }, media),
@@ -1201,9 +1240,12 @@ function shortLicense(license) {
         el("span", { class: "badges" },
           badge(categoryLabel(archetype.category), "info"),
           badge(archetype.technique),
+          archetype.isDefault ? badge("Default", "info") : null,
+          archetype.status === "active" ? null : badge(statusLabel(archetype.status), "bad"),
+          first || !archetype.reference ? null : badge("Reference sheet"),
           badge(label(data.sampleStatuses, archetype.samples.status), sampleTone(archetype.samples.status))),
         el("span", { class: "card-meta", text: "Rights holder: " + archetype.legal.rightsHolder }),
-        el("span", { class: "badges" }, badge(shortLicense(archetype.legal.license), licenseTone(archetype.legal.license, archetype.status))),
+        el("span", { class: "badges" }, license),
       ));
     button.addEventListener("click", () => openDetail(archetype.id));
     return button;
@@ -1276,6 +1318,11 @@ function shortLicense(license) {
     const images = archetype.samples.images;
     const section = el("section", { class: "section" }, el("h3", { text: "Sample calibration images" }));
     if (images.length === 0) {
+      if (archetype.reference) {
+        section.append(el("figure", { class: "reference-fig" },
+          el("img", { src: archetype.reference.src, alt: archetype.name + " reference image: " + archetype.reference.caption, loading: "lazy", decoding: "async" }),
+          el("figcaption", { text: archetype.reference.caption + ". An image bundled with this pack for the character itself. It is not a sample render." })));
+      }
       section.append(el("p", { class: "notice" }, label(data.sampleStatuses, archetype.samples.status) + ". " + archetype.samples.decision));
       return section;
     }
@@ -1301,6 +1348,8 @@ function shortLicense(license) {
       if (source.note) section.append(el("p", { class: "small", text: source.note }));
     }
     section.append(el("p", { class: "small", text: archetype.samples.decision }));
+    // The credit travels with the images it covers, not only with the rights section further down.
+    if (archetype.legal.thirdParty) section.append(el("p", { class: "small", text: "Credit: " + archetype.legal.credit }));
     return section;
   }
 
@@ -1392,6 +1441,35 @@ function shortLicense(license) {
     if (archetype.isDefault) badges.push(badge("Default archetype", "info"));
     detailBadges.replaceChildren(...badges);
     detailBody.replaceChildren(motionSection(archetype), samplesSection(archetype), promptSection(archetype), rightsSection(archetype));
+    updateNav(archetype);
+  }
+
+  // Previous and Next walk through the archetypes the current filters show, so a visitor can compare
+  // characters without closing the dialog.
+  const prevButton = document.getElementById("prev");
+  const nextButton = document.getElementById("next");
+  const positionLabel = document.getElementById("position");
+
+  function listed() {
+    const shown = archetypes.filter(matches);
+    return shown.length > 0 ? shown : archetypes;
+  }
+
+  function updateNav(archetype) {
+    const list = listed();
+    const index = list.findIndex((candidate) => candidate.id === archetype.id);
+    positionLabel.textContent = index === -1 ? "" : (index + 1) + " of " + list.length;
+    prevButton.disabled = list.length < 2;
+    nextButton.disabled = list.length < 2;
+  }
+
+  function step(delta) {
+    const list = listed();
+    const index = list.findIndex((candidate) => candidate.id === openId);
+    if (list.length < 2 || index === -1) return;
+    const target = list[(index + delta + list.length) % list.length];
+    openDetail(target.id);
+    announce("Showing " + target.name);
   }
 
   function openDetail(id) {
@@ -1419,6 +1497,15 @@ function shortLicense(license) {
   });
   dialog.addEventListener("click", (event) => { if (event.target === dialog) closeDetail(); });
   document.getElementById("close").addEventListener("click", closeDetail);
+  prevButton.addEventListener("click", () => step(-1));
+  nextButton.addEventListener("click", () => step(1));
+  // The arrow keys switch characters only from the navigation buttons or the dialog itself, never from a text field.
+  dialog.addEventListener("keydown", (event) => {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    if (event.target !== prevButton && event.target !== nextButton && event.target !== dialog) return;
+    if (event.key === "ArrowLeft") { step(-1); event.preventDefault(); }
+    else if (event.key === "ArrowRight") { step(1); event.preventDefault(); }
+  });
   document.getElementById("reset").addEventListener("click", () => {
     filters.category = "all";
     filters.technique = "all";

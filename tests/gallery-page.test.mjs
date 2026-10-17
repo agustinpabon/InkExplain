@@ -161,8 +161,12 @@ test("the page is one offline file with the controls the task asks for", () => {
   for (const text of ["Archetype gallery", "Copy Prompt", "Copy Negative Prompt", "Copied!", "Prompt generator preview", "Sample calibration images", "Motion and acting", "License and rights"]) {
     assert.ok(html.includes(text), `the page says "${text}"`);
   }
-  for (const id of ["category-chips", "technique-chips", "grid", "detail", "theme", "count", "reset"]) {
+  for (const id of ["category-chips", "technique-chips", "grid", "detail", "theme", "count", "reset", "prev", "next", "position", "close"]) {
     assert.ok(html.includes(`id="${id}"`), `the page has #${id}`);
+  }
+  // Switching characters without closing the dialog, with accessible names on the icon buttons.
+  for (const text of ['aria-label="Previous archetype"', 'aria-label="Next archetype"', 'aria-label="Close details"', "Reference sheet", "reference-fig", "Credit: "]) {
+    assert.ok(html.includes(text), `the page carries ${text}`);
   }
   for (const text of ['id: "in-background"', "Background (optional)", '"Background"']) {
     assert.ok(html.includes(text), `the page offers the page-color picker (${text})`);

@@ -78,6 +78,21 @@ export function sampleImages(repo, archetype) {
 }
 
 /**
+ * The image a pack bundles for its own character (a pose sheet, an identity drawing), as a path relative
+ * to the page. It stands in on the card while no sample is approved and is never counted as a sample.
+ * Only an archetype that is not third-party qualifies: another owner's drawing needs its credit beside it,
+ * and a card cannot carry that.
+ */
+export function referenceImage(repo, archetype) {
+  if (archetype.thirdParty) return null;
+  const entry = repo
+    .entries(`${PATHS.archetypesDir}/${archetype.id}`)
+    .find((candidate) => candidate.type === "file" && path.posix.extname(candidate.name).toLowerCase() === ".png");
+  if (entry === undefined) return null;
+  return { src: path.posix.relative(path.posix.dirname(PATHS.galleryPage), entry.path), caption: captionOf(entry.name) };
+}
+
+/**
  * Where each approved sample directory came from, one entry per label language, so the page
  * can say whether it shows unmodified copies of another project's images or InkExplain renders.
  */
@@ -175,6 +190,7 @@ export function buildGalleryData(repo, registry) {
         thirdParty: archetype.thirdParty,
       },
       samples: { status: samples.status, decision: samples.decision, images: sampleImages(repo, archetype), sources: sampleSources(archetype, manifest) },
+      reference: referenceImage(repo, archetype),
       prompt: promptData(repo, archetype),
     };
   });
