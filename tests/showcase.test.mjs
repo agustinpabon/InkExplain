@@ -10,6 +10,13 @@ import { Repository } from "../scripts/lib/repository.mjs";
 const repo = new Repository(path.resolve(import.meta.dirname, ".."));
 const manifest = repo.readText("assets/examples/README.md");
 
+test("the gallery has all eight characters, each with a render and a thumbnail on disk", () => {
+  for (const id of ["ink", "littlebox", "stickman", "xiaohei", "ferris", "gopher", "tux", "openclaw"]) {
+    assert.ok(repo.isFile(`assets/examples/${id}.png`), `${id} full-size render`);
+    assert.ok(repo.isFile(`assets/examples/thumbs/${id}.png`), `${id} thumbnail`);
+  }
+});
+
 test("every showcase image is listed with the tool that made it and a matching hash prefix", () => {
   const images = repo.walk().filter((file) => file.startsWith("assets/examples/") && file.endsWith(".png"));
   assert.ok(images.length > 0);
@@ -25,5 +32,6 @@ test("every showcase image is listed with the tool that made it and a matching h
 
 test("the README says the showcase renders are unscored first tries", () => {
   assert.match(repo.readText("README.md"), /first tries, not scored with the \[review protocol\]/);
+  assert.match(repo.readText("README.md"), /Eight characters\. Endless ways to explain\./);
   assert.match(manifest, /carry no review/);
 });

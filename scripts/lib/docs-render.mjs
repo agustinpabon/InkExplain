@@ -72,29 +72,34 @@ export function legalStatus(archetype) {
   return `${code(archetype.status)} · ${archetype.legalNotice.license} · ${archetype.legalNotice.rightsHolder}`;
 }
 
-/** Where the README thumbnail of an archetype lives; present only when a real render of it exists. */
+/** Where the README thumbnail of an archetype lives, and the full-size render it was scaled from. */
 export const previewPath = (archetype) => `assets/examples/thumbs/${archetype.id}.png`;
+export const renderPath = (archetype) => `assets/examples/${archetype.id}.png`;
 
 /**
- * The characters of the README for one locale, as a grid two across (four across overflows a phone): a thumbnail when a real render of the
- * character exists (`previews` is the set of ids that have one), the name, what is not yet settled (default,
- * or a status other than active), a one-line tagline (the summary when there is none), and the license and
- * credit in small type. Complete rights records stay in ATTRIBUTIONS.md and docs/provenance.md.
+ * The character gallery of the README for one locale: cards two across (one column on a phone's narrow table),
+ * each with the real render when one exists (`previews` holds the ids that have both a thumbnail and the
+ * full-size file), the name, what is not yet settled (default, or a status other than active), the idea the
+ * render explains, a link to the full-size file, and the license and credit in small type. Complete rights
+ * records stay in ATTRIBUTIONS.md and docs/provenance.md.
  */
 export function renderArchetypeList(registry, locale, previews = new Set()) {
   const s = locale.strings;
   const fromDir = path.posix.dirname(locale.file);
+  const relative = (target) => path.posix.relative(fromDir, target);
   const cells = registry.archetypes.map((archetype) => {
     const marks = [];
     if (archetype === registry.defaultArchetype) marks.push(s.default);
     if (archetype.status !== "active") marks.push(`<code>${archetype.status}</code>`);
     const legal = archetype.legalNotice;
-    const image = previews.has(archetype.id)
-      ? `<img src="${path.posix.relative(fromDir, previewPath(archetype))}" alt="${escapeAttr(archetype.name)}: a real render of the database-indexing request" width="100%"><br>`
+    const shown = previews.has(archetype.id);
+    const image = shown
+      ? `<a href="${relative(renderPath(archetype))}"><img src="${relative(previewPath(archetype))}" alt="${escapeAttr(archetype.name)}${archetype.concept ? ` explaining ${escapeAttr(archetype.concept.toLowerCase())}` : ""}, a real render" width="100%"></a><br>`
       : "";
-    const line = escapeInline(archetype.tagline ?? archetype.summary);
+    const idea = archetype.concept ?? archetype.tagline ?? archetype.summary;
     const label = marks.length === 0 ? "" : ` · ${marks.join(" · ")}`;
-    return `<td width="50%" valign="top">${image}<b>${escapeInline(archetype.name)}</b>${label}<br>${line}<br><sub>${escapeInline(legal.license)} · ${escapeInline(legal.rightsHolder)}</sub></td>`;
+    const full = shown ? ` · <a href="${relative(renderPath(archetype))}">full size</a>` : "";
+    return `<td width="50%" valign="top">${image}<b>${escapeInline(archetype.name)}</b>${label}<br>${escapeInline(idea)}${full}<br><sub>${escapeInline(legal.license)} · ${escapeInline(legal.rightsHolder)}</sub></td>`;
   });
   const rows = [];
   for (let i = 0; i < cells.length; i += 2) rows.push(`<tr>\n${cells.slice(i, i + 2).join("\n")}\n</tr>`);
@@ -242,7 +247,7 @@ export function planGeneratedDocuments(repo, registry, locales) {
     expected: renderRoutingDoc(registry),
     problems: [],
   });
-  const previewIds = new Set(registry.archetypes.filter((archetype) => repo.isFile(previewPath(archetype))).map((archetype) => archetype.id));
+  const previewIds = new Set(registry.archetypes.filter((archetype) => repo.isFile(previewPath(archetype)) && repo.isFile(renderPath(archetype))).map((archetype) => archetype.id));
   for (const locale of locales) {
     const current = repo.readTextIfExists(locale.file);
     if (current === null) {

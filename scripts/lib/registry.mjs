@@ -67,6 +67,7 @@ const ARCHETYPE_KEYS = new Set([
   "status",
   "summary",
   "tagline",
+  "concept",
   "aliases",
   "excludedTerms",
   "outputSuffix",
@@ -288,6 +289,9 @@ function validateArchetype(archetype, index, issues) {
   }
   if (!Object.hasOwn(STATUSES, archetype.status)) {
     issues.push({ where: `${where}.status`, message: `must be one of ${Object.keys(STATUSES).join(", ")}` });
+  }
+  if (archetype.concept !== undefined && (!isNonEmptyString(archetype.concept) || archetype.concept.length > 40)) {
+    issues.push({ where: `${where}.concept`, message: "when present, must be a short idea name of at most 40 characters" });
   }
   if (archetype.tagline !== undefined && (!isNonEmptyString(archetype.tagline) || archetype.tagline.length > 70)) {
     issues.push({ where: `${where}.tagline`, message: "when present, must be a short line of at most 70 characters" });

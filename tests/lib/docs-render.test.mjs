@@ -59,7 +59,7 @@ test("the character grid is localized in its marks, keeps identifiers and regist
   const grid = renderArchetypeList(registry, spanish, new Set(["demo"]));
   assert.ok(grid.startsWith("<table>") && grid.endsWith("</table>"));
   assert.match(grid, /<td width="50%" valign="top"><b>InkExplain Sketch<\/b> · predeterminado<br>/);
-  assert.match(grid, /<img src="\.\.\/assets\/examples\/thumbs\/demo\.png" alt="Demo Crab: a real render[^"]*" width="100%"><br><b>Demo Crab<\/b><br>.*<br><sub>CC0 · Example Author<\/sub><\/td>/);
+  assert.match(grid, /<a href="\.\.\/assets\/examples\/demo\.png"><img src="\.\.\/assets\/examples\/thumbs\/demo\.png" alt="Demo Crab[^"]*, a real render" width="100%"><\/a><br><b>Demo Crab<\/b><br>.* · <a href="\.\.\/assets\/examples\/demo\.png">full size<\/a><br><sub>CC0 · Example Author<\/sub><\/td>/);
   assert.equal((grid.match(/<img /g) ?? []).length, 1, "only the character with a render gets a thumbnail");
   assert.match(grid, /<b>[^<]+<\/b> · <code>gated-authorized<\/code>/);
   assert.equal((grid.match(/<td /g) ?? []).length, registry.archetypes.length);

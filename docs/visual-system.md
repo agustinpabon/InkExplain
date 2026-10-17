@@ -52,7 +52,7 @@ The sheet above is hand-built vector art, not an image-model render. The Stickma
 
 ## Brand assets
 
-`assets/brand/` holds the InkExplain mark, the README hero, and the editable source of the Stickman pose sheet, drawn as hand-coded SVG in the same palette. They are original to InkExplain and use no third-party characters.
+`assets/brand/` holds the InkExplain mark, the older hero scene, and the editable source of the Stickman pose sheet, drawn as hand-coded SVG in the same palette. They are original to InkExplain and use no third-party characters.
 
 ## Character archetypes
 

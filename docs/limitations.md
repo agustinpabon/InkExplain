@@ -2,7 +2,7 @@
 
 What InkExplain does not do, and what is still unsettled. The README links here instead of listing it.
 
-- InkExplain ships no image model. Image quality depends on the tool your agent uses, and real renders exist only for Littlebox and Xiaohei (one image each, from Codex Desktop, not yet scored with the review protocol). None exists for InkExplain Sketch or Stickman.
+- InkExplain ships no image model. Image quality depends on the tool your agent uses, and real renders exist for all eight characters (one image each, on eight different ideas, from Codex Desktop), none scored with the review protocol, and one image says little about how a character holds up across a series.
 - Image models misspell labels, non-Latin scripts most of all. Keep labels short and review them.
 - Stickman is `experimental`: its pack and reference sheet are complete, but no render has been reviewed, so each delivery says so. The gallery images in `examples/gallery/` are copies from the projects InkExplain builds on; none was generated for this project.
 - Some agents send a generic image request ("create four illustrations") to an image skill of their own. Name InkExplain in the request, or start with `$inkexplain` in Codex, to be sure.

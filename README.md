@@ -21,47 +21,38 @@ npx skills add agustinpabon/InkExplain --skill inkexplain
 
 Then ask your agent in plain words:
 
-> Use InkExplain with Littlebox to illustrate how database indexing works.
+> Use InkExplain with Littlebox to illustrate how caching makes repeated work faster.
 
 InkExplain chooses the character, plans the picture, writes the prompt, and hands it to your agent's own image tool. The image is saved in your project, in `assets/<slug>-littlebox/`, next to its prompt. In Codex you can also start with `$inkexplain`. Leave the character out and you get the default style, InkExplain Sketch.
 
 <sub>The installer is the open [skills CLI](https://skills.sh) and needs Node.js 22.20 or newer. It sends anonymous install counts unless you set `DISABLE_TELEMETRY=1`; InkExplain itself collects nothing. Without Node.js, copy the folder `skills/inkexplain/` into your agent's skills folder.</sub>
 
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/brand/readme-hero-mobile-dark.png">
-  <source media="(max-width: 600px)" srcset="assets/brand/readme-hero-mobile-light.png">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/readme-hero-desktop-dark.png">
-  <img src="assets/brand/readme-hero-desktop-light.png" alt="One request, four characters: 'Illustrate how database indexing makes queries faster.' InkExplain Sketch draws a stick figure pulling a matching record out of a stack along a blue arrow. Littlebox, a closed paper box with amber tape, does it along an orange arrow. Stickman, an experimental bold marker figure, pulls the record out by hand. Xiaohei, a small black creature, pulls it along an orange line from an open index book." width="100%">
-</picture>
+## Eight characters. Endless ways to explain.
 
-<sub>Four real renders from InkExplain and Codex Desktop's built-in image tool, unedited, in a layout made for this page: [Sketch](assets/examples/sketch-database-index.png), [Littlebox](assets/examples/littlebox-database-index.png), [Stickman](assets/examples/stickman-database-index.png), [Xiaohei](assets/examples/xiaohei-database-index.png). They are first tries, not scored with the [review protocol](docs/visual-review.md).</sub>
-
-## Characters
-
-Name one in your request. InkExplain loads that character's look, motion, and rules, and keeps them the same across every image in a series.
+Name one in your request. InkExplain loads that character's look, motion, and rules, and keeps them the same across every image in a series. Each picture below explains a different idea.
 
 <!-- inkexplain:archetypes:start -->
 <table>
 <tr>
-<td width="50%" valign="top"><img src="assets/examples/thumbs/ink.png" alt="InkExplain Sketch: a real render of the database-indexing request" width="100%"><br><b>InkExplain Sketch</b> · default<br>Black ink line, one blue flow, one yellow swipe.<br><sub>MIT · InkExplain contributors</sub></td>
-<td width="50%" valign="top"><img src="assets/examples/thumbs/littlebox.png" alt="Littlebox: a real render of the database-indexing request" width="100%"><br><b>Littlebox</b><br>A closed paper box on a pure white page.<br><sub>MIT · okooo5km</sub></td>
+<td width="50%" valign="top"><a href="assets/examples/ink.png"><img src="assets/examples/thumbs/ink.png" alt="InkExplain Sketch explaining bottlenecks, a real render" width="100%"></a><br><b>InkExplain Sketch</b> · default<br>Bottlenecks · <a href="assets/examples/ink.png">full size</a><br><sub>MIT · InkExplain contributors</sub></td>
+<td width="50%" valign="top"><a href="assets/examples/littlebox.png"><img src="assets/examples/thumbs/littlebox.png" alt="Littlebox explaining caching, a real render" width="100%"></a><br><b>Littlebox</b><br>Caching · <a href="assets/examples/littlebox.png">full size</a><br><sub>MIT · okooo5km</sub></td>
 </tr>
 <tr>
-<td width="50%" valign="top"><img src="assets/examples/thumbs/stickman.png" alt="Stickman: a real render of the database-indexing request" width="100%"><br><b>Stickman</b> · <code>experimental</code><br>One bold marker figure that acts out the idea.<br><sub>MIT · InkExplain contributors</sub></td>
-<td width="50%" valign="top"><img src="assets/examples/thumbs/xiaohei.png" alt="Xiaohei: a real render of the database-indexing request" width="100%"><br><b>Xiaohei</b><br>A small black creature doing serious, absurd work.<br><sub>MIT · Ian</sub></td>
+<td width="50%" valign="top"><a href="assets/examples/stickman.png"><img src="assets/examples/thumbs/stickman.png" alt="Stickman explaining iteration, a real render" width="100%"></a><br><b>Stickman</b> · <code>experimental</code><br>Iteration · <a href="assets/examples/stickman.png">full size</a><br><sub>MIT · InkExplain contributors</sub></td>
+<td width="50%" valign="top"><a href="assets/examples/xiaohei.png"><img src="assets/examples/thumbs/xiaohei.png" alt="Xiaohei explaining information overload, a real render" width="100%"></a><br><b>Xiaohei</b><br>Information overload · <a href="assets/examples/xiaohei.png">full size</a><br><sub>MIT · Ian</sub></td>
 </tr>
 <tr>
-<td width="50%" valign="top"><b>Ferris</b><br>The Rust community crab.<br><sub>CC0 public-domain dedication · Karen Rustad Tölva</sub></td>
-<td width="50%" valign="top"><b>Go Gopher</b><br>The Go gopher in sparse sketches.<br><sub>CC BY 4.0 (the design); CC BY 3.0 (the bundled reference drawing) · Renee French (design); Takuya Ueda (bundled drawing)</sub></td>
+<td width="50%" valign="top"><a href="assets/examples/ferris.png"><img src="assets/examples/thumbs/ferris.png" alt="Ferris explaining bug prevention, a real render" width="100%"></a><br><b>Ferris</b><br>Bug prevention · <a href="assets/examples/ferris.png">full size</a><br><sub>CC0 public-domain dedication · Karen Rustad Tölva</sub></td>
+<td width="50%" valign="top"><a href="assets/examples/gopher.png"><img src="assets/examples/thumbs/gopher.png" alt="Go Gopher explaining connecting services, a real render" width="100%"></a><br><b>Go Gopher</b><br>Connecting services · <a href="assets/examples/gopher.png">full size</a><br><sub>CC BY 4.0 (the design); CC BY 3.0 (the bundled reference drawing) · Renee French (design); Takuya Ueda (bundled drawing)</sub></td>
 </tr>
 <tr>
-<td width="50%" valign="top"><b>Tux</b><br>Tux, the Linux penguin.<br><sub>Free to use and modify with credit to Larry Ewing and The GIMP · Larry Ewing</sub></td>
-<td width="50%" valign="top"><b>OpenClaw</b><br>The red OpenClaw mascot with claw arms.<br><sub>MIT · OpenClaw Foundation</sub></td>
+<td width="50%" valign="top"><a href="assets/examples/tux.png"><img src="assets/examples/thumbs/tux.png" alt="Tux explaining collaboration, a real render" width="100%"></a><br><b>Tux</b><br>Collaboration · <a href="assets/examples/tux.png">full size</a><br><sub>Free to use and modify with credit to Larry Ewing and The GIMP · Larry Ewing</sub></td>
+<td width="50%" valign="top"><a href="assets/examples/openclaw.png"><img src="assets/examples/thumbs/openclaw.png" alt="OpenClaw explaining automation, a real render" width="100%"></a><br><b>OpenClaw</b><br>Automation · <a href="assets/examples/openclaw.png">full size</a><br><sub>MIT · OpenClaw Foundation</sub></td>
 </tr>
 </table>
 <!-- inkexplain:archetypes:end -->
 
-Previews are downscaled copies of the renders above; Ferris, Go Gopher, Tux, and OpenClaw have none yet, and no stand-in is drawn for them. Stickman is experimental: its design is complete, but no render of it has been reviewed. Third-party characters keep their owners' credit and terms, in [ATTRIBUTIONS.md](ATTRIBUTIONS.md) and [docs/provenance.md](docs/provenance.md).
+<sub>All eight are real renders made with InkExplain and Codex Desktop's built-in image tool, one image per idea, unedited apart from the downscaling used for the previews. They are first tries, not scored with the [review protocol](docs/visual-review.md), and some are stronger than others. Stickman is experimental. Characters by others keep their owners' credit and terms in [ATTRIBUTIONS.md](ATTRIBUTIONS.md) and [docs/provenance.md](docs/provenance.md); where each image came from is in [assets/examples](assets/examples/README.md).</sub>
 
 ## How it works
 
