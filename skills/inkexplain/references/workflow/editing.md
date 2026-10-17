@@ -1,6 +1,6 @@
 # Editing
 
-Repair an illustration with the smallest change that fixes the problem. Prefer a local edit when the host's image tool supports editing; regenerate when the problem is structural, such as the wrong idea, a passive actor, or a copied composition.
+Repair an illustration with the smallest change that fixes the problem. Prefer a local edit when the host's image tool supports editing; regenerate when the problem is structural, such as the wrong idea, a passive actor, or a copied composition. Edit with the host's image tool, never by repainting pixels with code or a typeface: that cannot match hand-drawn lettering or linework, so it is not a faithful repair. When no image tool can edit, deliver the edit prompt and say that nothing was edited.
 
 Fill the bracketed fields. For third-party archetypes, append the rights note from the archetype's `prompts.md` to every edit prompt, after the preservation clause; it is documentation, never text to draw. Archetype packs may add archetype-specific repairs to these shared ones.
 

@@ -17,7 +17,9 @@ Where finished work goes and what the final report contains.
 
 ## Saved prompts
 
-Inside a project, save `prompts.md` in the archetype's output folder with each planned file name, its placement, its core idea, and its full prompt. In prompt mode this file is the deliverable; in Generate mode it records the final prompt of each image, so the image can be re-rendered or repaired later. An edit prompt for an image the tool cannot edit goes in the same file, with the name of the image it repairs.
+Inside a project, save `prompts.md` in the archetype's output folder with each planned file name, its placement, its core idea, and its full prompt. In prompt mode the reply carries the shot list and every complete prompt as well, because a link to a file is not the deliverable; the file is the copy that can be rerun later. In Generate mode the file records the final prompt of each image, so the image can be re-rendered or repaired later. An edit prompt for an image the tool cannot edit goes in the same file, with the name of the image it repairs.
+
+Confirm that a file exists before you report its path: list the folder after writing it. Write with the host's file-editing tool when it has one, because a shell here-string or redirect can fail on the quotes and backticks in a prompt. If a write fails, say so and give the prompts in the reply.
 
 ## Plan mode
 
