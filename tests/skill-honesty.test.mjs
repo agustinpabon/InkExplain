@@ -40,8 +40,16 @@ test("a template's fixed words stay as written, and the rule comes with the mist
   const assembly = workflow("prompt-assembly.md");
   assert.match(assembly, /Every word of the template outside a bracket stays as written/);
   assert.match(assembly, /delete only a sentence the pack marks as optional/);
-  assert.match(assembly, /caught at its decisive moment\.`, write `Action: pours coins into the tray, caught at its decisive moment\.`/);
-  assert.match(assembly, /and not `Action: pours coins into the tray, caught mid-pour\.`/);
+  // Both ways the real runs broke a template line are shown as wrong: the lead-in dropped, the tail rewritten.
+  assert.match(assembly, /write `Action: the actor performs the central action: pours coins into the tray, caught at its decisive moment\.`/);
+  assert.match(assembly, /neither `Action: the actor pours coins into the tray, caught at its decisive moment\.` \(the lead-in is gone\)/);
+  assert.match(assembly, /nor `Action: the actor performs the central action: pours coins into the tray, caught mid-pour\.` \(the tail is rewritten\)/);
+});
+
+test("the host is not the image tool: no drawing of its own in place of an illustration, and edits come from an image tool", () => {
+  assert.match(skill, /You are not the image tool: never replace an illustration with your own drawing \(ASCII art, SVG, HTML, canvas, or pixels repainted with code or a typeface\)/);
+  assert.match(skill, /With no image tool, use Prompt mode/);
+  assert.match(skill, /an image edited by the host's image tool, or a repair prompt when none can edit/);
 });
 
 test("the description names what must reach InkExplain and what must not, within the format's limit", () => {
