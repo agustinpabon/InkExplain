@@ -61,7 +61,7 @@ The first matrix used Claude agents that were pointed at the installed skill. Th
 
 **Setup.** Codex CLI 0.160.0, logged in with a ChatGPT account, run headless (`codex exec`) once per request, each time in a fresh project folder, with the Windows sandbox on and the skill installed by the real skills CLI (the folder was compared byte for byte with `skills/inkexplain/`). The host's own skills were present: about fifty of the maintainer's, and Codex's `imagegen` system skill. No image generator was reachable ([reviewing real renders](visual-review.md#where-it-stands)), so every run is a prompt-mode run. The prompt files the agents wrote were checked with the repository's own `matchesTemplate`, every path a reply named was looked up, and every reply was read.
 
-About eighty sessions were run over several drafts of the skill text, and the earlier drafts showed what to fix. The table is the last draft, skill tree `e1fd59f`, run once per request: plain requests that do not name the skill, requests that do, and three that InkExplain must not take. The released skill differs from that tree only in the Go Gopher's rights-holder line (one registry field and its rights record), which none of these requests touched.
+About eighty sessions were run over several drafts of the skill text, and the earlier drafts showed what to fix. The table is the last draft, skill tree `e1fd59f`, run once per request: plain requests that do not name the skill, requests that do, and three that InkExplain must not take. The released skill differs from that tree in the Go Gopher's rights-holder line, and in the image-tool rules described in [Native image generation](#native-image-generation-2026-10-17); the table was not run again on the new text.
 
 | Request | Loaded InkExplain | What the agent did |
 |---|---|---|
@@ -92,6 +92,30 @@ Across the seven runs that saved prompts, 17 of the 19 prompts are faithful inst
 **What these runs cannot show.** One host, one model, fourteen requests, and runs that vary a great deal: the same request sometimes loads the skill and sometimes does not. They say nothing about how the images look, because none was made.
 
 **Other hosts.** `gemini skills list` shows `inkexplain` with its description among 52 skills, for a project that has the skill in `.agents/skills/`. Gemini CLI then could not run a model turn: its sign-in was refused with "This client is no longer supported for Gemini Code Assist for individuals", so nothing was asked of it. The installer placed the skill byte for byte in the folder documented for each of Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, and Windsurf. Nobody has run the skill inside Cursor, GitHub Copilot, OpenCode, or Windsurf.
+
+## Native image generation, 2026-10-17
+
+**Why a sibling skill generated images and this one did not.** The Xiaohei skill that this one grew from (credited in [ATTRIBUTIONS.md](../ATTRIBUTIONS.md)) says, in the step for an explicit request: generate each image separately "with the built-in `image_gen`", and it says nothing else about tools: no mode to choose, no tool to look for. InkExplain described image tools in the abstract ("whatever image-generation tool the host agent provides; if there is none, switch to Prompt mode"), never named `image_gen`, `$imagegen`, or `GenerateImage`, and offered Prompt mode as an exit an agent could take without looking. OpenAI's own `imagegen` skill makes the built-in tool the default (no `OPENAI_API_KEY`), makes the API CLI an explicit-only fallback, calls the tool once per asset, and copies the chosen file from `$CODEX_HOME/generated_images/` into the workspace; Hatch Pet delegates every generation to `$imagegen` and forbids any other path. The skill text now follows the same pattern (`references/workflow/image-tools.md`).
+
+Two failures were reproduced in fresh Codex CLI 0.160.0 sessions (the skill copied into a new project, as the skills CLI would):
+
+- **An available tool was not found.** With a stand-in image tool connected over MCP, the old text went to Prompt mode and reported "no callable image generator" without one call (2 of 2 runs). The tool was in the agent's list; it had looked only for the built-in `image_gen`. The text now says to read every tool name, MCP names included, and that a missing key is not a missing tool. With it, the agent called the tool.
+- **Plain requests did not reach the skill.** "Generate 2 illustrations explaining how a message queue ..." went to `$imagegen`, and "Make an illustration of how a hash map finds a value by key" went straight to the tool; InkExplain was loaded in 0 of 2. The description now leads with what distinguishes the request (explanatory illustrations of a concept, process, article, document, or code, named character or not). With it, 2 of 2 loaded InkExplain, saved the images under `assets/<slug>-illustrations/`, and a logo request still did not load it.
+
+**What could not be tested.** `codex exec` on this machine does not expose the built-in `image_gen` tool: asked to list its tools, the agent listed `exec`, `view_image`, the MCP tools, and no generator, and said so. So no real native generation was run, and no InkExplain image was produced. The runs below use a stand-in image tool that is a test harness, not a model: it returns a fixed test pattern as a valid PNG and logs the prompt it receives. It checks the plumbing (finding the tool, one call per image, copying, verifying, reporting), not how anything looks.
+
+| Run | Setup | Result |
+|---|---|---|
+| A | no image tool; request names Littlebox | loaded; said that no raster generator was available; saved prompts; drew nothing |
+| B, B2 | stand-in tool; old text | never called it; Prompt mode (above) |
+| B3, B4 | stand-in tool; new text; the tool returned flat or near-empty pictures | called it (6 calls for 3 images), looked at the results, called them blank, saved no image, delivered the prompts, and said why |
+| B5 | stand-in tool; told it is a stub and any valid PNG will do | 3 calls, one per image; 3 PNGs copied into `assets/database-indexing-littlebox/` with numbered names; `scripts/verify-image.mjs` accepts all three (1280x720); the prompt it sent was word for word the one it saved, on `#FFFFFF`, with the rights note; the Action line had lost its paragraph break |
+| B6 | the same, after the paragraph-break sentence was added to `prompt-assembly.md` | the breaks were kept and the Character block was identical in all three prompts; the sentence that closes the Composition paragraph was rewritten in all three, so `matchesTemplate` still fails them |
+| C | stand-in tool refuses every call | two attempts on the first image, then stopped; two prompts saved; said that neither image was generated; invented no file |
+| D1, D2 | plain requests, old description | InkExplain not loaded (0 of 2) |
+| E1, E2, E3 | plain requests, new description | E1 and E2 loaded InkExplain and saved their images in the workspace; E3 (a logo) did not load it |
+
+One run per row, one host, one model. The stand-in tool made the images it made, so the table says nothing about whether Codex's real `image_gen` output would be saved, named, and checked the same way; Cursor and every other host were not run. The 14-request table above was run before these changes, on tree `e1fd59f`.
 
 ## Does the description load the skill for the right requests?
 

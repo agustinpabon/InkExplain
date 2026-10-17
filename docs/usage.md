@@ -23,10 +23,24 @@ InkExplain picks a mode from your request first and from what the agent can do s
 |---|---|---|
 | Plan | "plan", "where should images go", "don't generate yet" | a shot list; nothing is saved |
 | Prompt | "prompts only", or the agent has no image-generation tool | the shot list and one complete prompt per image, saved as `prompts.md` in your project |
-| Generate | you want images and the agent has an image-generation tool | reviewed images saved in your project |
+| Generate | you want images and a raster image tool is callable | reviewed images saved in your project |
 | Edit | you supply an image to fix | the repaired image, or a repair prompt when the tool cannot edit |
 
 InkExplain ships no image model. Its instructions tell the agent never to claim an image it did not generate or review, and to say so when nothing was generated. An agent can still ignore them: [the evaluation](evaluation.md#real-hosts-2026-10-17) records what real runs did.
+
+## Image generation by host
+
+InkExplain uses the image tool the host already has; it needs no API key of its own and never turns on a paid service. Whether it can generate depends on the host:
+
+| Host | Native image generation | What InkExplain does | Checked |
+|---|---|---|---|
+| Codex | the built-in `image_gen` tool, through the installed `$imagegen` skill; no `OPENAI_API_KEY` needed | one `image_gen` call per image, then copies the chosen file from `$CODEX_HOME/generated_images/` into `assets/<slug>-<suffix>/` and checks it | `codex exec` on this machine exposes no `image_gen`, so only the no-tool path and a stand-in tool were run ([evaluation](evaluation.md#native-image-generation-2026-10-17)); the interactive app was not |
+| Cursor | the Agent's `GenerateImage` tool, in Cursor 2.4 or later (announced on Cursor's forum; its documentation page was not found; some users report 401 or 429 errors) | calls it for each image and copies the result from the project's `assets/` folder | not run |
+| Claude Code | none built in | uses an image tool you connected (for example an MCP server) if one is callable; otherwise Prompt mode | not run |
+| Gemini CLI | none built in; the community `nanobanana` extension needs an API key | the same | not run |
+| Other agents | unknown | uses a callable image tool if there is one | not run |
+
+A subscription does not guarantee a generator in a terminal: if the agent's tool list shows no tool that makes images, InkExplain says so and writes prompts. It never switches to an API, installs a tool, or signs in for you, and it never draws the image itself with SVG, HTML, or code. `node scripts/verify-image.mjs assets/<folder>/01-name.png` checks that a reported file is a real PNG, JPEG, or WebP of plausible size in the right folder.
 
 ## Ask for what you want
 
