@@ -81,8 +81,16 @@ test("ASSET-003 catches a changed copy, an unrecorded image, a missing one, and 
   fixture.write("examples/gallery/en/demo/02-extra.png", makePng());
   fixture.write("examples/gallery/zh/demo/01-other.png", makePng());
   const manifest = JSON.parse(fixture.read(MANIFEST));
+  // The manifest stays valid, so ASSET-003 reports what is wrong with the images: every file has its record.
+  const item = structuredClone(manifest.sets[0].items["01-demo-scene.png"]);
   manifest.sets[0].files["03-gone.png"] = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391";
-  manifest.sets.push({ ...structuredClone(manifest.sets[0]), directory: "examples/gallery/en/ghost", files: { "01-x.png": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391" } });
+  manifest.sets[0].items["03-gone.png"] = item;
+  manifest.sets.push({
+    ...structuredClone(manifest.sets[0]),
+    directory: "examples/gallery/en/ghost",
+    files: { "01-x.png": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391" },
+    items: { "01-x.png": item },
+  });
   fixture.write(MANIFEST, JSON.stringify(manifest));
   const text = messages(fixture.check("ASSET-003"));
   assert.match(text, /en\/demo\/01-demo-scene\.png: differs from the copy on record \(git blob [0-9a-f]{10}\.\.\.\); an edited image is not a copy/);

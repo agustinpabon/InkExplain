@@ -164,7 +164,7 @@ test("each approved sample directory says where its images came from, in its own
     {
       language: "en",
       kind: "inkexplain",
-      summary: "InkExplain renders generated with Fixture image tool on 2026-01-02, reviewed by Fixture Reviewer on 2026-01-02.",
+      summary: "InkExplain renders generated with Fixture image tool (fixture-model-1) on 2026-01-02, reviewed by Fixture Reviewer on 2026-01-02.",
       note: null,
     },
   ]);

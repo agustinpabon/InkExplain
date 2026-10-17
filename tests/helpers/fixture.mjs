@@ -183,10 +183,22 @@ export function fixtureProvenanceData() {
       {
         directory: "examples/gallery/en/demo",
         origin: "inkexplain",
-        generated: { tool: "Fixture image tool", date: "2026-01-02" },
+        generated: {
+          tool: "Fixture image tool",
+          model: "fixture-model-1",
+          date: "2026-01-02",
+          terms: "The output belongs to the maintainer under the fixture tool's terms, https://example.com/terms.",
+        },
         reviewedBy: "Fixture Reviewer",
         reviewedOn: "2026-01-02",
         files: { "01-demo-scene.png": gitBlobSha1(makePng()) },
+        items: {
+          "01-demo-scene.png": {
+            concept: "A demo crab sorts coins into two trays.",
+            prompt: "Generate one standalone 16:9 illustration of a demo crab sorting coins into two trays.",
+            operation: "generated",
+          },
+        },
       },
     ],
   };

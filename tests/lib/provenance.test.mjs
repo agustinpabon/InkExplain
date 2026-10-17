@@ -70,12 +70,15 @@ test("the manifest rejects what would make a source claim untrustworthy", () => 
   assert.match(problems([]), /the manifest must be a JSON object/);
 });
 
-test("an InkExplain render needs its tool, its date, and a named reviewer, and is never a claimed copy", () => {
+test("an InkExplain render needs its tool, its date, its terms, and a named reviewer, and is never a claimed copy", () => {
   const cases = [
     [(set) => delete set.generated, /generated: an inkexplain set needs the tool and the date it was generated/],
     [(set) => (set.generated.tool = "tool"), /generated\.tool: must name the image tool, not a placeholder/],
     [(set) => (set.generated.date = "yesterday"), /generated\.date: must be the real YYYY-MM-DD generation date/],
-    [(set) => (set.generated.model = "x"), /unknown field "model"/],
+    [(set) => (set.generated.model = "unknown"), /generated\.model: must name the model the tool reports, or be left out when it does not say/],
+    [(set) => delete set.generated.terms, /generated\.terms: must say whose terms govern the output of the tool, with a link to them/],
+    [(set) => (set.generated.terms = "TBD"), /generated\.terms: must say whose terms govern/],
+    [(set) => (set.generated.colour = "red"), /unknown field "colour"/],
     [(set) => (set.reviewedBy = "Reviewer"), /reviewedBy: needs the person who reviewed these renders, not a placeholder/],
     [(set) => delete set.reviewedOn, /reviewedOn: needs the real YYYY-MM-DD review date/],
     [(set) => (set.source = copy().source), /source: an inkexplain set is not a copy/],
@@ -85,6 +88,40 @@ test("an InkExplain render needs its tool, its date, and a named reviewer, and i
     mutate(data.sets[0]);
     assert.match(problems(data), pattern);
   }
+  // The model is optional: a tool that does not say which model it ran is recorded without one.
+  const data = fixtureProvenanceData();
+  delete data.sets[0].generated.model;
+  assert.equal(problems(data), "");
+});
+
+test("an InkExplain render records, for every image, the idea it explains, the prompt as sent, and how it was made", () => {
+  const FILE = "01-demo-scene.png";
+  const cases = [
+    [(set) => delete set.items, /items: an inkexplain set needs a record for every image: its concept, its prompt, and how it was made/],
+    [(set) => (set.items = {}), /items\.01-demo-scene\.png: every image needs a record of its concept, its prompt, and how it was made/],
+    [(set) => (set.items["02-extra.png"] = structuredClone(set.items[FILE])), /items\.02-extra\.png: is a record for an image that is not listed in files/],
+    [(set) => (set.items[FILE] = "a note"), /items\.01-demo-scene\.png: must be an object/],
+    [(set) => (set.items[FILE].concept = "TODO"), /items\.01-demo-scene\.png\.concept: must be the idea the image explains, not a placeholder/],
+    [(set) => delete set.items[FILE].prompt, /items\.01-demo-scene\.png\.prompt: must be the complete prompt as it was sent, not a placeholder/],
+    [(set) => (set.items[FILE].operation = "retouched"), /items\.01-demo-scene\.png\.operation: must be one of generated, edited, by-hand/],
+    [(set) => (set.items[FILE].operation = "edited"), /items\.01-demo-scene\.png\.edit: an edited image must say what was changed and with which tool/],
+    [(set) => (set.items[FILE].edit = "fixed a label"), /items\.01-demo-scene\.png\.edit: belongs to an edited image only/],
+    [(set) => (set.items[FILE].colour = "red"), /unknown field "colour"/],
+  ];
+  for (const [mutate, pattern] of cases) {
+    const data = fixtureProvenanceData();
+    mutate(data.sets[0]);
+    assert.match(problems(data), pattern);
+  }
+  const edited = fixtureProvenanceData();
+  Object.assign(edited.sets[0].items[FILE], { operation: "edited", edit: "Replaced the label 'Ouput' with 'Output' in the tool's editor." });
+  assert.equal(problems(edited), "", "an edited image names what was changed");
+  const byHand = fixtureProvenanceData();
+  byHand.sets[0].items[FILE] = { concept: "A reference drawing made by hand.", operation: "by-hand" };
+  assert.equal(problems(byHand), "", "art made by hand has no prompt");
+  const copied = manifestWith(copy());
+  copied.sets[0].items = fixtureProvenanceData().sets[0].items;
+  assert.match(problems(copied), /items: belongs to an inkexplain set, not a copy of another project's files/);
 });
 
 test("loadProvenance reads the manifest and reports a missing, malformed, or invalid file without throwing", (t) => {
@@ -114,7 +151,10 @@ test("setFor finds a directory's set, and describeSet says in one sentence where
   assert.equal(setFor(manifest, "examples/gallery/en/nowhere"), undefined);
   assert.equal(setFor(null, "examples/gallery/en/demo"), undefined);
   assert.equal(describeSet(manifest.sets[0]), "Unmodified copies of Example Illustrations images (MIT, Copyright (c) 2026 Example), first published 2026-06-15.");
-  assert.equal(describeSet(manifest.sets[1]), "InkExplain renders generated with Fixture image tool on 2026-01-02, reviewed by Fixture Reviewer on 2026-01-02.");
+  assert.equal(describeSet(manifest.sets[1]), "InkExplain renders generated with Fixture image tool (fixture-model-1) on 2026-01-02, reviewed by Fixture Reviewer on 2026-01-02.");
+  const withoutModel = structuredClone(manifest.sets[1]);
+  delete withoutModel.generated.model;
+  assert.equal(describeSet(withoutModel), "InkExplain renders generated with Fixture image tool on 2026-01-02, reviewed by Fixture Reviewer on 2026-01-02.");
 });
 
 test("imageNames lists only the PNGs of a directory", (t) => {

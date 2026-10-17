@@ -1,7 +1,8 @@
 // The provenance manifest of the gallery (examples/gallery/provenance.json) says where every
 // published sample set came from. A historical set is an unmodified copy of files in an upstream
 // repository at a recorded commit; an inkexplain set is a render made for this project, recorded
-// with its tool, date, and reviewer. Each image carries its git blob SHA-1, the same hash git
+// with its tool, date, terms, and reviewer, and, for every image, the idea it explains, the prompt
+// as sent, and how it was made. Each image carries its git blob SHA-1, the same hash git
 // uses for the file in the upstream tree, so anyone can check a copy against its source.
 //
 // The manifest is evidence, not a lock: editing a historical image is possible, but it shows up
@@ -15,13 +16,21 @@ import { normalizeRelativePath } from "./repository.mjs";
 
 export const ORIGINS = Object.freeze({
   historical: "An unmodified copy of a file published by another project, under that project's license.",
-  inkexplain: "A render made for InkExplain with an image tool, reviewed by a named person.",
+  inkexplain: "A render made for InkExplain, recorded with its prompt and its tool, and reviewed by a named person.",
 });
 
 const ROOT_KEYS = new Set(["$comment", "schemaVersion", "sets"]);
-const SET_KEYS = new Set(["directory", "origin", "source", "generated", "reviewedBy", "reviewedOn", "note", "files"]);
+// How one image of an inkexplain set was made. `by-hand` is art drawn or built by a person, which has no prompt.
+export const OPERATIONS = Object.freeze({
+  generated: "made by an image tool from the prompt on record",
+  edited: "changed after it was made; `edit` says what was changed and with which tool",
+  "by-hand": "drawn or built by a person, not by an image model",
+});
+
+const SET_KEYS = new Set(["directory", "origin", "source", "generated", "reviewedBy", "reviewedOn", "note", "files", "items"]);
 const SOURCE_KEYS = new Set(["project", "repository", "commit", "path", "license", "copyright", "firstPublished"]);
-const GENERATED_KEYS = new Set(["tool", "date"]);
+const GENERATED_KEYS = new Set(["tool", "model", "date", "terms"]);
+const ITEM_KEYS = new Set(["concept", "prompt", "operation", "edit"]);
 const PLACEHOLDERS = new Set(["", "reviewer", "tool", "pending", "tbd", "todo", "n/a", "na", "unknown", "-"]);
 const SHA_PATTERN = /^[0-9a-f]{40}$/;
 
@@ -80,6 +89,46 @@ function validateSource(source, where, issues) {
   }
 }
 
+/** The record of every image in an inkexplain set: the idea it explains, the prompt as sent, and how it was made. */
+function validateItems(set, where, issues) {
+  if (!isPlainObject(set.items)) {
+    issues.push({ where: `${where}.items`, message: "an inkexplain set needs a record for every image: its concept, its prompt, and how it was made" });
+    return;
+  }
+  const files = isPlainObject(set.files) ? Object.keys(set.files) : [];
+  for (const name of files) {
+    if (!Object.hasOwn(set.items, name)) {
+      issues.push({ where: `${where}.items.${name}`, message: "every image needs a record of its concept, its prompt, and how it was made" });
+    }
+  }
+  for (const [name, item] of Object.entries(set.items)) {
+    const at = `${where}.items.${name}`;
+    if (!files.includes(name)) {
+      issues.push({ where: at, message: "is a record for an image that is not listed in files" });
+      continue;
+    }
+    if (!isPlainObject(item)) {
+      issues.push({ where: at, message: "must be an object" });
+      continue;
+    }
+    checkKeys(item, ITEM_KEYS, at, issues);
+    if (!isNamed(item.concept)) issues.push({ where: `${at}.concept`, message: "must be the idea the image explains, not a placeholder" });
+    if (!Object.hasOwn(OPERATIONS, item.operation)) {
+      issues.push({ where: `${at}.operation`, message: `must be one of ${Object.keys(OPERATIONS).join(", ")}` });
+      continue;
+    }
+    if (item.operation !== "by-hand" && !isNamed(item.prompt)) {
+      issues.push({ where: `${at}.prompt`, message: "must be the complete prompt as it was sent, not a placeholder" });
+    }
+    if (item.operation === "edited" && !isNamed(item.edit)) {
+      issues.push({ where: `${at}.edit`, message: "an edited image must say what was changed and with which tool" });
+    }
+    if (item.operation !== "edited" && item.edit !== undefined) {
+      issues.push({ where: `${at}.edit`, message: "belongs to an edited image only" });
+    }
+  }
+}
+
 function validateSet(set, index, issues) {
   const where = `sets[${index}]`;
   if (!isPlainObject(set)) {
@@ -101,7 +150,7 @@ function validateSet(set, index, issues) {
   }
   if (set.origin === "historical") {
     validateSource(set.source, `${where}.source`, issues);
-    for (const field of ["generated", "reviewedBy", "reviewedOn"]) {
+    for (const field of ["generated", "reviewedBy", "reviewedOn", "items"]) {
       if (set[field] !== undefined) issues.push({ where: `${where}.${field}`, message: "belongs to an inkexplain set, not a copy of another project's files" });
     }
   } else if (set.origin === "inkexplain") {
@@ -112,9 +161,16 @@ function validateSet(set, index, issues) {
       checkKeys(set.generated, GENERATED_KEYS, `${where}.generated`, issues);
       if (!isNamed(set.generated.tool)) issues.push({ where: `${where}.generated.tool`, message: "must name the image tool, not a placeholder" });
       if (!isValidIsoDate(set.generated.date)) issues.push({ where: `${where}.generated.date`, message: "must be the real YYYY-MM-DD generation date" });
+      if (set.generated.model !== undefined && !isNamed(set.generated.model)) {
+        issues.push({ where: `${where}.generated.model`, message: "must name the model the tool reports, or be left out when it does not say" });
+      }
+      if (!isNamed(set.generated.terms)) {
+        issues.push({ where: `${where}.generated.terms`, message: "must say whose terms govern the output of the tool, with a link to them" });
+      }
     }
     if (!isNamed(set.reviewedBy)) issues.push({ where: `${where}.reviewedBy`, message: "needs the person who reviewed these renders, not a placeholder" });
     if (!isValidIsoDate(set.reviewedOn)) issues.push({ where: `${where}.reviewedOn`, message: "needs the real YYYY-MM-DD review date" });
+    validateItems(set, where, issues);
   }
   if (set.note !== undefined && !isText(set.note)) issues.push({ where: `${where}.note`, message: "must be a non-empty string when present" });
   if (!isPlainObject(set.files) || Object.keys(set.files).length === 0) {
@@ -175,7 +231,8 @@ export function describeSet(set) {
     const { project, license, copyright, firstPublished } = set.source;
     return `Unmodified copies of ${project} images (${license}, ${copyright}), first published ${firstPublished}.`;
   }
-  return `InkExplain renders generated with ${set.generated.tool} on ${set.generated.date}, reviewed by ${set.reviewedBy} on ${set.reviewedOn}.`;
+  const { tool, model, date } = set.generated;
+  return `InkExplain renders generated with ${model === undefined ? tool : `${tool} (${model})`} on ${date}, reviewed by ${set.reviewedBy} on ${set.reviewedOn}.`;
 }
 
 /** Image files of a gallery directory, as names, in sorted order. */

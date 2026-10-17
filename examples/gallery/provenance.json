@@ -1,5 +1,5 @@
 {
-  "$comment": "Where every published gallery sample came from. A historical set is an unmodified copy of files in the upstream repository at the recorded commit; each hash is the git blob SHA-1 of the image, so it can be checked against the upstream tree. An inkexplain set is a render made for this project, with the tool, the date, and the reviewer. Validated by `npm run validate` (ASSET-003); see docs/provenance.md.",
+  "$comment": "Where every published gallery sample came from. A historical set is an unmodified copy of files in the upstream repository at the recorded commit; each hash is the git blob SHA-1 of the image, so it can be checked against the upstream tree. An inkexplain set is a render made for this project: the tool, its model when it says which, the date, whose terms govern the output, the reviewer and the day they reviewed, and for every image the idea it explains, the prompt as sent, and how it was made (generated, edited, or by hand). Validated by `npm run validate` (ASSET-003); see docs/provenance.md.",
   "schemaVersion": 1,
   "sets": [
     {
