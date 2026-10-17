@@ -53,7 +53,7 @@ test("README leads with the InkExplain brand statement and the contributor walkt
   const readme = repo.readText(PATHS.readme);
   assert.ok(readme.includes(PRODUCT.tagline));
   assert.ok(readme.includes(PRODUCT.description));
-  assert.ok(sectionBody(readme, "Adding New Characters and Animation Styles"), "README explains how to add an archetype");
+  assert.ok(readme.includes("npm run archetype:add") && readme.includes("(docs/adding-an-archetype.md)"), "README shows how to add an archetype and links the guide");
 });
 
 test("every archetype has its five pack files", () => {

@@ -474,7 +474,7 @@ test("a problem the scaffold causes is caught even when it also repairs another,
   // name already appears once in another pack, so SCHEMA-007 fails after. One issue before and one after is
   // not "nothing new": the issues are different ones.
   const fixture = createFixture(t)
-    .replace("README.md", "| Demo Crab ", "| Demo Crabs ")
+    .replace("README.md", "- **Demo Crab** ", "- **Demo Crabs** ")
     .append(`${PACKS}/demo/identity.md`, "\nZorp Wombat shows up here once.\n");
   assert.deepEqual(fixture.run().filter((check) => check.status === "fail").map((check) => check.id), ["DOC-003"], "one issue before");
   const error = refusalOf(() => plan(fixture, { id: "zorp-wombat", name: "Zorp Wombat" }));

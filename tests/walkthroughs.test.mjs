@@ -51,7 +51,7 @@ test("the walkthroughs cover Ferris, the Go Gopher, Littlebox, and Stickman, eac
 
 test("the README points at the walkthroughs instead of carrying them", () => {
   const readme = repo.readText("README.md");
-  assert.match(readme, /\[docs\/walkthroughs\.md\]\(docs\/walkthroughs\.md\)/);
+  assert.match(readme, /\]\(docs\/walkthroughs\.md\)/);
   assert.doesNotMatch(readme, /Generate one standalone/, "no complete prompt is quoted in the README");
   for (const name of ["Ferris", "Go Gopher", "Littlebox", "Stickman"]) assert.ok(readme.includes(name), `the pointer names ${name}`);
 });

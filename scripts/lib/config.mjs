@@ -6,7 +6,7 @@ export const PRODUCT = Object.freeze({
   slug: "inkexplain",
   invocation: "$inkexplain",
   tagline: "Ideas made visual.",
-  description: "Turn complex ideas into beautiful, consistent hand-drawn illustrations with AI.",
+  description: "Turn code, docs, and ideas into hand-drawn illustrations with AI agents.",
   shortTagline: "Turn ideas into illustrations.",
 });
 

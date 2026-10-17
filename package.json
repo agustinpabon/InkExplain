@@ -2,7 +2,7 @@
   "name": "inkexplain",
   "version": "1.2.0",
   "private": true,
-  "description": "Turn complex ideas into beautiful, consistent hand-drawn illustrations with AI.",
+  "description": "Turn code, docs, and ideas into hand-drawn illustrations with AI agents.",
   "license": "MIT",
   "type": "module",
   "engines": {

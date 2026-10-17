@@ -5,7 +5,7 @@ import {
   legalStatus,
   parseLocales,
   planGeneratedDocuments,
-  renderArchetypeTable,
+  renderArchetypeList,
   renderLanguageSelector,
   renderRoutingDoc,
 } from "../../scripts/lib/docs-render.mjs";
@@ -55,22 +55,21 @@ test("referencePaths lists the five pack files with rights first", () => {
   ]);
 });
 
-test("archetype tables are localized but keep identifiers and registry data unchanged", () => {
-  const table = renderArchetypeTable(registry, spanish);
-  assert.match(table, /^\| Arquetipo \| Categoría \| Estilo \| Estado legal \|/);
-  assert.match(table, /InkExplain Sketch \(`ink`, predeterminado\)/);
-  assert.match(table, /\| Demo Crab \(`demo`\) \| `mascot` \|/);
-  assert.match(table, /`gated-authorized` · Proprietary · Example Studio/);
-  assert.equal(table.split("\n").length, registry.archetypes.length + 2);
+test("the character list is localized in its marks, keeps identifiers and registry data, and is one item per archetype", () => {
+  const list = renderArchetypeList(registry, spanish);
+  assert.match(list, /^- \*\*InkExplain Sketch\*\* · predeterminado · `ink`<br>/);
+  assert.match(list, /^- \*\*Demo Crab\*\* · `demo`<br>.*<br><sub>CC0 · Example Author<\/sub>$/m);
+  assert.match(list, /\*\*[^*]+\*\* · `gated-authorized` · `/);
+  assert.equal(list.split("\n").length, registry.archetypes.length);
+  assert.ok(list.split("\n").every((line) => line.startsWith("- ")));
 });
-
 test("legal status combines status, license, and rights holder", () => {
   assert.equal(legalStatus(registry.byId.get("demo")), "`active` · CC0 · Example Author");
 });
 
 test("language selectors link relative to each README", () => {
-  assert.equal(renderLanguageSelector([english, spanish], english), "**English** | [Español](./readmes/README.es.md)");
-  assert.equal(renderLanguageSelector([english, spanish], spanish), "[English](../README.md) | **Español**");
+  assert.equal(renderLanguageSelector([english, spanish], english), "<details>\n<summary>Languages</summary>\n\n**English** · [Español](./readmes/README.es.md)\n\n</details>");
+  assert.equal(renderLanguageSelector([english, spanish], spanish), "<details>\n<summary>Languages</summary>\n\n[English](../README.md) · **Español**\n\n</details>");
 });
 
 test("parseLocales validates locale data", () => {
@@ -89,7 +88,7 @@ test("planGeneratedDocuments flags stale and malformed regions", (t) => {
   const plans = () => planGeneratedDocuments(repo(), registry, [english]);
   assert.ok(plans().every((plan) => plan.current === plan.expected && plan.problems.length === 0));
 
-  fixture.replace("README.md", "| Demo Crab (`demo`) |", "| Old Name |");
+  fixture.replace("README.md", "- **Demo Crab** · `demo`", "- **Old Name** · `demo`");
   assert.notEqual(plans()[1].current, plans()[1].expected);
 
   fixture.replace("README.md", "<!-- inkexplain:archetypes:end -->", "");

@@ -60,6 +60,7 @@ export function loadLocales(repo) {
 
 const code = (value) => `\`${value}\``;
 const escapeCell = (value) => String(value).replaceAll("|", "\\|");
+const escapeInline = (value) => String(value).replaceAll("<", "&lt;");
 
 function sentence(text) {
   return /[.!?]$/.test(text.trim()) ? text.trim() : `${text.trim()}.`;
@@ -70,35 +71,38 @@ export function legalStatus(archetype) {
   return `${code(archetype.status)} · ${archetype.legalNotice.license} · ${archetype.legalNotice.rightsHolder}`;
 }
 
-/** Markdown archetype gallery table for one locale. */
-export function renderArchetypeTable(registry, locale) {
+/**
+ * The characters of the README for one locale: one list item each, with the name, what is not yet settled
+ * (default, or a status other than active), the id, a one-line summary, and the license and credit in small
+ * type. Complete rights records stay in ATTRIBUTIONS.md and docs/provenance.md.
+ */
+export function renderArchetypeList(registry, locale) {
   const s = locale.strings;
-  const rows = [`| ${s.archetype} | ${s.category} | ${s.summary} | ${s.legalStatus} |`, "|---|---|---|---|"];
-  for (const archetype of registry.archetypes) {
-    const label =
-      archetype === registry.defaultArchetype
-        ? `${archetype.name} (${code(archetype.id)}, ${s.default})`
-        : `${archetype.name} (${code(archetype.id)})`;
-    rows.push(
-      `| ${escapeCell(label)} | ${code(archetype.category)} | ${escapeCell(archetype.summary)} | ${escapeCell(legalStatus(archetype))} |`,
-    );
-  }
-  return rows.join("\n");
+  return registry.archetypes
+    .map((archetype) => {
+      const marks = [];
+      if (archetype === registry.defaultArchetype) marks.push(s.default);
+      if (archetype.status !== "active") marks.push(code(archetype.status));
+      marks.push(code(archetype.id));
+      const legal = archetype.legalNotice;
+      return `- **${escapeInline(archetype.name)}** · ${marks.join(" · ")}<br>${escapeInline(archetype.summary)}<br><sub>${escapeInline(legal.license)} · ${escapeInline(legal.rightsHolder)}</sub>`;
+    })
+    .join("\n");
 }
 
-/** Language selector line for the README at `locale.file`. */
+/** Language selector for the README at `locale.file`: a collapsed list, so thirteen names do not open the page. */
 export function renderLanguageSelector(locales, currentLocale) {
   const fromDir = path.posix.dirname(currentLocale.file);
-  return locales
+  const links = locales
     .map((locale) => {
       if (locale.code === currentLocale.code) return `**${locale.label}**`;
       let relative = path.posix.relative(fromDir, locale.file);
       if (!relative.startsWith(".")) relative = `./${relative}`;
       return `[${locale.label}](${relative})`;
     })
-    .join(" | ");
+    .join(" · ");
+  return `<details>\n<summary>Languages</summary>\n\n${links}\n\n</details>`;
 }
-
 function renderSelectionTable(registry) {
   const rows = ["| Archetype | id | Category | Status | Select with | Output folder |", "|---|---|---|---|---|---|"];
   for (const archetype of registry.archetypes) {
@@ -237,7 +241,7 @@ export function planGeneratedDocuments(repo, registry, locales) {
     let expected = current;
     for (const [region, content] of [
       [DOC_REGIONS.languages, renderLanguageSelector(locales, locale)],
-      [DOC_REGIONS.archetypes, renderArchetypeTable(registry, locale)],
+      [DOC_REGIONS.archetypes, renderArchetypeList(registry, locale)],
     ]) {
       const found = readRegion(expected, region);
       if (!found.found) {

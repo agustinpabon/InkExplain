@@ -248,53 +248,6 @@
       }
     },
     {
-      "id": "openclaw",
-      "name": "OpenClaw",
-      "category": "mascot",
-      "status": "active",
-      "summary": "The OpenClaw mascot, a red round character with claw-like arms, two antennae, and cyan pupils, performing the idea in sparse hand-drawn article sketches.",
-      "aliases": ["OpenClaw", "OpenClaw logo", "OpenClaw mascot", "OpenClaw 助手", "OpenClaw 吉祥物"],
-      "outputSuffix": "openclaw",
-      "motionDna": {
-        "actor": "OpenClaw, the red logo mascot, as the active operator of the concept",
-        "signatureActions": ["grip", "sort", "bridge", "stamp", "untangle", "repair"],
-        "poses": [
-          "one claw grips the loose idea, thread, or key",
-          "both claw-like arms hold two parts together",
-          "the antennae lean and the cyan pupils point at the decisive object"
-        ],
-        "timing": "One decisive moment per image; mini comics use two or three beats with all six markers in every panel"
-      },
-      "styleSheet": {
-        "medium": "A sparse hand-drawn article sketch",
-        "canvas": "16:9 on a clean white or near-white background with generous whitespace",
-        "linework": "Loose black linework with visible hand-drawn looseness",
-        "palette": ["black", "red", "cyan"],
-        "avoid": [
-          "product posters, launch graphics, and logo showcases",
-          "UI screenshots, IDE or terminal scenes, and code screenshots",
-          "formal diagrams and PPT-like infographics",
-          "over-rendered toys or logo icons"
-        ]
-      },
-      "legalNotice": {
-        "credit": "The OpenClaw mascot comes from the OpenClaw project (https://github.com/openclaw/openclaw), MIT License, Copyright (c) 2026 OpenClaw Foundation, reviewed at commit c14793d",
-        "rightsHolder": "OpenClaw Foundation",
-        "license": "MIT",
-        "attributionTerms": ["OpenClaw Foundation", "https://github.com/openclaw/openclaw"],
-        "restrictions": ["No claims of official OpenClaw affiliation or endorsement.", "No product posters, UI screenshots, terminal scenes, or code screenshots."]
-      },
-      "sampleGates": {
-        "status": "pending",
-        "decision": "Not reviewed for InkExplain. The earlier gallery set was an unmodified copy of Visual IP Illustrations images first published 2026-06-17, so it is withheld until the maintainer reviews it. The OpenClaw project is MIT-licensed and states no separate mascot terms.",
-        "directories": []
-      },
-      "contract": {
-        "identityMarkers": ["red round body", "claw-like arms", "two antennae", "cyan pupils"],
-        "isolationMarkers": ["OpenClaw"]
-      }
-    },
-    {
       "id": "gopher",
       "name": "Go Gopher",
       "category": "mascot",
@@ -404,6 +357,53 @@
       "contract": {
         "identityMarkers": ["glossy black rounded penguin head and body", "yellow-orange beak", "white oval belly", "yellow-orange webbed feet"],
         "isolationMarkers": ["Tux", "Larry Ewing"]
+      }
+    },
+    {
+      "id": "openclaw",
+      "name": "OpenClaw",
+      "category": "mascot",
+      "status": "active",
+      "summary": "The OpenClaw mascot, a red round character with claw-like arms, two antennae, and cyan pupils, performing the idea in sparse hand-drawn article sketches.",
+      "aliases": ["OpenClaw", "OpenClaw logo", "OpenClaw mascot", "OpenClaw 助手", "OpenClaw 吉祥物"],
+      "outputSuffix": "openclaw",
+      "motionDna": {
+        "actor": "OpenClaw, the red logo mascot, as the active operator of the concept",
+        "signatureActions": ["grip", "sort", "bridge", "stamp", "untangle", "repair"],
+        "poses": [
+          "one claw grips the loose idea, thread, or key",
+          "both claw-like arms hold two parts together",
+          "the antennae lean and the cyan pupils point at the decisive object"
+        ],
+        "timing": "One decisive moment per image; mini comics use two or three beats with all six markers in every panel"
+      },
+      "styleSheet": {
+        "medium": "A sparse hand-drawn article sketch",
+        "canvas": "16:9 on a clean white or near-white background with generous whitespace",
+        "linework": "Loose black linework with visible hand-drawn looseness",
+        "palette": ["black", "red", "cyan"],
+        "avoid": [
+          "product posters, launch graphics, and logo showcases",
+          "UI screenshots, IDE or terminal scenes, and code screenshots",
+          "formal diagrams and PPT-like infographics",
+          "over-rendered toys or logo icons"
+        ]
+      },
+      "legalNotice": {
+        "credit": "The OpenClaw mascot comes from the OpenClaw project (https://github.com/openclaw/openclaw), MIT License, Copyright (c) 2026 OpenClaw Foundation, reviewed at commit c14793d",
+        "rightsHolder": "OpenClaw Foundation",
+        "license": "MIT",
+        "attributionTerms": ["OpenClaw Foundation", "https://github.com/openclaw/openclaw"],
+        "restrictions": ["No claims of official OpenClaw affiliation or endorsement.", "No product posters, UI screenshots, terminal scenes, or code screenshots."]
+      },
+      "sampleGates": {
+        "status": "pending",
+        "decision": "Not reviewed for InkExplain. The earlier gallery set was an unmodified copy of Visual IP Illustrations images first published 2026-06-17, so it is withheld until the maintainer reviews it. The OpenClaw project is MIT-licensed and states no separate mascot terms.",
+        "directories": []
+      },
+      "contract": {
+        "identityMarkers": ["red round body", "claw-like arms", "two antennae", "cyan pupils"],
+        "isolationMarkers": ["OpenClaw"]
       }
     }
   ]

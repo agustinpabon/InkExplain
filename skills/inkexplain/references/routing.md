@@ -25,9 +25,9 @@ An archetype fixes who performs the idea, how they move, and how the scene is dr
 | Stickman | `stickman` | `house-style` | `experimental` | `Stickman`, `stick man`, `stick figure`, `stick person`, `stickperson`, `Inkman`, `monigote`, `muñeco de palitos`, `figura de palitos`, `bonhomme allumette`, `Strichmännchen`, `boneco palito`, `火柴人`, `棒人間` | `assets/<article-slug>-stickman/` |
 | Xiaohei | `xiaohei` | `mascot` | `active` | `Xiaohei`, `小黑`, `Ian Xiaohei` | `assets/<article-slug>-xiaohei/` |
 | Ferris | `ferris` | `mascot` | `active` | `Ferris`, `Rust mascot`, `Rust crab`, `Rustacean`, `Rust 吉祥物`, `Rust 螃蟹` | `assets/<article-slug>-ferris/` |
-| OpenClaw | `openclaw` | `mascot` | `active` | `OpenClaw`, `OpenClaw logo`, `OpenClaw mascot`, `OpenClaw 助手`, `OpenClaw 吉祥物` | `assets/<article-slug>-openclaw/` |
 | Go Gopher | `gopher` | `mascot` | `active` | `Go Gopher`, `Gopher`, `golang gopher`, `Go mascot`, `Go 吉祥物`, `Gopher 吉祥物` | `assets/<article-slug>-gopher/` |
 | Tux | `tux` | `mascot` | `active` | `Tux`, `Linux Mascot`, `Linux`, `Linux penguin`, `Tux penguin` | `assets/<article-slug>-tux/` |
+| OpenClaw | `openclaw` | `mascot` | `active` | `OpenClaw`, `OpenClaw logo`, `OpenClaw mascot`, `OpenClaw 助手`, `OpenClaw 吉祥物` | `assets/<article-slug>-openclaw/` |
 
 ## Categories
 
@@ -114,21 +114,6 @@ Ferris the Rustacean, the Rust community crab, performing the idea in sparse han
   - No claims of official Rust project affiliation or endorsement.
 - Public samples: pending. Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, so they are withheld until the maintainer reviews them. Ferris is CC0, credited to Karen Rustad Tölva.
 
-### OpenClaw (`openclaw`)
-
-The OpenClaw mascot, a red round character with claw-like arms, two antennae, and cyan pupils, performing the idea in sparse hand-drawn article sketches.
-
-- Category: `mascot`. Status: `active`.
-- Load, in order: `references/archetypes/openclaw/rights.md`, `references/archetypes/openclaw/identity.md`, `references/archetypes/openclaw/style.md`, `references/archetypes/openclaw/motion-and-acting.md`, `references/archetypes/openclaw/prompts.md`
-- Output folder: `assets/<article-slug>-openclaw/`
-- Motion DNA: OpenClaw, the red logo mascot, as the active operator of the concept. Signature actions: grip, sort, bridge, stamp, untangle, repair. Poses: one claw grips the loose idea, thread, or key; both claw-like arms hold two parts together; the antennae lean and the cyan pupils point at the decisive object. Timing: One decisive moment per image; mini comics use two or three beats with all six markers in every panel.
-- Style sheet: A sparse hand-drawn article sketch. Canvas: 16:9 on a clean white or near-white background with generous whitespace. Linework: Loose black linework with visible hand-drawn looseness. Palette: black, red, cyan. Avoid: product posters, launch graphics, and logo showcases; UI screenshots, IDE or terminal scenes, and code screenshots; formal diagrams and PPT-like infographics; over-rendered toys or logo icons.
-- Credit: The OpenClaw mascot comes from the OpenClaw project (https://github.com/openclaw/openclaw), MIT License, Copyright (c) 2026 OpenClaw Foundation, reviewed at commit c14793d. Rights holder: OpenClaw Foundation. License: MIT.
-- Restrictions:
-  - No claims of official OpenClaw affiliation or endorsement.
-  - No product posters, UI screenshots, terminal scenes, or code screenshots.
-- Public samples: pending. Not reviewed for InkExplain. The earlier gallery set was an unmodified copy of Visual IP Illustrations images first published 2026-06-17, so it is withheld until the maintainer reviews it. The OpenClaw project is MIT-licensed and states no separate mascot terms.
-
 ### Go Gopher (`gopher`)
 
 The Go gopher designed by Renee French performing the idea in sparse hand-drawn article sketches, credited and free of Go logos or endorsement claims.
@@ -161,3 +146,18 @@ Tux, the Linux penguin created by Larry Ewing, performing the idea in sparse art
   - No product posters, CLI screenshots, web hero graphics, kernel dashboards, or operating-system marketing graphics.
 - Never selects: `penguin`, `server`, `kernel`, `distro`, `distro logo`, `Linux Foundation`, `operating system`, `CLI`, `terminal`, `brand campaign`, `mascot`
 - Public samples: pending. No public samples have been reviewed yet.
+
+### OpenClaw (`openclaw`)
+
+The OpenClaw mascot, a red round character with claw-like arms, two antennae, and cyan pupils, performing the idea in sparse hand-drawn article sketches.
+
+- Category: `mascot`. Status: `active`.
+- Load, in order: `references/archetypes/openclaw/rights.md`, `references/archetypes/openclaw/identity.md`, `references/archetypes/openclaw/style.md`, `references/archetypes/openclaw/motion-and-acting.md`, `references/archetypes/openclaw/prompts.md`
+- Output folder: `assets/<article-slug>-openclaw/`
+- Motion DNA: OpenClaw, the red logo mascot, as the active operator of the concept. Signature actions: grip, sort, bridge, stamp, untangle, repair. Poses: one claw grips the loose idea, thread, or key; both claw-like arms hold two parts together; the antennae lean and the cyan pupils point at the decisive object. Timing: One decisive moment per image; mini comics use two or three beats with all six markers in every panel.
+- Style sheet: A sparse hand-drawn article sketch. Canvas: 16:9 on a clean white or near-white background with generous whitespace. Linework: Loose black linework with visible hand-drawn looseness. Palette: black, red, cyan. Avoid: product posters, launch graphics, and logo showcases; UI screenshots, IDE or terminal scenes, and code screenshots; formal diagrams and PPT-like infographics; over-rendered toys or logo icons.
+- Credit: The OpenClaw mascot comes from the OpenClaw project (https://github.com/openclaw/openclaw), MIT License, Copyright (c) 2026 OpenClaw Foundation, reviewed at commit c14793d. Rights holder: OpenClaw Foundation. License: MIT.
+- Restrictions:
+  - No claims of official OpenClaw affiliation or endorsement.
+  - No product posters, UI screenshots, terminal scenes, or code screenshots.
+- Public samples: pending. Not reviewed for InkExplain. The earlier gallery set was an unmodified copy of Visual IP Illustrations images first published 2026-06-17, so it is withheld until the maintainer reviews it. The OpenClaw project is MIT-licensed and states no separate mascot terms.

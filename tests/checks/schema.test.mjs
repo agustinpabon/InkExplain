@@ -158,7 +158,7 @@ test("a new archetype needs only a registry entry, a pack, and regenerated docs"
   fixture.regenerateDocs();
   const failing = fixture.run({ only: ["SCHEMA", "LEGAL", "DOC-003"] }).filter((result) => result.status !== "pass");
   assert.deepEqual(failing.map((result) => `${result.id}\n${messages(result)}`), []);
-  assert.match(fixture.read("README.md"), /Paper Fox \(`paper-fox`\)/);
+  assert.match(fixture.read("README.md"), /^- \*\*Paper Fox\*\* · `experimental` · `paper-fox`<br>/m);
   assert.match(fixture.read("skills/inkexplain/references/routing.md"), /### Paper Fox \(`paper-fox`\)/);
 });
 
