@@ -62,8 +62,8 @@ workspace: assets/<article-slug>-<suffix>/     (the only place InkExplain writes
 | Scanner | SkillSpector at commit `240421219409dc0bafef9f618a10d80c2d7e83a3`, which reports itself as v2.12.0. It is a later commit than the one the `v2.12.0` tag points to, not the tagged release. |
 | Mode | Static analysis only (`--no-llm`). No file contents left the machine. |
 | Command | `skillspector scan skills/inkexplain/ --no-llm --fail-on-findings --fail-on-incomplete` |
-| Scanned | 2026-10-16, 53 files, 51 fully inspected, 2 binary images excluded |
-| Content | Git tree `988443f9b1cab70b0a36f6b2662146690de3353f`: the output of `git rev-parse HEAD:skills/inkexplain` for the commit that added this section |
+| Scanned | 2026-10-17, 53 files, 51 fully inspected, 2 binary images excluded |
+| Content | Git tree `783879b523885b2e61019c0013b02cd89e1f6bca`: the output of `git rev-parse HEAD:skills/inkexplain` for the commit that last updated this statement |
 
 This is the output of a scan InkExplain ran on itself. It is **not** an NVIDIA certification, endorsement, or "verified" status; NVIDIA's own verification is a separate publication process that this skill has not gone through. The pass applies to the tree above. The workflow re-runs the scan on every change and is the current source of truth.
 
