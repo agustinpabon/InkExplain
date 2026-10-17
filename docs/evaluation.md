@@ -61,7 +61,7 @@ The first matrix used Claude agents that were pointed at the installed skill. Th
 
 **Setup.** Codex CLI 0.160.0, logged in with a ChatGPT account, run headless (`codex exec`) once per request, each time in a fresh project folder, with the Windows sandbox on and the skill installed by the real skills CLI (the folder was compared byte for byte with `skills/inkexplain/`). The host's own skills were present: about fifty of the maintainer's, and Codex's `imagegen` system skill. No image generator was reachable ([reviewing real renders](visual-review.md#where-it-stands)), so every run is a prompt-mode run. The prompt files the agents wrote were checked with the repository's own `matchesTemplate`, every path a reply named was looked up, and every reply was read.
 
-About eighty sessions were run over several drafts of the skill text, and the earlier drafts showed what to fix. The table is the last draft, skill tree `e1fd59f`, run once per request: plain requests that do not name the skill, requests that do, and three that InkExplain must not take.
+About eighty sessions were run over several drafts of the skill text, and the earlier drafts showed what to fix. The table is the last draft, skill tree `e1fd59f`, run once per request: plain requests that do not name the skill, requests that do, and three that InkExplain must not take. The released skill differs from that tree only in the Go Gopher's rights-holder line (one registry field and its rights record), which none of these requests touched.
 
 | Request | Loaded InkExplain | What the agent did |
 |---|---|---|
