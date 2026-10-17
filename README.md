@@ -1,29 +1,24 @@
-<p align="center">
-  <img src="assets/brand/inkexplain-hero.svg" alt="InkExplain: ideas made visual. A tangle of scribbles passes through a hand-cranked funnel and comes out as a clear light-bulb sketch." width="100%">
-</p>
-
 # InkExplain
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![CI](https://github.com/agustinpabon/InkExplain/actions/workflows/ci.yml/badge.svg)](https://github.com/agustinpabon/InkExplain/actions/workflows/ci.yml)
-[![Security scan](https://github.com/agustinpabon/InkExplain/actions/workflows/security.yml/badge.svg)](SECURITY.md)
-[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22-brightgreen)](package.json)
 
 *Ideas made visual.*
 
 Turn complex ideas into beautiful, consistent hand-drawn illustrations with AI.
 
+InkExplain is a skill for AI agents. Give it an article, a document, some code, or one idea, and it plans the illustrations, writes a prompt for each one, and keeps the whole series in one style.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/agustinpabon/InkExplain/actions/workflows/ci.yml/badge.svg)](https://github.com/agustinpabon/InkExplain/actions/workflows/ci.yml)
+[![Security scan](https://github.com/agustinpabon/InkExplain/actions/workflows/security.yml/badge.svg)](SECURITY.md)
+
 <!-- inkexplain:languages:start -->
 **English** | [Español](./readmes/README.es.md) | [Português](./readmes/README.pt.md) | [Deutsch](./readmes/README.de.md) | [Français](./readmes/README.fr.md) | [简体中文](./readmes/README.zh.md) | [繁體中文](./readmes/README.zh-Hant.md) | [한국어](./readmes/README.ko.md) | [日本語](./readmes/README.ja.md) | [العربية](./readmes/README.ar.md) | [Русский](./readmes/README.ru.md) | [Türkçe](./readmes/README.tr.md) | [Українська](./readmes/README.uk.md)
 <!-- inkexplain:languages:end -->
-
-InkExplain is a skill for AI agents. Give it an article, a document, a piece of code, or a single idea. It finds the ideas worth drawing, turns each one into a physical action that a character performs, and writes a prompt for every image so that the whole series stays consistent. If your agent has an image tool, it also generates, reviews, and saves the images.
 
 | ![Xiaohei saws a source fish into an insight, a quote, and an example.](examples/gallery/en/xiaohei/03-one-fish-many-uses.png) | ![Xiaohei lays an evidence plank across the gap between a claim and trust.](examples/gallery/en/xiaohei/08-trust-bridge.png) | ![Xiaohei stands between two breakpoints in a pipe, between input and output.](examples/gallery/en/xiaohei/01-two-breakpoints.png) |
 |---|---|---|
 | **One fish, many uses** | **Trust bridge** | **Two breakpoints** |
 
-*Sample renders of Xiaohei, shown unmodified with their credits ([where each came from](docs/provenance.md)). Samples of the other characters, and of InkExplain's own styles, Sketch and Stickman, are published only after review.*
+*Sample renders of Xiaohei, shown unmodified with their credits ([where each came from](docs/provenance.md)). Samples of every other style, InkExplain Sketch, Littlebox, and Stickman included, are published only after a person has reviewed them.*
 
 ## Install
 
@@ -31,38 +26,39 @@ InkExplain is a skill for AI agents. Give it an article, a document, a piece of 
 npx skills add agustinpabon/InkExplain --skill inkexplain
 ```
 
-This uses the open [skills CLI](https://skills.sh) (Node.js 22.20 or newer). It detects your agent, such as Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, or Windsurf, and copies the skill into the folder that agent reads. Add `-g` to install it for all your projects, or `-a <agent>` to choose the agent. By default the CLI sends anonymous usage telemetry; set `DISABLE_TELEMETRY=1` to turn it off. InkExplain itself collects nothing.
-
-Without Node.js, copy the folder `skills/inkexplain/` into your agent's skills folder yourself; [Supported environments](#supported-environments) lists them.
+This uses the open [skills CLI](https://skills.sh) (Node.js 22.20 or newer) to copy the skill into the folder your agent reads. Add `-g` to install it for all your projects, or `-a <agent>` to choose the agent. The CLI sends anonymous install counts unless you set `DISABLE_TELEMETRY=1`; InkExplain itself collects nothing. Without Node.js, copy the folder `skills/inkexplain/` into your agent's skills folder yourself ([the folders](#supported-environments)).
 
 ## Use
 
-Ask for InkExplain by name, or describe the task and let your agent pick the skill up. In Claude Code run `/inkexplain`; in Codex use `$inkexplain`.
+Ask in plain words:
 
 ```text
-/inkexplain Illustrate this article with four images in the Littlebox style and save them in the project.
+Use InkExplain with Littlebox.
 
-<paste the article>
+Illustrate how database indexing makes queries faster.
+
+Generate 3 consistent illustrations.
 ```
 
-More prompts, for every character, mixed requests, prompt-only runs, and repairs, are in [examples/prompts.md](examples/prompts.md).
+You get a shot list and three illustrations in one style, saved with their prompts in `assets/<slug>-littlebox/`, or the three prompts alone when your agent cannot draw. In Claude Code you can also type `/inkexplain`, and in Codex start with `$inkexplain`. If your agent has an image skill of its own, name InkExplain in the request, as above, so that the request reaches it. More prompts, for every character, mixed requests, prompt-only runs, and repairs, are in [examples/prompts.md](examples/prompts.md).
 
-Without an image tool (Claude Code has none built in), InkExplain switches to **prompt mode**: a shot list and one ready-to-paste prompt per image, saved as `prompts.md` in your project. It never claims to have generated an image it did not.
+Installing the skill does not install an image generator. With an image tool in your agent, InkExplain generates, reviews, and saves the images. Without one (Claude Code has none built in), it switches to **prompt mode**: the shot list and one ready-to-paste prompt per image, saved as `prompts.md`, and a plain statement that nothing was generated.
 
 ## Supported environments
 
-| Agent | Skill folder in a project |
-|---|---|
-| Claude Code | `.claude/skills/inkexplain` |
-| Codex | `.agents/skills/inkexplain` |
-| Cursor | `.agents/skills/inkexplain`; Cursor also reads `.claude/skills/` and `.codex/skills/` |
-| Gemini CLI, GitHub Copilot, OpenCode | `.agents/skills/inkexplain` |
-| Windsurf | `.windsurf/skills/inkexplain` |
-| Other agents that read `SKILL.md` packages | their skills folder |
+The skills CLI places the skill in these folders. The last column is what has been run, not what should work.
 
-With `-g`, the CLI installs into the agent's personal folder instead (for example `~/.claude/skills/` for Claude Code and `~/.agents/skills/` for Codex).
+| Agent | Skill folder in a project | Checked |
+|---|---|---|
+| Claude Code | `.claude/skills/inkexplain` | placed by the CLI; listed by Claude Code; 15 prompt-mode requests run by Claude agents |
+| Codex | `.agents/skills/inkexplain` | placed; discovered; prompt mode in real Codex CLI sessions |
+| Gemini CLI | `.agents/skills/inkexplain` | placed; discovered (`gemini skills list`); no model run was possible |
+| Cursor | `.agents/skills/inkexplain`; Cursor also reads `.claude/skills/` and `.codex/skills/` | placed; not run |
+| GitHub Copilot, OpenCode | `.agents/skills/inkexplain` | placed; not run |
+| Windsurf | `.windsurf/skills/inkexplain` | placed; not run |
+| Other agents that read `SKILL.md` packages | their skills folder | not checked |
 
-What has been tested: the skills CLI places the skill correctly for each agent above, and Claude Code lists it. Fresh Claude Code agent sessions pointed at the installed skill followed it correctly on 15 requests, with no image tool, in prompt mode ([evaluation](docs/evaluation.md)). Not tested: whether a host picks the skill up from a plain request, running it inside Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, or Windsurf, and image generation with any image tool.
+With `-g`, the CLI installs into the agent's personal folder instead (for example `~/.claude/skills/` for Claude Code and `~/.agents/skills/` for Codex). Image generation has not been tried with any image tool, so nothing here shows an InkExplain render; [docs/evaluation.md](docs/evaluation.md) says what each run found and what it cannot show.
 
 ## What it does
 
@@ -72,6 +68,10 @@ What has been tested: the skills CLI places the skill correctly for each agent a
 4. **Write the prompts** from the archetype's own template, in a fixed order, and generate one image per tool call when your agent can.
 5. **Review and repair** every image against a shared checklist and the archetype's own: stray titles, misspelled labels, crowded scenes, off-model characters.
 6. **Save and report** to `assets/<article-slug>-…/` in your workspace, with a short delivery report.
+
+<p align="center">
+  <img src="assets/brand/inkexplain-hero.svg" alt="InkExplain: ideas made visual. A tangle of scribbles passes through a hand-cranked funnel and comes out as a clear light-bulb sketch." width="80%">
+</p>
 
 It suits technical articles, product and architecture explanations, workflows, comparisons, course material, and code. [docs/walkthroughs.md](docs/walkthroughs.md) follows four examples from a snippet to the finished prompt: a Rust deadlock drawn by Ferris, a Go channel by the Go Gopher, an async Python loop by Littlebox, and a binary search by Stickman. Modes, output conventions, and the command-line prompt helper are in [docs/usage.md](docs/usage.md).
 
@@ -124,10 +124,11 @@ One command writes the registry entry, the five-file pack, a credit, an example 
 
 ## Limitations
 
-- InkExplain ships no image model; image quality depends on the tool your agent uses, and no image tool was available while this release was prepared.
+- InkExplain ships no image model. Image quality depends on the tool your agent uses, and no tool that could generate images was available while this release was prepared, so no render of InkExplain Sketch, Littlebox, or Stickman has been made or reviewed.
 - Image models misspell labels, non-Latin scripts most of all. Keep labels short and review them.
-- InkExplain Sketch has no reviewed sample renders, and Stickman is `experimental`: its pack and reference sheet are complete, but no render has been reviewed, so each delivery says so. The gallery images are copies from the projects InkExplain builds on; none was generated for this project.
-- Third-party archetypes carry their owners' terms, and not every right is settled: [docs/provenance.md](docs/provenance.md) lists what is still open, and the Seal character, which was withdrawn because its rights could not be confirmed.
+- Stickman is `experimental`: its pack and reference sheet are complete, but no render has been reviewed, so each delivery says so. The gallery images are copies from the projects InkExplain builds on; none was generated for this project.
+- Some agents send a generic image request ("create four illustrations") to an image skill of their own. Name InkExplain in the request to be sure.
+- Third-party archetypes carry their owners' terms, and not every right is settled: [docs/provenance.md](docs/provenance.md) lists what is still open.
 - The README translations were produced with AI assistance, have not been reviewed by professional translators, and follow an earlier layout of this page, so they may lag behind it. Generated tables keep registry data in English.
 
 ## Documentation
