@@ -4,13 +4,15 @@ The checks in this repository read prompts and packs. They cannot tell whether a
 
 ## Where it stands
 
-No render of InkExplain Sketch, of Littlebox on its pure white default, or of Stickman has been made or reviewed. On 2026-10-17 every image route reachable from the machine this release was prepared on was tried, and none can turn a prompt into an image:
+No render of InkExplain Sketch, of Littlebox on its pure white default, or of Stickman has been made or reviewed. On 2026-10-17 these routes were tried on the machine this release was prepared on, and none can turn a prompt into an image:
 
 - Claude Code has no image tool.
 - Codex CLI 0.160.0 shows an image-display helper in `exec` mode, but no generator: the default model and three others reported none, and when it was asked to draw it wrote SVG code instead. SVG code is not an InkExplain render and was never offered as one.
 - Gemini CLI could not authenticate (it was refused with "This client is no longer supported for Gemini Code Assist for individuals"), and no image-provider credential is configured on the machine.
 
-The prompts these archetypes assemble are well-formed and match their packs (the tests check that, and the nine prompts ready for this review were checked again against the current templates). That is all that has been verified. Stickman stays `experimental` until this review passes, and the repository publishes samples only for an archetype whose `sampleGates` records a real review ([provenance](provenance.md#samples-withheld-pending-review)).
+Two routes were not tried: connectors that need the maintainer's own sign-in, and local image generation.
+
+The prompts these archetypes assemble are well-formed and match their packs (the tests check that). That is all that has been verified. Stickman stays `experimental` until this review passes, and the repository publishes samples only for an archetype whose `sampleGates` is `approved` with a named reviewer and a date ([provenance](provenance.md#samples-withheld-pending-review)).
 
 | Archetype | Page | Status of the review |
 |---|---|---|
@@ -39,7 +41,7 @@ Every archetype draws the same three ideas, so the three archetypes can be compa
 This tests the whole path: routing, planning, prompt, generation, and the skill's own review. Install the skill, make sure the agent can call its image tool, and give it one request per archetype:
 
 ```text
-Make three images for these ideas, one image each, labels in English, saved in assets/visual-review-sketch/: (1) A queue of requests waits while one worker handles them one at a time. (2) Two teams hand a draft over, and the context gets lost on the way. (3) A cache keeps copies close, so the slow source is asked less often.
+Make three images for these ideas, one image each, labels in English, saved in assets/visual-review-illustrations/: (1) A queue of requests waits while one worker handles them one at a time. (2) Two teams hand a draft over, and the context gets lost on the way. (3) A cache keeps copies close, so the slow source is asked less often.
 ```
 
 ```text

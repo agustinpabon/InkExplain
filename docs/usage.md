@@ -11,6 +11,8 @@ How to ask for what you want, what comes back, and the command-line helper. The 
 | Cursor | type `/` in Agent chat and pick `inkexplain` |
 | Other agents | ask for InkExplain by name, or describe the task; the agent loads the skill when the request matches its description |
 
+Only Codex has been run for this release (below, and [the evaluation](evaluation.md#real-hosts-2026-10-17)); the other rows follow each agent's own convention for skills and have not been tried.
+
 If your agent has an image skill of its own, say which one you mean. In Codex, requests about an article, a document, or a named character reached InkExplain without being asked, while a one-off "generate an illustration of X" and a repair of an existing image sometimes went to Codex's own image skill instead ([evaluation](evaluation.md#real-hosts-2026-10-17)). Name InkExplain, or start with `$inkexplain`, when it matters.
 
 ## Modes
@@ -24,7 +26,7 @@ InkExplain picks a mode from your request first and from what the agent can do s
 | Generate | you want images and the agent has an image-generation tool | reviewed images saved in your project |
 | Edit | you supply an image to fix | the repaired image, or a repair prompt when the tool cannot edit |
 
-InkExplain ships no image model. It never claims to have generated or reviewed an image it did not.
+InkExplain ships no image model. Its instructions tell the agent never to claim an image it did not generate or review, and to say so when nothing was generated. An agent can still ignore them: [the evaluation](evaluation.md#real-hosts-2026-10-17) records what real runs did.
 
 ## Ask for what you want
 

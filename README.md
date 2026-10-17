@@ -18,7 +18,7 @@ InkExplain is a skill for AI agents. Give it an article, a document, some code, 
 |---|---|---|
 | **One fish, many uses** | **Trust bridge** | **Two breakpoints** |
 
-*Sample renders of Xiaohei, shown unmodified with their credits ([where each came from](docs/provenance.md)). Samples of every other style, InkExplain Sketch, Littlebox, and Stickman included, are published only after a person has reviewed them.*
+*Sample renders of Xiaohei, unmodified copies from the projects InkExplain builds on, shown with their credits ([where each came from](docs/provenance.md)). The other characters, InkExplain Sketch, Littlebox, and Stickman included, have no published samples yet.*
 
 ## Install
 
@@ -42,7 +42,7 @@ Generate 3 consistent illustrations.
 
 You get a shot list and three illustrations in one style, saved with their prompts in `assets/<slug>-littlebox/`, or the three prompts alone when your agent cannot draw. In Claude Code you can also type `/inkexplain`, and in Codex start with `$inkexplain`. If your agent has an image skill of its own, name InkExplain in the request, as above, so that the request reaches it. More prompts, for every character, mixed requests, prompt-only runs, and repairs, are in [examples/prompts.md](examples/prompts.md).
 
-Installing the skill does not install an image generator. With an image tool in your agent, InkExplain generates, reviews, and saves the images. Without one (Claude Code has none built in), it switches to **prompt mode**: the shot list and one ready-to-paste prompt per image, saved as `prompts.md`, and a plain statement that nothing was generated.
+Installing the skill does not install an image generator. With an image tool in your agent, InkExplain is written to generate, review, and save the images, but no image tool was available while this release was prepared, so that path was not run ([Limitations](#limitations)). Without one (Claude Code has none built in), it switches to **prompt mode**: the shot list and one ready-to-paste prompt per image, saved as `prompts.md`, and a plain statement that nothing was generated.
 
 ## Supported environments
 
@@ -50,7 +50,7 @@ The skills CLI places the skill in these folders. The last column is what has be
 
 | Agent | Skill folder in a project | Checked |
 |---|---|---|
-| Claude Code | `.claude/skills/inkexplain` | placed by the CLI; listed by Claude Code; 15 prompt-mode requests run by Claude agents |
+| Claude Code | `.claude/skills/inkexplain` | placed by the CLI; not run inside Claude Code (15 requests were answered by Claude agents told to follow the installed files) |
 | Codex | `.agents/skills/inkexplain` | placed; discovered; prompt mode in real Codex CLI sessions |
 | Gemini CLI | `.agents/skills/inkexplain` | placed; discovered (`gemini skills list`); no model run was possible |
 | Cursor | `.agents/skills/inkexplain`; Cursor also reads `.claude/skills/` and `.codex/skills/` | placed; not run |
@@ -58,7 +58,7 @@ The skills CLI places the skill in these folders. The last column is what has be
 | Windsurf | `.windsurf/skills/inkexplain` | placed; not run |
 | Other agents that read `SKILL.md` packages | their skills folder | not checked |
 
-With `-g`, the CLI installs into the agent's personal folder instead (for example `~/.claude/skills/` for Claude Code and `~/.agents/skills/` for Codex). Image generation has not been tried with any image tool, so nothing here shows an InkExplain render; [docs/evaluation.md](docs/evaluation.md) says what each run found and what it cannot show.
+With `-g`, the CLI installs into the agent's personal folder instead (for example `~/.claude/skills/` for Claude Code and `~/.agents/skills/` for Codex). No image tool was available while this release was prepared, so nothing here shows an InkExplain render; [docs/evaluation.md](docs/evaluation.md) says what each run found and what it cannot show.
 
 ## What it does
 
@@ -96,7 +96,7 @@ An archetype fixes who performs the idea, how they move, and how the scene is dr
 
 ## Example gallery
 
-Sample renders of Xiaohei, shown unmodified. Samples of the other characters are published only after they have been reviewed.
+Sample renders of Xiaohei, shown unmodified. The other characters have no published samples yet.
 
 | Sort by purpose | Handoff path | Idea press |
 |---|---|---|
