@@ -1,6 +1,6 @@
 # Evaluation
 
-What was run against InkExplain before this release, what it showed, and what it cannot show. Everything here was run on 2026-10-16. Nothing in it involved an image model: none was available.
+What was run against InkExplain before this release, what it showed, and what it cannot show. The request matrix below was run on 2026-10-16 with Claude agents, and the real-host runs after it ([Real hosts, 2026-10-17](#real-hosts-2026-10-17)) with Codex CLI. Nothing in either involved an image model: none was reachable.
 
 ## What was tested
 
@@ -55,6 +55,44 @@ Each agent was asked to report anything unclear, missing, or contradictory. Most
 
 Left as they are, on purpose: the rights note appears in the plan, in each prompt, and in the report, because a prompt can be pasted away from its plan; and the label list's square brackets may stay or go.
 
+## Real hosts, 2026-10-17
+
+The first matrix used Claude agents that were pointed at the installed skill. This section is a real host choosing for itself.
+
+**Setup.** Codex CLI 0.160.0, logged in with a ChatGPT account, run headless (`codex exec`) once per request, each time in a fresh project folder, with the Windows sandbox on and the skill installed by the real skills CLI (the folder was compared byte for byte with `skills/inkexplain/`). The host's own skills were present: about fifty of the maintainer's, and Codex's `imagegen` system skill. No image generator was reachable ([reviewing real renders](visual-review.md#where-it-stands)), so every run is a prompt-mode run. The prompt files the agents wrote were checked with the repository's own `matchesTemplate`, every path a reply named was looked up, and every reply was read.
+
+About eighty sessions were run over several drafts of the skill text, and the earlier drafts showed what to fix. The table is the last draft, skill tree `e1fd59f`, run once per request: plain requests that do not name the skill, requests that do, and three that InkExplain must not take.
+
+| Request | Loaded InkExplain | What the agent did |
+|---|---|---|
+| "Illustrate the article in article.md with hand-drawn images." | yes, from a plain request | saved three Sketch prompts (the default); one matches its template, two rewrote the end of the Actor sentence; said nothing was generated |
+| "Use Littlebox to explain this concept: a message queue lets a fast producer hand work to a slow consumer." | yes | saved one prompt on `#FFFFFF` with the rights note, matching its template; said nothing was generated |
+| "Use Stickman to explain the algorithm in algo.py." | yes | saved three prompts, each matching its template; flagged Stickman as experimental in the reply and the file |
+| "Create four consistent illustrations for the document in doc.md." | yes, from a plain request | saved four prompts, all matching their template |
+| "Generate an illustration of how a hash map finds a value by key." | **no**: Codex's own image skill | wrote a hand-coded SVG file; not InkExplain's behavior |
+| "Use InkExplain with Mr. Whiskers the cat to illustrate how DNS resolves a name." | yes | asked whether to use the default Sketch style, and saved nothing |
+| "Fix this generated image while keeping the same character: the label Breakpoint 1 should read Stage 1." | **no**: Codex's own image skill | repainted the label with code; not InkExplain's behavior |
+| "Use InkExplain with Littlebox. Illustrate how database indexing makes queries faster. Generate 3 consistent illustrations." (the README's example) | yes | saved three prompts on `#FFFFFF`, all matching their template; said nothing was generated |
+| `$inkexplain` and the four-document request | yes | saved four prompts, all matching their template |
+| `$inkexplain` and the hash-map request | yes | saved one prompt, matching its template |
+| `$inkexplain` and the label fix | yes | said that no image editing tool was available and saved the repair prompt, not an edited image |
+| "Design a logo for my startup." | no | the host wrote an SVG logo |
+| "Make a photorealistic image of a mountain lake at sunset." | no | the host's image skill said its generator was unavailable |
+| "Create a bar chart of last quarter revenue from sales.csv." | no | the host answered from the file |
+
+Across the seven runs that saved prompts, 17 of the 19 prompts are faithful instances of their template. Every path a reply named exists. Every prompt-mode reply said that nothing was generated. The two requests InkExplain did not get (the one-off picture and the plain label fix) went to the host's own image skill, which is why the README and the usage guide say to name InkExplain.
+
+**What the runs found, and what changed.**
+
+- **A reply said a file was saved when the write had failed.** Twice, an agent wrote `prompts.md` through a shell here-string that failed (exit code 1, no output) and reported the path anyway, with the prompt described in one sentence. `SKILL.md` now says to list the folder before giving a path, and `delivery.md` says to use the host's file-editing tool, to put the prompts in the reply, and to say so when a write fails. In the last run no reply named a path that did not exist. One earlier run still saved `explainer''s` for `explainer's`: a shell escape that leaked into the text.
+- **An agent drew in place of an image tool.** With InkExplain loaded, one agent wrote ASCII diagrams in its reply instead of prompts, and another repainted a label with code, in a typeface that does not match the hand-drawn lettering. Without it, the host's own skill hand-coded SVG files instead of making images. `SKILL.md` now says that the host is not the image tool, and that an edit comes from an image tool or is a repair prompt.
+- **Fixed words were paraphrased.** For every archetype tried, an agent rewrote a fixed phrase around the action field or the sentence after a field. In the runs that were measured, the Character, Color, Constraints, Labels, and rights-note paragraphs matched their template every time, and Style did apart from the escaped apostrophe above; only the Structure, Composition, Action, and Actor sentences moved. `prompt-assembly.md` now carries a concrete example of the mistake. The match rate of one and the same text swung from 4 of 16 prompts in one set of runs to 17 of 19 in the next, so the rule helps and does not guarantee.
+- **Routing.** "Create four consistent illustrations for the document" never loaded InkExplain with the first description (two runs) and loaded it in all five runs with the new one. A variant of the description that told the host to prefer InkExplain over generic image skills made the agent skip the question for an unknown character in the one run tried, so it was not adopted.
+
+**What these runs cannot show.** One host, one model, fourteen requests, and runs that vary a great deal: the same request sometimes loads the skill and sometimes does not. They say nothing about how the images look, because none was made.
+
+**Other hosts.** `gemini skills list` shows `inkexplain` with its description among 52 skills, for a project that has the skill in `.agents/skills/`. Gemini CLI then could not run a model turn: its sign-in was refused with "This client is no longer supported for Gemini Code Assist for individuals", so nothing was asked of it. The installer placed the skill byte for byte in the folder documented for each of Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, and Windsurf. Nobody has run the skill inside Cursor, GitHub Copilot, OpenCode, or Windsurf.
+
 ## Does the description load the skill for the right requests?
 
 A host decides whether to load a skill from its name and description alone, so the description was tried apart from the runs above. One fresh agent, shown InkExplain's description beside eight invented neighbors (pdf, docx, pptx, frontend-design, canvas-design, diagram, imagegen, data-viz), was asked which single skill it would load first for each of twenty requests. It chose InkExplain for all ten requests below that it should handle, and for none of the ten that it should not. It called a few close: a repair against an image editor, prompts only against an image generator, and a sketchy process explanation against a diagram tool.
@@ -74,11 +112,13 @@ A host decides whether to load a skill from its name and description alone, so t
 
 One model, one sitting, and neighbors I made up make this weak evidence, and it simulates a host's choice without being one. It is a regression list: run it in your own host, with your own installed skills, whenever the description changes.
 
+The description changed on 2026-10-17, after real Codex runs showed the old one losing a request about a document to the host's own image skill (see below). The list was run again on the new description, with 24 requests: the first 20 above, and four that matter most to the change. The chooser was one fresh Claude agent, shown the new description beside eight neighbors, one of them Codex's real `imagegen` description. It chose InkExplain for all 12 requests it should handle and for "generate an illustration of how a hash map finds a value by key", which is arguable, and for none of the 11 it should not handle: the revenue chart, the logo, the photorealistic lake, the Mermaid diagram, the UI mockup, the PDF summary, the CEO portrait, the draw.io diagram, the slide deck, the React bug, and a pixel-art sprite sheet. It named eight close calls: the logo, the mockup, and the portrait (which skill among the design ones), and the cache idea, the label repair, the hash-map picture, the cartoon retry logic, and the stick-figure algorithm (InkExplain against `imagegen` or a diagram tool). It is one model in one sitting, and this is the weak evidence it was before.
+
 ## What this does not show
 
-- **No image was rendered.** The skill's prompts are well-formed and faithful to their packs; whether an image model draws Stickman's single figure consistently, keeps Littlebox's body white on a white page, or leaves the rights note's words out of the picture (every third-party prompt carries it, with a line saying not to draw it) is untested. The Littlebox gallery images predate the white default, and no Sketch or Stickman render has been reviewed.
-- **No host picked the skill up from a plain request.** The agents in the matrix were pointed at the installed skill, and the description test above is a simulation. Whether Claude Code, Codex, or Cursor loads InkExplain by itself for a request like "illustrate this post" is untested.
-- **Only Claude Code was a host.** The installer places the skill correctly for Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, and Windsurf (each installed into an empty folder and compared byte for byte with `skills/inkexplain/`), but the skill was run inside none of the others.
+- **No image was rendered.** The skill's prompts are well-formed and faithful to their packs; whether an image model draws Stickman's single figure consistently, keeps Littlebox's body white on a white page, or leaves the rights note's words out of the picture (every third-party prompt carries it, with a line saying not to draw it) is untested. No render of Sketch, of Littlebox on its white default, or of Stickman exists, and the earlier Littlebox gallery images, which predate the white default, are withheld.
+- **One real host, one model, few runs per request.** Codex CLI picked the skill up by itself for requests about an article, a document, or a named character, and not always for a one-off "generate an illustration of X" or for an image repair. The same request sometimes loaded the skill and sometimes did not, so the table below reports what happened, not a rate. Whether Claude Code or Cursor loads InkExplain by itself for a request like "illustrate this post" is untested: the Claude agents of the first matrix were pointed at the installed skill.
+- **The other hosts.** The installer places the skill correctly for Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, and Windsurf (each installed into an empty folder and compared byte for byte with `skills/inkexplain/`, again on 2026-10-17). Gemini CLI lists the skill, but could not run a model turn. Nobody has run the skill inside Cursor, GitHub Copilot, OpenCode, or Windsurf.
 - **The anonymous install is unverified.** `npx skills add agustinpabon/InkExplain --skill inkexplain` works with a GitHub login and fails for anyone else, with "For private repos, ensure you have access", while the repository is private. Run it without a login the day the repository is public.
 
 ## Before promoting Stickman

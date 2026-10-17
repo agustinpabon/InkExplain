@@ -8,7 +8,7 @@ No render of InkExplain Sketch, of Littlebox on its pure white default, or of St
 
 - Claude Code has no image tool.
 - Codex CLI 0.160.0 shows an image-display helper in `exec` mode, but no generator: the default model and three others reported none, and when it was asked to draw it wrote SVG code instead. SVG code is not an InkExplain render and was never offered as one.
-- Gemini CLI could not authenticate (its free tier is retired), and no image-provider credential is configured on the machine.
+- Gemini CLI could not authenticate (it was refused with "This client is no longer supported for Gemini Code Assist for individuals"), and no image-provider credential is configured on the machine.
 
 The prompts these archetypes assemble are well-formed and match their packs (the tests check that, and the nine prompts ready for this review were checked again against the current templates). That is all that has been verified. Stickman stays `experimental` until this review passes, and the repository publishes samples only for an archetype whose `sampleGates` records a real review ([provenance](provenance.md#samples-withheld-pending-review)).
 
