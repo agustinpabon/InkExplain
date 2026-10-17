@@ -14,7 +14,7 @@ Read the whole list of tools you can call right now: built-in tools and every `m
 
 These do not count as an image tool: a skill file by itself, a missing API key, a display helper (`view_image`, `generatedImage`), and drawing code (SVG, HTML, CSS, canvas, a screenshot, a diagram). An absent key never means an absent tool: Codex's built-in tool needs none. If, after reading every name, none generates images, you do not have one. If one does, call it: do not choose Prompt mode first.
 
-Claude Code and Gemini CLI have no built-in generator. If the user connected one, it is in your tool list; otherwise use Prompt mode.
+Claude Code and Gemini CLI have no built-in generator. If the user connected one, it is in your tool list; otherwise use Prompt mode. When you fall back to Prompt mode for lack of a tool, say it in one plain sentence and name the shortest way out: use an agent that has an image tool (Codex, Cursor Agent), or connect an image tool you already use. Do not explain providers, keys, or MCP unless asked, and do not set anything up yourself.
 
 ## Call it
 

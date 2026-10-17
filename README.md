@@ -4,7 +4,7 @@
 
 Turn complex ideas into beautiful, consistent hand-drawn illustrations with AI.
 
-InkExplain is a skill for AI agents. Give it an article, a document, some code, or one idea, and it plans the illustrations, writes a prompt for each one, and keeps the whole series in one style.
+InkExplain is a skill for AI agents. Give it an article, a document, some code, or one idea, and it plans the illustrations, writes a prompt for each one, and keeps the whole series in one style. It uses the image tool your agent already has: no API key, no extra account.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![CI](https://github.com/agustinpabon/InkExplain/actions/workflows/ci.yml/badge.svg)](https://github.com/agustinpabon/InkExplain/actions/workflows/ci.yml)
@@ -14,11 +14,11 @@ InkExplain is a skill for AI agents. Give it an article, a document, some code, 
 **English** | [Español](./readmes/README.es.md) | [Português](./readmes/README.pt.md) | [Deutsch](./readmes/README.de.md) | [Français](./readmes/README.fr.md) | [简体中文](./readmes/README.zh.md) | [繁體中文](./readmes/README.zh-Hant.md) | [한국어](./readmes/README.ko.md) | [日本語](./readmes/README.ja.md) | [العربية](./readmes/README.ar.md) | [Русский](./readmes/README.ru.md) | [Türkçe](./readmes/README.tr.md) | [Українська](./readmes/README.uk.md)
 <!-- inkexplain:languages:end -->
 
-| ![Xiaohei saws a source fish into an insight, a quote, and an example.](examples/gallery/en/xiaohei/03-one-fish-many-uses.png) | ![Xiaohei lays an evidence plank across the gap between a claim and trust.](examples/gallery/en/xiaohei/08-trust-bridge.png) | ![Xiaohei stands between two breakpoints in a pipe, between input and output.](examples/gallery/en/xiaohei/01-two-breakpoints.png) |
-|---|---|---|
-| **One fish, many uses** | **Trust bridge** | **Two breakpoints** |
+| ![Littlebox, a closed paper box with amber tape, holds up an index card and pulls the matching record out of a tall stack.](assets/examples/littlebox-database-index.png) | ![Xiaohei pulls a matching record out of a stack along an orange line from an index card.](assets/examples/xiaohei-database-index.png) |
+|---|---|
+| **Littlebox** explains a database index | **Xiaohei** explains the same idea |
 
-*Sample renders of Xiaohei, unmodified copies from the projects InkExplain builds on, shown with their credits ([where each came from](docs/provenance.md)). The other characters, InkExplain Sketch, Littlebox, and Stickman included, have no published samples yet.*
+*Both made from the request "Illustrate how database indexing makes queries faster", with InkExplain and Codex Desktop's built-in image tool, one image each, on 2026-10-17. They are first tries, not scored with the [review protocol](docs/visual-review.md). Both characters are by others and credited in [ATTRIBUTIONS.md](ATTRIBUTIONS.md).*
 
 ## Install
 
@@ -42,23 +42,23 @@ Generate 3 consistent illustrations.
 
 You get a shot list and three illustrations in one style, saved with their prompts in `assets/<slug>-littlebox/`, or the three prompts alone when your agent cannot draw. In Claude Code you can also type `/inkexplain`, and in Codex start with `$inkexplain`. If your agent has an image skill of its own, name InkExplain in the request, as above, so that the request reaches it. More prompts, for every character, mixed requests, prompt-only runs, and repairs, are in [examples/prompts.md](examples/prompts.md).
 
-Installing the skill does not install an image generator. It needs no API key of its own: it calls the image tool your agent already has, one image per call, and saves each image in your project. That is Codex's built-in `image_gen` (through its `$imagegen` skill), the Agent's `GenerateImage` in Cursor, or an image tool you connected yourself. No real generator was available while this release was prepared, so that last step was tested only against a stand-in tool and has not produced an InkExplain render ([Limitations](#limitations), [which host can generate](docs/usage.md#image-generation-by-host)). Without a callable image tool (Claude Code and Gemini CLI have none built in), it switches to **prompt mode**: the shot list and one ready-to-paste prompt per image, saved as `prompts.md`, and a plain statement that nothing was generated.
+Installing the skill does not install an image generator. It needs no API key of its own: it calls the image tool your agent already has, one image per call, and saves each image in your project. That is Codex's built-in `image_gen` (through its `$imagegen` skill), the Agent's `GenerateImage` in Cursor, or an image tool you connected yourself. The maintainer confirmed real generation in Codex Desktop (the two images above); [which host can generate](docs/usage.md#image-generation-by-host) lists the rest. Without a callable image tool (Claude Code and Gemini CLI have none built in), it switches to **prompt mode**: the shot list and one ready-to-paste prompt per image, saved as `prompts.md`, and a plain statement that nothing was generated.
 
 ## Supported environments
 
-The skills CLI places the skill in these folders. The last column is what has been run, not what should work.
+The skills CLI places the skill in these folders. The last column is what has been seen, not what should work.
 
-| Agent | Skill folder in a project | Checked |
+| Agent | Skill folder in a project | Generates images? |
 |---|---|---|
-| Claude Code | `.claude/skills/inkexplain` | placed by the CLI; not run inside Claude Code (15 requests were answered by Claude agents told to follow the installed files) |
-| Codex | `.agents/skills/inkexplain` | placed; discovered; prompt mode in real Codex CLI sessions |
-| Gemini CLI | `.agents/skills/inkexplain` | placed; discovered (`gemini skills list`); no model run was possible |
-| Cursor | `.agents/skills/inkexplain`; Cursor also reads `.claude/skills/` and `.codex/skills/` | placed; not run |
-| GitHub Copilot, OpenCode | `.agents/skills/inkexplain` | placed; not run |
-| Windsurf | `.windsurf/skills/inkexplain` | placed; not run |
-| Other agents that read `SKILL.md` packages | their skills folder | not checked |
+| Codex Desktop | `.agents/skills/inkexplain` | **Yes, confirmed:** built-in `image_gen`, no API key (Littlebox and Xiaohei above) |
+| Codex CLI | `.agents/skills/inkexplain` | The skill runs and writes prompts; `codex exec` here exposed no `image_gen`, so generation was not seen there |
+| Cursor | `.agents/skills/inkexplain` (also reads `.claude/skills/`) | Has an Agent `GenerateImage` tool (Cursor 2.4+); **not tested** |
+| Claude Code | `.claude/skills/inkexplain` | **No built-in generator.** Prompts, or connect an image tool (MCP) you already use |
+| Gemini CLI | `.agents/skills/inkexplain` | **No built-in generator.** Prompts, or add an image extension, which needs its own API key |
+| GitHub Copilot, OpenCode, Windsurf, others | their skills folder | Placed by the CLI; not run |
 
-With `-g`, the CLI installs into the agent's personal folder instead (for example `~/.claude/skills/` for Claude Code and `~/.agents/skills/` for Codex). No image tool was available while this release was prepared, so nothing here shows an InkExplain render; [docs/evaluation.md](docs/evaluation.md) says what each run found and what it cannot show.
+"Not tested" means exactly that. Without a callable image tool InkExplain gives you the shot list and ready-to-paste prompts and says nothing was generated; it never draws the image itself and never switches to a paid API on its own.
+With `-g`, the CLI installs into the agent's personal folder instead (for example `~/.claude/skills/` for Claude Code and `~/.agents/skills/` for Codex). [docs/evaluation.md](docs/evaluation.md) says what each run found and what it cannot show.
 
 ## What it does
 
@@ -108,7 +108,7 @@ Xiaohei is Ian's character from Ian Xiaohei Illustrations (MIT). The English-lab
 
 Open the [interactive gallery](examples/gallery/index.html) in a browser to see every archetype with its motion rules, style, rights, and approved renders, to filter by category and technique, and to assemble a prompt for your own idea with one-click copy. It is a single file that works from a checkout with no server and no network.
 
-Stickman is InkExplain's own character. Its reference sheet below is hand-built vector art, not an AI render; no render of Stickman has been reviewed yet.
+Stickman is InkExplain's own character. Its reference sheet below is hand-built vector art, not an AI render; no render of Stickman exists yet.
 
 <p align="center">
   <img src="skills/inkexplain/references/archetypes/stickman/pose-sheet.png" alt="Stickman reference sheet: the same stick figure in eight poses (carry, pull, push, point, weigh, bridge, stack, shrug) and five brow expressions." width="70%">
@@ -124,7 +124,7 @@ One command writes the registry entry, the five-file pack, a credit, an example 
 
 ## Limitations
 
-- InkExplain ships no image model. Image quality depends on the tool your agent uses, and no tool that could generate images was available while this release was prepared, so no render of InkExplain Sketch, Littlebox, or Stickman has been made or reviewed.
+- InkExplain ships no image model. Image quality depends on the tool your agent uses, and real renders exist only for Littlebox and Xiaohei (one image each, from Codex Desktop, not yet scored with the review protocol). None exists for InkExplain Sketch or Stickman.
 - Image models misspell labels, non-Latin scripts most of all. Keep labels short and review them.
 - Stickman is `experimental`: its pack and reference sheet are complete, but no render has been reviewed, so each delivery says so. The gallery images are copies from the projects InkExplain builds on; none was generated for this project.
 - Some agents send a generic image request ("create four illustrations") to an image skill of their own. Name InkExplain in the request to be sure.

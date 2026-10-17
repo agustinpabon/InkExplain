@@ -28,6 +28,7 @@ export const PATHS = Object.freeze({
   galleryProvenance: "examples/gallery/provenance.json",
   provenanceDoc: "docs/provenance.md",
   brandDir: "assets/brand",
+  showcaseDir: "assets/examples",
   languagePolicy: "docs/language-policy.md",
   locales: "readmes/locales.json",
   localizedReadmeDir: "readmes",

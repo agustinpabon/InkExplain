@@ -4,7 +4,7 @@ The checks in this repository read prompts and packs. They cannot tell whether a
 
 ## Where it stands
 
-No render of InkExplain Sketch, of Littlebox on its pure white default, or of Stickman has been made or reviewed. On 2026-10-17 these routes were tried on the machine this release was prepared on, and none can turn a prompt into an image:
+Two real renders exist: Littlebox on its pure white default and Xiaohei, one image each, made in Codex Desktop on 2026-10-17 from "Illustrate how database indexing makes queries faster" (shown in the README). Neither has been scored with this protocol, and none exists for InkExplain Sketch or Stickman. The maintainer's machine for CLI work had no way to render: on 2026-10-17 these routes were tried there, and none can turn a prompt into an image:
 
 - Claude Code has no image tool.
 - Codex CLI 0.160.0 shows an image-display helper in `exec` mode, but no generator: the default model and three others reported none, and when it was asked to draw it wrote SVG code instead. SVG code is not an InkExplain render and was never offered as one.

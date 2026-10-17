@@ -20,6 +20,7 @@ export function classifyImage(file) {
   if (calibration) return { kind: "calibration", archetypeId: calibration[1], directory: path.posix.dirname(file) };
   if (file.startsWith(`${PATHS.archetypesDir}/`)) return { kind: "archetype-reference" };
   if (file.startsWith(`${PATHS.brandDir}/`)) return { kind: "brand" };
+  if (file.startsWith(`${PATHS.showcaseDir}/`)) return { kind: "showcase" };
   return { kind: "other" };
 }
 
@@ -57,7 +58,7 @@ export const assetChecks = [
       const issues = [];
       for (const file of imageFiles(repo)) {
         const place = classifyImage(file);
-        if (place.kind === "archetype-reference" || place.kind === "brand") continue;
+        if (place.kind === "archetype-reference" || place.kind === "brand" || place.kind === "showcase") continue;
         if (place.kind === "other") {
           issues.push({ path: file, message: `images belong in ${PATHS.galleryDir}/, the package assets, an archetype pack, or ${PATHS.brandDir}/` });
           continue;
