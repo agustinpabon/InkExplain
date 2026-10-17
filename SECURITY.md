@@ -62,8 +62,8 @@ workspace: assets/<article-slug>-<suffix>/     (the only place InkExplain writes
 | Scanner | SkillSpector at commit `240421219409dc0bafef9f618a10d80c2d7e83a3`, which reports itself as v2.12.0. It is a later commit than the one the `v2.12.0` tag points to, not the tagged release. |
 | Mode | Static analysis only (`--no-llm`). No file contents left the machine. |
 | Command | `skillspector scan skills/inkexplain/ --no-llm --fail-on-findings --fail-on-incomplete` |
-| Scanned | 2026-10-17, 53 files, 51 fully inspected, 2 binary images excluded |
-| Content | Git tree `618523da3dea426d85f32c9d9e479f8bfa39e63d`: the output of `git rev-parse HEAD:skills/inkexplain` for the commit that last updated this statement |
+| Scanned | 2026-10-17, 54 files, 52 fully inspected, 2 binary images excluded |
+| Content | Git tree `e9d17b66e2f9de2c733062ce62d2b234dff2faaa`: the output of `git rev-parse HEAD:skills/inkexplain` for the commit that last updated this statement |
 
 This is the output of a scan InkExplain ran on itself. It is **not** an NVIDIA certification, endorsement, or "verified" status; NVIDIA's own verification is a separate publication process that this skill has not gone through. The pass applies to the tree above. The workflow re-runs the scan on every change and is the current source of truth.
 
@@ -73,7 +73,7 @@ This is the output of a scan InkExplain ran on itself. It is **not** an NVIDIA c
 |---|---|---|
 | Prompt injection | `static_patterns_prompt_injection`, `anti_refusal`, `system_prompt_leakage`, `memory_poisoning`, `harmful_content` | A search of the package for override phrases ("ignore previous", "system prompt", "you are now", and similar) found none. "Hidden" appears only as a metaphor word ("hidden dependency"). |
 | Data exfiltration | `static_patterns_data_exfiltration`, `agent_snooping`, `ssrf` | The package has no instruction to read credentials (`.ssh`, cloud credentials, `.env`, tokens), to send data anywhere, or to fetch a URL. The only URLs are rights-provenance citations in rights notes and credits. |
-| Dynamic code execution, `eval()` | `static_patterns_deserialization`, `tool_misuse`, `output_handling`. The behavioral AST, taint-tracking, and bundled-execution analyzers found no applicable files. | The package ships no executable file (53 components, "Executable Scripts: No"). `PKG-006` keeps it that way, and `SEC-004` bars `eval(` and `new Function(` in `scripts/`. |
+| Dynamic code execution, `eval()` | `static_patterns_deserialization`, `tool_misuse`, `output_handling`. The behavioral AST, taint-tracking, and bundled-execution analyzers found no applicable files. | The package ships no executable file (54 components, "Executable Scripts: No"). `PKG-006` keeps it that way, and `SEC-004` bars `eval(` and `new Function(` in `scripts/`. |
 | Privilege escalation | `static_patterns_privilege_escalation`, `excessive_agency`, `rogue_agent` | The skill requests no tools, no elevated rights, and no shell. Its writes are limited to the output folder. |
 | Supply-chain risk | `static_patterns_supply_chain`, `artifact_integrity`, `static_yara` | No dependencies (`SEC-005`), no install step, no downloaded code. |
 
