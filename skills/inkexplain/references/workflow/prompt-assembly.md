@@ -23,7 +23,7 @@ Start from the archetype's generation prompt in its `prompts.md` and fill every 
 9. **Constraints**: what must not appear, such as titles, extra text, logos, UI, and the archetype's own exclusions.
 10. **Rights note**: for third-party archetypes, the rights note from the archetype's `prompts.md`, unchanged.
 
-Keep prompts specific and compact. Describe the picture; do not explain the article to the model. Never edit the style, character, or rights-note blocks; change only the bracketed fields. A bracketed field can hold several sentences; the composition field usually does.
+Keep prompts specific and compact. Describe the picture; do not explain the article to the model. Never edit the style, character, or rights-note blocks; change only the bracketed fields. Every word of the template outside a bracket stays as written, including the words around the action field and any sentence after the label list, even one that seems unnecessary for this image; delete only a sentence the pack marks as optional. A bracketed field can hold several sentences; the composition field usually does.
 
 The pack's template is the authority on structure. It may state a part inside another paragraph (a Style paragraph that already carries the color use and the constraints, for example); then add no separate paragraph for that part. Where the shared workflow files and a pack's own rules differ on a detail, such as how many objects to draw or how widely to spread them, the pack is the more specific and wins.
 
