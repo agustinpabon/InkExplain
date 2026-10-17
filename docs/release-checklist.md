@@ -57,7 +57,7 @@ Publishing a repository publishes everything reachable from the refs you push, n
 
 ## Security
 
-- [ ] The `Security` workflow is green. If `skills/inkexplain/` changed since the audit statement in [SECURITY.md](../SECURITY.md), re-run the scan it describes and update the statement's result and tree hash.
+- [ ] The `Security` workflow is green. If `skills/inkexplain/` changed since the scan record in [SECURITY.md](../SECURITY.md), re-run the scan it describes and update the record's result and tree hash.
 - [ ] Any bumped pin (the SkillSpector commit or a GitHub Actions SHA in `.github/workflows/`) was reviewed against its upstream changes first.
 - [ ] Wherever a pinned commit is described as a release (a workflow comment, `SECURITY.md`, a release note), that was compared with what the upstream tag points to. The SkillSpector pin reports itself as v2.12.0 but is a later commit than the `v2.12.0` tag, and says so.
 - [ ] `package.json` still declares no dependencies (`SEC-005`).

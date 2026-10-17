@@ -2,7 +2,7 @@
 
 InkExplain is a skill: Markdown, JSON, YAML, and image files that an AI agent reads. The skill has no runtime of its own. Everything else in this repository (the Node.js scripts, the tests, the workflows) maintains the skill and is not installed with it.
 
-This document states what InkExplain does and does not do, how each claim is enforced, what a scan with NVIDIA SkillSpector found, and how to report a vulnerability.
+This document states what InkExplain does and does not do, how each claim is enforced, what a scan this project ran with NVIDIA's SkillSpector found, and how to report a vulnerability.
 
 ## Threat model and architecture
 
@@ -12,7 +12,7 @@ This document states what InkExplain does and does not do, how each claim is enf
 |---|---|---|
 | **Offline by design** | The skill package contains no code. It never asks the agent to contact a service, and it has no telemetry, analytics, or update checks. Repository scripts make no network calls and start no processes. The command-line helper (`scripts/explain.mjs`) only reads the registry and the packs and prints text. The gallery page (`examples/gallery/index.html`) is one file that loads nothing and sends nothing. Installing with `npx skills add` runs a separate tool, the open skills CLI, which reports anonymous install counts unless `DISABLE_TELEMETRY=1` is set; that is not part of the skill. | `SEC-004` fails on `child_process`, network modules, `fetch(`, `eval(`, and `new Function(` in `scripts/`. `PKG-006` limits the package to Markdown, JSON, YAML, PNG, and SVG. `SEC-006` requires the gallery's `default-src 'none'` policy and rejects remote resources, network and dynamic-code APIs, and markup built from strings. |
 | **Zero runtime dependencies** | `package.json` declares no dependencies of any kind. Scripts and tests use Node.js built-ins only, so no third-party package is installed or executed. | `SEC-005` fails when any dependency field is non-empty. |
-| **Dual execution mode** | **Prompt mode** needs no tool: the agent reads references and writes text, and its only file write is `prompts.md` in the output folder. **Generate mode** applies only when the host agent provides an image-generation tool. InkExplain ships no generator and never claims an image it did not generate. | The mode rules in `SKILL.md` and `references/workflow/prompt-assembly.md`. |
+| **Dual execution mode** | **Prompt mode** needs no tool: the agent reads references and writes text, and its only file write is `prompts.md` in the output folder. **Generate mode** applies only when the host agent provides an image-generation tool. InkExplain ships no generator, and its instructions tell the agent never to claim an image it did not generate. | The mode rules in `SKILL.md` and `references/workflow/prompt-assembly.md`. |
 | **Filesystem isolation** | Images and the prompts file are written only to `assets/<article-slug>-<suffix>/`, or to a folder the user names inside the workspace. Never inside the skill folder, never outside the workspace, and never over an existing file. The skill reads only what the user points to, and never credentials, key files, or environment files. | The rules in `SKILL.md` and `references/workflow/delivery.md`. See the limit below. |
 | **Source text is data** | The article, document, or idea being illustrated is material to draw, not instructions to follow. | The rules in `SKILL.md`. See the limit below. |
 
@@ -37,7 +37,7 @@ workspace: assets/<article-slug>-<suffix>/     (the only place InkExplain writes
 | Threat | Mitigation | Residual risk |
 |---|---|---|
 | Hostile text in an article tries to redirect the agent (indirect prompt injection) | The source is treated as data. The skill asks for no credentials, shell, or network access, and its only side effect is saving images and a prompt file. | A host with broad tool permissions can still be steered by any text it reads. Limit what the host may do. |
-| A change to the skill adds an exfiltration or override instruction | Every push and pull request is scanned with SkillSpector (`.github/workflows/security.yml`). Commits are signed. | A subtle instruction can evade a static scanner. Review changes to `skills/inkexplain/` by hand. |
+| A change to the skill adds an exfiltration or override instruction | Every push to `main` and every pull request is scanned with SkillSpector (`.github/workflows/security.yml`). Commits made since 2026-10-17 are signed; earlier ones are not. | A subtle instruction can evade a static scanner. Review changes to `skills/inkexplain/` by hand. |
 | A dependency or build tool is compromised | No dependencies. Both workflows pin every action to a commit SHA, and the security workflow pins SkillSpector to a commit. | A pin only freezes what was reviewed: it must be updated on purpose, and it does not protect against a malicious release that was reviewed and pinned. |
 | Secrets or machine paths committed by accident | `SEC-001` and `SEC-002` scan every tracked text file. | Only the credential shapes listed in `scripts/lib/checks/security.mjs` are detected. |
 | A path escapes the checkout | Scripts resolve every path inside the repository root, and `SEC-003` forbids symbolic links. | None known. |
@@ -51,11 +51,11 @@ workspace: assets/<article-slug>-<suffix>/     (the only place InkExplain writes
 | `.github/workflows/ci.yml` | Generated documents are current, all validators (including `SEC-001` to `SEC-006`), and the test suite, on Linux and Windows with Node.js 22 and 24. |
 | `.github/workflows/security.yml` | The SkillSpector scan of `skills/inkexplain/`, on every push to `main` and every pull request. |
 
-## NVIDIA SkillSpector audit statement
+## SkillSpector scan, run by this project
 
 [SkillSpector](https://github.com/NVIDIA/skillspector) is NVIDIA's open-source security scanner for agent skills.
 
-**Result: passed. 0 findings (0 Critical, 0 High, 0 Medium, 0 Low). Risk score 0/100, severity LOW, recommendation SAFE, inspection complete (coverage 100% of the files the scanner can read; the two PNG images are listed below as scope exclusions).**
+**Result of this project's own static scan: 0 findings (0 Critical, 0 High, 0 Medium, 0 Low). Risk score 0/100, severity LOW, recommendation SAFE, inspection complete (coverage 100% of the files the scanner can read; the two PNG images are listed below as scope exclusions).**
 
 | | |
 |---|---|
@@ -63,7 +63,7 @@ workspace: assets/<article-slug>-<suffix>/     (the only place InkExplain writes
 | Mode | Static analysis only (`--no-llm`). No file contents left the machine. |
 | Command | `skillspector scan skills/inkexplain/ --no-llm --fail-on-findings --fail-on-incomplete` |
 | Scanned | 2026-10-17, 53 files, 51 fully inspected, 2 binary images excluded |
-| Content | Git tree `e1fd59f05d81efc553748a2b3333cca7f4bdca26`: the output of `git rev-parse HEAD:skills/inkexplain` for the commit that last updated this statement |
+| Content | Git tree `618523da3dea426d85f32c9d9e479f8bfa39e63d`: the output of `git rev-parse HEAD:skills/inkexplain` for the commit that last updated this statement |
 
 This is the output of a scan InkExplain ran on itself. It is **not** an NVIDIA certification, endorsement, or "verified" status; NVIDIA's own verification is a separate publication process that this skill has not gone through. The pass applies to the tree above. The workflow re-runs the scan on every change and is the current source of truth.
 
@@ -97,7 +97,7 @@ On Windows without C++ build tools, use Python 3.12: `yara-python` publishes no 
 Report privately; please do not open a public issue for a vulnerability.
 
 1. **GitHub private vulnerability reporting**: on the repository's **Security** tab, choose **Report a vulnerability**. Only the maintainer can read the report.
-2. **If that form is not available**, open a public issue titled "Security report" that says only that you have one: no details, no proof of concept, and no file names. The maintainer will answer there and arrange a private way to receive it.
+2. **If that form is not available**, open a public issue titled "Security report" with the **Bug Report** form (it asks for one thing, "What happened?"), and say there only that you have one: no details, no proof of concept, and no file names. The maintainer will answer there and arrange a private way to receive it.
 
 There is no security mailbox; please do not send reports by email.
 

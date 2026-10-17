@@ -37,6 +37,24 @@ test("a fallback report asks for a private channel without putting details in a 
   assert.match(repo.readText("CODE_OF_CONDUCT.md"), /contains no details and asks for a private way to continue/);
 });
 
+test("the fallback names a form that accepts a report with nothing else filled in", () => {
+  // The chooser disables blank issues, so the fallback only works through a form. This one asks for a
+  // single field, so a person can send "I have a report" without writing details into a public issue.
+  const form = repo.readText(".github/ISSUE_TEMPLATE/bug_report.yml");
+  assert.match(form, /^name: Bug Report$/m);
+  const required = form
+    .split(/\n  - type: /)
+    .slice(1)
+    .filter((block) => /required: true/.test(block))
+    .map((block) => /label: (.+)/.exec(block)?.[1]);
+  assert.deepEqual(required, ["What happened?"]);
+  for (const file of ["SECURITY.md", "CODE_OF_CONDUCT.md"]) {
+    const text = repo.readText(file);
+    assert.ok(text.includes("**Bug Report** form"), `${file} names the form`);
+    assert.ok(text.includes('"What happened?"'), `${file} names the one field it asks for`);
+  }
+});
+
 test("the issue chooser links to the repository's private advisory form", () => {
   const config = repo.readText(".github/ISSUE_TEMPLATE/config.yml");
   assert.ok(config.includes(ADVISORY_FORM), "the chooser offers the advisory form");

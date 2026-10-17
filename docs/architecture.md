@@ -164,7 +164,7 @@ Two workflows run on every push to `main` and every pull request:
 - `.github/workflows/ci.yml` runs `build-docs --check`, the validator, and the tests on Linux and Windows with Node.js 22 and 24.
 - `.github/workflows/security.yml` scans `skills/inkexplain/` with NVIDIA SkillSpector (static analysis, pinned to a commit) and fails on any finding or incomplete inspection.
 
-[SECURITY.md](../SECURITY.md) holds the threat model, the audit statement, and the disclosure policy.
+[SECURITY.md](../SECURITY.md) holds the threat model, the record of the project's own scan, and the disclosure policy.
 
 ## Design constraints
 
