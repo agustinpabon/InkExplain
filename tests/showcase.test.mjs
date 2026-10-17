@@ -14,10 +14,10 @@ test("every showcase image is listed with the tool that made it and a matching h
   const images = repo.walk().filter((file) => file.startsWith("assets/examples/") && file.endsWith(".png"));
   assert.ok(images.length > 0);
   for (const file of images) {
-    const name = path.posix.basename(file);
+    const name = file.slice("assets/examples/".length);
     const row = manifest.split("\n").find((line) => line.includes(`\`${name}\``));
     assert.ok(row, `${name} is listed in assets/examples/README.md`);
-    assert.match(row, /Codex Desktop|Cursor|connected image tool/, `${name} names the tool that made it`);
+    assert.match(row, /Codex Desktop|Cursor|connected image tool|downscale of/, `${name} names the tool that made it, or the render it was scaled from`);
     const hash = crypto.createHash("sha256").update(repo.readBuffer(file)).digest("hex").slice(0, 16).toUpperCase();
     assert.ok(row.includes(hash), `${name} matches the recorded hash ${hash}`);
   }

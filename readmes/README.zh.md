@@ -79,14 +79,20 @@ $inkexplain 提示词模式：为三张图写好提示词，方便我粘贴到�
 原型决定了由谁来演绎想法、它如何动作，以及画面如何绘制。InkExplain Sketch 是默认原型；其他原型都需要点名才会使用。同一张图中绝不会混用多个原型。
 
 <!-- inkexplain:archetypes:start -->
-- **InkExplain Sketch** · 默认 · `ink`<br>InkExplain's own brand-neutral style: black ink line art, one explainer-blue flow accent, a single highlighter-yellow emphasis, and a neutral ink figure or hands that perform the idea.<br><sub>MIT · InkExplain contributors</sub>
-- **Littlebox** · `littlebox`<br>A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering.<br><sub>MIT · okooo5km</sub>
-- **Stickman** · `experimental` · `stickman`<br>InkExplain's own recurring stick figure: a bold black marker line, a round head with two dot eyes, and bendy limbs that act out the idea on a pure white page, with at most one vermilion accent.<br><sub>MIT · InkExplain contributors</sub>
-- **Xiaohei** · `xiaohei`<br>Ian's Xiaohei, a small solid-black creature with white dot eyes and thin legs, doing serious, slightly absurd work inside sparse black-ink sketches on a pure white page.<br><sub>MIT · Ian</sub>
-- **Ferris** · `ferris`<br>Ferris the Rustacean, the Rust community crab, performing the idea in sparse hand-drawn article sketches without Rust logos or endorsement cues.<br><sub>CC0 public-domain dedication · Karen Rustad Tölva</sub>
-- **Go Gopher** · `gopher`<br>The Go gopher designed by Renee French performing the idea in sparse hand-drawn article sketches, credited and free of Go logos or endorsement claims.<br><sub>CC BY 4.0 (the design); CC BY 3.0 (the bundled reference drawing) · Renee French (design); Takuya Ueda (bundled drawing)</sub>
-- **Tux** · `tux`<br>Tux, the Linux penguin created by Larry Ewing, performing the idea in sparse article sketches without distro logos, product graphics, or endorsement claims.<br><sub>Free to use and modify with credit to Larry Ewing and The GIMP · Larry Ewing</sub>
-- **OpenClaw** · `openclaw`<br>The OpenClaw mascot, a red round character with claw-like arms, two antennae, and cyan pupils, performing the idea in sparse hand-drawn article sketches.<br><sub>MIT · OpenClaw Foundation</sub>
+<table>
+<tr>
+<td width="25%" valign="top"><img src="../assets/examples/thumbs/ink.png" alt="InkExplain Sketch: a real render of the database-indexing request" width="100%"><br><b>InkExplain Sketch</b> · 默认<br>Black ink line, one blue flow, one yellow swipe.<br><sub>MIT · InkExplain contributors</sub></td>
+<td width="25%" valign="top"><img src="../assets/examples/thumbs/littlebox.png" alt="Littlebox: a real render of the database-indexing request" width="100%"><br><b>Littlebox</b><br>A closed paper box on a pure white page.<br><sub>MIT · okooo5km</sub></td>
+<td width="25%" valign="top"><img src="../assets/examples/thumbs/stickman.png" alt="Stickman: a real render of the database-indexing request" width="100%"><br><b>Stickman</b> · <code>experimental</code><br>One bold marker figure that acts out the idea.<br><sub>MIT · InkExplain contributors</sub></td>
+<td width="25%" valign="top"><img src="../assets/examples/thumbs/xiaohei.png" alt="Xiaohei: a real render of the database-indexing request" width="100%"><br><b>Xiaohei</b><br>A small black creature doing serious, absurd work.<br><sub>MIT · Ian</sub></td>
+</tr>
+<tr>
+<td width="25%" valign="top"><b>Ferris</b><br>The Rust community crab.<br><sub>CC0 public-domain dedication · Karen Rustad Tölva</sub></td>
+<td width="25%" valign="top"><b>Go Gopher</b><br>The Go gopher in sparse sketches.<br><sub>CC BY 4.0 (the design); CC BY 3.0 (the bundled reference drawing) · Renee French (design); Takuya Ueda (bundled drawing)</sub></td>
+<td width="25%" valign="top"><b>Tux</b><br>Tux, the Linux penguin.<br><sub>Free to use and modify with credit to Larry Ewing and The GIMP · Larry Ewing</sub></td>
+<td width="25%" valign="top"><b>OpenClaw</b><br>The red OpenClaw mascot with claw arms.<br><sub>MIT · OpenClaw Foundation</sub></td>
+</tr>
+</table>
 <!-- inkexplain:archetypes:end -->
 
 - **类别**：`house-style` 是 InkExplain 的原创风格；`mascot` 是注明出处后使用的项目或社区吉祥物；`tribute-character` 是由第三方创作、在其权利边界内绘制的角色；`animation-preset` 预留给原创的动作与场面调度预设。

@@ -144,8 +144,8 @@ test("the gallery data and every README describe Littlebox on a pure white page"
   assert.ok(locales.length > 1, "the translations are checked too");
   for (const locale of locales) {
     const text = repo.readText(locale.file);
-    assert.ok(text.includes(littlebox.summary), `${locale.file} carries the registry summary`);
-    const row = text.split("\n").find((line) => line.startsWith("- **") && line.includes("`littlebox`"));
+    assert.ok(text.includes(littlebox.tagline), `${locale.file} carries the registry tagline`);
+    const row = text.split("\n").find((line) => line.includes("<b>Littlebox</b>"));
     assert.ok(row, `${locale.file} has a Littlebox row`);
     assert.doesNotMatch(row, BLUE_OR_LAVENDER, `${locale.file}: the Littlebox row does not call it blue or lavender`);
   }

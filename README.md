@@ -13,13 +13,6 @@ Turn code, docs, and ideas into hand-drawn illustrations with AI agents.
 </details>
 <!-- inkexplain:languages:end -->
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/readme-hero-dark.png">
-  <img src="assets/brand/readme-hero-light.png" alt="One request, two characters: ''Illustrate how database indexing makes queries faster.'' On the left, Littlebox, a closed paper box with amber tape, holds up an index card and pulls the matching record from a stack. On the right, Xiaohei, a small black creature, pulls the same record along an orange line." width="100%">
-</picture>
-
-<sub>Real output from InkExplain and Codex Desktop's built-in image tool: [Littlebox](assets/examples/littlebox-database-index.png) and [Xiaohei](assets/examples/xiaohei-database-index.png), unedited. They are first tries, not scored with the [review protocol](docs/visual-review.md).</sub>
-
 ## Install
 
 ```bash
@@ -34,22 +27,37 @@ InkExplain chooses the character, plans the picture, writes the prompt, and hand
 
 <sub>The installer is the open [skills CLI](https://skills.sh) and needs Node.js 22.20 or newer. It sends anonymous install counts unless you set `DISABLE_TELEMETRY=1`; InkExplain itself collects nothing. Without Node.js, copy the folder `skills/inkexplain/` into your agent's skills folder.</sub>
 
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/brand/readme-hero-mobile-dark.png">
+  <source media="(max-width: 600px)" srcset="assets/brand/readme-hero-mobile-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/readme-hero-desktop-dark.png">
+  <img src="assets/brand/readme-hero-desktop-light.png" alt="One request, four characters: 'Illustrate how database indexing makes queries faster.' InkExplain Sketch draws a stick figure pulling a matching record out of a stack along a blue arrow. Littlebox, a closed paper box with amber tape, does it along an orange arrow. Stickman, an experimental bold marker figure, pulls the record out by hand. Xiaohei, a small black creature, pulls it along an orange line from an open index book." width="100%">
+</picture>
+
+<sub>Four real renders from InkExplain and Codex Desktop's built-in image tool, unedited, in a layout made for this page: [Sketch](assets/examples/sketch-database-index.png), [Littlebox](assets/examples/littlebox-database-index.png), [Stickman](assets/examples/stickman-database-index.png), [Xiaohei](assets/examples/xiaohei-database-index.png). They are first tries, not scored with the [review protocol](docs/visual-review.md).</sub>
+
 ## Characters
 
 Name one in your request. InkExplain loads that character's look, motion, and rules, and keeps them the same across every image in a series.
 
 <!-- inkexplain:archetypes:start -->
-- **InkExplain Sketch** · default · `ink`<br>InkExplain's own brand-neutral style: black ink line art, one explainer-blue flow accent, a single highlighter-yellow emphasis, and a neutral ink figure or hands that perform the idea.<br><sub>MIT · InkExplain contributors</sub>
-- **Littlebox** · `littlebox`<br>A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering.<br><sub>MIT · okooo5km</sub>
-- **Stickman** · `experimental` · `stickman`<br>InkExplain's own recurring stick figure: a bold black marker line, a round head with two dot eyes, and bendy limbs that act out the idea on a pure white page, with at most one vermilion accent.<br><sub>MIT · InkExplain contributors</sub>
-- **Xiaohei** · `xiaohei`<br>Ian's Xiaohei, a small solid-black creature with white dot eyes and thin legs, doing serious, slightly absurd work inside sparse black-ink sketches on a pure white page.<br><sub>MIT · Ian</sub>
-- **Ferris** · `ferris`<br>Ferris the Rustacean, the Rust community crab, performing the idea in sparse hand-drawn article sketches without Rust logos or endorsement cues.<br><sub>CC0 public-domain dedication · Karen Rustad Tölva</sub>
-- **Go Gopher** · `gopher`<br>The Go gopher designed by Renee French performing the idea in sparse hand-drawn article sketches, credited and free of Go logos or endorsement claims.<br><sub>CC BY 4.0 (the design); CC BY 3.0 (the bundled reference drawing) · Renee French (design); Takuya Ueda (bundled drawing)</sub>
-- **Tux** · `tux`<br>Tux, the Linux penguin created by Larry Ewing, performing the idea in sparse article sketches without distro logos, product graphics, or endorsement claims.<br><sub>Free to use and modify with credit to Larry Ewing and The GIMP · Larry Ewing</sub>
-- **OpenClaw** · `openclaw`<br>The OpenClaw mascot, a red round character with claw-like arms, two antennae, and cyan pupils, performing the idea in sparse hand-drawn article sketches.<br><sub>MIT · OpenClaw Foundation</sub>
+<table>
+<tr>
+<td width="25%" valign="top"><img src="assets/examples/thumbs/ink.png" alt="InkExplain Sketch: a real render of the database-indexing request" width="100%"><br><b>InkExplain Sketch</b> · default<br>Black ink line, one blue flow, one yellow swipe.<br><sub>MIT · InkExplain contributors</sub></td>
+<td width="25%" valign="top"><img src="assets/examples/thumbs/littlebox.png" alt="Littlebox: a real render of the database-indexing request" width="100%"><br><b>Littlebox</b><br>A closed paper box on a pure white page.<br><sub>MIT · okooo5km</sub></td>
+<td width="25%" valign="top"><img src="assets/examples/thumbs/stickman.png" alt="Stickman: a real render of the database-indexing request" width="100%"><br><b>Stickman</b> · <code>experimental</code><br>One bold marker figure that acts out the idea.<br><sub>MIT · InkExplain contributors</sub></td>
+<td width="25%" valign="top"><img src="assets/examples/thumbs/xiaohei.png" alt="Xiaohei: a real render of the database-indexing request" width="100%"><br><b>Xiaohei</b><br>A small black creature doing serious, absurd work.<br><sub>MIT · Ian</sub></td>
+</tr>
+<tr>
+<td width="25%" valign="top"><b>Ferris</b><br>The Rust community crab.<br><sub>CC0 public-domain dedication · Karen Rustad Tölva</sub></td>
+<td width="25%" valign="top"><b>Go Gopher</b><br>The Go gopher in sparse sketches.<br><sub>CC BY 4.0 (the design); CC BY 3.0 (the bundled reference drawing) · Renee French (design); Takuya Ueda (bundled drawing)</sub></td>
+<td width="25%" valign="top"><b>Tux</b><br>Tux, the Linux penguin.<br><sub>Free to use and modify with credit to Larry Ewing and The GIMP · Larry Ewing</sub></td>
+<td width="25%" valign="top"><b>OpenClaw</b><br>The red OpenClaw mascot with claw arms.<br><sub>MIT · OpenClaw Foundation</sub></td>
+</tr>
+</table>
 <!-- inkexplain:archetypes:end -->
 
-Stickman is experimental: its design is complete, but no render of it has been reviewed. Third-party characters keep their owners' credit and terms, in [ATTRIBUTIONS.md](ATTRIBUTIONS.md) and [docs/provenance.md](docs/provenance.md).
+Previews are downscaled copies of the renders above; Ferris, Go Gopher, Tux, and OpenClaw have none yet, and no stand-in is drawn for them. Stickman is experimental: its design is complete, but no render of it has been reviewed. Third-party characters keep their owners' credit and terms, in [ATTRIBUTIONS.md](ATTRIBUTIONS.md) and [docs/provenance.md](docs/provenance.md).
 
 ## How it works
 

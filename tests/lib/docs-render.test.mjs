@@ -55,14 +55,18 @@ test("referencePaths lists the five pack files with rights first", () => {
   ]);
 });
 
-test("the character list is localized in its marks, keeps identifiers and registry data, and is one item per archetype", () => {
-  const list = renderArchetypeList(registry, spanish);
-  assert.match(list, /^- \*\*InkExplain Sketch\*\* · predeterminado · `ink`<br>/);
-  assert.match(list, /^- \*\*Demo Crab\*\* · `demo`<br>.*<br><sub>CC0 · Example Author<\/sub>$/m);
-  assert.match(list, /\*\*[^*]+\*\* · `gated-authorized` · `/);
-  assert.equal(list.split("\n").length, registry.archetypes.length);
-  assert.ok(list.split("\n").every((line) => line.startsWith("- ")));
+test("the character grid is localized in its marks, keeps identifiers and registry data, and shows previews only where one exists", () => {
+  const grid = renderArchetypeList(registry, spanish, new Set(["demo"]));
+  assert.ok(grid.startsWith("<table>") && grid.endsWith("</table>"));
+  assert.match(grid, /<td width="25%" valign="top"><b>InkExplain Sketch<\/b> · predeterminado<br>/);
+  assert.match(grid, /<img src="\.\.\/assets\/examples\/thumbs\/demo\.png" alt="Demo Crab: a real render[^"]*" width="100%"><br><b>Demo Crab<\/b><br>.*<br><sub>CC0 · Example Author<\/sub><\/td>/);
+  assert.equal((grid.match(/<img /g) ?? []).length, 1, "only the character with a render gets a thumbnail");
+  assert.match(grid, /<b>[^<]+<\/b> · <code>gated-authorized<\/code>/);
+  assert.equal((grid.match(/<td /g) ?? []).length, registry.archetypes.length);
+  assert.equal((grid.match(/<tr>/g) ?? []).length, Math.ceil(registry.archetypes.length / 4));
+  assert.match(renderArchetypeList(registry, english), /^<table>/, "no previews at all still renders the grid");
 });
+
 test("legal status combines status, license, and rights holder", () => {
   assert.equal(legalStatus(registry.byId.get("demo")), "`active` · CC0 · Example Author");
 });
@@ -88,7 +92,7 @@ test("planGeneratedDocuments flags stale and malformed regions", (t) => {
   const plans = () => planGeneratedDocuments(repo(), registry, [english]);
   assert.ok(plans().every((plan) => plan.current === plan.expected && plan.problems.length === 0));
 
-  fixture.replace("README.md", "- **Demo Crab** · `demo`", "- **Old Name** · `demo`");
+  fixture.replace("README.md", "<b>Demo Crab</b>", "<b>Old Name</b>");
   assert.notEqual(plans()[1].current, plans()[1].expected);
 
   fixture.replace("README.md", "<!-- inkexplain:archetypes:end -->", "");

@@ -10,6 +10,7 @@
       "category": "house-style",
       "status": "active",
       "summary": "InkExplain's own brand-neutral style: black ink line art, one explainer-blue flow accent, a single highlighter-yellow emphasis, and a neutral ink figure or hands that perform the idea.",
+      "tagline": "Black ink line, one blue flow, one yellow swipe.",
       "aliases": ["InkExplain Sketch", "ink sketch", "ink and highlighter", "house style", "no mascot", "no character"],
       "outputSuffix": "illustrations",
       "motionDna": {
@@ -52,6 +53,7 @@
       "category": "tribute-character",
       "status": "active",
       "summary": "A closed paper-box character in thick rough marker on a pure white page that turns ideas into collecting, packaging, sorting, and delivering.",
+      "tagline": "A closed paper box on a pure white page.",
       "aliases": ["Littlebox", "小盒", "纸盒", "paper-box", "carton"],
       "outputSuffix": "littlebox",
       "motionDna": {
@@ -109,6 +111,7 @@
       "category": "house-style",
       "status": "experimental",
       "summary": "InkExplain's own recurring stick figure: a bold black marker line, a round head with two dot eyes, and bendy limbs that act out the idea on a pure white page, with at most one vermilion accent.",
+      "tagline": "One bold marker figure that acts out the idea.",
       "aliases": ["Stickman", "stick man", "stick figure", "stick person", "stickperson", "Inkman", "monigote", "muñeco de palitos", "figura de palitos", "bonhomme allumette", "Strichmännchen", "boneco palito", "火柴人", "棒人間"],
       "excludedTerms": ["figure", "person", "human", "man", "people", "doodle"],
       "outputSuffix": "stickman",
@@ -158,6 +161,7 @@
       "category": "mascot",
       "status": "active",
       "summary": "Ian's Xiaohei, a small solid-black creature with white dot eyes and thin legs, doing serious, slightly absurd work inside sparse black-ink sketches on a pure white page.",
+      "tagline": "A small black creature doing serious, absurd work.",
       "aliases": ["Xiaohei", "小黑", "Ian Xiaohei"],
       "outputSuffix": "xiaohei",
       "motionDna": {
@@ -210,6 +214,7 @@
       "category": "mascot",
       "status": "active",
       "summary": "Ferris the Rustacean, the Rust community crab, performing the idea in sparse hand-drawn article sketches without Rust logos or endorsement cues.",
+      "tagline": "The Rust community crab.",
       "aliases": ["Ferris", "Rust mascot", "Rust crab", "Rustacean", "Rust 吉祥物", "Rust 螃蟹"],
       "outputSuffix": "ferris",
       "motionDna": {
@@ -253,6 +258,7 @@
       "category": "mascot",
       "status": "active",
       "summary": "The Go gopher designed by Renee French performing the idea in sparse hand-drawn article sketches, credited and free of Go logos or endorsement claims.",
+      "tagline": "The Go gopher in sparse sketches.",
       "aliases": ["Go Gopher", "Gopher", "golang gopher", "Go mascot", "Go 吉祥物", "Gopher 吉祥物"],
       "excludedTerms": ["go", "blue mascot", "animal", "logo"],
       "outputSuffix": "gopher",
@@ -313,6 +319,7 @@
       "category": "mascot",
       "status": "active",
       "summary": "Tux, the Linux penguin created by Larry Ewing, performing the idea in sparse article sketches without distro logos, product graphics, or endorsement claims.",
+      "tagline": "Tux, the Linux penguin.",
       "aliases": ["Tux", "Linux Mascot", "Linux", "Linux penguin", "Tux penguin"],
       "excludedTerms": ["penguin", "server", "kernel", "distro", "distro logo", "Linux Foundation", "operating system", "CLI", "terminal", "brand campaign", "mascot"],
       "outputSuffix": "tux",
@@ -365,6 +372,7 @@
       "category": "mascot",
       "status": "active",
       "summary": "The OpenClaw mascot, a red round character with claw-like arms, two antennae, and cyan pupils, performing the idea in sparse hand-drawn article sketches.",
+      "tagline": "The red OpenClaw mascot with claw arms.",
       "aliases": ["OpenClaw", "OpenClaw logo", "OpenClaw mascot", "OpenClaw 助手", "OpenClaw 吉祥物"],
       "outputSuffix": "openclaw",
       "motionDna": {

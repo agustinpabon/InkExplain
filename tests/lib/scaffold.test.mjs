@@ -343,7 +343,7 @@ test("an applied scaffold passes every repository check, adds without overwritin
   assert.equal(registry.aliasIndex.get("the fox").archetypeId, "example-fox", "an alias selects it");
   assert.ok(fixture.read("examples/prompts.md").includes("$inkexplain Use Example Fox."));
   assert.match(fixture.read("ATTRIBUTIONS.md"), /### Example Fox\n\n- Example Fox is a `mascot` archetype[\s\S]*Rights holder: Jane Artist\./);
-  assert.ok(fixture.read("README.md").includes("`example-fox`"), "the README table lists it");
+  assert.ok(fixture.read("README.md").includes("<b>Example Fox</b>"), "the README character grid lists it");
 });
 
 test("planScaffold refuses conflicts, and says why", (t) => {
@@ -474,7 +474,7 @@ test("a problem the scaffold causes is caught even when it also repairs another,
   // name already appears once in another pack, so SCHEMA-007 fails after. One issue before and one after is
   // not "nothing new": the issues are different ones.
   const fixture = createFixture(t)
-    .replace("README.md", "- **Demo Crab** ", "- **Demo Crabs** ")
+    .replace("README.md", "<b>Demo Crab</b>", "<b>Demo Crabs</b>")
     .append(`${PACKS}/demo/identity.md`, "\nZorp Wombat shows up here once.\n");
   assert.deepEqual(fixture.run().filter((check) => check.status === "fail").map((check) => check.id), ["DOC-003"], "one issue before");
   const error = refusalOf(() => plan(fixture, { id: "zorp-wombat", name: "Zorp Wombat" }));

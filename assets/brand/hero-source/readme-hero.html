@@ -1,29 +1,39 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><title>InkExplain README hero (layout source)</title>
+<html lang="en"><head><meta charset="utf-8"><title>InkExplain README hero, four renders (layout source)</title>
 <style>
 :root{--bg:#fff;--fg:#111;--muted:#666;--rule:#e4e4e4;--card:#fff;--shadow:0 1px 2px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.07);--amber:#d97706}
-html.dark{--bg:#0d1117;--fg:#f0f3f6;--muted:#9198a1;--rule:#30363d;--card:#fff;--shadow:0 0 0 1px rgba(255,255,255,.08),0 12px 32px rgba(0,0,0,.45);--amber:#f59e0b}
+html.dark{--bg:#0d1117;--fg:#f0f3f6;--muted:#9198a1;--rule:#30363d;--shadow:0 0 0 1px rgba(255,255,255,.08),0 12px 32px rgba(0,0,0,.45);--amber:#f59e0b}
 *{box-sizing:border-box;margin:0}
-body{width:1600px;height:760px;background:var(--bg);color:var(--fg);font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;padding:56px 64px 0}
+body{width:1600px;height:1130px;background:var(--bg);color:var(--fg);font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;padding:52px 64px 0;position:relative}
 .eyebrow{font-size:14px;letter-spacing:.18em;font-weight:600;color:var(--amber);text-transform:uppercase}
-.req{margin-top:12px;font-family:Georgia,"Times New Roman",serif;font-size:40px;line-height:1.2;letter-spacing:-.01em}
+.req{margin-top:10px;font-family:Georgia,"Times New Roman",serif;font-size:40px;line-height:1.2;letter-spacing:-.01em}
 .req mark{background:linear-gradient(transparent 62%,rgba(245,158,11,.38) 62%);color:inherit}
-.row{display:flex;gap:40px;margin-top:36px}
-figure{width:716px}
-.frame{width:716px;height:403px;background:var(--card);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
-.frame img{width:716px;height:403px;display:block}
-figcaption{margin-top:16px;display:flex;gap:12px;align-items:baseline}
-figcaption b{font-size:22px;font-weight:700}
-figcaption span{font-size:16px;color:var(--muted)}
-.foot{position:absolute;left:64px;right:64px;bottom:30px;border-top:1px solid var(--rule);padding-top:16px;font-size:15px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:26px 40px;margin-top:30px}
+.frame{background:var(--card);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;aspect-ratio:16/9}
+.frame img{width:100%;height:100%;display:block}
+figcaption{margin-top:10px;display:flex;gap:12px;align-items:baseline}
+figcaption b{font-size:21px;font-weight:700}
+figcaption span{font-size:15px;color:var(--muted)}
+.foot{position:absolute;left:64px;right:64px;bottom:20px;border-top:1px solid var(--rule);padding-top:12px;font-size:14px;color:var(--muted)}
+/* mobile: one column, larger panels */
+html.mobile body{width:760px;height:2150px;padding:36px 30px 0}
+html.mobile .eyebrow{font-size:13px}
+html.mobile .req{font-size:30px}
+html.mobile .grid{grid-template-columns:1fr;gap:22px;margin-top:24px}
+html.mobile figcaption{flex-direction:column;gap:2px}
+html.mobile figcaption b{font-size:21px}
+html.mobile figcaption span{font-size:15px}
+html.mobile .foot{left:30px;right:30px;font-size:13px}
 </style></head>
 <body>
-<div class="eyebrow">One request, two characters</div>
+<div class="eyebrow">One request, four characters</div>
 <div class="req">&ldquo;Illustrate how <mark>database indexing</mark> makes queries faster.&rdquo;</div>
-<div class="row">
+<div class="grid">
+ <figure><div class="frame"><img src="../../examples/sketch-database-index.png" alt=""></div><figcaption><b>InkExplain Sketch</b><span>the default: ink line, one blue flow, one yellow swipe</span></figcaption></figure>
  <figure><div class="frame"><img src="../../examples/littlebox-database-index.png" alt=""></div><figcaption><b>Littlebox</b><span>closed paper box, amber tape, pure white page</span></figcaption></figure>
+ <figure><div class="frame"><img src="../../examples/stickman-database-index.png" alt=""></div><figcaption><b>Stickman</b><span>experimental: one bold marker figure</span></figcaption></figure>
  <figure><div class="frame"><img src="../../examples/xiaohei-database-index.png" alt=""></div><figcaption><b>Xiaohei</b><span>black creature, thin legs, one orange line</span></figcaption></figure>
 </div>
 <div class="foot">Made with InkExplain and Codex Desktop&rsquo;s built-in image tool. Unedited first tries, not yet scored with the review protocol.</div>
-<script>if(location.search.includes('dark'))document.documentElement.classList.add('dark')</script>
+<script>var q=location.search;if(q.includes('dark'))document.documentElement.classList.add('dark');if(q.includes('mobile'))document.documentElement.classList.add('mobile')</script>
 </body></html>

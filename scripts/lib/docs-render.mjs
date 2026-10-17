@@ -60,7 +60,8 @@ export function loadLocales(repo) {
 
 const code = (value) => `\`${value}\``;
 const escapeCell = (value) => String(value).replaceAll("|", "\\|");
-const escapeInline = (value) => String(value).replaceAll("<", "&lt;");
+const escapeInline = (value) => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;");
+const escapeAttr = (value) => escapeInline(value).replaceAll('"', "&quot;");
 
 function sentence(text) {
   return /[.!?]$/.test(text.trim()) ? text.trim() : `${text.trim()}.`;
@@ -71,23 +72,33 @@ export function legalStatus(archetype) {
   return `${code(archetype.status)} · ${archetype.legalNotice.license} · ${archetype.legalNotice.rightsHolder}`;
 }
 
+/** Where the README thumbnail of an archetype lives; present only when a real render of it exists. */
+export const previewPath = (archetype) => `assets/examples/thumbs/${archetype.id}.png`;
+
 /**
- * The characters of the README for one locale: one list item each, with the name, what is not yet settled
- * (default, or a status other than active), the id, a one-line summary, and the license and credit in small
- * type. Complete rights records stay in ATTRIBUTIONS.md and docs/provenance.md.
+ * The characters of the README for one locale, as a grid four across: a thumbnail when a real render of the
+ * character exists (`previews` is the set of ids that have one), the name, what is not yet settled (default,
+ * or a status other than active), a one-line tagline (the summary when there is none), and the license and
+ * credit in small type. Complete rights records stay in ATTRIBUTIONS.md and docs/provenance.md.
  */
-export function renderArchetypeList(registry, locale) {
+export function renderArchetypeList(registry, locale, previews = new Set()) {
   const s = locale.strings;
-  return registry.archetypes
-    .map((archetype) => {
-      const marks = [];
-      if (archetype === registry.defaultArchetype) marks.push(s.default);
-      if (archetype.status !== "active") marks.push(code(archetype.status));
-      marks.push(code(archetype.id));
-      const legal = archetype.legalNotice;
-      return `- **${escapeInline(archetype.name)}** · ${marks.join(" · ")}<br>${escapeInline(archetype.summary)}<br><sub>${escapeInline(legal.license)} · ${escapeInline(legal.rightsHolder)}</sub>`;
-    })
-    .join("\n");
+  const fromDir = path.posix.dirname(locale.file);
+  const cells = registry.archetypes.map((archetype) => {
+    const marks = [];
+    if (archetype === registry.defaultArchetype) marks.push(s.default);
+    if (archetype.status !== "active") marks.push(`<code>${archetype.status}</code>`);
+    const legal = archetype.legalNotice;
+    const image = previews.has(archetype.id)
+      ? `<img src="${path.posix.relative(fromDir, previewPath(archetype))}" alt="${escapeAttr(archetype.name)}: a real render of the database-indexing request" width="100%"><br>`
+      : "";
+    const line = escapeInline(archetype.tagline ?? archetype.summary);
+    const label = marks.length === 0 ? "" : ` · ${marks.join(" · ")}`;
+    return `<td width="25%" valign="top">${image}<b>${escapeInline(archetype.name)}</b>${label}<br>${line}<br><sub>${escapeInline(legal.license)} · ${escapeInline(legal.rightsHolder)}</sub></td>`;
+  });
+  const rows = [];
+  for (let i = 0; i < cells.length; i += 4) rows.push(`<tr>\n${cells.slice(i, i + 4).join("\n")}\n</tr>`);
+  return `<table>\n${rows.join("\n")}\n</table>`;
 }
 
 /** Language selector for the README at `locale.file`: a collapsed list, so thirteen names do not open the page. */
@@ -231,6 +242,7 @@ export function planGeneratedDocuments(repo, registry, locales) {
     expected: renderRoutingDoc(registry),
     problems: [],
   });
+  const previewIds = new Set(registry.archetypes.filter((archetype) => repo.isFile(previewPath(archetype))).map((archetype) => archetype.id));
   for (const locale of locales) {
     const current = repo.readTextIfExists(locale.file);
     if (current === null) {
@@ -241,7 +253,7 @@ export function planGeneratedDocuments(repo, registry, locales) {
     let expected = current;
     for (const [region, content] of [
       [DOC_REGIONS.languages, renderLanguageSelector(locales, locale)],
-      [DOC_REGIONS.archetypes, renderArchetypeList(registry, locale)],
+      [DOC_REGIONS.archetypes, renderArchetypeList(registry, locale, previewIds)],
     ]) {
       const found = readRegion(expected, region);
       if (!found.found) {
