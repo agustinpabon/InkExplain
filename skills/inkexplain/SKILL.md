@@ -1,6 +1,6 @@
 ---
 name: inkexplain
-description: Turn articles, documents, workflows, and abstract ideas into consistent hand-drawn explanatory illustrations. Use when someone wants to illustrate or visualize an article, post, doc, process, system, comparison, or cause-and-effect; plan where illustrations should go; get ready-to-run prompts for an image model; or repair a generated illustration. Works with or without an image-generation tool, with a brand-neutral default style and optional character archetypes.
+description: Illustrate articles, documents, code, workflows, and abstract ideas with a consistent series of hand-drawn explanatory images. Plans the shot list, writes the prompts, and uses the host's image tool when there is one; otherwise returns ready-to-paste prompts and never claims an image it did not make. Use for any request to illustrate, visualize, or explain something with pictures, including a set of illustrations for a document, a named character style, and repairing a generated illustration. Not for data charts, logos, UI mockups, or photorealistic images. Brand-neutral default style with optional character archetypes.
 license: MIT. LICENSE.md in this folder has the full terms and the third-party notices.
 ---
 
