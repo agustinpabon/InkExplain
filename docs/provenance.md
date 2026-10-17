@@ -76,7 +76,7 @@ All sixteen sat on the pale sky-blue or lavender option, alternating by position
 | Xiaohei | Ian | MIT; the project's MIT license covers its text and images, and it states no separate character or trademark terms | approved, copies of Ian's and the fork's images |
 | Littlebox | okooo5km | MIT, with the credit request above | pending, the earlier samples are withheld |
 | OpenClaw | OpenClaw Foundation | MIT repository license; no separate mascot or trademark terms stated, so the pack forbids any affiliation or endorsement claim | pending, the earlier samples are withheld |
-| Ferris | Karen Rustad Tolva | CC0, as recorded from rustacean.net | pending, the earlier samples are withheld |
+| Ferris | Karen Rustad Tölva | CC0, as recorded from rustacean.net | pending, the earlier samples are withheld |
 | Go Gopher | Renee French | CC BY 4.0 for the design, as stated on go.dev, so attribution travels with every published image; the bundled reference drawing is by Takuya Ueda, CC BY 3.0 (open item 3) | pending, the earlier samples are withheld |
 | Tux | Larry Ewing | free to use and modify with credit to Larry Ewing and The GIMP; his page is offline, so the pack cites an archived copy and the Linux kernel's `COPYING-logo` | pending |
 

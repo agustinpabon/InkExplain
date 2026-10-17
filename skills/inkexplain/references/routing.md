@@ -108,11 +108,11 @@ Ferris the Rustacean, the Rust community crab, performing the idea in sparse han
 - Output folder: `assets/<article-slug>-ferris/`
 - Motion DNA: Ferris, who performs the central action with its claws. Signature actions: clamp, sort, borrow, stamp, untangle, release. Poses: claws, eyes, and shell angle aimed at the action; one claw clamped on a compiler gate; legs braced wide while balancing a load. Timing: One decisive moment per image; mini comics use two or three beats with Ferris drawn the same way in every panel.
 - Style sheet: A sparse hand-drawn article sketch. Canvas: 16:9 on a clean white or near-white page; Ferris's action fills 35-55%. Linework: Rough black linework with visible human looseness. Palette: black, orange or rust-red, red. Avoid: Rust or Cargo logos and official badges; official Rust diagram layouts, code, and UI scenes; a generic crab or seafood icon in place of Ferris; detailed mascot rendering or polished vector style.
-- Credit: Ferris the Rustacean was created by Karen Rustad Tolva and dedicated to the public domain (CC0) via rustacean.net. Rights holder: Karen Rustad Tolva. License: CC0 public-domain dedication.
+- Credit: Ferris the Rustacean was created by Karen Rustad Tölva and dedicated to the public domain (CC0) via rustacean.net. Rights holder: Karen Rustad Tölva. License: CC0 public-domain dedication.
 - Restrictions:
   - No Rust or Cargo logos.
   - No claims of official Rust project affiliation or endorsement.
-- Public samples: pending. Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, so they are withheld until the maintainer reviews them. Ferris is CC0, credited to Karen Rustad Tolva.
+- Public samples: pending. Not reviewed for InkExplain. The earlier gallery sets were unmodified copies of Visual IP Illustrations images first published 2026-06-15 and 2026-06-16, so they are withheld until the maintainer reviews them. Ferris is CC0, credited to Karen Rustad Tölva.
 
 ### OpenClaw (`openclaw`)
 

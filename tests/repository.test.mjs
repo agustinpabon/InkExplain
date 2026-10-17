@@ -82,7 +82,7 @@ test("the license keeps the MIT notice and ATTRIBUTIONS credits third-party arch
   assert.match(license, /^Copyright \(c\) 2026 Ian$/m);
   assert.match(license, /^Copyright \(c\) 2026 Agustin Pabon$/m);
   const attributions = repo.readText(PATHS.attributions);
-  for (const term of ["Ian Xiaohei Illustrations", "okooo5km", "Renee French", "Karen Rustad Tolva", "Larry Ewing", "OpenClaw Foundation"]) {
+  for (const term of ["Ian Xiaohei Illustrations", "okooo5km", "Renee French", "Karen Rustad Tölva", "Larry Ewing", "OpenClaw Foundation"]) {
     assert.ok(attributions.includes(term), term);
   }
 });

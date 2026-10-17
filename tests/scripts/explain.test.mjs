@@ -71,7 +71,7 @@ test("--list --format json is the same listing with rights holders and aliases",
   assert.deepEqual(rows.map((row) => row.id), registry.archetypes.map((archetype) => archetype.id));
   assert.deepEqual(rows.filter((row) => row.default).map((row) => row.id), ["ink"]);
   const ferris = rows.find((row) => row.id === "ferris");
-  assert.equal(ferris.rightsHolder, "Karen Rustad Tolva");
+  assert.equal(ferris.rightsHolder, "Karen Rustad Tölva");
   assert.equal(ferris.samples, "pending");
   assert.equal(rows.find((row) => row.id === "xiaohei").samples, "approved");
   assert.equal(ferris.thirdParty, true);
@@ -145,7 +145,7 @@ test("--archetype and --concept assemble the prompt, negative prompt, and aspect
   assert.match(stdout, /^Archetype: Ferris \(ferris\), mascot, active$/m);
   assert.match(stdout, /^Aspect ratio: 16:9$/m);
   assert.match(stdout, /^Output folder: assets\/<article-slug>-ferris\/$/m);
-  assert.match(stdout, /^Credit: Ferris the Rustacean was created by Karen Rustad Tolva/m);
+  assert.match(stdout, /^Credit: Ferris the Rustacean was created by Karen Rustad Tölva/m);
   assert.match(stdout, /^Scene: Two threads each hold one lock and wait for the other\.$/m);
   assert.match(stdout, /^Rights note: Ferris the Rustacean/m);
   assert.match(stdout, /^PROMPT\n------\nGenerate one standalone 16:9 horizontal article illustration\./m);

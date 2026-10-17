@@ -70,7 +70,7 @@ Only Xiaohei's images are published. The samples of the other characters that ea
 
 ### Ferris
 
-- Ferris the Rustacean was created by Karen Rustad Tolva and dedicated to the public domain (CC0) via rustacean.net.
+- Ferris the Rustacean was created by Karen Rustad Tölva and dedicated to the public domain (CC0) via rustacean.net.
 - Rust and Cargo names and logos are governed by the Rust Foundation's trademark policy. The archetype uses no Rust or Cargo logos and makes no claim of official Rust project affiliation or endorsement.
 
 ### Go Gopher

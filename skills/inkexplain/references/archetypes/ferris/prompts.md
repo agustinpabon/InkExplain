@@ -96,7 +96,7 @@ Check every image against `references/workflow/qa-checklist.md`, then:
 ## Delivery notes
 
 - Archetype: Ferris (`ferris`), status `active`. Folder: `assets/<article-slug>-ferris/`.
-- Credit: Ferris the Rustacean was created by Karen Rustad Tolva and dedicated to the public domain (CC0) via rustacean.net.
+- Credit: Ferris the Rustacean was created by Karen Rustad Tölva and dedicated to the public domain (CC0) via rustacean.net.
 - Repeat the rights note in the delivery report.
 - If the user plans to publish, remind them to keep the credit and to present the images without Rust or Cargo logos or any claim of official Rust project affiliation or endorsement.
 
@@ -105,5 +105,5 @@ Check every image against `references/workflow/qa-checklist.md`, then:
 Append this note to every generation and edit prompt, attach it to every plan, and repeat it in the delivery report:
 
 ```text
-Ferris the Rustacean was created by Karen Rustad Tolva and dedicated to the public domain (CC0) via rustacean.net; keep this credit with published images. No Rust or Cargo logos, and no claims of official Rust project affiliation or endorsement.
+Ferris the Rustacean was created by Karen Rustad Tölva and dedicated to the public domain (CC0) via rustacean.net; keep this credit with published images. No Rust or Cargo logos, and no claims of official Rust project affiliation or endorsement.
 ```

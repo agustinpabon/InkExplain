@@ -81,7 +81,7 @@ Color use: black for main strokes, objects, Ferris's details, and labels. Orange
 
 Constraints: one core idea only. No title, no structure-type text, no sentences, no clean digital font labels, no crowded nodes or arrows. No Rust or Cargo logos, no official marks or badges, no endorsement wording, no official Rust diagram layout. No code screenshots and no IDE, terminal, or UI scenes. Do not trace or recreate existing Ferris artwork, poses, or asset sheets; invent a fresh scene. Draw no text other than the labels; the rights note below is not image text.
 
-Rights note: Ferris the Rustacean was created by Karen Rustad Tolva and dedicated to the public domain (CC0) via rustacean.net; keep this credit with published images. No Rust or Cargo logos, and no claims of official Rust project affiliation or endorsement.
+Rights note: Ferris the Rustacean was created by Karen Rustad Tölva and dedicated to the public domain (CC0) via rustacean.net; keep this credit with published images. No Rust or Cargo logos, and no claims of official Rust project affiliation or endorsement.
 ```
 
 ```text
