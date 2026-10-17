@@ -55,7 +55,15 @@ test("the host is not the image tool: no drawing of its own in place of an illus
 test("the description names what must reach InkExplain and what must not, within the format's limit", () => {
   const { description } = parseFrontmatter(skill).data;
   assert.ok(description.length <= 1024, `the description is ${description.length} characters`);
-  for (const phrase of ["a set of illustrations for a document", "repairing a generated illustration", "never claims an image it did not make"]) {
+  for (const phrase of [
+    "make 3 illustrations for this article",
+    "Generates each image with the host's own built-in image tool",
+    "Codex image_gen through $imagegen",
+    "Cursor GenerateImage",
+    "saves the images in the workspace",
+    "repairs a generated illustration",
+    "without claiming an image it did not make",
+  ]) {
     assert.ok(description.includes(phrase), `the description says "${phrase}"`);
   }
   assert.match(description, /Not for data charts, logos, UI mockups, or photorealistic images/);
