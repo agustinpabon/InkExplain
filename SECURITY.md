@@ -96,8 +96,10 @@ On Windows without C++ build tools, use Python 3.12: `yara-python` publishes no 
 
 Report privately; please do not open a public issue for a vulnerability.
 
-1. **GitHub Security Advisories** (preferred): on the repository's **Security** tab, choose **Report a vulnerability**.
-2. **Email**: `security@agustinpabon.com`.
+1. **GitHub private vulnerability reporting**: on the repository's **Security** tab, choose **Report a vulnerability**. Only the maintainer can read the report.
+2. **If that form is not available**, open a public issue titled "Security report" that says only that you have one: no details, no proof of concept, and no file names. The maintainer will answer there and arrange a private way to receive it.
+
+There is no security mailbox; please do not send reports by email.
 
 Include what you found, the file or workflow involved, steps to reproduce, and the impact you expect. A proof of concept helps but is not required.
 
@@ -113,6 +115,6 @@ Include what you found, the file or workflow involved, steps to reproduce, and t
 
 - The behavior of image models or of the host agent.
 - Findings that need the host to ignore its own permission prompts.
-- Rights and attribution concerns. Raise those through the same email address or a public issue; the current credits are in [ATTRIBUTIONS.md](ATTRIBUTIONS.md).
+- Rights and attribution concerns. Raise those in a public issue; the current credits are in [ATTRIBUTIONS.md](ATTRIBUTIONS.md).
 
 **Safe harbor.** Good-faith research that stays within this policy is welcome. Do not access data that is not yours, do not disrupt other users, and give the maintainer reasonable time to fix a problem before you publish it.
