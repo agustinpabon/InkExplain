@@ -16,6 +16,7 @@ Review only what you can see. If the host returns the image to you, inspect it. 
 - The palette follows the archetype's style rules.
 - The composition is new, not a copy of a calibration or gallery image.
 - The archetype's rules hold: identity markers present, restrictions respected, nothing from other archetypes.
+- For a repository: the picture answers the plain question in its shot list with the application's own things and words, and says nothing that the explanation does not support (no guarantee, and no feature the code does not have).
 
 ## Artifact rejection
 

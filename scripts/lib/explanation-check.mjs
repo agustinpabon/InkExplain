@@ -20,6 +20,21 @@ const SKIPPED_DIRECTORIES = new Set([".git", "node_modules"]);
 // A module is the first path-like code span of a table row, a directory the row's other paths may be relative to.
 const DIRECTORY = /^[\w@~-][\w@.~-]*(?:\/[\w@.~-]+)*\/?$/;
 
+// Wording that promises more than a source file can show. A policy, a constraint, or a test in a repository is a
+// definition of what should happen, not proof of what a deployed system enforces, so an explanation says what the code
+// does and what was not checked (references/workflow/repository-explanation.md). These are the plain security
+// superlatives, in English and Spanish. "Always" and "never" can be true of one line of code, so they are not listed.
+const ABSOLUTE_CLAIM = /\b(?:impenetrables?|unbreakable|unhackable|bullet-?proof|fool-?proof|infranqueables?|inexpugnables?|inviolables?|invulnerables?|infalibles?|a prueba de balas)\b|\b100\s?%\s*(?:secure|safe|seguro|segura|segur[oa]s)\b|\b(?:completely|totally|fully|absolutely|totalmente|completamente|absolutamente)\s+(?:secure|safe|seguro|segura)\b/gi;
+
+/** The absolute claims of a Markdown text: [{ line, text }], in order. */
+export function absoluteClaims(markdown) {
+  const found = [];
+  for (const [index, line] of markdown.split("\n").entries()) {
+    for (const match of line.matchAll(ABSOLUTE_CLAIM)) found.push({ line: index + 1, text: match[0] });
+  }
+  return found;
+}
+
 /** Every tracked-looking file of a checkout, as POSIX paths from its root. */
 export function listFiles(root) {
   const files = [];
@@ -71,8 +86,9 @@ export function fileReferences(markdown) {
  * Look every reference up. A path is read from the repository root; if there is no such file, from the module of
  * its table row; a link is also read from the folder of the explanation (`documentDirectory`, from the root), and
  * with its leading "../" removed; if all of that fails, by its end, when exactly one file ends that way. Returns
- * { results: [{ ...reference, status, resolved, lines }], files, problems }, a status being "found", "ambiguous"
- * (several files end that way, so the reference does not say which), "missing", or "beyond" (a range past the end).
+ * { results: [{ ...reference, status, resolved, lines }], files, problems, claims }, a status being "found",
+ * "ambiguous" (several files end that way, so the reference does not say which), "missing", or "beyond" (a range
+ * past the end), and the claims being the absolute wording found in the text (absoluteClaims).
  */
 export function checkExplanation(markdown, root, { files = listFiles(root), documentDirectory } = {}) {
   const known = new Set(files);
@@ -107,5 +123,5 @@ export function checkExplanation(markdown, root, { files = listFiles(root), docu
   });
 
   const problems = results.filter((result) => result.status === "missing" || result.status === "beyond");
-  return { results, files: files.length, problems };
+  return { results, files: files.length, problems, claims: absoluteClaims(markdown) };
 }

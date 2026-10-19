@@ -29,7 +29,7 @@ Read the whole source before planning, and note:
 
 Read the file for the one behavior the reader must understand: what blocks, what repeats, what is hidden, or what changes hands. Draw that behavior with physical objects and actions, never the code itself. Give each image a placement of the file and the lines it explains, and plan only what the code shows: do not draw a fix that the file does not contain.
 
-When the request is a whole repository or project ("explain this repo", its architecture, its main modules), a single file is not enough: follow `references/workflow/repository-explanation.md`, which says how to read the project, what you may claim, how to choose the pictures from the real structure, and what to hand back.
+When the request is a whole repository or project ("explain this repo", its architecture, its main modules), a single file is not enough: follow `references/workflow/repository-explanation.md`, which says how to read the project, what you may claim, how to write the explanation first (what it is, what a person can do with it, how the main flows run, then the code's organization), how to choose the pictures from it, and what to hand back. A picture of what an application does draws its own things, not a metaphor machine.
 
 ## Find the cognitive anchors
 

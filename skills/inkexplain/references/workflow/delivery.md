@@ -83,7 +83,7 @@ The counts, which the report repeats:
 
 ## Repository explanations
 
-A repository explanation also saves `explanation.md` in the run folder, written as `references/workflow/repository-explanation.md` says: the source and commit, the coverage, the module map, one section per picture with its source references, and where to go next. The reply carries a shortened version and the path.
+A repository explanation also saves `explanation.md` in the run folder, written as `references/workflow/repository-explanation.md` says: the source and commit, the scope (the files you read, listed), what the project is, what a person can do with it, the main flows with their pictures, the module map, the principles, and where to go next. The reply opens with a shortened version of what the project is and what a person can do with it, then the pictures, then the delivery report, and gives the path.
 
 ## Plan mode
 

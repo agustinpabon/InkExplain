@@ -89,6 +89,30 @@ test("a file that does not exist, and a range past the end of its file, are the 
   assert.equal(report.problems.length, 6);
 });
 
+test("an explanation that calls something impenetrable fails, in English and in Spanish, and one that says what the code does passes", (t) => {
+  // A real explanation called a repository's database policies "impenetrable" and one of its boundaries "infranqueable".
+  const root = checkout(t, { "src/policy.sql": lines(20), "docs/explanation.md": "" });
+  const claims = (text) => checkExplanation(text, root).claims.map((claim) => claim.text.toLowerCase());
+  assert.deepEqual(claims("Row Level Security policies, impenetrable by design.\nThe vault is unbreakable and 100% secure."), ["impenetrable", "unbreakable", "100% secure"]);
+  assert.deepEqual(claims("Las políticas de seguridad por filas son impenetrables, el muro es infranqueable y todo es totalmente seguro."), ["impenetrables", "infranqueable", "totalmente seguro"]);
+  assert.deepEqual(claims("The policy limits rows to their owner (`src/policy.sql:3-9`); I did not test it. A viewer can never see another owner's rows in this query."), [], "what the code does is not a promise, and \"never\" can be true of one line");
+  assert.equal(claims("Line one.\nLine two is bulletproof.").length, 1);
+  assert.equal(checkExplanation("Impenetrable.", root).claims[0].line, 1);
+
+  const run = (text) => {
+    const file = path.join(root, "docs", "explanation.md");
+    fs.writeFileSync(file, text);
+    let out = "";
+    const code = main(["--root", root, file], { write: (chunk) => (out += chunk) }, { write: () => {} });
+    return { code, out };
+  };
+  const promised = run("The policy (`src/policy.sql:1-5`) is impenetrable.");
+  assert.equal(promised.code, 1, "a promise a file cannot show fails the check, though every reference resolves");
+  assert.match(promised.out, /^FAIL {3}"impenetrable" {2}->{1} {2}a promise a source file cannot show \(line 1\): say what the code does and what was not checked$/m);
+  assert.match(promised.out, /0 do not resolve\. 1 absolute claims\./);
+  assert.equal(run("The policy (`src/policy.sql:1-5`) limits rows to their owner; it was not tested.").code, 0);
+});
+
 test("the command lists every reference, fails on one that does not resolve, and can require a number of cited files", (t) => {
   const root = checkout(t, { "src/a.ts": lines(10), "src/b.ts": lines(10), "docs/explanation.md": "" });
   const write = (text) => {

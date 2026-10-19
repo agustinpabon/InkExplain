@@ -61,31 +61,88 @@ test("a module map ties each responsibility to files that were opened, and label
   assert.match(method, /Never invent a path, function, endpoint, table, queue, or behavior\. If you did not verify it, write "not verified" or leave it out/);
 });
 
-test("coverage is stated as a count, a large project gets an overview and a path to continue, and no one is told that every file was explained", () => {
+test("coverage is stated as a count that comes from a list, a large project gets an overview and a path to continue, and no one is told that every file was explained", () => {
   assert.match(method, /Give a count and a scope: "Read 31 of about 140 source files, in 5 of 7 modules; not read: \.\.\."/);
+  assert.match(method, /The count is the length of a list you keep as you read: every file you opened, with the lines you read\. A folder you only listed and a file you only saw named are not read\. The scope of the explanation prints that list, so that anyone can check the count/);
   assert.match(method, /deliver an honest overview and the main modules, then a continuation path/);
   assert.match(method, /the sentence to ask for the next one/);
   assert.match(method, /Never say you explained every file, or the whole codebase, unless you read every file/);
   assert.match(method, /A request for "all the code" or "everything" does not change that: say that you read part of it, how much, and what to ask for to continue/);
 });
 
-test("the pictures follow the structure: an overview first, then one per major module or workflow, in order, with no quota", () => {
-  assert.match(method, /The number comes from the structure, not from a quota/);
-  assert.match(method, /\*\*First, a system overview\*\*: the few parts, and which way requests, data, or control flow\. It shows the shape and nothing deeper/);
-  assert.match(method, /\*\*Then one picture per major module or workflow\*\* the map supports, in a logical order: the entry point, the core logic, data and storage, the outside connections/);
-  assert.match(method, /Four to eight pictures in all is typical; fewer for a small project; for a large one, the overview and the main modules only/);
-  assert.match(method, /Do not illustrate leaf details, settings, or file-by-file lists, and do not let one picture pretend to explain a complicated module/);
-  assert.match(method, /Labels are short words the reader will meet in the project \(a module name, a verb\), never file paths/);
+// A request to explain a repository and what it does once produced five implementation principles drawn as a lever,
+// a balance scale, a conveyor, a gate, and a wall, with no account of the application a person uses. The tests below
+// pin the rules that put the product first: the explanation is written before any picture is planned, in the order a
+// newcomer needs, and each picture answers a plain question with the application's own things.
+
+test("the explanation comes first: it is written before any picture is planned, in the order a newcomer needs, and the product comes before the architecture", () => {
+  const asked = method.slice(method.indexOf("## 0. What was asked"), method.indexOf("## 1. Get the source"));
+  assert.match(asked, /what the application is and what it does for the people who use it, then how the code makes that happen, then the architecture behind it/);
+  assert.match(asked, /A request for only the architecture, one module, or one flow changes where the pictures go, not the order: you still open with what the project is/);
+  assert.match(asked, /Never open with its internal principles, patterns, or decision records/);
+  assert.match(method, /The order never changes: read the source, write the explanation, and only then plan the pictures from it/);
+  const write = method.indexOf("## 4. Write the explanation before any picture");
+  assert.ok(write > 0 && method.indexOf("## 7. Plan the pictures from the explanation") > write, "the explanation is written before the pictures are planned");
+  const parts = ["**What it is.**", "**What you can do with it.**", "**How the main flows work.**", "**How the code is organized.**", "**Principles and boundaries.**", "**Scope and limits.**"].map((part) => method.indexOf(part, write));
+  assert.ok(parts.every((position) => position > 0), "every part is there");
+  assert.deepEqual([...parts].sort((a, b) => a - b), parts, "the product, then the flows, then the code, then the principles");
+  assert.match(method, /the first three are for a reader who has never seen the code/);
+  assert.match(method, /naming it by what it does \("a web app to \.\.\."\) and not by its stack/);
+  assert.match(method, /Choose the flow a user sees over an internal mechanism/);
+  assert.match(method, /after the product, never instead of it/);
+  assert.match(method, /Say what each claim rests on: `path:line` for what the code shows, "the README says" or "ADR 12 says" for what is only documented, and "I infer" for what you guessed\. Documentation shows intent, not behavior/);
+  // The survey looks for what a person can do, and the skill routes to the order.
+  assert.match(method, /Note who it is for and what a person can do with it/);
+  assert.match(method, /its pages, routes, and commands are what a user can do: open them for the capabilities and the flows/);
+  assert.match(skill, /write the explanation \(what it is, what a person can do with it, how the main flows run, then how the code is organized\) before you plan any picture/);
 });
 
-test("every picture is paired with an explanation file that says the source, the coverage, the references, and where to go next", () => {
-  assert.match(method, /Write `explanation\.md` in the run folder[^\n]*in the user's language, and give the same content, shortened, in the reply/);
-  for (const part of ["Source: <URL or folder>, branch <branch>, commit <short hash>, read on <date>.", "Coverage: <N of M files, which modules>. Not covered: <list>.", "## Module map", "In the code: a short list of path:lines", "Basis: read, documented, or inferred", "## Where to go next"]) {
-    assert.ok(method.includes(part), part);
-  }
+test("a claim says what the code does, never how strong it is: no absolute wording about security, and no picture of a guarantee", () => {
+  assert.match(method, /Say what the code does, never how strong it is\. Do not write impenetrable, unbreakable, bulletproof, foolproof, guaranteed, always, or never about security, correctness, or performance unless the code itself proves exactly that, and say what you did not check/);
+  assert.match(method, /A policy, a constraint, or a test in the source is a definition, not proof of what a deployed system enforces/);
+  assert.match(method, /"the policy limits rows to their owner \(`path:12`\); I did not test it" is a claim, and "impenetrable policies" is not/);
+  assert.match(method, /Never draw a guarantee\. A picture shows what a rule does at that step[^\n]*no vault, padlock, or wall stands for "secure" unless the code does exactly that/);
+  assert.match(skill, /never in absolute words \(impenetrable, unbreakable, guaranteed\): say what the code does and what you did not check/);
+});
+
+test("the pictures are planned from the explanation: each answers a plain question, the first is about the product, and they draw the application's own things", () => {
+  const plan = method.slice(method.indexOf("## 7. Plan the pictures from the explanation"), method.indexOf("## 8. Pair every picture"));
+  assert.match(plan, /each one answers one plain question that a reader of the explanation would ask, and the shot list writes that question down/);
+  assert.match(plan, /\*\*Open with the product\.\*\*[^\n]*It never shows internals/);
+  assert.match(plan, /\*\*Then one picture per main flow\*\* from part 3, in the order a user meets them/);
+  assert.match(plan, /Never open a series with architecture, and never spend every picture on principles/);
+  assert.match(plan, /The number comes from the structure, not from a quota/);
+  assert.match(plan, /Draw the application's own things, simply and by hand/);
+  assert.match(plan, /Use the words the application shows its users \(menu names, buttons, record names\), not internal names\. It is a sketch of behavior, not a screenshot, not a mockup, and not an architecture diagram/);
+  assert.match(plan, /The character is the person using the application, or the one showing it/);
+  assert.match(plan, /Do not default to a machine\. The pack's patterns and objects \(a lever, a vault, a scale, a gate, a press, a conveyor, a stack of papers\)[^\n]*are for ideas that have no visible form/);
+  assert.match(plan, /Use one only when the code really behaves that way and the plain drawing cannot show it, and then the explanation says it is a metaphor and why/);
+  assert.match(plan, /The Scene line of the prompt answers the picture's question in one plain sentence, with no internal jargon/);
+  assert.match(plan, /Do not illustrate leaf details, settings, or file-by-file lists, and do not let one picture pretend to explain a complicated module/);
+  assert.match(plan, /Labels are short words the reader will meet in the project \(a module name, a verb\), never file paths/);
+  // The places an agent reads right before it plans say the same.
+  assert.match(workflow("composition-grid.md"), /They are not the way to picture a repository, or what a particular application does: draw the application's own things first/);
+  assert.doesNotMatch(workflow("composition-grid.md"), /Explain software with plumbing, mail, kitchens, and workshops rather than server racks, dashboards, and screenshots/);
+  assert.match(extraction, /A picture of what an application does draws its own things, not a metaphor machine/);
+  assert.match(skill, /For a repository, each picture answers one plain question from the explanation and draws the application's own things, not a machine standing for them/);
+  assert.match(workflow("qa-checklist.md"), /For a repository: the picture answers the plain question in its shot list with the application's own things and words, and says nothing that the explanation does not support/);
+});
+
+test("every picture is paired with an explanation file that says the source, the scope as a list, the references, and where to go next", () => {
+  assert.match(method, /Save `explanation\.md` in the run folder[^\n]*in the user's language, and give the same content, shortened, in the reply, starting with what the project is and what a person can do with it/);
+  const template = /```text\n([\s\S]*?)\n```/.exec(method.slice(method.indexOf("## 8. Pair every picture")))[1];
+  assert.deepEqual([...template.matchAll(/^## (.+)$/gm)].map((match) => match[1].split(" (")[0]), ["What it is", "What you can do with it", "How it works: <flow>", "How the code is organized", "Principles and boundaries", "Where to go next"]);
+  assert.match(template, /^Source: <URL or folder>, branch <branch>, commit <short hash>, read on <date>\.$/m);
+  assert.match(template, /^Scope: Read <N> files: <path:lines, path:lines, \.\.\.>\. Only listed: <folders>\. Not read: <modules, kinds of file>\. Not checked: <running it, its tests, its deployed settings>\.$/m);
+  assert.match(template, /Question: the one question the picture answers\./);
+  assert.match(template, /Steps: numbered, each with `path:line`\./);
+  assert.match(template, /Basis: read, documented, or inferred/);
+  assert.match(method, /A picture whose final attempt was not approved goes in with a caption that says so and names its defect \("Draft, not approved: \.\.\."\), never as if it had passed/);
   assert.match(delivery, /A repository explanation also saves `explanation\.md` in the run folder/);
+  assert.match(delivery, /The reply opens with a shortened version of what the project is and what a person can do with it, then the pictures, then the delivery report/);
   assert.match(delivery, /The run folder holds the images, `prompts\.md`, `manifest\.json`, and, for a repository, `explanation\.md`/);
   assert.match(delivery, /for a repository: where the source came from, how much of it you read, and what to ask for next/);
+  assert.match(skill, /A repository also gets `assets\/<article-slug>-<suffix>\/run-<id>\/explanation\.md`, and its reply opens with what the project is and what a person can do with it/);
 });
 
 test("the idea behind each picture is made plain: one metaphor that fits the mechanism, few props, short labels, correct before pretty", () => {

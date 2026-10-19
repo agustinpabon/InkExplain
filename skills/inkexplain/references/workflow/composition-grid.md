@@ -42,13 +42,13 @@ Name the structure type in the plan, never on the image.
 
 ## Inventing the metaphor
 
-Invent a fresh metaphor from the current source every time:
+These tools are for an idea that has no visible form: a principle, a trade-off, a pitfall. They are not the way to picture a repository, or what a particular application does: draw the application's own things first, and reach for a metaphor only when the plain drawing cannot show the idea (`references/workflow/repository-explanation.md`, "Plan the pictures from the explanation"). Invent a fresh metaphor from the current source every time:
 
 1. **Turn the abstract into a physical action**: stuck, leaking, sorting, weighing, filtering, fermenting, folding, bridging, unpacking, flowing back.
 2. **Turn the system into a low-tech object**: a pipe, drawer, funnel, scale, ladder, mailbox, well, gate, sieve, clothesline, or an odd hand-built machine.
 3. **Give the action to the actor**: the actor pulls the lever, carries the load, patches the leak, guards the gate.
 
-Prefer objects everyone has touched over technical icons. Explain software with plumbing, mail, kitchens, and workshops rather than server racks, dashboards, and screenshots.
+Prefer objects everyone has touched over technical icons. Explain an abstract software idea with plumbing, mail, kitchens, and workshops rather than server racks, dashboards, and screenshots.
 
 ## Originality
 

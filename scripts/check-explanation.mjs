@@ -6,8 +6,11 @@
 //
 // An agent that explains a repository is asked to cite `path:line` for every claim and never to invent a path
 // (references/workflow/repository-explanation.md). This looks each cited file up in the checkout it was read from.
-// It cannot say whether a file shows what the explanation claims: a person reads that. Offline and read-only, like
-// every script here. Exit codes: 0 every reference resolves, 1 some does not (or too few files are cited), 2 usage error.
+// It also fails an explanation that calls something impenetrable, unbreakable, or 100% secure: a file can show what the
+// code does and never how strong it is. It cannot say whether a file shows what the explanation claims: a person reads
+// that. Offline and read-only, like every script here. Exit codes: 0 every reference resolves and nothing is promised
+// that a file cannot show, 1 some reference does not resolve, too few files are cited, or such a promise is made,
+// 2 usage error.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -64,9 +67,10 @@ export function main(argv, out = process.stdout, err = process.stderr) {
     else if (result.status === "beyond") out.write(`FAIL   ${result.text}  ->  ${result.resolved} has ${result.lines} lines (${where})\n`);
     else out.write(`FAIL   ${result.text}  ->  no such file in the checkout (${where})\n`);
   }
+  for (const claim of report.claims) out.write(`FAIL   "${claim.text}"  ->  a promise a source file cannot show (line ${claim.line}): say what the code does and what was not checked\n`);
   const short = cited.size < minimum;
-  out.write(`${report.results.length} references to ${cited.size} distinct files in a checkout of ${report.files} files; ${report.problems.length} do not resolve.${short ? ` Fewer than the ${minimum} files required.` : ""}\n`);
-  return report.problems.length === 0 && !short ? 0 : 1;
+  out.write(`${report.results.length} references to ${cited.size} distinct files in a checkout of ${report.files} files; ${report.problems.length} do not resolve.${short ? ` Fewer than the ${minimum} files required.` : ""}${report.claims.length > 0 ? ` ${report.claims.length} absolute claims.` : ""}\n`);
+  return report.problems.length === 0 && !short && report.claims.length === 0 ? 0 : 1;
 }
 
 if (isMain(import.meta.filename)) process.exitCode = main(process.argv.slice(2));
