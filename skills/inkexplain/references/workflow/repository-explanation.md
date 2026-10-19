@@ -42,7 +42,7 @@ The module map is a table, kept in `explanation.md`:
 
 ## 5. Say how much you covered
 
-Give a count and a scope: "Read 31 of about 140 source files, in 5 of 7 modules; not read: ...". A small project can be covered almost whole; a large one cannot. For a large project (many modules, or hundreds of source files), deliver an honest overview and the main modules, then a continuation path: the modules and workflows not yet explained, in the order that would help most, and the sentence to ask for the next one. Never say you explained every file, or the whole codebase, unless you read every file.
+Give a count and a scope: "Read 31 of about 140 source files, in 5 of 7 modules; not read: ...". A small project can be covered almost whole; a large one cannot. For a large project (many modules, or hundreds of source files), deliver an honest overview and the main modules, then a continuation path: the modules and workflows not yet explained, in the order that would help most, and the sentence to ask for the next one. Never say you explained every file, or the whole codebase, unless you read every file. A request for "all the code" or "everything" does not change that: say that you read part of it, how much, and what to ask for to continue.
 
 ## 6. Choose the pictures from the map
 
@@ -56,7 +56,7 @@ The number comes from the structure, not from a quota.
 
 ## 7. Pair every picture with its explanation
 
-Write `explanation.md` in the output folder (`references/workflow/delivery.md`), in the user's language, and give the same content, shortened, in the reply:
+Write `explanation.md` in the run folder (`references/workflow/delivery.md`), in the user's language, and give the same content, shortened, in the reply:
 
 ```text
 # <Project>: how it is built

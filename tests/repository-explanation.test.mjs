@@ -66,6 +66,7 @@ test("coverage is stated as a count, a large project gets an overview and a path
   assert.match(method, /deliver an honest overview and the main modules, then a continuation path/);
   assert.match(method, /the sentence to ask for the next one/);
   assert.match(method, /Never say you explained every file, or the whole codebase, unless you read every file/);
+  assert.match(method, /A request for "all the code" or "everything" does not change that: say that you read part of it, how much, and what to ask for to continue/);
 });
 
 test("the pictures follow the structure: an overview first, then one per major module or workflow, in order, with no quota", () => {
@@ -78,12 +79,12 @@ test("the pictures follow the structure: an overview first, then one per major m
 });
 
 test("every picture is paired with an explanation file that says the source, the coverage, the references, and where to go next", () => {
-  assert.match(method, /Write `explanation\.md` in the output folder[^\n]*in the user's language, and give the same content, shortened, in the reply/);
+  assert.match(method, /Write `explanation\.md` in the run folder[^\n]*in the user's language, and give the same content, shortened, in the reply/);
   for (const part of ["Source: <URL or folder>, branch <branch>, commit <short hash>, read on <date>.", "Coverage: <N of M files, which modules>. Not covered: <list>.", "## Module map", "In the code: a short list of path:lines", "Basis: read, documented, or inferred", "## Where to go next"]) {
     assert.ok(method.includes(part), part);
   }
-  assert.match(delivery, /A repository explanation also saves `explanation\.md` in the output folder/);
-  assert.match(delivery, /The output folder holds the images, `prompts\.md`, and, for a repository, `explanation\.md`/);
+  assert.match(delivery, /A repository explanation also saves `explanation\.md` in the run folder/);
+  assert.match(delivery, /The run folder holds the images, `prompts\.md`, `manifest\.json`, and, for a repository, `explanation\.md`/);
   assert.match(delivery, /for a repository: where the source came from, how much of it you read, and what to ask for next/);
 });
 

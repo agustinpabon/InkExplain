@@ -47,7 +47,7 @@ For each image, deliver:
 
 If a pack marks a reference-image sentence as optional, leave it out in prompt mode (the user's tool is unknown) and tell the user which file to attach and which sentence to add.
 
-When working inside a project, also save the prompts as `prompts.md` in the archetype's output folder (see `references/workflow/delivery.md`), so they can be rerun later.
+When working inside a project, also save the prompts as `prompts.md`, so they can be rerun later: in the run folder when images are generated, otherwise in the archetype's folder (see `references/workflow/delivery.md`).
 
 ## Prompt checklist
 

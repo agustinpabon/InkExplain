@@ -1,12 +1,14 @@
 // Checks that a path an agent reports for a generated image is a real raster image in the right place.
 //
 // An agent may only report a saved path after listing the folder (SKILL.md). This is the same test as code:
-// the file must sit inside the workspace under assets/<slug>-<suffix>/, be named NN-topic-slug, be a regular
-// file (not a symbolic link), and decode as a PNG, JPEG, or WebP of plausible size. Vector files, empty files,
+// the file must sit inside the workspace under assets/<slug>-<suffix>/ (an image of a Generate request sits one
+// level down, in its run folder, run-<id>), be named NN-topic-slug, be a regular file (not a symbolic link), and
+// decode as a PNG, JPEG, or WebP of plausible size. Vector files, empty files,
 // and placeholders fail. It reads files and prints nothing; the CLI is scripts/verify-image.mjs.
 
 import fs from "node:fs";
 import path from "node:path";
+import { RUN_FOLDER_PATTERN } from "./config.mjs";
 import { readPngInfo } from "./images.mjs";
 
 const MIN_SIDE = 64;
@@ -58,9 +60,11 @@ export function validateGeneratedImage(workspace, reported) {
   if (path.posix.isAbsolute(reported) || /^[A-Za-z]:/.test(reported)) return fail("the path must be relative to the workspace");
   const parts = reported.split("/");
   if (parts.includes("..") || parts.includes(".")) return fail("the path must not use . or .. segments");
-  if (parts[0] !== "assets" || parts.length !== 3) return fail("an image belongs in assets/<slug>-<suffix>/<file>");
+  if (parts[0] !== "assets" || (parts.length !== 3 && parts.length !== 4)) return fail("an image belongs in assets/<slug>-<suffix>/run-<id>/<file>");
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(parts[1])) return fail("the output folder must be a lowercase kebab-case name");
-  if (!NAME.test(parts[2])) return fail("the file name must look like 01-topic-slug.png");
+  if (parts.length === 4 && !RUN_FOLDER_PATTERN.test(parts[2])) return fail("the folder inside the output folder must be a run folder, run-YYYYMMDD-HHMMSS-xxxx");
+  const fileName = parts.at(-1);
+  if (!NAME.test(fileName)) return fail("the file name must look like 01-topic-slug.png");
 
   const absolute = path.join(workspace, ...parts);
   let stat;
@@ -70,7 +74,7 @@ export function validateGeneratedImage(workspace, reported) {
   if (stat.size === 0) return fail("the file is empty");
 
   const buffer = fs.readFileSync(absolute);
-  const extension = path.extname(parts[2]).slice(1).toLowerCase();
+  const extension = path.extname(fileName).slice(1).toLowerCase();
   let info;
   try {
     if (buffer.subarray(0, 4).toString("latin1") === "\u0089PNG") info = { format: "png", ...readPngInfo(buffer) };

@@ -40,7 +40,7 @@ test("in Codex the built-in image_gen tool is reached through $imagegen, one cal
   assert.match(tools, /built-in `image_gen` tool, normally reached through the installed `\$imagegen` skill/);
   assert.match(tools, /One image, one call/);
   assert.match(tools, /\$CODEX_HOME\/generated_images/);
-  assert.match(tools, /Copy the chosen image into the output folder/);
+  assert.match(tools, /Copy the image the tool reported for this call, never the newest file in that folder, into this run's folder/);
   assert.match(tools, /keep the original where it is/);
 });
 
@@ -68,7 +68,7 @@ test("there is no automatic paid fallback: the Codex CLI and API route needs the
   assert.match(tools, /Never run its `scripts\/image_gen\.py` CLI, and never fall back to the API on your own/);
   assert.match(tools, /continue only if the user asks for it/);
   assert.match(tools, /Never install a tool, add a key, or sign in to a service for the user/);
-  assert.match(skill, /Never switch to a paid API or key, install a tool, or sign in anywhere on your own/);
+  assert.match(skill, /Never switch to a paid API or key, install or update a tool or a skill, or sign in anywhere on your own/);
 });
 
 test("the archetype survives the call: each image is generated from its own assembled prompt, unchanged", () => {
@@ -94,6 +94,23 @@ test("a real PNG in the output folder is accepted, with its size", () => {
   const root = workspace({ [GOOD]: makePng(640, 360) });
   const result = validateGeneratedImage(root, GOOD);
   assert.deepEqual([result.ok, result.format, result.width, result.height], [true, "png", 640, 360]);
+});
+
+test("an image in a run folder is accepted, and the folder inside the output folder has to be a run folder", () => {
+  const inRun = "assets/cache-littlebox/run-20261019-143502-7f3a/01-fast-lane.png";
+  const root = workspace({
+    [GOOD]: makePng(640, 360),
+    [inRun]: makePng(640, 360),
+    "assets/cache-littlebox/run-1/01-fast-lane.png": makePng(640, 360),
+    "assets/cache-littlebox/earlier/01-fast-lane.png": makePng(640, 360),
+    "assets/cache-littlebox/run-20261019-143502-7f3a/extra/01-fast-lane.png": makePng(640, 360),
+  });
+  assert.equal(validateGeneratedImage(root, inRun).ok, true);
+  assert.equal(validateGeneratedImage(root, GOOD).ok, true, "an earlier run's image, saved straight in the output folder, is still a valid image");
+  for (const reported of ["assets/cache-littlebox/run-1/01-fast-lane.png", "assets/cache-littlebox/earlier/01-fast-lane.png", "assets/cache-littlebox/run-20261019-143502-7f3a/extra/01-fast-lane.png"]) {
+    assert.equal(validateGeneratedImage(root, reported).ok, false, reported);
+  }
+  assert.match(validateGeneratedImage(root, "assets/cache-littlebox/run-1/01-fast-lane.png").problems[0], /must be a run folder, run-YYYYMMDD-HHMMSS-xxxx/);
 });
 
 test("a path that was never written is refused: no fabricated paths", () => {

@@ -199,7 +199,7 @@ test("the reference is supplied to every call as an actual image input, always t
   assert.match(lock, /\*\*Always the same file\.\*\* The packaged file, every time\. Never a render: not image 1 for image 2, not "the previous image"/);
   assert.match(lock, /never an option that selects recent images from the conversation \(in Codex, `num_last_images_to_include`\)/);
   assert.match(lock, /Do not count on the tool remembering earlier images either: every call carries the identity itself/);
-  assert.match(lock, /copy the reference to `assets\/<article-slug>-<suffix>\/identity-reference\.png`, attach the copy, and say so in the report/);
+  assert.match(lock, /copy the reference into the run folder as `identity-reference\.png` \(it is not one of the run's images\), attach the copy, and say so in the report/);
 });
 
 test("a path in the prompt text is not an attachment, and a failed attachment is never dropped quietly", () => {
@@ -217,7 +217,7 @@ test("tool capability is read from the tool's parameters, host by host, and neve
   assert.match(tools, /\*\*Codex\*\*: `referenced_image_paths`, a list of local file paths\. Checked by InkExplain's own runs/);
   assert.match(tools, /its `num_last_images_to_include` selects recent conversation images, earlier renders among them: never use it for an identity reference/);
   assert.match(tools, /\*\*Cursor\*\*: users report a `reference_image_paths` parameter[^\n]*Not checked here/);
-  assert.match(tools, /\*\*Google Antigravity\*\*: read its parameter list\. Not checked here\./);
+  assert.match(tools, /\*\*Google Antigravity\*\*: in the one transcript InkExplain has seen, `generate_image` took `Prompt`, `ImageName`, `AspectRatio`, and `ImagePaths`, a list of file paths[^\n]*One transcript is not a definition: read the tool's own parameter list/);
   assert.match(tools, /\*\*Any other tool\*\*: whatever its parameters say\. An image-path or reference-image input counts, and a prompt-only tool takes none/);
   assert.match(tools, /A prompt-only tool takes none, so the series runs on the written lock alone and the report says so/);
   assert.match(tools, /Claude Code and Gemini CLI have no built-in generator/);
@@ -249,15 +249,15 @@ test("the series gate asks for observations, rejects on one material violation, 
 test("a rejected image is regenerated from the same reference with a correction, in bounded attempts, and the failed image is never the source", () => {
   assert.match(lock, /An identity failure is repaired by generating the image again, not by editing it: the same prompt, the same reference attached, and one `Correction:` paragraph added directly after the Action paragraph/);
   assert.match(lock, /do not attach or edit the failed image: it would carry its mistakes into the new one/);
-  assert.match(lock, /at most two repair attempts per image and six per series\. An image that still fails is not approved/);
+  assert.match(lock, /at most two repair attempts per image and six per series\. Each repair is another call, so it counts in the run record as a generator call and a new image\. An image that still fails is not approved/);
   assert.match(lock, /Report it as needing repair, with what you saw, and keep it apart from the approved images/);
   assert.match(workflow("editing.md"), /the failed image is not attached/);
   assert.match(workflow("prompt-assembly.md"), /A repair adds one `Correction:` paragraph directly after the Action paragraph and changes nothing else/);
   assert.match(skill, /stop after three attempts on one image/);
 });
 
-test("the report separates generated, file verified, visually inspected, identity consistent, needs repair, and unable to verify", () => {
-  for (const term of ["| Generated |", "| File verified |", "| Visually inspected |", "| Identity consistent |", "| Needs repair |", "| Unable to verify |"]) {
+test("the report separates generated, file verified, visually inspected, identity consistent, needs repair, needs human review, and unable to verify", () => {
+  for (const term of ["| Generated |", "| File verified |", "| Visually inspected |", "| Identity consistent |", "| Needs repair |", "| Needs human review |", "| Unable to verify |"]) {
     assert.ok(delivery.includes(term), term);
   }
   assert.match(delivery, /A file check never makes an image consistent\. An image you did not inspect is "unable to verify", whatever the file check says/);

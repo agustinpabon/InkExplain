@@ -10,7 +10,7 @@ Read the whole list of tools you can call right now: built-in tools and every `m
 |---|---|---|
 | Codex | the built-in `image_gen` tool, normally reached through the installed `$imagegen` skill | Needs no `OPENAI_API_KEY`. Codex 0.160.0 lists it as `image_gen__imagegen`. It has no size parameter: ask for the ratio in the prompt. |
 | Cursor (Agent, 2.4 or later) | `GenerateImage` | Ask for the image explicitly. Cursor saves it under the project's `assets/` folder or `~/.cursor/projects/<project>/assets/`. |
-| Google Antigravity | the image tool its agent lists | A user's run produced images with it. Its parameters were not recorded. |
+| Google Antigravity | `generate_image` | Seen in one user's transcript (2026-10-19): it saves a JPEG in a folder of its own outside the workspace and reports the path in its result. |
 | Any host | a tool the user installed (for example an MCP server) whose description says it generates images | It may bill the user. Use it only because it is already connected. |
 
 What each takes as an image input:
@@ -18,7 +18,7 @@ What each takes as an image input:
 - **Codex**: `referenced_image_paths`, a list of local file paths. Checked by InkExplain's own runs.
 - **Codex, a trap**: its `num_last_images_to_include` selects recent conversation images, earlier renders among them: never use it for an identity reference.
 - **Cursor**: users report a `reference_image_paths` parameter next to `description`, `filename`, and `aspect_ratio`. Not checked here: read the tool's own definition.
-- **Google Antigravity**: read its parameter list. Not checked here.
+- **Google Antigravity**: in the one transcript InkExplain has seen, `generate_image` took `Prompt`, `ImageName`, `AspectRatio`, and `ImagePaths`, a list of file paths, and a call that passed the packaged reference in `ImagePaths` returned an image. One transcript is not a definition: read the tool's own parameter list.
 - **Any other tool**: whatever its parameters say. An image-path or reference-image input counts, and a prompt-only tool takes none.
 
 These do not count as an image tool: a skill file by itself, a missing API key, a display helper (`view_image`, `generatedImage`), and drawing code (SVG, HTML, CSS, canvas, a screenshot, a diagram). An absent key never means an absent tool: Codex's built-in tool needs none. If, after reading every name, none generates images, you do not have one. If one does, call it: do not choose Prompt mode first.
@@ -33,7 +33,7 @@ Before the first call, read the tool's own parameter list, not its name and not 
 2. **Are those images references or edit targets?** An input described as "for editing" still takes the reference: name its role in the prompt (the pack's reference sentence says the image is an identity and style reference, not something to edit or copy). A tool that can only edit does not draw new scenes from a reference.
 3. **Can it set the aspect ratio?** Use the parameter when it has one. Otherwise ask for the ratio in the prompt, as the template does.
 
-Write down what you found (the tool's name, the input you used or the lack of one): the delivery report states it.
+Write down what you found (the tool's name, the input you used or the lack of one): the run record and the delivery report state it (`references/workflow/delivery.md`).
 
 ## Call it
 
@@ -44,9 +44,9 @@ Write down what you found (the tool's name, the input you used or the lack of on
 
 ## Save and verify
 
-1. The tool usually writes outside the workspace (Codex: `$CODEX_HOME/generated_images/...`). Copy the chosen image into the output folder from `delivery.md`, named `NN-topic-slug.png`, and keep the original where it is. Never overwrite.
-2. Verify the copy: list the folder; the file exists and is not empty; open it with the host's image viewer and look at it. A path you did not list is not a path you may report.
-3. Report the exact saved path, the tool used (the host's built-in tool, or the name of the user's tool), whether the identity reference was attached and through which input, and the final prompt.
+1. The tool usually writes outside the workspace (Codex: `$CODEX_HOME/generated_images/...`; Antigravity: a folder of its own, with the path in the tool's result). Copy the image the tool reported for this call, never the newest file in that folder, into this run's folder from `delivery.md`, named `NN-topic-slug.<ext>` with the extension of the format it is (Antigravity writes JPEG), and keep the original where it is. Never overwrite. If the tool's result asks you not to show the path to the user, keep it in the run record and leave it out of the reply.
+2. Verify the copy: list the run folder; the file exists and is not empty; open it with the host's image viewer and look at it. A path you did not list is not a path you may report. Then add the call to the run record: the tool's answer, the path it reported, and the file's hash.
+3. Report the exact saved path, the tool used (the host's built-in tool, or the name of the user's tool), whether the identity reference was attached and through which input, the final prompt, and the run's counts.
 
 ## When the tool fails or refuses
 
