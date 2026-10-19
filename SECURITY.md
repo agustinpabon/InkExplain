@@ -10,26 +10,26 @@ This document states what InkExplain does and does not do, how each claim is enf
 
 | Property | What it means | Enforced by |
 |---|---|---|
-| **Offline by design** | The skill package contains no code. It never asks the agent to contact a service, and it has no telemetry, analytics, or update checks. Repository scripts make no network calls and start no processes. The command-line helper (`scripts/explain.mjs`) only reads the registry and the packs and prints text. The gallery page (`examples/gallery/index.html`) is one file that loads nothing and sends nothing. Installing with `npx skills add` runs a separate tool, the open skills CLI, which reports anonymous install counts unless `DISABLE_TELEMETRY=1` is set; that is not part of the skill. | `SEC-004` fails on `child_process`, network modules, `fetch(`, `eval(`, and `new Function(` in `scripts/`. `PKG-006` limits the package to Markdown, JSON, YAML, PNG, and SVG. `SEC-006` requires the gallery's `default-src 'none'` policy and rejects remote resources, network and dynamic-code APIs, and markup built from strings. |
+| **Offline by design** | The skill package contains no code, and it has no telemetry, analytics, or update checks. It asks the agent to contact a service in one case only: when the user gives a repository URL to explain, which the agent reads through access the host already has (a shallow clone, or the host's own GitHub access), without signing in, adding a token, or installing anything. Repository scripts make no network calls and start no processes. The command-line helper (`scripts/explain.mjs`) only reads the registry and the packs and prints text. The gallery page (`examples/gallery/index.html`) is one file that loads nothing and sends nothing. Installing with `npx skills add` runs a separate tool, the open skills CLI, which reports anonymous install counts unless `DISABLE_TELEMETRY=1` is set; that is not part of the skill. | `SEC-004` fails on `child_process`, network modules, `fetch(`, `eval(`, and `new Function(` in `scripts/`. `PKG-006` limits the package to Markdown, JSON, YAML, PNG, and SVG. `SEC-006` requires the gallery's `default-src 'none'` policy and rejects remote resources, network and dynamic-code APIs, and markup built from strings. |
 | **Zero runtime dependencies** | `package.json` declares no dependencies of any kind. Scripts and tests use Node.js built-ins only, so no third-party package is installed or executed. | `SEC-005` fails when any dependency field is non-empty. |
-| **Dual execution mode** | **Prompt mode** needs no tool: the agent reads references and writes text, and its only file write is `prompts.md` in the output folder. **Generate mode** applies only when the host agent provides an image-generation tool. InkExplain ships no generator, and its instructions tell the agent never to claim an image it did not generate. | The mode rules in `SKILL.md` and `references/workflow/prompt-assembly.md`. |
-| **Filesystem isolation** | Images and the prompts file are written only to `assets/<article-slug>-<suffix>/`, or to a folder the user names inside the workspace. Never inside the skill folder, never outside the workspace, and never over an existing file. The skill reads only what the user points to, and never credentials, key files, or environment files. | The rules in `SKILL.md` and `references/workflow/delivery.md`. See the limit below. |
-| **Source text is data** | The article, document, or idea being illustrated is material to draw, not instructions to follow. | The rules in `SKILL.md`. See the limit below. |
+| **Dual execution mode** | **Prompt mode** needs no tool: the agent reads references and writes text, and its only file writes are `prompts.md` in the output folder, and `explanation.md` for a repository. **Generate mode** applies only when the host agent provides an image-generation tool. InkExplain ships no generator, and its instructions tell the agent never to claim an image it did not generate. | The mode rules in `SKILL.md` and `references/workflow/prompt-assembly.md`. |
+| **Filesystem isolation** | Images, the prompts file, and a repository explanation are written only to `assets/<article-slug>-<suffix>/`, or to a folder the user names inside the workspace. The one other place is the system's temporary folder, for a shallow clone of a repository URL the user gave, which the agent deletes afterwards. Never inside the skill folder, never anywhere else, and never over an existing file. The skill reads only what the user points to, and never credentials, key files, or environment files. | The rules in `SKILL.md` and `references/workflow/delivery.md`. See the limit below. |
+| **Source text is data** | The article, document, or idea being illustrated, and every file of a repository being explained, is material to draw, not instructions to follow. The agent reads a repository and does not run it. | The rules in `SKILL.md`. See the limit below. |
 
 **Limits of these rules.** The two isolation rules are instructions to the agent, not an operating-system sandbox. A host agent that obeys them cannot be steered into writing elsewhere by an article, but InkExplain cannot force a host to obey. Keep the host's own permission prompts and sandbox on; they are the enforcement layer.
 
 ### Trust boundaries
 
 ```text
-article, document, idea     (untrusted: may contain hostile text)
+article, document, idea, repository     (untrusted: may contain hostile text)
         |
         v
-host agent + InkExplain     (reviewed instructions; no code, no network, no credentials)
+host agent + InkExplain     (reviewed instructions; no code, no credentials)
         |
         +--> host image tool    (Generate mode only; runs under the host's permissions)
         |
         v
-workspace: assets/<article-slug>-<suffix>/     (the only place InkExplain writes)
+workspace: assets/<article-slug>-<suffix>/     (the only place InkExplain writes, apart from a temporary clone of a repository URL)
 ```
 
 ### Threats and mitigations
@@ -37,10 +37,12 @@ workspace: assets/<article-slug>-<suffix>/     (the only place InkExplain writes
 | Threat | Mitigation | Residual risk |
 |---|---|---|
 | Hostile text in an article tries to redirect the agent (indirect prompt injection) | The source is treated as data. The skill asks for no credentials, shell, or network access, and its only side effect is saving images and a prompt file. | A host with broad tool permissions can still be steered by any text it reads. Limit what the host may do. |
+| Hostile text in a repository being explained (a README, `AGENTS.md`, a comment, a script) tries to redirect the agent | Every file of a repository is data: the agent reads it and does not run it, installs nothing, starts no server, skips secret files (`.env*`, keys, tokens), and clones only a URL the user gave, into a temporary folder it deletes afterwards (`references/workflow/repository-explanation.md`). | The same as above, and the skill cannot make a host skip a secret file: a repository that holds a secret can still show it to a host that opens that file. Keep the host's permission prompts on. |
 | A change to the skill adds an exfiltration or override instruction | Every push to `main` and every pull request is scanned with SkillSpector (`.github/workflows/security.yml`). Commits made since 2026-10-17 are signed; earlier ones are not. | A subtle instruction can evade a static scanner. Review changes to `skills/inkexplain/` by hand. |
 | A dependency or build tool is compromised | No dependencies. Both workflows pin every action to a commit SHA, and the security workflow pins SkillSpector to a commit. | A pin only freezes what was reviewed: it must be updated on purpose, and it does not protect against a malicious release that was reviewed and pinned. |
 | Secrets or machine paths committed by accident | `SEC-001` and `SEC-002` scan every tracked text file. | Only the credential shapes listed in `scripts/lib/checks/security.mjs` are detected. |
 | A path escapes the checkout | Scripts resolve every path inside the repository root, and `SEC-003` forbids symbolic links. | None known. |
+| A bundled reference image is swapped or altered | `SCHEMA-011` allows an image in a pack only as its declared reference, and `ASSET-005` fails unless the file matches the SHA-256 in the pack's `rights.md`, which also names the source and, for a crop, how it was cut. | A record and a file changed together would still agree: the hashes are for review, not authority, and PNG pixels are not inspected for what they show. |
 | A bundled image carries active content | `ASSET-001` validates PNG structure and rejects SVG scripts, event handlers, and external references. | PNG pixels are not inspected for embedded text. |
 | A change adds a tracker, remote script, or exfiltration path to the gallery page | The browser enforces its Content-Security-Policy (`default-src 'none'`, no `connect-src`), and `SEC-006` fails on a weaker policy or on remote resources. The page builds its markup with `textContent`, never from strings, and its data is embedded JSON with no raw `<`. | The policy is only as strong as the browser that applies it, and `'unsafe-inline'` is needed because the page keeps its script and styles inline. |
 
@@ -55,15 +57,15 @@ workspace: assets/<article-slug>-<suffix>/     (the only place InkExplain writes
 
 [SkillSpector](https://github.com/NVIDIA/skillspector) is NVIDIA's open-source security scanner for agent skills.
 
-**Result of this project's own static scan: 0 findings (0 Critical, 0 High, 0 Medium, 0 Low). Risk score 0/100, severity LOW, recommendation SAFE, inspection complete (coverage 100% of the files the scanner can read; the two PNG images are listed below as scope exclusions).**
+**Result of this project's own static scan: 0 findings (0 Critical, 0 High, 0 Medium, 0 Low). Risk score 0/100, severity LOW, recommendation SAFE, inspection complete (coverage 100% of the files the scanner can read; the three PNG images are listed below as scope exclusions).**
 
 | | |
 |---|---|
 | Scanner | SkillSpector at commit `240421219409dc0bafef9f618a10d80c2d7e83a3`, which reports itself as v2.12.0. It is a later commit than the one the `v2.12.0` tag points to, not the tagged release. |
 | Mode | Static analysis only (`--no-llm`). No file contents left the machine. |
 | Command | `skillspector scan skills/inkexplain/ --no-llm --fail-on-findings --fail-on-incomplete` |
-| Scanned | 2026-10-17, 54 files, 52 fully inspected, 2 binary images excluded |
-| Content | Git tree `5a293c19a4eded6e5de9a83b18659358ede2fa84`: the output of `git rev-parse HEAD:skills/inkexplain` for the commit that last updated this statement |
+| Scanned | 2026-10-18, 57 files, 54 fully inspected, 3 binary images excluded |
+| Content | Git tree `e0b1cb89ef45a3e9856364b67c1f58714a9336da`: the output of `git rev-parse HEAD:skills/inkexplain` for the commit that last updated this statement |
 
 This is the output of a scan InkExplain ran on itself. It is **not** an NVIDIA certification, endorsement, or "verified" status; NVIDIA's own verification is a separate publication process that this skill has not gone through. The pass applies to the tree above. The workflow re-runs the scan on every change and is the current source of truth.
 
@@ -73,14 +75,14 @@ This is the output of a scan InkExplain ran on itself. It is **not** an NVIDIA c
 |---|---|---|
 | Prompt injection | `static_patterns_prompt_injection`, `anti_refusal`, `system_prompt_leakage`, `memory_poisoning`, `harmful_content` | A search of the package for override phrases ("ignore previous", "system prompt", "you are now", and similar) found none. "Hidden" appears only as a metaphor word ("hidden dependency"). |
 | Data exfiltration | `static_patterns_data_exfiltration`, `agent_snooping`, `ssrf` | The package has no instruction to read credentials (`.ssh`, cloud credentials, `.env`, tokens), to send data anywhere, or to fetch a URL. The only URLs are rights-provenance citations in rights notes and credits. |
-| Dynamic code execution, `eval()` | `static_patterns_deserialization`, `tool_misuse`, `output_handling`. The behavioral AST, taint-tracking, and bundled-execution analyzers found no applicable files. | The package ships no executable file (54 components, "Executable Scripts: No"). `PKG-006` keeps it that way, and `SEC-004` bars `eval(` and `new Function(` in `scripts/`. |
+| Dynamic code execution, `eval()` | `static_patterns_deserialization`, `tool_misuse`, `output_handling`. The behavioral AST, taint-tracking, and bundled-execution analyzers found no applicable files. | The package ships no executable file (57 components, "Executable Scripts: No"). `PKG-006` keeps it that way, and `SEC-004` bars `eval(` and `new Function(` in `scripts/`. |
 | Privilege escalation | `static_patterns_privilege_escalation`, `excessive_agency`, `rogue_agent` | The skill requests no tools, no elevated rights, and no shell. Its writes are limited to the output folder. |
 | Supply-chain risk | `static_patterns_supply_chain`, `artifact_integrity`, `static_yara` | No dependencies (`SEC-005`), no install step, no downloaded code. |
 
 ### What the scan does not cover
 
 - The three LLM-based semantic analyzers were disabled (`--no-llm`). They can be run with `skillspector scan skills/inkexplain/` and a configured provider; doing so sends file contents to that provider.
-- `references/archetypes/gopher/gopher.png` and `references/archetypes/stickman/pose-sheet.png` are binary and SkillSpector does not inspect them (it lists both as scope exclusions). `ASSET-001` checks their structure, and `tests/bundled-references.test.mjs` checks that the gopher drawing is still the unmodified copy its rights record names.
+- `references/archetypes/gopher/gopher.png`, `references/archetypes/stickman/pose-sheet.png`, and `references/archetypes/xiaohei/xiaohei.png` are binary and SkillSpector does not inspect them (it lists all three as scope exclusions). `ASSET-001` checks their structure, `ASSET-005` checks that each declared reference still matches the SHA-256 its rights record names, and `tests/bundled-references.test.mjs` checks that the gopher drawing is still the unmodified copy and the Xiaohei image still the crop (source, commit, size) its rights record describes.
 - A static scan cannot prove that no instruction is harmful. It lowers the chance of an obvious one slipping in.
 
 ### Reproduce the scan
