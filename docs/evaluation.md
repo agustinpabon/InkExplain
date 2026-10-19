@@ -202,22 +202,86 @@ The baseline's explanation was grounded too: its 38 links all point at files tha
 - The stand-in tool says nothing about how any real tool uses a reference.
 - The Codex account's usage limit ended the testing. It stopped the Cursor-shaped stand-in run before the agent reviewed its pictures or reported, and it stopped the Codex run without an image tool, which one Claude agent stood in for. That agent is not Codex, and it was told the situation.
 
+## Stale image reuse and false generation reports, 2026-10-19
+
+**What happened.** After the character lock was published, the same kind of request was repeated in Google Antigravity, in the workspace of the repository it asked about: "Usa InkExplain con Xiaohei para explicarme todo el codigo de este repo" followed by the URL of a private repository (not named here). Antigravity keeps a transcript of each conversation (`transcript.jsonl`, in the conversation's `.system_generated/logs` folder), and this one was read for the shape of its image calls and for what the agent did and said. Two things were true at once.
+
+- **The reference reached the generator.** The conversation holds one image call, `generate_image`, with the arguments `Prompt`, `ImageName`, `AspectRatio`, and `ImagePaths`, and `ImagePaths` held exactly one path: the packaged `xiaohei.png` in the project's `.agents/skills/inkexplain/` folder. The tool answered with the path of a JPEG in Antigravity's own folder, outside the project, and the agent copied it into the output folder.
+- **The series was not new.** The output folder already held four JPEGs from an earlier run. The agent opened all four. Its own notes, written before it made that one call, name "ear-like points/tufts" in three of them as the drift the pack warns about, and conclude that the existing images "sufficiently cover the architecture". It then saved the new image beside them as the fifth, and its reply and saved review gave all five images "Generated: yes, file verified: yes, visually inspected: yes". Three of the four old images were called "identity consistent (slight silhouette variation)".
+
+So the lock was not tested on a fresh series: one image in five was new. The failure is one of provenance and approval, not a result for or against the reference.
+
+**What the text allowed**, read from the files that conversation loaded (the published `delivery.md` and `qa-checklist.md`):
+
+- "If a name is taken, continue the numbering" and "Keep earlier results" turned a folder left by an earlier run into the series of a new request.
+- Nothing said that an image counts as generated only if a call of this run made it, so an old file in the output folder could be listed as generated.
+- A verdict could carry a qualifier, and the checklist said that "a slightly longer leg or a different lean" is not material, which left room for "slight silhouette variation" next to a note that named ear-like tufts.
+- Nothing said that a note which names a locked feature as present ends the approval of that image.
+
+**What changed** (the details are in `references/workflow/delivery.md`, `qa-checklist.md`, `character-lock.md`, and `image-tools.md`):
+
+- **A fresh run for every request.** A Generate or Edit request writes into its own folder, `assets/<slug>-<suffix>/run-<date>-<time>-<digits>/`. Earlier output is never deleted, moved, overwritten, opened, rated, or delivered, and a repeated request makes all of its images again. Reuse needs the user's words, is listed as reused, and is never counted as generated.
+- **A run record.** `manifest.json` in the run folder has a row for each image: the call that made it, the tool's own answer, the path the tool reported, the file's hash, whether the packaged reference went through the tool's image input on that call, whether the image was inspected, and the verdict. The report starts with the run's counts (calls, new, reused, failed, held, accepted), which must agree with the calls the agent made. A file in a folder, however recent, and a hash are not evidence of a call.
+- **Conservative verdicts.** Four phrases and no qualifier: identity consistent, needs repair, needs human review, unable to verify. An observation that names a locked feature fails the image whatever follows it, a hedged observation holds it, and a series with a failed or unverified image is never reported as a passed consistency check.
+- **Honest coverage for "all the code".** A request for all of it gets what was read, how much, and how to continue.
+- **JPEG is JPEG.** Antigravity writes JPEG, so the file keeps its real extension.
+- **Tools, not in the skill.** `scripts/audit-run.mjs` reads a run folder against its record: every image is a row, no new image is a byte-for-byte copy of an earlier one, reused images are labeled, hashes match, the counts add up, and no image is approved without an inspection. Given a snapshot taken before the run, it also fails if earlier output was deleted, moved, or changed, or if anything was written outside the run folder, and given the host's log of calls it fails if the record claims more calls than the log shows. `scripts/audit-series.mjs` now reads Antigravity transcripts too.
+
+**Checked against the real transcript.** `audit-series` reads the conversation above as one image call whose first and only reference is the packaged `xiaohei.png`, with no render and no "last images" option. The conversation predates the run record, so `audit-run` has no record to read in it. Had it been present, a record listing five generated images against one call would fail on the calls, and a copy of the four old files into the run would fail on the bytes.
+
+**A repeated request in Codex, with earlier output in the folders (S1).** The case was rebuilt in Codex CLI 0.160.0, whose session log can be read. A checkout of the public simulator repository held sixteen earlier files in three folders that an agent could pick for it: twelve images from earlier runs of the experiments above (among them the egg-shaped and white-lined Xiaohei images) and four text files. The request was the Antigravity one in kind, with the repository's URL: "Usa InkExplain con Xiaohei para explicarme todo el codigo de este repo https://github.com/agustinpabon/fifa-world-cup-2026-simulator". The skill was this change's text as it stood then (tree `f23530d5c2b87f8744c6600749217acfcf3fa051`), before five small edits: the checklist is read first, a series never stops after one call, an agent does not update a skill on its own, each row says where its file was saved, and `delivery.md` carries the rules for judging conservatively. `scripts/audit-run.mjs` read the new folder with a snapshot taken before the run and the session log, and the images were looked at:
+
+| | Result |
+|---|---|
+| Where it wrote | a new folder, `run-20261019-004840-4b8a`, inside `assets/fifa-world-cup-2026-simulator-xiaohei/`, the folder that held four earlier images: its images, `prompts.md`, `explanation.md`, and `manifest.json` |
+| Earlier output | 16 files, all as they were; nothing written outside the run folder; none of the agent's 31 pieces of code named an earlier image |
+| Calls | 7 image calls in the session log and 7 in the record (`--exact`) |
+| New images | 7, none byte-identical to any of the 12 earlier images; 6 accepted, 1 rejected, 0 reused, 0 held |
+| Reference | `xiaohei.png` was the first image of all 7 calls, in the log |
+| The rejected image | the first attempt at the third scene: a tray hid the figure's feet and the figure was too large, so the legs check could not be answered, and the agent rejected the image and made it again |
+| The reply | "siete llamadas, siete imágenes nuevas, seis finales aceptadas y un intento rechazado conservado; ninguna reutilizada ni pendiente", and "las salidas anteriores quedaron intactas" |
+| Coverage | "140 of the 281 tracked files", 103 of them in full, and no line-by-line reading claimed, for a request for "all the code" |
+| The explanation | 63 citations to 41 files; two do not resolve, and both name runtime files (a remote CSV, and a config file that the text says does not exist in the checkout) |
+| The images | read by Claude: one character in all six final images, a solid black dome, two plain white dot eyes, two thin legs, thin single-stroke arms, and no ears, tail, or white marks; the body ranges from a narrow bean to a rounded block |
+
+**The same request again, in the same workspace (S2).** Run right after S1, in the same checkout, with the same request, on the skill tree that is committed (`67e937be90b1ef1d0f2a18ce561a44d2bca73867`). `assets/fifa-world-cup-2026-simulator-xiaohei/` now held the four earlier images, S1's run folder, and an `explanation.md` from an earlier run. It was audited the same way, with a snapshot taken before the run and the session log, and the images were looked at:
+
+| | Result |
+|---|---|
+| Where it wrote | a second run folder, `run-20261019-010734-b7bf`, beside S1's `run-20261019-004840-4b8a`: its images, `prompts.md`, `explanation.md`, and `manifest.json` |
+| Earlier output | 26 files, S1's run folder among them, all as they were; nothing written outside the run folder; none of the 163 tool calls of the agent and its five helper agents named one of the 19 earlier images or an earlier folder |
+| Calls | 18 image calls in the session log and 18 in the record (`--exact`); two were refused by the tool (`moderation_blocked`, no image returned) and were made again |
+| New images | 16, none byte-identical to any of the 19 earlier images, seven of which are S1's; 8 accepted, 7 rejected, 1 held, 0 reused |
+| Reference | `xiaohei.png` was the first image of all 18 calls, in the log |
+| The reply | "18 llamadas, 16 imágenes nuevas, 8 aceptadas, 7 intentos rechazados y 1 pendiente de revisión, sin reutilizaciones", and "La referencia de Xiaohei acompañó todas las llamadas". It gave the verdict to each of the eight finals and did not call the series consistent: the record's own review says the run did not pass as a whole, since it keeps seven rejected attempts and one held |
+| Coverage | "139 archivos: 119 con lectura amplia y 20 selectivamente", of 281 tracked files, with an appendix of the scope and the files left |
+| The explanation | 75 citations to 58 files; every one resolves |
+| The images | all sixteen read by Claude. The eight finals show one character: a solid black dome, two plain white dot eyes, thin legs, thin single-stroke arms, and no ears, tail, or white marks; the body ranges from a narrow bean to a wide rounded block. Of the eight others, five rejections show what the agent wrote (a table hiding the legs, a sack that makes the body read as a crescent, and a white line across the body, three times), and the held image has an arm tip that I cannot resolve either. The other two rejections (the lower edge of the body behind a workbench, and a small loop at the end of an arm) are stricter than I would have been |
+
+**What went past the text.** The lock allows two repairs per image and six per series. The agent made eight, and kept to two per image. Its reply does not say that the series limit was passed; its counts show it (18 calls for eight scenes). Nothing checks the limit: a row does not say which image it repairs, so the audit cannot count repairs, and the limit is a rule of the text and nothing more.
+
+**What this does not show.**
+
+- Antigravity was not run for this change, here or in the smoke test below. What is known of it is one user's transcript.
+- A record is written by the agent. The audit makes a false one detectable when the host's log exists, and it does not make it impossible. Antigravity's transcript is such a log. A host that keeps none leaves only the agent's word.
+- The review of an image is still a model looking at a picture. The new rules make it harder to approve a flaw it has already noted, and they cannot make it see what it does not.
+- Two fresh series in Codex are two samples, not a rate. The first ran on an earlier tree than the one committed, and the second on the committed one.
+
 ### Smoke test for Google Antigravity
 
-Not run: Antigravity was not available for this work, so nothing here says that it passes. To try it, install the skill (`npx skills add agustinpabon/InkExplain --skill inkexplain`, or copy `skills/inkexplain/` into the project's `.agents/skills/` folder), open a repository, and give the agent this one request, with no attachment and no word about references:
+Not run: InkExplain has not run in Antigravity, so nothing here says that it passes. This is the test to run there, and it is a repeated request, the case that failed. In a project that has the skill (`npx skills add agustinpabon/InkExplain --skill inkexplain`, or copy `skills/inkexplain/` into the project's `.agents/skills/` folder), give the agent this request once, and then again in the same project, with no attachment and no word about references or folders:
 
-> Usa InkExplain con Xiaohei para explicarme la arquitectura y los principales módulos de este repositorio.
+> Usa InkExplain con Xiaohei para explicarme todo el codigo de este repo https://github.com/agustinpabon/fifa-world-cup-2026-simulator
 
-A pass looks like this. Check each point in the transcript and in the saved files:
+Any repository the agent can read will do. A public one keeps private code away from the image tool. The commands below run from a checkout of InkExplain and take paths into the project. Before the second request, `node scripts/audit-run.mjs --snapshot <project>/assets/<slug>-xiaohei > before.json` lists what the first run left. A pass looks like this:
 
-1. The skill loaded by itself and said which character and mode it was using (Xiaohei, Generate).
-2. The agent read source files, not only the README. The explanation names the commit, how much was read, and what was not covered.
-3. The image tool was called once per image, four or more times, and every call passed `skills/inkexplain/references/archetypes/xiaohei/xiaohei.png` through the tool's image input. If the tool has no image input, the reply says "Reference not supplied" and the series ran on the written lock.
-4. Open each image next to `xiaohei.png`: a solid black dome, two plain white dot eyes, no pupils, no ears, no tail, no snout, exactly two thin legs, at most two thin single-stroke arms, one flat black fill, and the same ink weight in every image.
-5. The report gives each image its status (generated, file verified, visually inspected) and a verdict, and any image that failed is marked and not presented as approved.
-6. The explanation's citations are real. From a checkout of InkExplain, `node scripts/check-explanation.mjs --root <the explained repository> <explanation.md>` checks them. If the host can export its tool calls, `node scripts/audit-series.mjs --reference references/archetypes/xiaohei/xiaohei.png <the export>` checks the attachments.
+1. The second request made a new folder, `assets/<slug>-xiaohei/run-<date>-<time>-<digits>/`, and all of its images are in it. Nothing from the first run was deleted, moved, overwritten, or listed as new.
+2. The number of `generate_image` calls in the conversation's transcript equals the number the report gives, and the images in the run folder account for them (a repair is a call too). `node scripts/audit-run.mjs --before before.json --calls <transcript.jsonl> --exact --reference references/archetypes/xiaohei/xiaohei.png <project>/assets/<slug>-xiaohei/run-<id>` checks it, and also that every call passed `xiaohei.png` in `ImagePaths` and that no new image is a copy of an old one. The transcript is `transcript.jsonl` in the conversation's `.system_generated/logs` folder, under `brain/<conversation id>/` in Antigravity's folder (`~/.gemini/antigravity/`, on the machine where this was analyzed).
+3. Open each new image next to `xiaohei.png`: a solid black dome, two plain white dot eyes, no pupils, no ears, no tail, no snout, exactly two thin legs, at most two thin single-stroke arms, one flat black fill, and the same ink weight in every image.
+4. Each image's verdict is one of four phrases, with no qualifier. An image with ear-like points, a changed face, or thick limbs is "needs repair" or "needs human review", never "identity consistent", and the report does not call the series consistent while one of its images failed.
+5. The explanation names the commit, how much was read, and what was not covered, and says so plainly when the request asked for "all the code". `node scripts/check-explanation.mjs --root <the explained repository> <explanation.md>` checks its citations.
 
-If a point fails, note which one and the image tool's parameter list: Antigravity's parameters are the one thing `references/workflow/image-tools.md` does not yet record.
+If a point fails, note which one and keep the transcript: it is the evidence.
 
 ## Does the description load the skill for the right requests?
 
@@ -261,4 +325,4 @@ A Littlebox render on the default white page, with the same checks, is what its 
 
 The requests in the matrix are the specification: install the skill, give each to a fresh agent session with no image tool, and compare what it saves with the rules above. The script used here ran agents and is not shipped, because it cannot run offline; the repository's own checks (`npm run check`) cover the same template and rights rules on every change.
 
-The Xiaohei series is repeated the same way: copy `skills/inkexplain/` into the `.agents/skills/` folder of a fresh checkout of the repository to explain, give Codex CLI (`codex exec`) the one sentence above, and read what it saved. `scripts/audit-series.mjs` checks the attachments from the session log that Codex keeps under `~/.codex/sessions/`, and `scripts/check-explanation.mjs` checks the citations. Neither judges the pictures: open them next to `xiaohei.png`.
+The Xiaohei series is repeated the same way: copy `skills/inkexplain/` into the `.agents/skills/` folder of a fresh checkout of the repository to explain, give Codex CLI (`codex exec`) the one sentence above, and read what it saved. Give it the same sentence again in the same checkout to see a repeated request. `scripts/audit-run.mjs` checks a run folder against its record, a listing taken before the run, and the session log that Codex keeps under `~/.codex/sessions/`; `scripts/audit-series.mjs` checks the attachments from the same log; and `scripts/check-explanation.mjs` checks the citations. None of them judges the pictures: open them next to `xiaohei.png`.

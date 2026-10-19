@@ -27,7 +27,7 @@ Or point it at a project:
 
 > Use InkExplain with Xiaohei to explain the architecture and main modules of this repository.
 
-InkExplain chooses the character, plans the picture, writes the prompt, and hands it to your agent's own image tool. The image is saved in your project, in `assets/<slug>-littlebox/`, next to its prompt. In Codex you can also start with `$inkexplain`. Leave the character out and you get the default style, InkExplain Sketch.
+InkExplain chooses the character, plans the picture, writes the prompt, and hands it to your agent's own image tool. Each request saves its images in a new folder inside `assets/<slug>-littlebox/`, next to their prompts, and earlier images are never touched or passed off as new. In Codex you can also start with `$inkexplain`. Leave the character out and you get the default style, InkExplain Sketch.
 
 <sub>The installer is the open [skills CLI](https://skills.sh) and needs Node.js 22.20 or newer. It sends anonymous install counts unless you set `DISABLE_TELEMETRY=1`; InkExplain itself collects nothing. Without Node.js, copy the folder `skills/inkexplain/` into your agent's skills folder.</sub>
 

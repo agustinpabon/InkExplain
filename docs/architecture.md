@@ -106,6 +106,10 @@ scripts/
 ├── build-docs.mjs           CLI: regenerate derived documents, or --check them
 ├── explain.mjs              CLI: list archetypes, or assemble a prompt from an archetype's template
 ├── add-archetype.mjs        CLI: scaffold a new experimental archetype, validated in memory before anything is written
+├── verify-image.mjs         CLI: is a path an agent reported a real image in the right folder (a run folder included)
+├── audit-series.mjs         CLI: what the image calls of a real run attached, read from a Codex rollout, an Antigravity transcript, or a JSON list
+├── audit-run.mjs            CLI: a run folder against its manifest.json: new and reused images, the counts, and the host's log of calls
+├── check-explanation.mjs    CLI: whether the files and lines a repository explanation cites exist in the checkout
 └── lib/
     ├── config.mjs           product identity, paths, pack layout, policy data
     ├── entrypoint.mjs       whether a script was started directly, by real path, so a link to the checkout still runs it
@@ -119,6 +123,10 @@ scripts/
     ├── gallery-data.mjs     the data embedded in the gallery page
     ├── scaffold.mjs         the archetype scaffold: input rules, registry entry, pack files, overlay checkout, safe writes
     ├── images.mjs           PNG structure and SVG safety
+    ├── generated-image.mjs  decodes a reported image and checks where it sits
+    ├── series-audit.mjs     reads image-tool calls out of a log and checks them against the character lock
+    ├── run-audit.mjs        reads a run folder and its run record, and says whether an old image passed as a new one
+    ├── explanation-check.mjs reads the file references of an explanation against a checkout
     ├── check-runner.mjs     check model, execution, skipping, formatting
     └── checks/              one module per area
 ```
