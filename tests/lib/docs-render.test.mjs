@@ -139,3 +139,15 @@ test("gallery plan problems: missing page, missing or broken markers, and a pack
   assert.deepEqual(plan().problems, ["examples/gallery/index.html is missing"]);
   assert.equal(plan().expected, null);
 });
+
+test("routing.md lists an identity reference under the pack that bundles one, and says how to use it", () => {
+  const data = fixtureRegistryData();
+  data.archetypes[1].referenceImage = "demo-crab.png";
+  const text = renderRoutingDoc(parseRegistry(JSON.stringify(data)).registry);
+  const demoCard = text.slice(text.indexOf("### Demo Crab"), text.indexOf("### Guarded Cat"));
+  assert.match(demoCard, /- Identity reference: `references\/archetypes\/demo\/demo-crab\.png`\. Attach this exact file as the identity and style reference to every image of a series/);
+  assert.match(demoCard, /never a previous render and never as a layout \(see `references\/workflow\/character-lock\.md`\)/);
+  assert.ok(demoCard.indexOf("- Load, in order:") < demoCard.indexOf("- Identity reference:"), "the reference follows the pack files");
+  assert.doesNotMatch(text.slice(text.indexOf("### InkExplain Sketch"), text.indexOf("### Demo Crab")), /Identity reference/);
+  assert.doesNotMatch(renderRoutingDoc(registry), /Identity reference:/, "no archetype declares one, so no line appears");
+});

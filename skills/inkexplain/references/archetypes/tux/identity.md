@@ -15,6 +15,12 @@ Preserve all eight markers together. No reference image is bundled; this list is
 - seated rounded posture
 - oversized yellow-orange webbed feet
 
+## Series lock
+
+- **Locked** in a series: all eight markers: the glossy black rounded head and body, the white face eye patches, the large oval eyes with dark pupils and small highlights, the yellow-orange beak with two nostril dots, the white oval belly, the long black flippers, the seated rounded posture, and the oversized yellow-orange webbed feet. No reference image is bundled, so the written list is the whole lock: copy the Character paragraph unchanged into every prompt.
+- **Free**: how the seated body turns toward the work, what the flippers do, its scale, and the objects it handles.
+- **Rejected**: a marker lost or replaced, a generic penguin, and the static logo pose.
+
 ## Recognition
 
 - All eight markers read clearly at article-sketch simplicity, so the character is Tux, not a penguin in general.

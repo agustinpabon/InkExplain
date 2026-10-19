@@ -38,8 +38,11 @@ export const PATHS = Object.freeze({
 // Shared, character-independent method modules. SKILL.md must route to every one.
 export const WORKFLOW_MODULES = Object.freeze([
   "concept-extraction.md",
+  "repository-explanation.md",
   "composition-grid.md",
   "prompt-assembly.md",
+  "image-tools.md",
+  "character-lock.md",
   "editing.md",
   "qa-checklist.md",
   "delivery.md",
@@ -52,7 +55,7 @@ export const PACK_FILES = Object.freeze(["rights.md", "identity.md", "style.md",
 // Level-2 headings each pack file must expose so agents can navigate packs uniformly.
 export const PACK_FILE_SECTIONS = Object.freeze({
   "rights.md": ["Source", "Rights and restrictions", "Public samples"],
-  "identity.md": ["Identity", "Recognition", "Failure modes"],
+  "identity.md": ["Identity", "Series lock", "Recognition", "Failure modes"],
   "style.md": ["Canvas", "Linework", "Color", "Labels", "Avoid"],
   "motion-and-acting.md": ["Actions", "Patterns", "Supporting objects", "Originality"],
   "prompts.md": ["Planning fields", "Generation prompt", "Edit prompts", "Review and repair", "Delivery notes"],

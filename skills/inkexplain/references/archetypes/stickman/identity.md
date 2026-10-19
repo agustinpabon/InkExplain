@@ -20,6 +20,12 @@ Draw it from this contract. Proportions are in head diameters (H); a standing fi
 
 `pose-sheet.png` shows the same figure in eight poses (left to right, top to bottom: carry, pull, push, point, weigh, bridge, stack, shrug) and, below them, five heads (calm, focused, puzzled, startled, pleased). If the image tool accepts reference images, attach it as an identity and proportion reference only. Never copy its poses, props, or layout; draw a fresh pose for each scene.
 
+## Series lock
+
+- **Locked** in a series: the open round head with its two dot eyes, the curved spine, the two-segment limbs and their proportions (5H tall), the foot ticks, no hands, no mouth, and one marker weight.
+- **Free**: the pose from the pose vocabulary, the expression within the brows-only range, the size between one fifth and one third of the canvas height, and the props.
+- **Rejected**: a different head size, a filled head, a mouth, hands, a changed line weight, and a stiff or mirrored pose.
+
 ## Recognition
 
 Markers: open round head, two dot eyes, curved spine line, two-segment limbs, foot ticks.

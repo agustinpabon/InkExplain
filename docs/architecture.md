@@ -14,15 +14,18 @@ skills/inkexplain/
 └── references/
     ├── routing.md               generated from registry.json: selection rules and archetype cards
     ├── workflow/                shared, character-independent method
-    │   ├── concept-extraction.md    reading the source, the core thesis, cognitive anchors, shot list
+    │   ├── concept-extraction.md    reading the source, the core thesis, cognitive anchors, shot list, plain-idea rules
+    │   ├── repository-explanation.md reading a whole repository: access, survey, module map, coverage, pictures, explanation.md
     │   ├── composition-grid.md      framing, focal points, balance, structure types, metaphors
     │   ├── prompt-assembly.md       deterministic prompt order, prompt mode, honesty about tools
+    │   ├── image-tools.md           finding the host's image tool, reading its inputs, calling and saving
+    │   ├── character-lock.md        one character across a series: the identity reference, the same words, the repair
     │   ├── editing.md               shared repair prompts
-    │   ├── qa-checklist.md          shared review checklist, artifact rejection, iteration moves
-    │   └── delivery.md              output folders, file names, delivery report
+    │   ├── qa-checklist.md          shared review checklist, artifact rejection, the series gate, iteration moves
+    │   └── delivery.md              output folders, file names, per-image status, delivery report
     └── archetypes/<id>/         one five-file pack per archetype
-        ├── rights.md            source, license, rights holder, restrictions, sample decision
-        ├── identity.md          anatomy, proportions, signature gear, recognition, failure modes
+        ├── rights.md            source, license, rights holder, restrictions, sample decision, and the source and hashes of a bundled reference
+        ├── identity.md          anatomy, proportions, signature gear, what a series locks, recognition, failure modes
         ├── style.md             canvas, linework, color, labels, what to avoid
         ├── motion-and-acting.md actions, poses, timing, how structure types look, objects
         └── prompts.md           planning fields, generation and edit prompts, review, rights note
@@ -77,10 +80,10 @@ InkExplain Sketch (`ink`) is original to InkExplain and brand-neutral. Its actor
 
 ## Archetype registry
 
-`skills/inkexplain/registry.json` holds, for each archetype: id, display name, category, status, summary, aliases, excluded terms, output suffix, `motionDna` (actor, signature actions, poses, timing), `styleSheet` (medium, canvas, linework, palette, things to avoid, and optionally a `background` policy: a default page color plus presets the user may ask for), `legalNotice` (credit, rights holder, license, attribution terms, restrictions), `sampleGates` (the public-sample decision), and the contract markers used by validation. Three consumers read it:
+`skills/inkexplain/registry.json` holds, for each archetype: id, display name, category, status, summary, aliases, excluded terms, output suffix, an optional `referenceImage` (the one identity picture its pack bundles, which `routing.md` lists and a series attaches to every call), `motionDna` (actor, signature actions, poses, timing), `styleSheet` (medium, canvas, linework, palette, things to avoid, and optionally a `background` policy: a default page color plus presets the user may ask for), `legalNotice` (credit, rights holder, license, attribution terms, restrictions), `sampleGates` (the public-sample decision), and the contract markers used by validation. Three consumers read it:
 
 - `scripts/build-docs.mjs` renders `references/routing.md`, the archetype table and language selector in every README, and the data block of the offline gallery page;
-- `scripts/validate.mjs` checks the registry and everything derived from it;
+- `scripts/validate.mjs` checks the registry and everything derived from it, including that a declared reference image exists, is the only image in its pack (`SCHEMA-011`), and matches the SHA-256 in its rights record (`ASSET-005`);
 - `resolveArchetypeRequest()` in `scripts/lib/registry.mjs` implements the selection rules as executable, tested code. `routing.md` describes the same rules in prose for agents.
 
 Selection is deterministic: names are compared after Unicode normalization, case folding, and separator collapsing; an unknown or excluded name never falls back to an archetype; "all archetypes" includes only `active` ones.
@@ -125,10 +128,10 @@ scripts/
 | Area | Module | Checks |
 |---|---|---|
 | `PKG` | `package.mjs` | required files, SKILL.md frontmatter, length, and links, references that resolve inside the installed package, `openai.yaml`, package hygiene |
-| `SCHEMA` | `schema.mjs` | registry schema, alias integrity, the five pack files and their sections, registry-to-pack contracts, prompts and rights notes, isolation between packs, generated `routing.md`, the page-color policy reaching the style sheet and the generation prompt, and scaffold placeholders surviving only in experimental archetypes |
+| `SCHEMA` | `schema.mjs` | registry schema, alias integrity, the five pack files and their sections, registry-to-pack contracts, prompts and rights notes, isolation between packs, generated `routing.md`, the page-color policy reaching the style sheet and the generation prompt, scaffold placeholders surviving only in experimental archetypes, and a pack bundling an image only as its declared identity reference |
 | `DOC` | `docs.mjs` | README identity, links and anchors, generated README and gallery regions, translations, example prompt coverage |
 | `LEGAL` | `legal.mjs` | MIT terms and original copyright, ATTRIBUTIONS credits for every archetype, the Origins section crediting every copyright holder LICENSE keeps, every `rights.md`, gated-archetype boundaries, the license and copyright notices inside the installable skill |
-| `ASSET` | `assets.mjs` | PNG and SVG integrity, the public-sample gate, and the provenance manifest: every published image has a recorded source and still matches its recorded hash, and a review of another project's images is dated after they were published |
+| `ASSET` | `assets.mjs` | PNG and SVG integrity, the public-sample gate, and the provenance manifest: every published image has a recorded source and still matches its recorded hash, a review of another project's images is dated after they were published, and a bundled identity reference matches the SHA-256 its rights record names |
 | `LANG` | `language.mjs` | English-default scan, allowlist narrowness, policy completeness |
 | `BRAND` | `branding.mjs` | origin project names only as attribution, one identity across surfaces |
 | `SEC` | `security.mjs` | credential patterns, machine paths, symlinks, offline and shell-free scripts, no dependencies, an offline gallery page |

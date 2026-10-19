@@ -234,7 +234,7 @@ export function packFiles(archetype) {
     "rights.md": doc(`${archetype.name} Rights`, ["Source", "Rights and restrictions", "Public samples"], {
       body: `Category \`${archetype.category}\`, status \`${archetype.status}\`. Rights holder: ${legal.rightsHolder}. Credit: ${legal.attributionTerms.join(", ")}.`,
     }),
-    "identity.md": doc(`${archetype.name} Identity`, ["Identity", "Recognition", "Failure modes"], { body: `Keep ${identity}.` }),
+    "identity.md": doc(`${archetype.name} Identity`, ["Identity", "Series lock", "Recognition", "Failure modes"], { body: `Keep ${identity}.` }),
     "style.md": doc(`${archetype.name} Style`, ["Canvas", "Linework", "Color", "Labels", "Avoid"], {
       body: `Clean. ${palette}${policy ? ` Backgrounds: ${backgrounds}.` : ""}`,
     }),

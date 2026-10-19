@@ -7,7 +7,7 @@ import path from "node:path";
 import { DOC_REGIONS, LOCALE_STRING_KEYS, PATHS } from "./config.mjs";
 import { buildGalleryData, renderGalleryData } from "./gallery-data.mjs";
 import { readRegion, replaceRegion } from "./markdown.mjs";
-import { CATEGORIES, STATUSES, backgroundPhrase, outputDirectory, referencePaths } from "./registry.mjs";
+import { CATEGORIES, STATUSES, backgroundPhrase, outputDirectory, referenceImagePath, referencePaths } from "./registry.mjs";
 
 export const GENERATED_NOTICE =
   "<!-- Generated from skills/inkexplain/registry.json by `npm run build:docs`. Do not edit by hand. -->";
@@ -152,6 +152,11 @@ function renderArchetypeCard(registry, archetype) {
     "",
     `- Category: ${code(archetype.category)}. Status: ${code(archetype.status)}.`,
     `- Load, in order: ${referencePaths(archetype).map(code).join(", ")}`,
+    ...(archetype.referenceImage === undefined
+      ? []
+      : [
+          `- Identity reference: ${code(referenceImagePath(archetype))}. Attach this exact file as the identity and style reference to every image of a series when the image tool takes reference images, never a previous render and never as a layout (see ${code("references/workflow/character-lock.md")}).`,
+        ]),
     `- Output folder: ${code(outputDirectory(archetype))}`,
     `- Motion DNA: ${sentence(motion.actor)} Signature actions: ${motion.signatureActions.join(", ")}. Poses: ${motion.poses.join("; ")}. Timing: ${sentence(motion.timing)}`,
     `- Style sheet: ${sentence(style.medium)} Canvas: ${sentence(style.canvas)} Linework: ${sentence(style.linework)} Palette: ${style.palette.join(", ")}. Avoid: ${style.avoid.join("; ")}.`,
@@ -175,7 +180,7 @@ export function renderRoutingDoc(registry) {
     "",
     "# Archetypes",
     "",
-    "An archetype fixes who performs the idea, how they move, and how the scene is drawn. Each archetype has a five-file pack under `references/archetypes/<id>/`: `rights.md`, `identity.md`, `style.md`, `motion-and-acting.md`, and `prompts.md`. Load only the packs of the archetypes you select.",
+    "An archetype fixes who performs the idea, how they move, and how the scene is drawn. Each archetype has a five-file pack under `references/archetypes/<id>/`: `rights.md`, `identity.md`, `style.md`, `motion-and-acting.md`, and `prompts.md`. Load only the packs of the archetypes you select. A pack that bundles an identity reference image lists it below; it is how a series keeps one recognizable character.",
     "",
     "## Selecting an archetype",
     "",

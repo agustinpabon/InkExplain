@@ -44,6 +44,8 @@ Regenerate this illustration with the same core idea and simple layout, but make
 
 ## Repair character identity
 
+For an image the user supplied. A failed image of a series is repaired differently: it is generated again from its own prompt, with the packaged reference attached and a `Correction:` paragraph, and the failed image is not attached (`references/workflow/character-lock.md`).
+
 ```text
 Regenerate this illustration with the same composition, action, labels, and style, but correct [actor]'s appearance. It must show: [identity markers from the archetype's identity.md]. Remove: [observed drift]. Preserve everything else.
 ```

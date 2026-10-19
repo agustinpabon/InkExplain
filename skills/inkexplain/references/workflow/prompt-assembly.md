@@ -31,7 +31,8 @@ The pack's template is the authority on structure. It may state a part inside an
 
 - One prompt, one image, one tool call. Never ask for several illustrations on one canvas.
 - Request the planned aspect ratio when the tool supports it.
-- If the tool accepts reference images and the archetype pack bundles one, attach it as an identity and style reference, never as a layout to copy.
+- If the tool accepts reference images and the archetype bundles one (`references/routing.md` lists it), attach that file to every call of a series as the identity and style reference, never as a layout to copy and never a render, and keep the template's reference sentence. Otherwise delete that sentence from every prompt of the series. The whole procedure is in `references/workflow/character-lock.md`.
+- In a series, the Character paragraph is identical in every prompt. A repair adds one `Correction:` paragraph directly after the Action paragraph and changes nothing else.
 
 ## Prompt mode
 

@@ -12,6 +12,12 @@ Choose one actor per image, and keep the choice consistent across a series when 
 
 The ink figure is a pen, not a personality: neutral, calm, and competent. It may strain, stumble, or stall when the idea is a failure, as long as its construction stays the same.
 
+## Series lock
+
+- **Locked** in a series: the kind of actor you chose (the ink figure, hands, or the working object) while the ideas allow it; for the ink figure, the round head, the single-stroke body, the thin limbs, and the same proportions and stroke weight; the roles of ink, blue, yellow, and red in `style.md`.
+- **Free**: the figure's pose, position, and size, what it holds, and the scene around it.
+- **Rejected**: a face beyond two dot eyes, hair, clothes, a name, or a recurring prop on the figure, and proportions or stroke weight that change from one image to the next.
+
 ## Recognition
 
 - The ink figure keeps the same proportions and stroke weight in every image of a series: round head, single-stroke body, thin limbs.

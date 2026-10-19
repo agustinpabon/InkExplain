@@ -56,6 +56,8 @@ const ALL_REQUESTS = Object.freeze([
 ]);
 
 export const ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
+// A reference image is a PNG file name inside the archetype's own pack folder, never a path.
+export const REFERENCE_IMAGE_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*\.png$/;
 const DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 const PLACEHOLDERS = new Set(["", "reviewer", "date", "pending", "tbd", "todo", "n/a", "na", "unknown", "-", "approval status"]);
 
@@ -71,6 +73,7 @@ const ARCHETYPE_KEYS = new Set([
   "aliases",
   "excludedTerms",
   "outputSuffix",
+  "referenceImage",
   "motionDna",
   "styleSheet",
   "legalNotice",
@@ -308,6 +311,12 @@ function validateArchetype(archetype, index, issues) {
   if (typeof archetype.outputSuffix !== "string" || !ID_PATTERN.test(archetype.outputSuffix)) {
     issues.push({ where: `${where}.outputSuffix`, message: "must be lowercase kebab-case" });
   }
+  if (archetype.referenceImage !== undefined && (typeof archetype.referenceImage !== "string" || !REFERENCE_IMAGE_PATTERN.test(archetype.referenceImage))) {
+    issues.push({
+      where: `${where}.referenceImage`,
+      message: 'when present, must be the lowercase kebab-case name of a PNG file inside the archetype\'s pack folder, such as "xiaohei.png"',
+    });
+  }
   validateBlock(archetype.motionDna, `${where}.motionDna`, issues, {
     keys: MOTION_KEYS,
     strings: ["actor", "timing"],
@@ -476,6 +485,11 @@ export function referencePaths(archetype) {
 /** Repository-relative path of a file inside an archetype pack. */
 export function packFilePath(archetype, file) {
   return `${PATHS.packageDir}/${packDirectory(archetype)}/${file}`;
+}
+
+/** Package-relative path of an archetype's identity reference image, or null when the pack bundles none. */
+export function referenceImagePath(archetype) {
+  return archetype.referenceImage === undefined ? null : `${packDirectory(archetype)}/${archetype.referenceImage}`;
 }
 
 /** A background request that cannot be honored: not offered, not a color, or too dark. */

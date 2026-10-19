@@ -26,7 +26,10 @@ const MARKER_CONTRACTS = Object.freeze([
 // "still experimental", "marked as experimental", "considered experimental", "an experimental pack"),
 // not the word in other prose such as "loose, experimental hatching". It reads one line at a time, so a
 // claim wrapped across two lines is not seen.
-const STALE_STATUS = /`experimental`|\*\*experimental\*\*|\bexperimental (?:archetype|pack|status)\b|\b(?:is|are|stays?|remains?|still|status|marked as|considered)\W{0,3}(?:still\W{1,3})?experimental\b/i;
+// The image types a pack folder may hold; PKG-006 and ASSET-001 already limit what the package ships at all.
+const PACK_IMAGE_EXTENSIONS = /\.(?:png|svg|gif|jpe?g|webp)$/i;
+
+const STALE_STATUS =/`experimental`|\*\*experimental\*\*|\bexperimental (?:archetype|pack|status)\b|\b(?:is|are|stays?|remains?|still|status|marked as|considered)\W{0,3}(?:still\W{1,3})?experimental\b/i;
 
 function packDir(archetype) {
   return `${PATHS.packageDir}/references/archetypes/${archetype.id}`;
@@ -303,6 +306,30 @@ export const schemaChecks = [
               break;
             }
           }
+        }
+      }
+      return issues;
+    },
+  }),
+
+  defineCheck({
+    id: "SCHEMA-011",
+    area: "SCHEMA",
+    title: "a pack bundles an image only as its declared identity reference",
+    requires: ["registry"],
+    run({ repo, registry }) {
+      const issues = [];
+      for (const archetype of registry.archetypes) {
+        const dir = packDir(archetype);
+        const declared = archetype.referenceImage === undefined ? null : `${dir}/${archetype.referenceImage}`;
+        if (declared !== null && !repo.isFile(declared)) {
+          issues.push({ path: PATHS.registryFile, message: `archetype ${archetype.id} declares the reference image ${archetype.referenceImage}, but ${declared} does not exist` });
+        }
+        for (const file of repo.isDirectory(dir) ? repo.walk(dir) : []) {
+          if (!PACK_IMAGE_EXTENSIONS.test(file) || file === declared) continue;
+          // Agents learn of a reference from references/routing.md, which is generated from the registry. An image the
+          // registry does not declare would sit in the pack and never reach a prompt.
+          issues.push({ path: file, message: `archetype ${archetype.id} bundles this image, but registry.json does not declare it as its "referenceImage"` });
         }
       }
       return issues;

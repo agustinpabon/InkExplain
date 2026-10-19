@@ -19,7 +19,8 @@ import { EXIT } from "./lib/check-runner.mjs";
 import { isMain } from "./lib/entrypoint.mjs";
 import { techniqueOf } from "./lib/gallery-data.mjs";
 import { PromptAssemblyError, PromptInputError, assemblePrompt } from "./lib/prompt-assembly.mjs";
-import { loadRegistry, resolveArchetypeRequest } from "./lib/registry.mjs";
+import { PATHS } from "./lib/config.mjs";
+import { loadRegistry, referenceImagePath, resolveArchetypeRequest } from "./lib/registry.mjs";
 import { Repository } from "./lib/repository.mjs";
 
 export const USAGE = [
@@ -127,6 +128,12 @@ function fieldNote(entry) {
   return "";
 }
 
+/** The repository path of an archetype's identity reference, or null when its pack bundles none. */
+function referenceFile(archetype) {
+  const relative = referenceImagePath(archetype);
+  return relative === null ? null : `${PATHS.packageDir}/${relative}`;
+}
+
 function renderText(result, notices) {
   const { archetype } = result;
   const lines = [
@@ -134,6 +141,9 @@ function renderText(result, notices) {
     `Aspect ratio: ${result.aspectRatio}`,
     `Output folder: ${result.outputFolder}`,
   ];
+  if (referenceFile(archetype) !== null) {
+    lines.push(`Identity reference: ${referenceFile(archetype)} (attach it to every image of a series, never as a layout; delete the reference sentence when your tool takes no image)`);
+  }
   if (result.background !== null) lines.push(`Background: ${result.background.name} ${result.background.hex} (${result.background.kind})`);
   if (archetype.thirdParty) lines.push(`Credit: ${archetype.legalNotice.credit}`);
   for (const notice of notices) lines.push(notice);
@@ -163,6 +173,7 @@ function renderJson(result, notices) {
       rightsNote: result.rightsNote,
       credit: archetype.thirdParty ? archetype.legalNotice.credit : null,
       outputFolder: result.outputFolder,
+      referenceImage: referenceFile(archetype),
       source: result.sourceFile,
       unfilled: result.unfilled.map(({ section, field, slot, optional }) => ({ section, field, slot, optional })),
       notices,

@@ -293,7 +293,11 @@ test("the shipped templates keep the fields the CLI and the gallery fill, and Xi
   }
   const xiaohei = registry.byId.get("xiaohei");
   const pack = parsePromptPack(repo.readText(packFilePath(xiaohei, "prompts.md")));
-  assert.ok(pack.negativePrompt?.startsWith("cute mascot, kawaii"));
+  // Its own list wins over the archetype's avoid list, and it names the cat drift the identity lock guards against.
+  assert.ok(pack.negativePrompt?.includes("cute mascot, kawaii"));
+  for (const drift of ["cat ears", "tail", "whiskers", "pupils", "extra limbs", "hollow limbs"]) {
+    assert.ok(pack.negativePrompt.includes(drift), `the negative prompt names ${drift}`);
+  }
   assert.equal(assemblePrompt(repo, xiaohei, {}).negativePrompt, pack.negativePrompt);
 });
 

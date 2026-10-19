@@ -1,10 +1,12 @@
 // ASSET: image integrity, SVG safety, and the public-sample gate.
 
+import crypto from "node:crypto";
 import path from "node:path";
 import { defineCheck } from "../check-runner.mjs";
 import { GALLERY_FILE_PATTERN, GALLERY_LANGUAGES, PATHS } from "../config.mjs";
 import { readPngInfo, svgProblems } from "../images.mjs";
 import { gitBlobSha1, loadProvenance, setFor } from "../provenance.mjs";
+import { packFilePath } from "../registry.mjs";
 
 const IMAGE_EXTENSIONS = new Set([".png", ".svg", ".gif", ".jpg", ".jpeg", ".webp"]);
 
@@ -161,6 +163,33 @@ export const assetChecks = [
               message: `archetype ${archetype.id} records a review on ${gate.date}, but ${directory} holds copies first published by ${set.source.project} on ${published}; review the copies and record the day you did`,
             });
           }
+        }
+      }
+      return issues;
+    },
+  }),
+
+  defineCheck({
+    id: "ASSET-005",
+    area: "ASSET",
+    title: "a bundled identity reference is the file its rights record names",
+    requires: ["registry"],
+    run({ repo, registry }) {
+      const issues = [];
+      for (const archetype of registry.archetypes) {
+        if (archetype.referenceImage === undefined) continue;
+        const image = `${PATHS.archetypesDir}/${archetype.id}/${archetype.referenceImage}`;
+        const rights = packFilePath(archetype, "rights.md");
+        // SCHEMA-011 reports a reference that is missing, and SCHEMA-003 a pack without a rights record.
+        if (!repo.isFile(image)) continue;
+        const record = repo.readTextIfExists(rights);
+        if (record === null) continue;
+        const actual = crypto.createHash("sha256").update(repo.readBuffer(image)).digest("hex");
+        const recorded = [...record.matchAll(/SHA-256 `([0-9a-f]{64})`/g)].map((match) => match[1]);
+        if (recorded.length === 0) {
+          issues.push({ path: rights, message: `does not record the SHA-256 of ${archetype.referenceImage}; write it as SHA-256 \`<64 hex digits>\` next to the source, so the copy can be checked` });
+        } else if (!recorded.includes(actual)) {
+          issues.push({ path: rights, message: `records SHA-256 ${recorded[0].slice(0, 12)}..., but ${archetype.referenceImage} is ${actual.slice(0, 12)}...; the bundled file changed or the record is stale` });
         }
       }
       return issues;

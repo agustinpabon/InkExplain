@@ -308,3 +308,14 @@ test("the real entry point works from any directory and sets the exit code", () 
   assert.equal(spawn(["--nope"], REPO_ROOT).status, 2);
   assert.equal(spawn(["--help"], REPO_ROOT).status, 0);
 });
+
+test("the identity reference of a pack that bundles one is named in the text and in the JSON, and only there", () => {
+  const xiaohei = run(["--archetype", "xiaohei", "--concept", "A request enters through one gate."]);
+  assert.match(xiaohei.stdout, /^Identity reference: skills\/inkexplain\/references\/archetypes\/xiaohei\/xiaohei\.png \(attach it to every image of a series, never as a layout; delete the reference sentence when your tool takes no image\)$/m);
+  assert.equal(JSON.parse(run(["--archetype", "xiaohei", "--concept", "x", "--format", "json"]).stdout).referenceImage, "skills/inkexplain/references/archetypes/xiaohei/xiaohei.png");
+  assert.equal(JSON.parse(run(["--archetype", "stickman", "--concept", "x", "--format", "json"]).stdout).referenceImage, "skills/inkexplain/references/archetypes/stickman/pose-sheet.png");
+  // A pack with no reference says nothing about one, and the prompt-only format is still the prompt alone.
+  assert.doesNotMatch(run(["--archetype", "ferris", "--concept", "x"]).stdout, /Identity reference/);
+  assert.equal(JSON.parse(run(["--archetype", "ferris", "--concept", "x", "--format", "json"]).stdout).referenceImage, null);
+  assert.doesNotMatch(run(["--archetype", "xiaohei", "--concept", "x", "--format", "prompt"]).stdout, /Identity reference/);
+});

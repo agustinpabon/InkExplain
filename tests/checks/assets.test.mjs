@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
 import test from "node:test";
 import { classifyImage } from "../../scripts/lib/checks/assets.mjs";
 import { createFixture, makePng, messages } from "../helpers/fixture.mjs";
@@ -166,4 +167,29 @@ test("ASSET-004 leaves InkExplain renders, pending gates, and a missing manifest
   assert.equal(pending.check("ASSET-004").status, "pass", "a pending gate records no review");
   const missing = createFixture(t).remove(MANIFEST);
   assert.equal(missing.check("ASSET-004").status, "pass", "ASSET-003 reports the missing manifest");
+});
+
+const PACK = "skills/inkexplain/references/archetypes";
+const sha256 = (buffer) => crypto.createHash("sha256").update(buffer).digest("hex");
+
+test("ASSET-005 needs the rights record to carry the reference image's SHA-256, and the file to still match it", (t) => {
+  const fixture = createFixture(t);
+  const png = makePng(8, 6);
+  fixture.updateRegistry((data) => (data.archetypes[1].referenceImage = "demo-crab.png")).regenerateDocs();
+  fixture.write(`${PACK}/demo/demo-crab.png`, png);
+  assert.match(messages(fixture.check("ASSET-005")), /demo\/rights\.md: does not record the SHA-256 of demo-crab\.png/);
+
+  // The record may name the source's hash too; the bundled file's own hash must be among them.
+  fixture.append(`${PACK}/demo/rights.md`, `\nSource SHA-256 \`${"a".repeat(64)}\`. Bundled file SHA-256 \`${sha256(png)}\`.\n`);
+  assert.equal(fixture.check("ASSET-005").status, "pass");
+
+  fixture.write(`${PACK}/demo/demo-crab.png`, makePng(9, 6));
+  assert.match(messages(fixture.check("ASSET-005")), /records SHA-256 a{12}\.\.\., but demo-crab\.png is [0-9a-f]{12}\.\.\.; the bundled file changed or the record is stale/);
+});
+
+test("ASSET-005 has nothing to check without a reference image, and leaves a missing file to SCHEMA-011", (t) => {
+  const fixture = createFixture(t);
+  assert.equal(fixture.check("ASSET-005").status, "pass");
+  fixture.updateRegistry((data) => (data.archetypes[1].referenceImage = "demo-crab.png")).regenerateDocs();
+  assert.equal(fixture.check("ASSET-005").status, "pass", "the missing file is SCHEMA-011's finding, not a second report here");
 });

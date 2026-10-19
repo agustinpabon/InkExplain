@@ -60,6 +60,7 @@ Only Xiaohei's images are published. The samples of the other characters that ea
 - Xiaohei is the recurring character of Ian Xiaohei Illustrations by Ian: <https://github.com/helloianneo/ian-xiaohei-illustrations>
 - License: MIT; source copyright `Copyright (c) 2026 Ian`, which `LICENSE` keeps. Inspected commit: `4102eb807f03bcb6e538a16e8b31b41db8b5b954`.
 - When redistributing or adapting Xiaohei-derived documentation, keep the Ian Xiaohei Illustrations name or credit Ian. The archetype makes no claim that Ian endorses InkExplain or its images.
+- `skills/inkexplain/references/archetypes/xiaohei/xiaohei.png` is the archetype's identity reference: a crop of one of Ian's drawings, the rectangle from x 108 to 288 and y 385 to 592 of `ian-xiaohei-illustrations/assets/examples/09-common-pits-no-title.png` in the repository above at the inspected commit, cut without scaling or editing. It is MIT under `Copyright (c) 2026 Ian`, which `LICENSE.md` in the skill folder keeps. It is not a new render. Credit Ian for images made with it attached, as for every Xiaohei image.
 - Gallery samples, MIT under `Copyright (c) 2026 Ian`: `examples/gallery/zh/xiaohei/` holds Ian's own Chinese-labeled example images (`examples/images/` at the inspected commit). `examples/gallery/en/xiaohei/` holds English-labeled renders of the same eight concepts from `yangchuansheng/visual-ip-illustrations`, a fork of Ian's repository under the same license (`examples/images-en/` at commit `3dd2b773d519bab57715fc015c9725a8e25c7d94`).
 
 ### Tux

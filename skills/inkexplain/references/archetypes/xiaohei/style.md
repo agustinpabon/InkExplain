@@ -12,8 +12,9 @@ Pure white, minimal, hand-drawn, restrained, a little strange: a sketch that som
 ## Linework
 
 - Thin black hand-drawn lines with a slight wobble: never mechanical, vector, or heavy outlines.
-- Xiaohei is the only large area of black fill; everything else stays line art with minimal fill.
+- Xiaohei is the only large area of black fill; everything else stays line art with minimal fill. The fill is one flat black, with no hatching, scribbles, or texture inside it.
 - No 3D shading, gradients, drop shadows, or glossy highlights.
+- In a series the page, the stroke weight, the fill, and the accent rules stay the same in every image; only the scene changes.
 
 ## Color
 

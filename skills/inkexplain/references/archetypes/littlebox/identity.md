@@ -14,6 +14,12 @@ Littlebox is a recurring closed paper-box character: a small, calm, deadpan oper
 - **Tape**: exactly one amber seam tape on that seam, narrow (about 10%-15% of the top width), black-outlined when large enough. Its short front tab hangs over the top front edge as a jagged torn front tab with two or three sawtooth teeth, facing the viewer. Never a side-wall sticker, panel patch, loose prop, arrow, or extra tape marks.
 - It reads as a compact paper box, never a laptop, treasure chest, toolbox, pizza box, bucket, tray, shopping bag, crate, or mailbox.
 
+## Series lock
+
+- **Locked** in a series: the closed state, the front-left three-quarter view, the compact squat body with its rough marker outline, two dot eyes on the upper-middle front panel, tiny legs, at most two side-seam twig arms, two top flaps meeting at one seam, exactly one amber seam tape with its jagged front tab, and one flat page color.
+- **Free**: position, scale (it fills about 35%-55% of the canvas), what it carries, and the acting of its twig arms and tiny legs.
+- **Rejected**: an open or half-open box, a missing or second tape, a mouth, hands, or extra arms, a different body color, and a page color that changes between images.
+
 ## Recognition
 
 Markers: box body, dot eyes, front-left three-quarter view, closed top flaps, tiny legs, side-seam twig arms when acting, and the single amber seam tape with its jagged front tab.

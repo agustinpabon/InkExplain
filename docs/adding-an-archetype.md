@@ -108,6 +108,7 @@ Add an object to `archetypes` in `skills/inkexplain/registry.json`:
 - `contract.identityMarkers` must appear in `identity.md` and `prompts.md`, so the identity reaches the image model and the review.
 - `contract.isolationMarkers` must not appear in any other archetype's pack.
 - `legalNotice.attributionTerms` must appear in `rights.md` and `ATTRIBUTIONS.md`. Third-party archetypes need at least one; tribute characters also need at least one restriction.
+- `referenceImage` is optional: the file name of one PNG inside the pack's folder, the identity picture that every image of a series attaches when the image tool takes reference images (`references/workflow/character-lock.md`). It must be the only image in the pack (`SCHEMA-011`), a pack file must name it, and `rights.md` must record its source, license, and `SHA-256` (`ASSET-005`). If it is a crop or an adaptation of someone's drawing, say so and give the rectangle or the edit; never present it as a new render. Pick one clean figure that shows what `identity.md` locks, with the fewest props, and check it against the lock before you ship it: a generator copies what it sees, including stray texture.
 - `styleSheet.background` is optional. Add it only when the character should work on a page color the user can change, as Littlebox does. It holds a `default` color and optional `presets`, each with a lowercase `name`, an uppercase `#RRGGBB` `hex` light enough for black linework (relative luminance of at least 0.6), and optional `aliases`. The generation prompt then needs exactly one field naming the default, such as `[pure white background #FFFFFF]`, and `style.md` must state every color's hex. The command-line helper's `--background` and the gallery's picker read the same data; an archetype without it keeps a fixed page and refuses `--background`. Whatever the policy, every image of a set uses one page color unless the user asks for variety, and no pack may pick or rotate a color by mood or topic.
 
 ## 3. Write the pack
@@ -117,7 +118,7 @@ Create `skills/inkexplain/references/archetypes/<id>/` with exactly these five f
 | File | Sections |
 |---|---|
 | `rights.md` | Source, Rights and restrictions, Public samples |
-| `identity.md` | Identity, Recognition, Failure modes |
+| `identity.md` | Identity, Series lock, Recognition, Failure modes |
 | `style.md` | Canvas, Linework, Color, Labels, Avoid |
 | `motion-and-acting.md` | Actions, Patterns, Supporting objects, Originality |
 | `prompts.md` | Planning fields, Generation prompt (a fenced `text` block), Edit prompts, Review and repair, Delivery notes |
@@ -126,7 +127,7 @@ Create `skills/inkexplain/references/archetypes/<id>/` with exactly these five f
 - `prompts.md` states the output folder, `assets/<article-slug>-<outputSuffix>/`. For a status other than `active`, it also states the status.
 - The generation prompt keeps the shared bracketed fields, because the gallery fills them: `[core idea in one sentence]` after `Scene:`, an action field right before `, caught at its decisive moment`, and a `["label 1", "label 2", "label 3"]` list. Third-party archetypes also keep `[append the rights note from this file]`. `npm run build:docs` fails when a field is missing.
 - Third-party archetypes (`mascot`, `tribute-character`) end `prompts.md` with a `## Rights note` section holding one `text` block: the credit and restrictions that travel with every prompt, plan, and report.
-- A pack may bundle a reference image, such as a licensed identity sheet, if a pack file names it.
+- A pack may bundle one reference image, such as a licensed identity picture. Declare it as `referenceImage` in the registry, name it in a pack file, and record its source and `SHA-256` in `rights.md`. Give `identity.md` a `## Series lock` section that says what is locked, what is free, and what is rejected, and give the generation prompt an optional `[Reference sentence: ...]` field that names the picture as the identity and style reference, as the Xiaohei pack does.
 
 Reuse the shared modules in `references/workflow/` instead of repeating them. The InkExplain Sketch pack (`ink`) is the model for a house style; the Xiaohei pack (`xiaohei`) is the model for a third-party character with a rights note.
 

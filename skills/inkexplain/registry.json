@@ -118,6 +118,7 @@
       "aliases": ["Stickman", "stick man", "stick figure", "stick person", "stickperson", "Inkman", "monigote", "muñeco de palitos", "figura de palitos", "bonhomme allumette", "Strichmännchen", "boneco palito", "火柴人", "棒人間"],
       "excludedTerms": ["figure", "person", "human", "man", "people", "doodle"],
       "outputSuffix": "stickman",
+      "referenceImage": "pose-sheet.png",
       "motionDna": {
         "actor": "Stickman, one recurring stick figure who works the idea with its whole body",
         "signatureActions": ["carry", "pull", "push", "point", "weigh", "sort", "bridge", "hold back", "stack", "turn a crank"],
@@ -168,6 +169,7 @@
       "concept": "Information overload",
       "aliases": ["Xiaohei", "小黑", "Ian Xiaohei"],
       "outputSuffix": "xiaohei",
+      "referenceImage": "xiaohei.png",
       "motionDna": {
         "actor": "Xiaohei, the solid-black creature, as the serious operator inside the idea",
         "signatureActions": ["sort", "weigh", "press", "connect", "carry", "stamp"],
@@ -268,6 +270,7 @@
       "aliases": ["Go Gopher", "Gopher", "golang gopher", "Go mascot", "Go 吉祥物", "Gopher 吉祥物"],
       "excludedTerms": ["go", "blue mascot", "animal", "logo"],
       "outputSuffix": "gopher",
+      "referenceImage": "gopher.png",
       "motionDna": {
         "actor": "The Go gopher, who performs the central action",
         "signatureActions": ["inspect", "point", "sort", "bridge", "shield", "weigh"],

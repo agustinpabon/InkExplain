@@ -253,3 +253,20 @@ test("SCHEMA-010 also reads the archetype's own credit and example prompt", (t) 
   const other = createFixture(t).append("ATTRIBUTIONS.md", "\n### Other Crab\n\n- Other Crab is experimental.\n");
   assert.equal(other.check("SCHEMA-010").status, "pass");
 });
+
+test("SCHEMA-011 needs a declared reference image to exist, and declares every image a pack bundles", (t) => {
+  const fixture = createFixture(t);
+  fixture.updateRegistry((data) => (data.archetypes[1].referenceImage = "demo-crab.png")).regenerateDocs();
+  assert.match(messages(fixture.check("SCHEMA-011")), /archetype demo declares the reference image demo-crab\.png, but .*demo\/demo-crab\.png does not exist/);
+
+  fixture.write(`${PACK}/demo/demo-crab.png`, makePng());
+  assert.equal(fixture.check("SCHEMA-011").status, "pass");
+
+  // An image the registry does not declare would never reach a prompt: it fails, in this pack and in any other.
+  fixture.write(`${PACK}/demo/second.png`, makePng());
+  fixture.write(`${PACK}/ink/stray.svg`, "<svg viewBox='0 0 1 1'></svg>");
+  const text = messages(fixture.check("SCHEMA-011"));
+  assert.match(text, /demo\/second\.png: archetype demo bundles this image, but registry\.json does not declare it as its "referenceImage"/);
+  assert.match(text, /ink\/stray\.svg: archetype ink bundles this image/);
+  assert.doesNotMatch(text, /demo-crab\.png: archetype/, "the declared file itself is fine");
+});

@@ -15,6 +15,12 @@ Preserve all six markers together, simplified for an article sketch:
 
 This marker list is the identity authority (see `rights.md`). Keep enough of each marker that OpenClaw reads as the logo character while the scene stays sparse.
 
+## Series lock
+
+- **Locked** in a series: all six markers: the red round body, the side claw-like arms, the two antennae, the black eyes, the cyan pupils, and the short legs.
+- **Free**: the pose, how the claws grip, which way it faces, its scale, and the objects it handles.
+- **Rejected**: a missing marker, a different color or number of claws or antennae, a generic robot or red blob, and a logo-poster look.
+
 ## Recognition
 
 - All six markers appear in every image: red round body, side claw-like arms, two antennae, black eyes, cyan pupils, and short legs.

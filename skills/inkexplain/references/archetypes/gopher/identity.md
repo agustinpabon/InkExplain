@@ -24,6 +24,12 @@ Keep all ten markers together, simplified for an article sketch:
 - Friendly, compact, and standing-oriented: the active operator of the concept, never a spectator.
 - Suited to review, sorting, connection, boundary setting, comparison, repair, decision gates, sequencing, and handoff logic.
 
+## Series lock
+
+- **Locked** in a series: all ten markers in the same colors and proportions: the blue rounded upright body, the small rounded ears, the large simple eyes, the black nose, the buck teeth, the beige muzzle and paws, the compact limbs, and the black outline.
+- **Free**: the pose and posture, which way it faces, its scale, and the objects it handles. `gopher.png` fixes the identity and never the pose.
+- **Rejected**: a missing marker, another body color, a realistic animal, an over-rendered toy, and the pose or layout of `gopher.png` copied.
+
 ## Recognition
 
 - All ten markers read together at article scale: the viewer sees the Go gopher, not a generic blue animal.

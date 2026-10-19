@@ -2,7 +2,7 @@
 
 # Archetypes
 
-An archetype fixes who performs the idea, how they move, and how the scene is drawn. Each archetype has a five-file pack under `references/archetypes/<id>/`: `rights.md`, `identity.md`, `style.md`, `motion-and-acting.md`, and `prompts.md`. Load only the packs of the archetypes you select.
+An archetype fixes who performs the idea, how they move, and how the scene is drawn. Each archetype has a five-file pack under `references/archetypes/<id>/`: `rights.md`, `identity.md`, `style.md`, `motion-and-acting.md`, and `prompts.md`. Load only the packs of the archetypes you select. A pack that bundles an identity reference image lists it below; it is how a series keeps one recognizable character.
 
 ## Selecting an archetype
 
@@ -77,6 +77,7 @@ InkExplain's own recurring stick figure: a bold black marker line, a round head 
 
 - Category: `house-style`. Status: `experimental`.
 - Load, in order: `references/archetypes/stickman/rights.md`, `references/archetypes/stickman/identity.md`, `references/archetypes/stickman/style.md`, `references/archetypes/stickman/motion-and-acting.md`, `references/archetypes/stickman/prompts.md`
+- Identity reference: `references/archetypes/stickman/pose-sheet.png`. Attach this exact file as the identity and style reference to every image of a series when the image tool takes reference images, never a previous render and never as a layout (see `references/workflow/character-lock.md`).
 - Output folder: `assets/<article-slug>-stickman/`
 - Motion DNA: Stickman, one recurring stick figure who works the idea with its whole body. Signature actions: carry, pull, push, point, weigh, sort, bridge, hold back, stack, turn a crank. Poses: the spine leans into the work and the weight sits on one leg; arms bend at one soft elbow and reach, brace, or hold against the object; head and dot eyes turn to where the idea changes. Timing: One decisive moment per image; mini comics use two to four beats with Stickman drawn the same way in every panel.
 - Style sheet: A skilled illustrator's hand-drawn marker sketch. Canvas: 16:9 on a pure white background, at least 35% empty; the standing figure is about a third of the canvas high. Linework: One confident medium-bold black brush-pen marker line with slight pressure variation and tapered ends; props a little lighter. Palette: black ink, pure white, vermilion accent. Avoid: pictogram, restroom-sign, emoji, or children's activity-book figures; hands, mouths, hair, clothes, shoes, and accessories on the figure; stiff T-poses and mirrored stances; uniform vector lines, perfect circles, gradients, and shadows; slides, infographics, and UI.
@@ -90,6 +91,7 @@ Ian's Xiaohei, a small solid-black creature with white dot eyes and thin legs, d
 
 - Category: `mascot`. Status: `active`.
 - Load, in order: `references/archetypes/xiaohei/rights.md`, `references/archetypes/xiaohei/identity.md`, `references/archetypes/xiaohei/style.md`, `references/archetypes/xiaohei/motion-and-acting.md`, `references/archetypes/xiaohei/prompts.md`
+- Identity reference: `references/archetypes/xiaohei/xiaohei.png`. Attach this exact file as the identity and style reference to every image of a series when the image tool takes reference images, never a previous render and never as a layout (see `references/workflow/character-lock.md`).
 - Output folder: `assets/<article-slug>-xiaohei/`
 - Motion DNA: Xiaohei, the solid-black creature, as the serious operator inside the idea. Signature actions: sort, weigh, press, connect, carry, stamp. Poses: the whole black body leaning into a lever, a rope, or a press; thin legs braced under a load or mid-step along a path; white dot eyes fixed on the work, deadpan whatever happens. Timing: One decisive moment per image; mini comics use two or three beats with Xiaohei drawn the same way in every panel.
 - Style sheet: A sparse hand-drawn explainer sketch in black ink. Canvas: 16:9 on a pure white page, at least 35% empty; the main subject fills about 40-60%. Linework: Thin black hand-drawn lines with a slight wobble; never vector, mechanical, or heavy outlines. Palette: black, pure white, red, orange, blue. Avoid: cute mascot, sticker, or children's-cartoon looks; commercial illustration, PPT infographics, and formal flowcharts; beige, textured, gradient, or shaded backgrounds; 3D shading, glossy eyes, and costumes.
@@ -120,6 +122,7 @@ The Go gopher designed by Renee French performing the idea in sparse hand-drawn 
 
 - Category: `mascot`. Status: `active`.
 - Load, in order: `references/archetypes/gopher/rights.md`, `references/archetypes/gopher/identity.md`, `references/archetypes/gopher/style.md`, `references/archetypes/gopher/motion-and-acting.md`, `references/archetypes/gopher/prompts.md`
+- Identity reference: `references/archetypes/gopher/gopher.png`. Attach this exact file as the identity and style reference to every image of a series when the image tool takes reference images, never a previous render and never as a layout (see `references/workflow/character-lock.md`).
 - Output folder: `assets/<article-slug>-gopher/`
 - Motion DNA: The Go gopher, who performs the central action. Signature actions: inspect, point, sort, bridge, shield, weigh. Poses: the friendly standing posture turned toward the action; a pointing paw stretched toward the useful turn; a shield stance planted in front of a fragile idea. Timing: One decisive moment per image; mini comics use two or three beats with the gopher identical across panels.
 - Style sheet: A sparse hand-drawn article sketch. Canvas: 16:9 on a white or very light background; the gopher's action fills 35-55%. Linework: Rough black outlines with visible human looseness; the gopher keeps its black outline. Palette: black, gopher blue, beige, red, orange, or blue accents. Avoid: the Go logo and logo-forward layouts; UI, IDE, terminal, and code screenshots; language posters and mascot asset sheets; fur, 3D, or polished vector rendering.

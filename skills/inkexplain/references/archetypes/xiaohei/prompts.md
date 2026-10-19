@@ -9,18 +9,20 @@ Use the shared shot list from `references/workflow/concept-extraction.md`. The a
 - **Xiaohei action**: the physical job Xiaohei performs, such as "pulls the judgment lever" or "presses a stack into one sheet".
 - **Pattern**: one from `motion-and-acting.md`.
 - **Accents**: which of red, orange, and blue the image needs; often only one.
+- **Reference image**: whether `xiaohei.png` is attached (the image tool takes images) or not, decided once for the whole series.
+- **Series contract**: for two or more images, the Character paragraph below is copied word for word into every prompt, `xiaohei.png` is attached to every call, and the reference sentence is kept in every prompt (or deleted from every prompt when no image can be attached).
 - **Rights note**: the note below, attached to the plan.
 
 ## Generation prompt
 
-Replace every bracketed field; one prompt per image. The prompt is plain English and tool-agnostic, so it works as written in DALL-E 3, GPT image models, Flux, and Midjourney.
+Replace every bracketed field; one prompt per image. The prompt is plain English and tool-agnostic, so it works as written in DALL-E 3, GPT image models, Flux, and Midjourney. When the image tool accepts reference images, attach `references/archetypes/xiaohei/xiaohei.png` as the identity and style reference and keep the reference sentence; otherwise delete that sentence.
 
 ```text
 Generate one standalone [16:9] horizontal article illustration.
 
 Style: minimalist hand-drawn explainer sketch on a pure white background. Thin black ink lines with a slight hand wobble, not mechanical, not vector, no heavy outlines. Generous whitespace: the main subject fills about 40-60% of the canvas and at least 35% stays empty. Line art with minimal fill; the only large black area is the character. No gradients, shadows, 3D shading, paper texture, or beige or grey background.
 
-Character: Xiaohei, a small creature with a solid black body filled flat with black ink and a slightly irregular hand-drawn outline, two small white dot eyes, thin legs drawn as single black strokes, and a deadpan expression: blank, calm, completely serious. Thin single-stroke arms only if the action needs them. No mouth, smile, blush, pupils, highlights, costume, or accessories. Not cute, not a mascot sticker, not a children's cartoon.
+Character: Xiaohei, one small figure drawn exactly the same way in every image. [Reference sentence: Image 1 is Xiaohei's identity and style reference: draw this exact character in a new pose and scene, and do not copy the reference's pose, props, or layout.] Body: a single solid black body shaped like a smooth rounded dome or bean, a little taller than wide, filled with perfectly flat, uniform black ink (no hatching, scribbles, texture, or fur inside it) and a slightly irregular hand-drawn outline, with nothing sticking out of the top or the sides except the limbs. Face: two small round plain white dot eyes set side by side in the upper third of the body, each about one eighth as wide as the body, with no pupils, highlights, eyelashes, or eyebrows, and no nose or mouth; a deadpan expression: blank, calm, completely serious. The two eyes are the only white on the body: no white lines, outlines, or marks. Legs: exactly two thin legs, each one single black ink stroke about a third as long as the body is tall, with a tiny foot tick. Arms: only if the action needs them, at most two, each one thin single black ink stroke that leaves the body at its side outline and never crosses the front of the black fill, with no hands, fingers, gloves, or mittens. Xiaohei is not a cat or any other animal: no ears, no horns, no tufts or bumps on the head, no tail, no snout or whiskers, no fur, no clothes, no shoes, no accessories. Never thick, doubled, fused, hollow, or extra limbs. Not cute, not a mascot sticker, not a children's cartoon.
 
 Action: Xiaohei performs the core conceptual action: [physical job], caught at its decisive moment. Xiaohei's body and gaze point at the object it is changing. The metaphor must lose its meaning if Xiaohei is removed.
 
@@ -41,21 +43,30 @@ Rights note: [append the rights note from this file].
 
 ### Negative prompt
 
-For tools with a negative-prompt field, or Midjourney's `--no` parameter, pass this list as well. Tools without one, such as DALL-E 3, rely on the Constraints line above.
+For tools with a negative-prompt field, or Midjourney's `--no` parameter, pass this list as well. Tools without one, such as DALL-E 3, rely on the Constraints line above and the Character paragraph.
 
 ```text
-cute mascot, kawaii, chibi, sticker, emoji, children's book, cartoon poster, glossy, 3D render, shading, gradient, drop shadow, paper texture, beige background, grey background, vector art, thick outlines, pupils, sparkling eyes, smile, blush, costume, hat, logo, title text, infographic, flowchart, slide, UI screenshot, watermark, signature
+cat, cat ears, animal ears, ears, horns, antennae, tufts, bumps on the head, tail, whiskers, snout, muzzle, nose, mouth, fur, hatching, texture, grey fill, pupils, iris, sparkling eyes, eyelashes, eyebrows, smile, blush, extra limbs, thick limbs, doubled limbs, fused limbs, hollow limbs, white outline on an arm, white line across the body, arm drawn over the front of the body, fingers, gloves, mittens, shoes, costume, hat, cute mascot, kawaii, chibi, sticker, emoji, children's book, cartoon poster, glossy, 3D render, shading, gradient, drop shadow, paper texture, beige background, grey background, vector art, thick outlines, logo, title text, infographic, flowchart, slide, UI screenshot, watermark, signature
 ```
 
 ### Tool notes
 
+- Reference image: attach `xiaohei.png` through the tool's image input on every call of a series, as `references/workflow/character-lock.md` says. It fixes who Xiaohei is. Its pose, its prop, and its layout are never copied, and the texture in its body is not either.
 - Midjourney: append `--ar 16:9 --style raw`, then `--no` followed by the negative prompt, comma-separated.
 - Flux: use the generation prompt as written at a 16:9 size; add the negative prompt only where the front end supports one.
 - DALL-E 3 and GPT image models: request the landscape size; the Constraints line replaces the negative prompt.
 
 ## Edit prompts
 
-The shared edits in `references/workflow/editing.md` apply; for identity drift, fill "Repair character identity" with the Character block above. End every edit prompt with the rights note. Xiaohei-specific repairs:
+The shared edits in `references/workflow/editing.md` apply. For identity drift in a series, do not edit the failed image: generate it again with `xiaohei.png` attached and the `Correction:` paragraph below. For an image the user supplied, fill "Repair character identity" with the Character paragraph above. End every edit prompt with the rights note. Xiaohei-specific repairs:
+
+### Correction for a series
+
+Add this paragraph directly after the Action paragraph of the same prompt, with one sentence per fault you saw:
+
+```text
+Correction: Xiaohei must match Image 1 exactly. [Fix one fault per sentence, for example: The top of the body is one smooth dome with nothing on it, no ears. Xiaohei has exactly two thin legs, each a single stroke. The eyes are two plain white dots with no pupils. The body is flat solid black with no hatching.]
+```
 
 ### Make Xiaohei the actor
 
@@ -86,8 +97,25 @@ Check every image against `references/workflow/qa-checklist.md`, then:
 
 Any failure mode in `identity.md`, anything under Avoid in `style.md`, or a label problem under Labels in `style.md` fails the image.
 
+### Identity checks
+
+Open the saved image next to `xiaohei.png` and answer each row with what you see (`references/workflow/qa-checklist.md`, "Series gate"). A row you cannot answer from the image fails.
+
+| Check | A pass looks like | Reject when |
+|---|---|---|
+| Body | one flat black dome or bean, a smooth top, a little taller than wide, with no white on it but the two eyes | corners, points, ears, horns, tufts, bumps, a funnel, hole, box, or shadow shape, hatching, grey, a gradient, fur, a white line, outline, or halo on the black |
+| Top of the head | one smooth curve with nothing on it | anything on top: ears, antennae, a hat, an arm that reads as an ear |
+| Eyes | two small round plain white dots, side by side in the upper third, each about one eighth as wide as the body | pupils, irises, highlights, colored or sparkling eyes, one or three eyes, eyebrows, pinpoint eyes far smaller than the reference's |
+| Face | no mouth, nose, or whiskers; blank and serious | a smile, a mouth, a nose, a snout, blush, an animal face |
+| Legs | exactly two thin single-stroke legs with tiny foot ticks, each about a third as long as the body is tall | one, three, or four legs; thick, tapered, doubled, fused, or hollow legs; shoes; stubby legs far shorter than the reference's |
+| Arms | none, or at most two thin single strokes that leave the body at its side outline, never across the front of the black fill | thick, doubled, fused, hollow, or extra arms; an arm drawn across the front of the body with a white outline; fingers, gloves, mittens |
+| Line and fill | the thin hand-drawn ink of the reference and a flat black fill | thick outlines, vector polish, shading |
+| Size | the same proportions as the other images, between about a sixth and a third of the frame's height | another body shape, or a size about twice that of another image |
+| Page and accents | pure white page, black ink, accents as the Style allows | a tint, texture, beige, extra colors |
+
 | Failure | Repair |
 |---|---|
+| Any row of the identity checks fails | Generate the image again with `xiaohei.png` attached and the "Correction for a series" paragraph, as `references/workflow/character-lock.md` says; never edit or attach the failed image |
 | Xiaohei is passive or decorative | "Make Xiaohei the actor", with a more physical job |
 | Cute, glossy, or cartoon drift | "Remove cuteness" |
 | Too complex or diagram-like | Delete objects until Xiaohei and two to four supports remain; replace arrows with one loose orange path |
@@ -100,7 +128,8 @@ Any failure mode in `identity.md`, anything under Avoid in `style.md`, or a labe
 ## Delivery notes
 
 - Archetype: Xiaohei (`xiaohei`), status `active`. Folder: `assets/<article-slug>-xiaohei/`.
-- Credit: Xiaohei comes from Ian Xiaohei Illustrations by Ian (MIT).
+- Credit: Xiaohei comes from Ian Xiaohei Illustrations by Ian (MIT). `xiaohei.png` is a crop of one of Ian's drawings under the same license.
+- Say whether `xiaohei.png` was attached to every call, and through which input of the image tool; when it was not, say that the identity rests on the written lock alone. Give each image its status, and name any identity check that needed a repair.
 - Repeat the rights note in the delivery report.
 - If the user plans to publish, remind them to keep the credit to Ian and not to present the images as endorsed by Ian.
 

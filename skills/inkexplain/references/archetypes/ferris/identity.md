@@ -15,6 +15,12 @@ Keep these cues together:
 
 Keep Ferris simple enough for article explanation and recognizable enough that no one mistakes it for a generic crab.
 
+## Series lock
+
+- **Locked** in a series: the compact orange or rust-red crab body, the broad shell silhouette, two visible claws, the small legs, and the eyes, in the same colors and proportions, drawn in the same sparse hand-drawn line.
+- **Free**: the pose, the claw action, which way the shell faces, the scale, and the props.
+- **Rejected**: another color, a missing or extra claw, a generic crab or seafood icon, a polished mascot rendering, and any change of design between images.
+
 ## Recognition
 
 - Several cues read together in every image: body color, shell silhouette, claws, legs, and eyes; one cue alone is not Ferris.

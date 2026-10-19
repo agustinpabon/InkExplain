@@ -8,7 +8,7 @@ Sort, weigh, press, connect, carry, stamp; pull a lever, haul material, gather t
 
 Xiaohei treats a cognitive operation as manual labor and does it with complete seriousness:
 
-- sorting: Xiaohei drops pieces into labeled bins, or becomes the funnel that filters them;
+- sorting: Xiaohei drops pieces into labeled bins, or stands at the mouth of a funnel and feeds the pieces through;
 - weighing: Xiaohei loads one side of a scale and watches it tip;
 - pressing: Xiaohei leans its whole body on a press until a pile becomes one clean sheet;
 - connecting: Xiaohei pulls threads from several sources into one knot, or walks a cable across a gap;
@@ -20,6 +20,8 @@ Xiaohei treats a cognitive operation as manual labor and does it with complete s
 - Effort lives in the whole black body and the thin legs: leaning into a lever, braced under a load, mid-step along a path.
 - Deadpan acting: the white dot eyes stay blank and calm whatever happens. The humor is a small serious creature doing a slightly absurd job.
 - Point Xiaohei's body and gaze at the object it is changing, so the eye travels from Xiaohei to the action.
+- Xiaohei's body keeps its shape however hard it works: it tilts, crouches, or stretches, and the dome stays a dome.
+- Keep the head clear. Arms reach forward or out to the side at or below the eyes; two arms raised on either side of the head read as ears, so lift overhead only when the action needs it, with each arm one thin stroke clearly attached to the body.
 
 ### Timing
 
@@ -30,7 +32,7 @@ Xiaohei treats a cognitive operation as manual labor and does it with complete s
 
 - **Breakpoint** (bugs, handoff failures, missing context): Xiaohei is stuck in the gap where the process breaks, holding both ends apart or together.
 - **Machine operator** (decisions, judgment, automation): Xiaohei sits inside a simple machine and pulls the one lever labeled with the decision.
-- **Funnel and sort** (prioritization, filtering, triage): Xiaohei becomes the funnel or stands at its mouth, sorting what passes.
+- **Funnel and sort** (prioritization, filtering, triage): Xiaohei stands at the mouth of a funnel, sorting what passes. The funnel is an object; Xiaohei never becomes it.
 - **Gather the sources** (research, synthesis, inputs): Xiaohei pulls threads from three or four sources into one bundle.
 - **Slice the material** (repurposing, one source many uses): Xiaohei cuts one large object into useful parts for different jobs.
 - **Warning sign** (pitfalls, common mistakes): Xiaohei holds up a red warning sign beside the hole others are about to fall into.
@@ -47,6 +49,8 @@ Turn the idea into a physical job for Xiaohei:
 - integrating tools: connect loose cables into one plug;
 - approval or commitment: stamp the final version.
 
+Not every idea is a machine. Prefer the plainest object that does the job (a door, a tray, a bridge, a signpost, a scale) and keep a press or a lever for ideas that really are mechanical. Pick the metaphor from how the thing behaves, say it in one sentence, and keep the props to the ones that sentence needs (`references/workflow/concept-extraction.md`, "Make the idea plain").
+
 ## Supporting objects
 
 Xiaohei plus two to four supporting elements, drawn in thin line art with minimal fill. Add a low-tech object only when it clarifies the idea: lever, scale, press, funnel, rope, cable, bin, stamp, sign, gate, bridge, hole, conveyor, or small machine.
@@ -56,4 +60,4 @@ Xiaohei plus two to four supporting elements, drawn in thin line art with minima
 - The shared originality rules in `references/workflow/composition-grid.md` apply.
 - Vary the action across a set: sorting, weighing, pressing, connecting, carrying, stamping, pulling a lever, holding a sign.
 - Invent the scene from the article's idea; never trace or recreate an existing Xiaohei illustration or composition.
-- Change the surrounding objects before deforming Xiaohei; keep the solid-black body and white dot eyes readable.
+- Change the surrounding objects, never Xiaohei: the solid-black body, the white dot eyes, and the thin limbs stay as they are in `xiaohei.png`, whatever the scene.

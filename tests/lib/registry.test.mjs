@@ -12,6 +12,7 @@ import {
   normalizeName,
   outputDirectory,
   parseRegistry,
+  referenceImagePath,
   relativeLuminance,
   resolveArchetypeRequest,
   resolveBackground,
@@ -83,6 +84,10 @@ test("schema validation catches structural mistakes", () => {
     [(data) => (data.archetypes[1].summary = "x".repeat(241)), /summary: must be a one-sentence summary/],
     [(data) => (data.schemaVersion = 1), /schemaVersion: must be 2/],
     [(data) => (data.routes = data.archetypes), /unknown field "routes"/],
+    [(data) => (data.archetypes[1].referenceImage = "refs/demo.png"), /archetypes\[1\]\.referenceImage: when present, must be the lowercase kebab-case name of a PNG file/],
+    [(data) => (data.archetypes[1].referenceImage = "Demo.PNG"), /referenceImage: when present, must be/],
+    [(data) => (data.archetypes[1].referenceImage = "demo.svg"), /referenceImage: when present, must be/],
+    [(data) => (data.archetypes[1].referenceImage = 7), /referenceImage: when present, must be/],
   ];
   for (const [mutate, pattern] of cases) assert.match(schemaMessages(mutate), pattern);
 });
@@ -329,4 +334,18 @@ test("the shipped Littlebox registry entry makes pure white the default, with th
   for (const archetype of registry.archetypes.filter((candidate) => candidate.id !== "littlebox")) {
     assert.equal(archetype.styleSheet.background, undefined, `${archetype.id} keeps its fixed background`);
   }
+});
+
+test("an archetype may declare one identity reference image, named inside its own pack", () => {
+  assert.equal(schemaMessages((data) => (data.archetypes[1].referenceImage = "demo-crab.png")), "");
+  assert.equal(referenceImagePath(load().registry.byId.get("demo")), null, "a pack that bundles none has none");
+  const data = fixtureRegistryData();
+  data.archetypes[1].referenceImage = "demo-crab.png";
+  assert.equal(referenceImagePath(load(data).registry.byId.get("demo")), "references/archetypes/demo/demo-crab.png");
+});
+
+test("the shipped registry declares the identity references its packs bundle", () => {
+  const { archetypes } = JSON.parse(REAL_REGISTRY_TEXT);
+  const declared = Object.fromEntries(archetypes.filter((archetype) => archetype.referenceImage).map((archetype) => [archetype.id, archetype.referenceImage]));
+  assert.deepEqual(declared, { xiaohei: "xiaohei.png", gopher: "gopher.png", stickman: "pose-sheet.png" });
 });

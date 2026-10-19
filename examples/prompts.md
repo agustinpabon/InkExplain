@@ -71,6 +71,14 @@ Stickman is InkExplain's own recurring figure: the same head, face, and proporti
 $inkexplain Use Xiaohei. One image: "an agent breaks a vague request into three clear steps."
 ```
 
+### Explain a whole repository
+
+```text
+$inkexplain Use Xiaohei to explain the architecture and the main modules of this repository.
+```
+
+With the repository checked out in your project, or a URL your agent can read, InkExplain reads its real files, keeps a module map with the files and lines behind each claim, and says how much it read. It draws a system overview and one picture per major module or workflow, with the same Xiaohei in every image, and writes `explanation.md` beside them. Any character, or none, works the same way.
+
 ### Littlebox
 
 ```text

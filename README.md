@@ -23,6 +23,10 @@ Then ask your agent in plain words:
 
 > Use InkExplain with Littlebox to illustrate how caching makes repeated work faster.
 
+Or point it at a project:
+
+> Use InkExplain with Xiaohei to explain the architecture and main modules of this repository.
+
 InkExplain chooses the character, plans the picture, writes the prompt, and hands it to your agent's own image tool. The image is saved in your project, in `assets/<slug>-littlebox/`, next to its prompt. In Codex you can also start with `$inkexplain`. Leave the character out and you get the default style, InkExplain Sketch.
 
 <sub>The installer is the open [skills CLI](https://skills.sh) and needs Node.js 22.20 or newer. It sends anonymous install counts unless you set `DISABLE_TELEMETRY=1`; InkExplain itself collects nothing. Without Node.js, copy the folder `skills/inkexplain/` into your agent's skills folder.</sub>
@@ -58,12 +62,12 @@ Name one in your request. InkExplain loads that character's look, motion, and ru
 
 1. **Read.** It finds the ideas in your text or code that deserve a picture, one idea per image.
 2. **Plan.** Each idea becomes something the character physically does, with a few short labels.
-3. **Prompt.** It fills the character's own prompt template, so the identity and style text is the same every time.
-4. **Draw.** Your agent's image tool makes each image, one call per image. InkExplain checks the saved file and reports its path.
+3. **Prompt.** It fills the character's own prompt template, so the identity and style text is the same every time. When the character ships a reference picture and your agent's image tool takes one, the same picture is attached to every image.
+4. **Draw.** Your agent's image tool makes each image, one call per image. InkExplain looks at each saved image next to the reference, draws it again if the character drifted, and reports each image's status, not just its path.
 
 ## Works with
 
-- **Codex Desktop** generates images. Confirmed.
+- **Codex** generates images. Confirmed in Desktop and in the CLI, where the character's reference picture was attached to every call.
 - **Cursor** has an Agent image tool. Not tested.
 - **Claude Code and Gemini CLI** have no built-in image generator. InkExplain writes ready-to-paste prompts, or uses an image tool you have already connected.
 - Any other agent that reads `SKILL.md` packages gets the same behavior: it uses an image tool if one is callable, and says plainly when none is.
