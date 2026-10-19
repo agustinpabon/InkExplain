@@ -4,13 +4,15 @@ The checks in this repository read prompts and packs. They cannot tell whether a
 
 ## Where it stands
 
-Eight real renders exist, one per character, made in Codex Desktop on 2026-10-17 on eight different ideas (shown in the README gallery; `assets/examples/README.md` records each source). None has been scored with this protocol, and no character has the three-image series the protocol asks for. The maintainer's machine for CLI work had no way to render: on 2026-10-17 these routes were tried there, and none can turn a prompt into an image:
+Eight real renders exist, one per character, made in Codex Desktop on 2026-10-17 on eight different ideas (shown in the README gallery; `assets/examples/README.md` records each source). None has been scored with this protocol, and no character has the three-image series the protocol asks for. Series of another kind were made on 2026-10-18 and are recorded in [the evaluation](evaluation.md#character-lock-and-repository-explanations-2026-10-18): Xiaohei explaining one repository, in four runs with the skill's text at four stages. The first, as published, attached no reference; in the other three the character's reference went to every call, and the agent that made the images looked at each one. A second agent, not told which set came from which version, also compared the first two runs. Those are agents' notes, not the review this protocol asks a person to make, so no sample gate changed.
+
+On the maintainer's machine, the CLI routes were tried on 2026-10-17, and none could turn a prompt into an image then:
 
 - Claude Code has no image tool.
-- Codex CLI 0.160.0 shows an image-display helper in `exec` mode, but no generator: the default model and three others reported none, and when it was asked to draw it wrote SVG code instead. SVG code is not an InkExplain render and was never offered as one.
+- Codex CLI 0.160.0 showed an image-display helper in `exec` mode, but no generator: the default model and three others reported none, and when it was asked to draw it wrote SVG code instead. SVG code is not an InkExplain render and was never offered as one. **This changed by 2026-10-18**: the same version, logged in the same way, listed a built-in `image_gen__imagegen` tool in `exec` mode and generated every image of the evaluation above. The difference was not investigated.
 - Gemini CLI could not authenticate (it was refused with "This client is no longer supported for Gemini Code Assist for individuals"), and no image-provider credential is configured on the machine.
 
-Two routes were not tried: connectors that need the maintainer's own sign-in, and local image generation.
+Two routes were not tried: connectors that need the maintainer's own sign-in, and local image generation. Google Antigravity was not available for this change, so nothing here is a result for it; the evaluation has the one request to try there.
 
 The prompts these archetypes assemble are well-formed and match their packs (the tests check that). That is all that has been verified. Stickman stays `experimental` until this review passes, and the repository publishes samples only for an archetype whose `sampleGates` is `approved` with a named reviewer and a date ([provenance](provenance.md#samples-withheld-pending-review)).
 
