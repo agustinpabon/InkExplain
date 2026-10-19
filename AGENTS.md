@@ -13,7 +13,7 @@ InkExplain is an AI-agent skill that turns ideas into consistent hand-drawn illu
 - `skills/inkexplain/references/routing.md`: generated. Never edit it by hand.
 - `skills/inkexplain/references/workflow/`: shared method used by every archetype.
 - `skills/inkexplain/references/archetypes/<id>/`: one five-file pack per archetype (`rights.md`, `identity.md`, `style.md`, `motion-and-acting.md`, `prompts.md`).
-- `scripts/`: `validate.mjs`, `build-docs.mjs`, `explain.mjs` (the prompt helper), `add-archetype.mjs` (the archetype scaffold), `verify-image.mjs` (is a reported file a real image), `audit-series.mjs` (what a real run's image calls attached), `audit-run.mjs` (a run folder against its run record, with what was seen, the repairs, and the host's log of calls), `check-explanation.mjs` (whether an explanation's file references resolve, and whether it promises more than a file can show), and `lib/` (no dependencies).
+- `scripts/`: `validate.mjs`, `build-docs.mjs`, `explain.mjs` (the prompt helper), `add-archetype.mjs` (the archetype scaffold), `verify-image.mjs` (is a reported file a real image), `audit-series.mjs` (what a real run's image calls attached), `audit-run.mjs` (a run folder against its run record, with what was seen, what each picture says, the repairs, and the host's log of calls), `check-explanation.mjs` (whether an explanation's file references resolve, and whether it promises more than a file can show), and `lib/` (no dependencies).
 - `examples/`: example prompts, and the offline gallery `gallery/index.html` with its sample images. The gallery page carries a generated data block; never edit it by hand.
 - `tests/`: Node's built-in test runner; fixtures are generated in temporary directories.
 - `docs/`: architecture, language policy, release checklist, archetype authoring guide, and the code walkthroughs (`walkthroughs.md`).
@@ -32,7 +32,7 @@ npm run explain -- --list   # list archetypes; assemble a prompt with --archetyp
 npm run archetype:add -- --id <id> --name "<Name>" --dry-run   # preview a new archetype; drop --dry-run to write it
 node scripts/audit-series.mjs --reference references/archetypes/xiaohei/xiaohei.png <session.jsonl>   # check a real Codex run's image calls against the character lock
 node scripts/check-explanation.mjs --root <repository> <explanation.md>   # check that the files a repository explanation cites exist, and that it promises nothing a file cannot show
-node scripts/audit-run.mjs --calls <log> --exact <run folder>   # check that a run's new images match its record and the host's calls, and that every approval has its observations on record
+node scripts/audit-run.mjs --calls <log> --exact <run folder>   # check that a run's new images match its record and the host's calls, and that every approval has its observations and its review of meaning on record
 ```
 
 Run `npm run build:docs` after editing `registry.json`, `readmes/locales.json`, an archetype's `prompts.md`, or the approved sample images, and `npm run check` before committing.

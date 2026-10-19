@@ -108,7 +108,7 @@ scripts/
 ├── add-archetype.mjs        CLI: scaffold a new experimental archetype, validated in memory before anything is written
 ├── verify-image.mjs         CLI: is a path an agent reported a real image in the right folder (a run folder included)
 ├── audit-series.mjs         CLI: what the image calls of a real run attached, read from a Codex rollout, an Antigravity transcript, or a JSON list
-├── audit-run.mjs            CLI: a run folder against its manifest.json: new and reused images, what was seen and the defects on record, the repairs, the series gate, the counts, and the host's log of calls
+├── audit-run.mjs            CLI: a run folder against its manifest.json: new and reused images, what was seen and the defects on record, what each picture says (the facts, the numbers and words), the repairs, the series gate, the counts, and the host's log of calls
 ├── check-explanation.mjs    CLI: whether the files and lines a repository explanation cites exist in the checkout, and that it promises nothing a file cannot show
 └── lib/
     ├── config.mjs           product identity, paths, pack layout, policy data
