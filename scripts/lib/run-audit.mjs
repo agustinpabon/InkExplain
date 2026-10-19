@@ -6,8 +6,10 @@
 // call of this run and is not a copy of an image that was already in the archetype's folder, a reused image is
 // labeled as reused, no image is "identity consistent" without having been inspected, and the counts add up. An
 // approved image must also have its observations on record (what was seen, one entry for each identity check of its
-// pack, and the defects found, none for an approved image), repairs must stay within two for one image and six for the
-// run, every call must be an image or a failed call, and a series must have its gate recorded. With a log of the
+// pack, and the defects found, none for an approved image), and its meaning must be reviewed apart from its identity (the
+// facts the plan set, the numbers and words read off the picture, and what it says alone): an image that is on-model and
+// misleading is not accepted. Repairs must stay within two for one image and six for the run, every call must be an
+// image or a failed call, and a series must have its gate recorded. With a log of the
 // host's calls it also checks that the run did not claim more calls than were made. It cannot say whether an image is
 // right: that is for a person, or an agent looking at the image. It can say that nobody wrote down what they saw.
 //
@@ -16,7 +18,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { IMAGE_VERDICTS, PATHS, REPAIR_LIMITS, REVIEWERS, RUN_COUNT_FIELDS, RUN_FOLDER_PATTERN, RUN_MANIFEST } from "./config.mjs";
+import { IMAGE_VERDICTS, MEANING_VERDICTS, PATHS, REPAIR_LIMITS, REVIEWERS, RUN_COUNT_FIELDS, RUN_FOLDER_PATTERN, RUN_MANIFEST } from "./config.mjs";
 import { auditSeries } from "./series-audit.mjs";
 
 const REPO_ROOT = path.resolve(import.meta.dirname, "..", "..");
@@ -269,15 +271,19 @@ export function auditRun(runFolder, { calls = null, exact = false, reference = n
     misplaced.length > 0 ? shown(misplaced) : undeclared > 0 ? `${undeclared} rows give no destination: the file name and the run folder say where each one is` : `${fresh.length} files saved in ${expectedPrefix}`,
   );
 
-  // The verdicts.
+  // The verdicts. An image is accepted only when both reviews pass: its identity is "identity consistent" and its meaning
+  // is "accurate". An image can be on-model and still say something false, and it is then not accepted.
+  const meaningOf = (row) => (isObject(row.meaning) && MEANING_VERDICTS.includes(row.meaning.verdict) ? row.meaning.verdict : null);
   const verdicts = [];
   for (const row of rows) {
     const label = String(row.file);
     if (!IMAGE_VERDICTS.includes(row.verdict)) verdicts.push(`${label}: the verdict must be one of ${IMAGE_VERDICTS.map((v) => `"${v}"`).join(", ")}`);
     if (typeof row.inspected !== "boolean" || typeof row.accepted !== "boolean") verdicts.push(`${label}: "inspected" and "accepted" must be true or false`);
     if (row.inspected === false && row.verdict !== "unable to verify") verdicts.push(`${label}: an image that was not inspected can only be "unable to verify"`);
-    if (row.verdict === "identity consistent" && (row.inspected !== true || row.accepted !== true)) verdicts.push(`${label}: "identity consistent" needs an inspection and an accepted image`);
+    if (row.verdict === "identity consistent" && row.inspected !== true) verdicts.push(`${label}: "identity consistent" needs an inspection`);
     if (row.accepted === true && row.verdict !== "identity consistent") verdicts.push(`${label}: only an "identity consistent" image is accepted`);
+    if (row.accepted === true && meaningOf(row) !== "accurate") verdicts.push(`${label}: accepted, and its meaning is ${meaningOf(row) === null ? "not on record" : `"${meaningOf(row)}"`}: an image that is on-model and not accurate is not accepted`);
+    if (row.accepted === false && row.inspected === true && row.verdict === "identity consistent" && meaningOf(row) === "accurate") verdicts.push(`${label}: both reviews passed, and the image is not accepted`);
   }
   add("VERDICTS", "a verdict is one of four phrases, and nothing unseen is approved", verdicts.length === 0 ? "pass" : "fail", verdicts.length === 0 ? `${rows.length} verdicts` : shown(verdicts));
 
@@ -316,6 +322,46 @@ export function auditRun(runFolder, { calls = null, exact = false, reference = n
     review.length === 0 ? `${looked} inspected images, each with its checks and defects on record; reviewed by ${manifest.reviewed_by}${selfReviewed ? ": a self-assessment by the agent that made the images, not an independent or human review" : ""}` : shown(review, 6),
   );
 
+  // The meaning: a second review, apart from the identity review, of what the picture says. The facts the plan set, the
+  // numbers and the words read off the picture, and what a reader takes from it alone are on record, and a picture with
+  // a meaning defect on record is not accurate. It cannot say that the picture is true: it can say that nobody looked.
+  const meaningProblems = [];
+  let meant = 0;
+  const said = (value, allowNone) => typeof value === "string" && value.trim() !== "" && ((allowNone && bare(value) === "none") || !NOT_AN_OBSERVATION.has(bare(value)));
+  for (const row of fresh) {
+    if (row.inspected !== true) continue;
+    meant += 1;
+    const label = String(row.file);
+    const meaning = row.meaning;
+    if (!isObject(meaning)) {
+      meaningProblems.push(`${label}: no "meaning", so nothing on record says what the picture says`);
+      continue;
+    }
+    const facts = isObject(meaning.facts) ? Object.entries(meaning.facts) : [];
+    if (facts.length === 0) meaningProblems.push(`${label}: "meaning.facts" lists no fact that the picture had to keep true`);
+    for (const [fact, shownOf] of facts) {
+      if (!said(shownOf, false)) meaningProblems.push(`${label}: the fact "${fact}" says ${JSON.stringify(shownOf)}, which does not say what the picture shows`);
+    }
+    for (const key of ["numbers", "labels", "alone"]) {
+      if (!said(meaning[key], key !== "alone")) meaningProblems.push(`${label}: "meaning.${key}" is ${JSON.stringify(meaning[key])}, which does not say what was read off the picture`);
+    }
+    if (!MEANING_VERDICTS.includes(meaning.verdict)) {
+      meaningProblems.push(`${label}: "meaning.verdict" must be ${MEANING_VERDICTS.map((v) => `"${v}"`).join(", ")}`);
+    } else if (!Array.isArray(meaning.defects) || meaning.defects.some((defect) => typeof defect !== "string" || defect.trim() === "")) {
+      meaningProblems.push(`${label}: "meaning.defects" must be a list of plain sentences, empty when none was found`);
+    } else if (meaning.verdict === "accurate" && meaning.defects.length > 0) {
+      meaningProblems.push(`${label}: "accurate" with a defect of meaning on record: ${shown(meaning.defects, 2)}`);
+    } else if ((meaning.verdict === "misleading" || meaning.verdict === "needs human review") && meaning.defects.length === 0) {
+      meaningProblems.push(`${label}: "${meaning.verdict}" names no defect`);
+    }
+  }
+  add(
+    "MEANING",
+    "every inspected image has its meaning reviewed on record, apart from its identity, and an accurate image has no defect of meaning on record",
+    meaningProblems.length === 0 ? "pass" : "fail",
+    meaningProblems.length === 0 ? `${meant} inspected images, each with the facts it keeps true, the numbers and words read off it, and what it says alone on record` : shown(meaningProblems, 6),
+  );
+
   // The reference.
   const states = fresh.map((row) => row.reference);
   const badState = fresh.filter((row) => !REFERENCE_STATES.includes(row.reference)).map((row) => String(row.file));
@@ -328,13 +374,20 @@ export function auditRun(runFolder, { calls = null, exact = false, reference = n
   add("REFERENCE", "the reference is reported as attached only where a row says so", referenceProblems.length === 0 ? "pass" : "fail", referenceProblems.length === 0 ? (claimed ? "attached to every call, through " + manifest.reference.input : "not supplied on every call: the report must say so") : shown(referenceProblems));
 
   // The counts.
-  const count = (predicate) => rows.filter(predicate).length;
+  // Each image is in one place: failed when either review rejects it, accepted when both pass, held otherwise.
+  const bucket = (row) => {
+    if (!IMAGE_VERDICTS.includes(row.verdict)) return null;
+    const meaning = meaningOf(row) ?? "unable to verify";
+    if (row.verdict === "needs repair" || meaning === "misleading") return "failed";
+    return row.verdict === "identity consistent" && meaning === "accurate" ? "accepted" : "held";
+  };
+  const count = (name) => rows.filter((row) => bucket(row) === name).length;
   const computed = {
     new_images: fresh.length,
     reused_images: reused.length,
-    failed_images: count((row) => row.verdict === "needs repair"),
-    held_images: count((row) => row.verdict === "needs human review" || row.verdict === "unable to verify"),
-    accepted_images: count((row) => row.verdict === "identity consistent"),
+    failed_images: count("failed"),
+    held_images: count("held"),
+    accepted_images: count("accepted"),
   };
   const countProblems = Object.entries(computed).filter(([key, value]) => manifest.counts?.[key] !== value).map(([key, value]) => `${key} is ${manifest.counts?.[key]} and the rows say ${value}`);
   // Every call is an image of the record or a failed call of the record, so a call that made an image nobody kept
@@ -410,12 +463,12 @@ export function auditRun(runFolder, { calls = null, exact = false, reference = n
         if (notOpened.length > 0) seriesProblems.push(`the gate did not open every final image: ${shown(notOpened)}`);
         if (manifest.reference?.attached_to_every_call === true && gate.reference_opened !== true) seriesProblems.push("the reference was attached, and the gate does not say it was opened beside the images");
         const pairs = Array.isArray(gate.pairs_compared) ? gate.pairs_compared.filter((pair) => Array.isArray(pair) && pair.length === 2 && pair.every((file) => finalFiles.includes(String(file)))) : [];
-        if (pairs.length < finals.length - 1) seriesProblems.push(`the gate compared ${pairs.length} pairs of final images, and ${finals.length} images need at least ${finals.length - 1}`);
+        if (pairs.length < finals.length - 1) seriesProblems.push(`the gate compared ${pairs.length} pairs of final images (a pair is two file names of this run), and ${finals.length} images need at least ${finals.length - 1}`);
         if (typeof gate.observations !== "string" || gate.observations.trim() === "" || NOT_AN_OBSERVATION.has(bare(gate.observations))) seriesProblems.push('"series_review.observations" says nothing about what was seen across the images');
         if (typeof gate.passed !== "boolean") {
           seriesProblems.push('"series_review.passed" must be true or false');
         } else if (gate.passed === true) {
-          const notApproved = finals.filter((row) => row.verdict !== "identity consistent" || row.accepted !== true).map((row) => String(row.file));
+          const notApproved = finals.filter((row) => row.accepted !== true).map((row) => String(row.file));
           if (notApproved.length > 0) seriesProblems.push(`the gate says the series passed, and ${notApproved.length} final images were not approved: ${shown(notApproved)}`);
         }
       }

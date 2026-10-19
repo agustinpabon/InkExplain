@@ -61,6 +61,9 @@ export const RUN_COUNT_FIELDS = Object.freeze(["generator_calls", "new_images", 
 // agent or model that was not told its verdict, or a person.
 export const REPAIR_LIMITS = Object.freeze({ perImage: 2, perSeries: 6 });
 export const REVIEWERS = Object.freeze(["self", "independent", "human"]);
+// What the meaning review of a picture can conclude, apart from its identity verdict: a picture can be on-model and
+// still say something false (references/workflow/qa-checklist.md, "Review the meaning").
+export const MEANING_VERDICTS = Object.freeze(["accurate", "misleading", "needs human review", "unable to verify"]);
 
 // Every archetype pack contains exactly these five Markdown files, listed in the
 // order agents load them: rights first, so boundaries are known before drawing.

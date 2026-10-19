@@ -1,12 +1,12 @@
 # QA checklist
 
-Review every generated image before saving it, using this shared checklist together with the "Review and repair" section of the archetype's `prompts.md`, which adds identity checks and archetype-specific failures. A series of two or more images also passes the series gate below.
+Review every generated image before saving it, using this shared checklist together with the "Review and repair" section of the archetype's `prompts.md`, which adds identity checks and archetype-specific failures. Every image gets two reviews, kept apart: one of the character (identity) and one of what the picture says (meaning). A series of two or more images also passes the series gate below.
 
 Review only what you can see. If the host returns the image to you, inspect it. If you cannot view the result, say that the visual review is pending, mark the image "unable to verify" (`references/workflow/delivery.md`), and list what the user should check.
 
 ## Review one image
 
-Do this for every image, before the next call, and write the result into the run record (`checks`, `defects`, `verdict`, in `references/workflow/delivery.md`). A verdict with nothing recorded behind it is not a review.
+This is the identity review. Do it for every image, before the next call, and write the result into the run record (`checks`, `defects`, `verdict`, in `references/workflow/delivery.md`). A verdict with nothing recorded behind it is not a review.
 
 1. **Open the file, not the answer.** Open the saved image with the host's image viewer, and the reference beside it when the pack has one. The tool's text (its echo of your prompt, the path it saved) is not the image, and what you asked for is not what was drawn. Describe the picture before you read your prompt again.
 2. **Look at the body first.** Everything inside the character's outline that is not the flat fill (a line, a stroke, a mark, a texture, a second color); then each limb where it meets the body, and whether it crosses the body; then the face; then anything sticking out of the outline; then every word drawn, spelled as drawn.
@@ -15,6 +15,21 @@ Do this for every image, before the next call, and write the result into the run
 5. **The verdict follows from the list.** Any defect: "needs repair". A doubt that the picture does not settle at the size you see: "needs human review", with the doubt in `defects`. No defect, and every check answered: "identity consistent".
 
 Your review is a self-assessment: the agent that made the images is checking its own work, and a model tends to see what it expects. Record `reviewed_by` as `self`, and say so in the report. It becomes `independent` only when another agent or model, not told your verdict, looked at every final image and the reference and listed the defects it saw (any defect it lists fails the image, by the same line between a defect and a matter of degree), and `human` only when the user or another person says they checked. If the host can start a separate reviewer without extra permissions, use one for the final images; if it cannot, leave `self`.
+
+## Review the meaning
+
+A picture can be on-model and still explain the wrong thing, so what it says gets its own review, apart from the identity review above. An image that passes one and fails the other is not accepted. Do it for every image, also one that failed on identity, so that a single repair can fix both, and write it into `meaning` in the run record (`references/workflow/delivery.md`).
+
+1. **Start from the facts.** The plan set the facts that this picture must keep true before its prompt was written (`references/workflow/concept-extraction.md`). Copy them into `meaning.facts`, and beside each write what the picture shows about it.
+2. **Read the numbers.** Every number, total, and comparison drawn: read it off the picture and work it out yourself ("left pan 10 + 20 = 30, right pan 20 + 20 = 40, beam level"). A balance, an "=", or "the same as" must be true. A number you did not ask for is a defect.
+3. **Check the order and the actors.** The stages are drawn in the order the source has them (a draft is submitted before it is reviewed, a request is approved before it is carried out), and no actor seems able to do more than the source lets it (the author does not approve their own request, a boundary does not stop more than the code stops).
+4. **Read the labels.** Every word drawn, the object it sits on or points at, and whether it reads upright. A label on the wrong object, upside down, repeated, or unreadable is wrong.
+5. **Compare it with the source.** For a repository, the explanation and the lines it cites say what is true. The picture must not contradict them or imply more than they say.
+6. **Read the picture alone.** Say what is being done, by whom, and what a reader takes from it without the caption, and compare that with the core idea. A picture that says something else, or is right only with its caption, fails.
+
+A defect of meaning is something false or misleading that a reader would take away. Check what the picture touches, and no more: a fact it leaves out is not a defect when it implies nothing against it, because the caption and the explanation carry what a picture cannot. A way to draw it better, or a matter of style, is not a defect of meaning: that belongs to the identity review. List each defect in `meaning.defects`. The verdict is "accurate" with none, "misleading" with any, "needs human review" for a doubt that the picture does not settle, and "unable to verify" when you cannot see it.
+
+Repair a fault of meaning with the least that fixes it. A fault in one element (a number, a label's direction or the object it names) takes an edit that hands the saved image to the tool (`references/workflow/editing.md`), when the tool can edit. A wrong scene takes one regeneration with a `Correction:` that states the fact it got wrong, and when identity failed too, the same regeneration fixes both. An edit and a regeneration count the same against the repair limits, and a fact that fails twice is drawn another way: the plain scene instead of the metaphor, no number instead of a wrong one.
 
 ## Pass checks
 

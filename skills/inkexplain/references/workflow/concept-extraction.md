@@ -61,7 +61,7 @@ Every planned image needs one physical verb that *is* the idea: weigh, filter, b
 Before an image is planned, say its idea the way you would to a newcomer, and test it. This matters most when the source is technical, where a picture of unrelated objects makes the viewer decode both the objects and the jargon.
 
 1. **One idea, in plain words.** No term the reader must decode. When a technical word is the point, the picture shows what it does.
-2. **One metaphor that fits the mechanism, not only the topic.** Say "X is like Y because ...": the "because" must be true of the source. A gate for validation, a mailroom for a queue, a scale for a trade-off, a sieve for a filter. If the source does not do what the object does (there is no lock, no queue), choose another object.
+2. **One metaphor that fits the mechanism, not only the topic.** Say "X is like Y because ...": the "because" must be true of the source. A gate for validation, a mailroom for a queue, a scale for a trade-off, a sieve for a filter. If the source does not do what the object does (there is no lock, no queue), choose another object. Then read the picture literally, as a stranger would: if the object says something the source does not (a balance says "equal", a stamp says "approved", a lock says "secure"), draw the plain scene instead.
 3. **The decisive action is visible.** A viewer can say what the actor is doing, and why it matters, without reading the labels.
 4. **The fewest props.** Usually two to four, each standing for one real thing. Nothing is there to fill space.
 5. **Short, natural labels**: one to three words in the reader's language, the words the source itself uses. No sentences, and no file paths on the picture.
@@ -84,12 +84,13 @@ Plan before generating. For each image, give:
 
 1. **Placement**: the paragraph or heading the image follows.
 2. **Core idea**: one sentence the image must make obvious.
-3. **Structure type**: one type from `references/workflow/composition-grid.md`.
-4. **Actor and action**: who or what performs the central action, and the physical action itself.
-5. **Supporting objects**: one to four low-tech objects that carry the metaphor (a pack's own count wins).
-6. **Visible labels**: two to six short labels in the user's language. Take them from the source's own words; for a single idea, choose one to three words each from its key nouns, and tell the user which you chose.
-7. **File name**: `NN-topic-slug.png`.
-8. **Source** (code, and repositories): the files and lines the idea rests on, and whether you read them or only saw them documented.
+3. **Facts that must hold**: one to three things the picture could get wrong and a reader would take away: a number or an equality, who does what, the order of stages, what a label names, a limit that must not be overstated. State each so that the picture can contradict it, write them before the prompt, and give the prompt each one in plain words. No picture of a technical concept is planned without them.
+4. **Structure type**: one type from `references/workflow/composition-grid.md`.
+5. **Actor and action**: who or what performs the central action, and the physical action itself.
+6. **Supporting objects**: one to four low-tech objects that carry the metaphor (a pack's own count wins).
+7. **Visible labels**: two to six short labels in the user's language. Take them from the source's own words; for a single idea, choose one to three words each from its key nouns, and tell the user which you chose. Use the fewest words and numbers the facts need: each one is another chance to say something false, and a number is on the picture only when it is the point, written exactly in the prompt, with its arithmetic true.
+8. **File name**: `NN-topic-slug.png`.
+9. **Source** (code, and repositories): the files and lines the idea rests on, and whether you read them or only saw them documented.
 
 Add the archetype's own planning fields from its `prompts.md`, such as a page color or a rights note.
 

@@ -42,7 +42,7 @@ Name the structure type in the plan, never on the image.
 
 ## Inventing the metaphor
 
-These tools are for an idea that has no visible form: a principle, a trade-off, a pitfall. They are not the way to picture a repository, or what a particular application does: draw the application's own things first, and reach for a metaphor only when the plain drawing cannot show the idea (`references/workflow/repository-explanation.md`, "Plan the pictures from the explanation"). Invent a fresh metaphor from the current source every time:
+These tools are for an idea that has no visible form: a principle, a trade-off, a pitfall. They are not the way to picture a repository, or what a particular application does: draw the application's own things first, and reach for a metaphor only when the plain drawing cannot show the idea (`references/workflow/repository-explanation.md`, "Plan the pictures from the explanation"). Invent a fresh metaphor from the current source every time, and read it literally before you keep it: if the object says something the source does not (a balance says "equal", a stamp says "approved", a lock says "secure"), choose the plain scene. No pattern, object, or structure type here or in a pack is required: each is an option, and the facts of the picture come first (`references/workflow/concept-extraction.md`, "Shot list"). When a metaphor is needed:
 
 1. **Turn the abstract into a physical action**: stuck, leaking, sorting, weighing, filtering, fermenting, folding, bridging, unpacking, flowing back.
 2. **Turn the system into a low-tech object**: a pipe, drawer, funnel, scale, ladder, mailbox, well, gate, sieve, clothesline, or an odd hand-built machine.

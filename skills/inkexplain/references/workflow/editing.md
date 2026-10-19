@@ -36,6 +36,14 @@ Edit the provided image. Replace the label "[wrong text]" with "[correct text]" 
 
 Change only the labels the user named; leave the others as they are, even when they are in another language. If the new text is longer, keep it inside its shape by tightening the letter spacing slightly; do not resize or move the shape.
 
+## Fix a number or a detail
+
+```text
+Edit the provided image. Change only [the wrong element: a number, the direction a label faces, the object a label names]: it now shows "[what it shows]" and it must show "[what it must show]". Keep every other element, the character, the layout, the line style, and the colors exactly as they are.
+```
+
+Use it for a fault that sits in one element: a number that breaks a total, a label that is upside down or on the wrong object, a word that does not belong. A wrong scene (the wrong stage, the wrong actor, a metaphor that says something false) is regenerated, with the fact it got wrong stated in a `Correction:` (`references/workflow/qa-checklist.md`, "Review the meaning").
+
 ## Strengthen participation
 
 ```text

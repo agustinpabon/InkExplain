@@ -5,7 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { main } from "../scripts/audit-run.mjs";
-import { IMAGE_VERDICTS, PATHS, REPAIR_LIMITS, REVIEWERS, RUN_COUNT_FIELDS, RUN_FOLDER_PATTERN } from "../scripts/lib/config.mjs";
+import { IMAGE_VERDICTS, MEANING_VERDICTS, PATHS, REPAIR_LIMITS, REVIEWERS, RUN_COUNT_FIELDS, RUN_FOLDER_PATTERN } from "../scripts/lib/config.mjs";
 import { Repository } from "../scripts/lib/repository.mjs";
 import { auditRun, manifestProblems, packIdentityChecks, snapshotFolder } from "../scripts/lib/run-audit.mjs";
 import { imageToolCalls } from "../scripts/lib/series-audit.mjs";
@@ -28,6 +28,10 @@ const workflow = (name) => repo.readText(`${PATHS.workflowDir}/${name}`);
 const delivery = workflow("delivery.md");
 const gate = workflow("qa-checklist.md");
 const lock = workflow("character-lock.md");
+const extraction = workflow("concept-extraction.md");
+const grid = workflow("composition-grid.md");
+const method = workflow("repository-explanation.md");
+const editing = workflow("editing.md");
 const skill = repo.readText(PATHS.skillFile);
 
 test("every Generate request is a fresh run in its own folder, and what an earlier run left there is never touched, rated, or delivered", () => {
@@ -156,6 +160,57 @@ test("a figure is posed so that no limb crosses a solid body, and a repair may m
   assert.match(lock, /A repair may change the pose when the pose caused the fault: an arm that has to cross the body to reach its object is what draws the white line, so put the object on that arm's own side/);
 });
 
+test("the meaning is reviewed apart from the identity: six readings, a defect is something false, and the repair is the least that fixes it", () => {
+  const section = gate.slice(gate.indexOf("## Review the meaning"), gate.indexOf("## Pass checks"));
+  assert.match(gate, /Every image gets two reviews, kept apart: one of the character \(identity\) and one of what the picture says \(meaning\)/);
+  assert.match(section, /A picture can be on-model and still explain the wrong thing, so what it says gets its own review, apart from the identity review above\. An image that passes one and fails the other is not accepted/);
+  assert.match(section, /Do it for every image, also one that failed on identity, so that a single repair can fix both/);
+  for (const step of ["**Start from the facts.**", "**Read the numbers.**", "**Check the order and the actors.**", "**Read the labels.**", "**Compare it with the source.**", "**Read the picture alone.**"]) assert.ok(section.includes(step), step);
+  assert.match(section, /read it off the picture and work it out yourself \("left pan 10 \+ 20 = 30, right pan 20 \+ 20 = 40, beam level"\)\. A balance, an "=", or "the same as" must be true\. A number you did not ask for is a defect/);
+  assert.match(section, /a draft is submitted before it is reviewed, a request is approved before it is carried out/);
+  assert.match(section, /the author does not approve their own request, a boundary does not stop more than the code stops/);
+  assert.match(section, /A label on the wrong object, upside down, repeated, or unreadable is wrong/);
+  assert.match(section, /A picture that says something else, or is right only with its caption, fails/);
+  assert.match(section, /Check what the picture touches, and no more: a fact it leaves out is not a defect when it implies nothing against it/);
+  assert.match(section, /A way to draw it better, or a matter of style, is not a defect of meaning: that belongs to the identity review/);
+  assert.match(section, /The verdict is "accurate" with none, "misleading" with any, "needs human review" for a doubt that the picture does not settle, and "unable to verify" when you cannot see it/);
+  assert.match(section, /Repair a fault of meaning with the least that fixes it\. A fault in one element[^\n]*takes an edit that hands the saved image to the tool/);
+  assert.match(section, /A wrong scene takes one regeneration with a `Correction:` that states the fact it got wrong, and when identity failed too, the same regeneration fixes both/);
+  assert.match(section, /An edit and a regeneration count the same against the repair limits, and a fact that fails twice is drawn another way: the plain scene instead of the metaphor, no number instead of a wrong one/);
+  assert.match(delivery, /`meaning` is the second review, kept apart from the identity review/);
+  assert.match(delivery, /`accepted` is true only for "identity consistent" after an inspection, and only when the meaning review below is `accurate` too/);
+  assert.match(delivery, /An image that is on-model and misleading is not accepted either/);
+  assert.match(delivery, /An image is accepted only when it is "identity consistent" and accurate: one that is on-model and misleading is not a correct explanation, whatever its identity verdict says/);
+  for (const verdict of MEANING_VERDICTS) assert.ok(delivery.includes(verdict) && gate.includes(verdict), `${verdict} is named by both files`);
+  assert.match(skill, /then review what it says, apart from the character, into `meaning` \(the facts, the numbers and words you read off it, what it says without its caption\), and accept an image only when both reviews pass/);
+  assert.match(skill, /A defect of meaning keeps an image from being accepted, whatever its identity verdict says/);
+  assert.match(skill, /\(a faulty label or number by an edit when the tool can edit, a faulty scene by one regeneration that fixes everything you found\), and stop after three attempts on one image and six repairs in the series/);
+  assert.equal(REPAIR_LIMITS.perSeries, 6, "the budget of repairs is the one the identity review already had");
+});
+
+test("the facts that must hold are written before the prompt, a metaphor is read literally, and a picture carries the fewest words", () => {
+  assert.match(extraction, /\*\*Facts that must hold\*\*: one to three things the picture could get wrong and a reader would take away: a number or an equality, who does what, the order of stages, what a label names, a limit that must not be overstated/);
+  assert.match(extraction, /State each so that the picture can contradict it, write them before the prompt, and give the prompt each one in plain words\. No picture of a technical concept is planned without them/);
+  assert.match(extraction, /Use the fewest words and numbers the facts need: each one is another chance to say something false, and a number is on the picture only when it is the point, written exactly in the prompt, with its arithmetic true/);
+  assert.match(extraction, /Then read the picture literally, as a stranger would: if the object says something the source does not \(a balance says "equal", a stamp says "approved", a lock says "secure"\), draw the plain scene instead/);
+  assert.match(grid, /read it literally before you keep it: if the object says something the source does not \(a balance says "equal", a stamp says "approved", a lock says "secure"\), choose the plain scene\. No pattern, object, or structure type here or in a pack is required: each is an option, and the facts of the picture come first/);
+  assert.match(method, /\*\*Write the facts before each prompt\*\*, from part 3 and the lines it cites: the steps the picture shows, in order, and who performs each one, and any number it will show/);
+  assert.match(method, /A picture of a rule shows what the rule does and no more: if the code stops one case, the picture does not imply that it stops all/);
+  assert.match(method, /one figure that does every step reads as one person doing everything/);
+  assert.match(method, /A stamp says approved, a scale says equal, a lock says secure, a gate says stopped: use that object only if that is what the code does at that step/);
+  assert.match(delivery, /with each planned file name, its placement, its core idea, the facts that must hold in it \(`references\/workflow\/concept-extraction\.md`\), and its full prompt/);
+  assert.match(skill, /Before the prompt, write the facts that must stay true in each picture \(a number, who does what, the order of stages, what a label names\), and draw the plain scene before a metaphor: a metaphor is allowed only if, read literally, it says nothing false/);
+  assert.match(skill, /Give it each fact in plain words, any number exactly, and no more words than the facts need/);
+  assert.match(editing, /## Fix a number or a detail/);
+  assert.match(editing, /Use it for a fault that sits in one element: a number that breaks a total, a label that is upside down or on the wrong object, a word that does not belong\. A wrong scene \(the wrong stage, the wrong actor, a metaphor that says something false\) is regenerated, with the fact it got wrong stated in a `Correction:`/);
+  assert.match(lock, /a fault of meaning as small as it can be[^\n]*a wrong number or label by an edit, a wrong scene by one regeneration that fixes the identity fault too when there is one\. An edit counts against the limits below like any repair/);
+  // The facts the record copies are the ones the plan wrote: the example row shows where they go.
+  const example = JSON.parse(/```json\n([\s\S]*?)\n```/.exec(delivery)[1].replace(/<[^>"]*>/g, "x").replace(/"sha256": "x"/, '"sha256": null'));
+  assert.deepEqual(Object.keys(example.images[0].meaning), ["facts", "numbers", "labels", "alone", "defects", "verdict"]);
+  assert.ok(MEANING_VERDICTS.includes(example.images[0].meaning.verdict));
+  assert.ok(example.series_review.pairs_compared.every((pair) => Array.isArray(pair) && pair.length === 2) && /`\["01-a\.png", "02-b\.png"\]`/.test(delivery), "a pair of the series gate is two file names, and the record says so");
+});
+
 // What a run folder looks like on disk, built the way a faithful agent would write it, then broken one thing at a time.
 const ARCHETYPE = "assets/example-repo-xiaohei";
 const RUN = "run-20261019-143502-7f3a";
@@ -185,6 +240,15 @@ function withOldImages(root) {
 }
 // What an approved image answers: one entry for each row of the pack's "Identity checks", in the agent's own words.
 const CHECKS = Object.fromEntries(packIdentityChecks("xiaohei").map((name) => [name, `${name.toLowerCase()}: two white dots on a flat black dome, nothing else white on the body`]));
+// What a picture that is true to its facts records for its meaning, apart from its identity.
+const MEANING = {
+  facts: { "the picture shows the idea it was planned to show": "a person moves a card from one tray to the next" },
+  numbers: "none",
+  labels: "Team A and Team B, each upright on the card it names",
+  alone: "a person moves a card from one tray to the next",
+  defects: [],
+  verdict: "accurate",
+};
 // What a rejected attempt records: the defect that was seen, and the verdict that follows from it.
 const FAILING = { verdict: "needs repair", accepted: false, defects: ["a white band across the lower body where the arm crosses it"] };
 
@@ -204,12 +268,16 @@ function row(n, overrides = {}) {
     checks: CHECKS,
     defects: [],
     verdict: "identity consistent",
+    meaning: MEANING,
     accepted: true,
     ...overrides,
   };
 }
 /** A run record whose counts are the rows' own; overrides break one field. */
 function record(rows, overrides = {}) {
+  // Each image is in one place: failed when either review rejects it, accepted when both pass, held otherwise.
+  const meaningOf = (entry) => entry.meaning?.verdict ?? "unable to verify";
+  const bucket = (entry) => (entry.verdict === "needs repair" || meaningOf(entry) === "misleading" ? "failed" : entry.verdict === "identity consistent" && meaningOf(entry) === "accurate" ? "accepted" : "held");
   const fresh = rows.filter((entry) => entry.origin === "generated" || entry.origin === "edited");
   const count = (test) => rows.filter(test).length;
   const repairs = fresh.filter((entry) => entry.repair_of);
@@ -239,9 +307,9 @@ function record(rows, overrides = {}) {
       generator_calls: fresh.length + failed.length,
       new_images: fresh.length,
       reused_images: count((entry) => entry.origin === "reused"),
-      failed_images: count((entry) => entry.verdict === "needs repair"),
-      held_images: count((entry) => entry.verdict === "needs human review" || entry.verdict === "unable to verify"),
-      accepted_images: count((entry) => entry.verdict === "identity consistent"),
+      failed_images: count((entry) => bucket(entry) === "failed"),
+      held_images: count((entry) => bucket(entry) === "held"),
+      accepted_images: count((entry) => bucket(entry) === "accepted"),
     },
     ...overrides,
   };
@@ -266,7 +334,7 @@ test("a fresh run beside four old images passes, and the old images are exactly 
   const report = auditRun(folder, { before, calls: calls(5), exact: true, reference: REFERENCE });
   assert.equal(report.ok, true, JSON.stringify(report.results.filter((result) => result.status === "fail")));
   const status = statuses(report);
-  for (const id of ["RUN-FOLDER", "MANIFEST", "FILES", "HASHES", "NOT-OLD", "ORIGINS", "DESTINATION", "VERDICTS", "REVIEW", "REFERENCE", "COUNTS", "REPAIRS", "SERIES", "UNTOUCHED", "CALLS", "ATTACHED", "SAME-FILE", "PACKAGED"]) assert.equal(status[id], "pass", id);
+  for (const id of ["RUN-FOLDER", "MANIFEST", "FILES", "HASHES", "NOT-OLD", "ORIGINS", "DESTINATION", "VERDICTS", "REVIEW", "MEANING", "REFERENCE", "COUNTS", "REPAIRS", "SERIES", "UNTOUCHED", "CALLS", "ATTACHED", "SAME-FILE", "PACKAGED"]) assert.equal(status[id], "pass", id);
   assert.match(detail(report, "NOT-OLD"), /compared with 4 earlier images/);
   assert.match(detail(report, "COUNTS"), /5 calls, 5 new, 0 reused, 0 failed, 0 held, 5 accepted/);
   for (const name of OLD) assert.deepEqual(fs.readFileSync(path.join(root, ...`${ARCHETYPE}/${name}`.split("/"))), image(name), `${name} is as it was`);
@@ -375,7 +443,7 @@ test("a reused image is labeled, is never counted as generated now, and does not
   assert.match(detail(auditRun(insideRun, {}), "ORIGINS"), /a reused image must be an earlier output outside this run folder/);
   // A reused image nobody looked at this run is not approved: it is held.
   const approvedUnseen = withOldFolder(t, [row(1), row(2), reusedRow({ verdict: "identity consistent", accepted: true })]);
-  assert.match(detail(auditRun(approvedUnseen, {}), "VERDICTS"), /"identity consistent" needs an inspection and an accepted image/);
+  assert.match(detail(auditRun(approvedUnseen, {}), "VERDICTS"), /"identity consistent" needs an inspection/);
 });
 /** A workspace holding the four old images and a run folder with these rows. */
 function withOldFolder(t, rows) {
@@ -498,17 +566,92 @@ const refused = (numbers) => numbers.map((call) => ({ call, error: "http 400 mod
 
 test("the second reproduced failure is caught: five images called identity consistent, with nothing on record about what was seen", (t) => {
   // The record a faithful agent wrote in a real run: the provenance in full, and for the pictures a verdict and "inspected".
-  const asWritten = five().map(({ checks, defects, ...rest }) => rest);
+  const asWritten = five().map(({ checks, defects, meaning, ...rest }) => rest);
   const absent = { planned_images: undefined, repairs: undefined, reviewed_by: undefined, failed_calls: undefined, series_review: undefined };
   const report = auditRun(writeRun(workspace(t), asWritten, { overrides: absent }), { calls: calls(5), exact: true, reference: REFERENCE });
   assert.equal(report.ok, false);
   const status = statuses(report);
-  for (const id of ["RUN-FOLDER", "FILES", "HASHES", "NOT-OLD", "ORIGINS", "DESTINATION", "VERDICTS", "REFERENCE", "COUNTS", "CALLS", "ATTACHED"]) assert.equal(status[id], "pass", `${id}: what the fresh-run rules already cover still passes`);
-  assert.deepEqual(failures(report).sort(), ["MANIFEST", "REPAIRS", "REVIEW", "SERIES"]);
+  for (const id of ["RUN-FOLDER", "FILES", "HASHES", "NOT-OLD", "ORIGINS", "DESTINATION", "REFERENCE", "COUNTS", "CALLS", "ATTACHED"]) assert.equal(status[id], "pass", `${id}: what the fresh-run rules already cover still passes`);
+  assert.deepEqual(failures(report).sort(), ["MANIFEST", "MEANING", "REPAIRS", "REVIEW", "SERIES", "VERDICTS"]);
   assert.match(detail(report, "REVIEW"), /01-new-1\.jpg: no "checks", so nothing on record says what was seen/);
   assert.match(detail(report, "SERIES"), /no "series_review": the series gate was not run, or was not recorded/);
   assert.match(detail(report, "REPAIRS"), /"planned_images" is missing/);
   assert.match(detail(report, "MANIFEST"), /"reviewed_by" must be "self", "independent", "human"/);
+});
+
+test("the third reproduced failure is caught: four accepted pictures whose record says how the character looks and nothing about what they say", (t) => {
+  // A real run recorded the identity review in full (nine checks, the defects, two repairs of a face with a mouth line)
+  // and accepted its four pictures: one a balance that is level over unequal totals, one a stamp on a draft.
+  const identityOnly = five().map(({ meaning, ...rest }) => rest);
+  const report = auditRun(writeRun(workspace(t), identityOnly), { calls: calls(5), exact: true, reference: REFERENCE });
+  assert.equal(report.ok, false);
+  assert.deepEqual(failures(report).sort(), ["MEANING", "VERDICTS"], "everything the identity review and the fresh-run rules cover still passes");
+  assert.match(detail(report, "MEANING"), /01-new-1\.jpg: no "meaning", so nothing on record says what the picture says/);
+  assert.match(detail(report, "VERDICTS"), /01-new-1\.jpg: accepted, and its meaning is not on record: an image that is on-model and not accurate is not accepted/);
+  // The same pictures, held until their meaning is reviewed, are an honest record of what was and was not checked.
+  const held = auditRun(writeRun(workspace(t), identityOnly.map((entry) => ({ ...entry, accepted: false }))), {});
+  assert.equal(statuses(held).VERDICTS, "pass");
+  assert.match(detail(held, "COUNTS"), /5 calls, 5 new, 0 reused, 0 failed, 5 held, 0 accepted/);
+});
+
+// The two pictures of that run that were on-model and wrong, as the meaning review records them when it looks.
+const BALANCE = {
+  facts: { "both pans carry the same total, so the level beam is true": "left pan 10 and 20, right pan 20 and 20, beam level" },
+  numbers: "left pan 10 + 20 = 30, right pan 20 + 20 = 40, and the beam is level",
+  labels: "Left total on the left pan, Right total on the right pan, Check on the table: each upright and on the object it names",
+  alone: "a person adds a coin to a balance and the beam is level: the picture says the two sides are equal",
+  defects: ["the totals are 30 and 40 and the beam is level: the picture says that unequal sides are equal"],
+  verdict: "misleading",
+};
+const STAMP = {
+  facts: {
+    "a draft is submitted before anyone reviews it": "the sheet under the stamp is labeled Draft",
+    "the author does not approve their own request": "one figure holds the sheet and the stamp",
+    "the last stage follows approval": "an arrow leads from the stamped sheet to the Done tray",
+  },
+  numbers: "none",
+  labels: "Draft on the sheet, printed upside down; Approved on the stamp; Done on the tray and again above it",
+  alone: "one person stamps Approved on their own draft and sends it on to the last stage",
+  defects: ["a draft is stamped approved: the stages are out of order", "one figure submits and approves, with no separate reviewer", "a label is upside down and another is repeated"],
+  verdict: "misleading",
+};
+
+test("an image can be on-model and say something false, and it is then not accepted: the two pictures that were, and the records that would let them through", (t) => {
+  const audit = (rows) => auditRun(withOldFolder(t, rows), {});
+  // Identity consistent, meaning misleading, not accepted: an honest record, counted as failed.
+  const honest = audit([row(1), row(2, { meaning: BALANCE, accepted: false }), row(3, { meaning: STAMP, accepted: false })]);
+  assert.equal(honest.ok, true, JSON.stringify(honest.results.filter((result) => result.status === "fail")));
+  assert.match(detail(honest, "COUNTS"), /3 calls, 3 new, 0 reused, 2 failed, 0 held, 1 accepted/);
+  // The same pictures accepted: refused, however good the character looks.
+  const accepted = audit([row(1), row(2, { meaning: BALANCE }), row(3, { meaning: STAMP })]);
+  assert.equal(accepted.ok, false);
+  assert.match(detail(accepted, "VERDICTS"), /02-new-2\.jpg: accepted, and its meaning is "misleading": an image that is on-model and not accurate is not accepted/);
+  // A defect on record that the verdict ignores, and a verdict with no defect behind it, are refused.
+  assert.match(detail(audit([row(1, { meaning: { ...BALANCE, verdict: "accurate" } })]), "MEANING"), /01-new-1\.jpg: "accurate" with a defect of meaning on record: the totals are 30 and 40/);
+  assert.match(detail(audit([row(1, { meaning: { ...BALANCE, defects: [] }, accepted: false })]), "MEANING"), /01-new-1\.jpg: "misleading" names no defect/);
+  // Nothing is an answer unless it says what was read off the picture, and "none" is one only for numbers and labels.
+  assert.match(detail(audit([row(1, { meaning: { ...MEANING, facts: { "the idea holds": "ok" } } })]), "MEANING"), /the fact "the idea holds" says "ok", which does not say what the picture shows/);
+  assert.match(detail(audit([row(1, { meaning: { ...MEANING, facts: {} } })]), "MEANING"), /"meaning\.facts" lists no fact that the picture had to keep true/);
+  assert.match(detail(audit([row(1, { meaning: { ...MEANING, alone: "fine" } })]), "MEANING"), /"meaning\.alone" is "fine", which does not say what was read off the picture/);
+  assert.match(detail(audit([row(1, { meaning: { ...MEANING, numbers: "" } })]), "MEANING"), /"meaning\.numbers" is "", which does not say what was read off the picture/);
+  assert.equal(statuses(audit([row(1, { meaning: { ...MEANING, numbers: "none", labels: "none" } })])).MEANING, "pass", "a picture with no number and no word is the fewest words");
+  assert.match(detail(audit([row(1, { meaning: { ...MEANING, verdict: "fine" } })]), "MEANING"), /"meaning\.verdict" must be "accurate", "misleading", "needs human review", "unable to verify"/);
+});
+
+test("each image is counted once, by both reviews: rejected by either is failed, accepted needs both, anything unsettled is held", (t) => {
+  const rows = [
+    row(1),
+    row(2, { meaning: BALANCE, accepted: false }),
+    row(3, { meaning: { ...MEANING, defects: ["a doubt that the picture does not settle"], verdict: "needs human review" }, accepted: false }),
+    row(4, { ...FAILING, meaning: MEANING }),
+    row(5, { meaning: { ...MEANING, verdict: "unable to verify" }, accepted: false }),
+  ];
+  const report = auditRun(withOldFolder(t, rows), { calls: calls(5), exact: true });
+  assert.equal(report.ok, true, JSON.stringify(report.results.filter((result) => result.status === "fail")));
+  assert.match(detail(report, "COUNTS"), /5 calls, 5 new, 0 reused, 2 failed, 2 held, 1 accepted/);
+  // A record that counts the on-model and misleading image as accepted is refused on its counts as well.
+  const wrong = auditRun(writeRun(workspace(t), rows, { overrides: { counts: { generator_calls: 5, new_images: 5, reused_images: 0, failed_images: 1, held_images: 2, accepted_images: 2 } } }), {});
+  assert.match(detail(wrong, "COUNTS"), /failed_images is 1 and the rows say 2; accepted_images is 2 and the rows say 1/);
 });
 
 test("an image with a defect on record is not approved, and a check that only says ok, or is left out, is not an answer", (t) => {
@@ -585,7 +728,7 @@ test("a series of two or more pictures records its gate: every final image opene
   assert.equal(statuses(partial).SERIES, "fail");
   assert.match(detail(partial, "SERIES"), /the gate did not open every final image: 02-new-2\.jpg; 03-new-3\.jpg; 04-new-4\.jpg; 05-new-5\.jpg/);
   assert.match(detail(partial, "SERIES"), /the reference was attached, and the gate does not say it was opened beside the images/);
-  assert.match(detail(partial, "SERIES"), /the gate compared 1 pairs of final images, and 5 images need at least 4/);
+  assert.match(detail(partial, "SERIES"), /the gate compared 1 pairs of final images \(a pair is two file names of this run\), and 5 images need at least 4/);
   assert.match(detail(partial, "SERIES"), /"series_review\.observations" says nothing about what was seen across the images/);
   // A pass cannot be claimed over a rejected final image.
   const rows = [row(1), row(2, FAILING), row(3)];
