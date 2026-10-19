@@ -2,7 +2,8 @@
 //
 // A report that says "the reference was attached to every call" is a claim; the calls the agent made are the
 // evidence. This reads them out of a Codex session rollout (the JSONL file Codex keeps for each session, where the
-// agent's code appears as text), or out of a plain JSON list of calls for any other host, and checks the rules of
+// agent's code appears as text), an Antigravity transcript (transcript.jsonl in a conversation's
+// .system_generated/logs folder), or out of a plain JSON list of calls for any other host, and checks the rules of
 // references/workflow/character-lock.md that a call can show: the first image of every call is the same packaged
 // reference, it is never a render, and no call selects "recent images" from the conversation. A render attached
 // after the reference is reported as a note: it is how a label or title repair hands over the image to edit, and
@@ -203,15 +204,30 @@ function rolloutRecords(text) {
 }
 
 // The arguments of a call written out as data. Codex names the reference list referenced_image_paths and the prompt
-// prompt; Cursor's GenerateImage is reported to use reference_image_paths and description.
+// prompt; Cursor's GenerateImage is reported to use reference_image_paths and description; Antigravity's generate_image
+// takes ImagePaths and Prompt, and its transcript writes each value as JSON text ("\"16:9\"", "[\"/p/xiaohei.png\"]").
+const decoded = (value) => {
+  if (typeof value !== "string") return value;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return value;
+  }
+};
+const argument = (args, ...names) => {
+  for (const [key, value] of Object.entries(args ?? {})) {
+    if (names.includes(key.toLowerCase())) return decoded(value);
+  }
+  return undefined;
+};
 const fromArguments = (args) => {
-  const list = args?.referenced_image_paths ?? args?.reference_image_paths;
-  const prompt = args?.prompt ?? args?.description;
+  const list = argument(args, "referenced_image_paths", "reference_image_paths", "imagepaths", "image_paths");
+  const prompt = argument(args, "prompt", "description");
   return {
     keys: Object.keys(args ?? {}),
     prompt: typeof prompt === "string" ? prompt : null,
     references: Array.isArray(list) ? list.map(known) : null,
-    lastImages: args?.num_last_images_to_include ?? null,
+    lastImages: argument(args, "num_last_images_to_include") ?? null,
     unresolved: [],
   };
 };
@@ -237,6 +253,13 @@ export function imageToolCalls(text) {
   const calls = [];
   const bindings = new Map();
   for (const record of rolloutRecords(text)) {
+    if (Array.isArray(record.tool_calls)) {
+      // A line of an Antigravity transcript: the agent's tool calls, each with a name and its arguments.
+      for (const call of record.tool_calls) {
+        if (/generate_?image|image_?gen/i.test(call?.name ?? "")) calls.push(fromArguments(call.args ?? call.arguments));
+      }
+      continue;
+    }
     const payload = record.payload ?? {};
     if (record.type !== "response_item") continue;
     if (payload.type === "function_call" && /image_gen/.test(payload.name ?? "")) {

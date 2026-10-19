@@ -92,6 +92,30 @@ test("a reference path kept in Codex's store is followed through load(), at the 
   assert.match(result(unknown, "VISIBLE").detail, /call 1: the reference paths/);
 });
 
+test("an Antigravity transcript is read: its generate_image calls, with every argument written as JSON text", () => {
+  const line = (entry) => JSON.stringify({ source: "MODEL", type: "PLANNER_RESPONSE", status: "DONE", created_at: "2026-10-19T04:15:53Z", ...entry });
+  const generate = (step, args) => line({ step_index: step, tool_calls: [{ name: "generate_image", args: { AspectRatio: '"16:9"', ImageName: '"xiaohei_one"', Prompt: JSON.stringify("Generate one standalone 16:9 illustration."), toolAction: '"Generating image"', ...args } }] });
+  const transcript = [
+    line({ step_index: 1, tool_calls: [{ name: "run_command", args: { CommandLine: '"Get-ChildItem assets"' } }] }),
+    line({ step_index: 2, type: "GENERIC", content: "a tool result that is not a call" }),
+    generate(3, { ImagePaths: JSON.stringify([PACKAGED]) }),
+    generate(4, {}),
+  ].join("\n");
+  const calls = imageToolCalls(transcript);
+  assert.equal(calls.length, 2, "only the image calls count, not run_command");
+  assert.deepEqual(knownPaths(calls), [[PACKAGED], null]);
+  assert.deepEqual(calls[0].keys, ["AspectRatio", "ImageName", "Prompt", "toolAction", "ImagePaths"]);
+  assert.equal(calls[0].prompt, "Generate one standalone 16:9 illustration.", "a value written as JSON text is decoded");
+  const alone = audit(imageToolCalls(generate(3, { ImagePaths: JSON.stringify([PACKAGED]) })));
+  assert.equal(alone.ok, true, JSON.stringify(alone.results));
+  const report = audit(calls);
+  assert.equal(report.ok, false);
+  assert.match(result(report, "ATTACHED").detail, /call 2 passed no reference/);
+  // The same call with its reference list under the name Codex or Cursor would use is read the same way.
+  const named = imageToolCalls(JSON.stringify([{ description: "d", reference_image_paths: [PACKAGED] }, { prompt: "p", referenced_image_paths: [PACKAGED] }]));
+  assert.deepEqual(knownPaths(named), [[PACKAGED], [PACKAGED]]);
+});
+
 test("a call that passes no reference is found, and a series whose first call has one is not rescued by it", () => {
   const calls = imageToolCalls(rollout(
     `const ref = "${PACKAGED}";\n${call("{prompt: p1, referenced_image_paths: [ref]}")}`,

@@ -5,7 +5,8 @@
 //   node scripts/audit-series.mjs --reference references/archetypes/xiaohei/xiaohei.png --prompts assets/repo-xiaohei/prompts.md <session-rollout.jsonl>
 //   node scripts/audit-series.mjs --mode text-only calls.json
 //
-// The log is a Codex session rollout (the .jsonl file under CODEX_HOME/sessions), or a JSON list of
+// The log is a Codex session rollout (the .jsonl file under CODEX_HOME/sessions), an Antigravity transcript
+// (transcript.jsonl in the conversation's .system_generated/logs folder), or a JSON list of
 // { "prompt", "referenced_image_paths" } objects for any other host (reference_image_paths and description
 // are read too). A report that says a reference was attached is a claim; this reads what each call passed.
 // It cannot say whether a character looks right: look at the images.
@@ -21,7 +22,7 @@ import { auditSeries, characterParagraphs, imageToolCalls } from "./lib/series-a
 export const USAGE = [
   "usage: node scripts/audit-series.mjs [options] <log>",
   "",
-  "  <log>                  a Codex session rollout (.jsonl), or a JSON list of image-tool calls",
+  "  <log>                  a Codex session rollout (.jsonl), an Antigravity transcript.jsonl, or a JSON list of image-tool calls",
   "  --reference <suffix>   the packaged file every call must attach, such as references/archetypes/xiaohei/xiaohei.png",
   "  --mode <mode>          attached (default: the tool takes images) or text-only (it does not)",
   "  --prompts <file>       the run's prompts.md, to check that every prompt carries the same Character paragraph",
