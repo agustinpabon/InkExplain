@@ -13,6 +13,8 @@ Each pack's `identity.md` lists what never changes in a series and what may.
 
 The character may lean, reach, crouch, or carry. It never becomes the prop, gains a part, loses a part, or changes style to suit a scene. If a scene seems to need that, change the scene.
 
+Pose it so that no limb has to cross the front of a solid body: a limb drawn over a solid fill shows as a white line, and that breaks the lock. Put the object on the side of the arm that reaches it, turn the figure toward it, and use one arm when one is enough.
+
 ## The three parts
 
 1. **Identity block.** The Character paragraph of the pack's generation prompt, copied word for word into every prompt of the series. Keep its reference sentence in every prompt or delete it from every prompt. Never paraphrase it, shorten it, or reword it for a scene: only the Action, Scene, Composition, objects, and labels change.
@@ -39,7 +41,7 @@ In Prompt mode, deliver the prompts without the reference sentence and tell the 
 ## Run the series
 
 1. Fix the plan before image one: the run folder, the archetype, the reference mode (attached or text-only), the Character paragraph, and the Style paragraph. They do not change afterwards.
-2. One image per call, one at a time. Save it in the run folder and add its row to the run record, then review it before the next call: open the saved image and the reference with the host's image viewer and answer the pack's identity checks.
+2. One image per call, one at a time. Save it in the run folder and add its row to the run record, then review it before the next call: open the saved image and the reference with the host's image viewer and answer the pack's identity checks, writing what you see into `checks` and every flaw into `defects` (`references/workflow/qa-checklist.md`).
 3. Repair a failed image at once (below), before the next call.
 4. After the last image, run the series gate in `references/workflow/qa-checklist.md`.
 
@@ -49,7 +51,11 @@ Every image of the request is generated in this run. Do not stop after one call 
 
 An identity failure is repaired by generating the image again, not by editing it: the same prompt, the same reference attached, and one `Correction:` paragraph added directly after the Action paragraph. The correction states the fault and the fix in plain words ("the top of the body is one smooth dome with nothing on it", "exactly two thin legs, each a single stroke"). Do not touch the Character paragraph, and do not attach or edit the failed image: it would carry its mistakes into the new one. Labels, titles, and other problems that are not identity are repaired as `references/workflow/editing.md` says.
 
+A repair may change the pose when the pose caused the fault: an arm that has to cross the body to reach its object is what draws the white line, so put the object on that arm's own side ("the object is on Xiaohei's right, and the right arm reaches out to it from the side outline; nothing crosses the front of the body").
+
 Keep it bounded: at most two repair attempts per image and six per series. Each repair is another call, so it counts in the run record as a generator call and a new image. An image that still fails is not approved. Report it as needing repair, with what you saw, and keep it apart from the approved images.
+
+The record keeps the count (`repairs` in `manifest.json`, and `repair_of` on each repair row). Write the new `used` number before you make a repair call, and make the call only if both limits still hold. When an image has had two repairs, or `repairs.used` is six, stop: do not make another call to improve it, name the defect that remains and say that the limit was reached, and never raise a limit in the record. A call that returns no image is not a repair: list it under `failed_calls` and retry it once.
 
 ## Report it
 

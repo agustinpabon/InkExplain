@@ -4,6 +4,18 @@ Review every generated image before saving it, using this shared checklist toget
 
 Review only what you can see. If the host returns the image to you, inspect it. If you cannot view the result, say that the visual review is pending, mark the image "unable to verify" (`references/workflow/delivery.md`), and list what the user should check.
 
+## Review one image
+
+Do this for every image, before the next call, and write the result into the run record (`checks`, `defects`, `verdict`, in `references/workflow/delivery.md`). A verdict with nothing recorded behind it is not a review.
+
+1. **Open the file, not the answer.** Open the saved image with the host's image viewer, and the reference beside it when the pack has one. The tool's text (its echo of your prompt, the path it saved) is not the image, and what you asked for is not what was drawn. Describe the picture before you read your prompt again.
+2. **Look at the body first.** Everything inside the character's outline that is not the flat fill (a line, a stroke, a mark, a texture, a second color); then each limb where it meets the body, and whether it crosses the body; then the face; then anything sticking out of the outline; then every word drawn, spelled as drawn.
+3. **Answer each identity check** with what you see, in your own words and with a count or a position: "two white dots in the upper third, nothing else white on the body". Never "ok", and never the pack's own sentence: a check that repeats the specification describes the specification, not the picture.
+4. **List the defects.** A defect is a rule the picture breaks: a locked feature, or a rule of the pack's style or labels, including what the plan never asked for: a stroke across the body, scribbles in the fill, a mouth, a bump, an extra or fused limb, a word that is not one of the labels, a label drawn twice, a color or a shadow the style does not allow. Look for each of them, one by one. The picture is not approved until you have looked and found none, and an empty list says that you did. A matter of degree is not a defect, and goes in the check's answer instead: a leg a little shorter or longer than the reference's, eyes a little smaller, a figure a little larger or smaller than planned, a different lean, a wobble in the outline. Degree becomes a defect when the character stops reading as the reference's: stubby legs far shorter than the reference's, pinpoint eyes, a figure twice the size of another image, another body shape. A way to make the picture better is not a defect either; a rule it breaks is.
+5. **The verdict follows from the list.** Any defect: "needs repair". A doubt that the picture does not settle at the size you see: "needs human review", with the doubt in `defects`. No defect, and every check answered: "identity consistent".
+
+Your review is a self-assessment: the agent that made the images is checking its own work, and a model tends to see what it expects. Record `reviewed_by` as `self`, and say so in the report. It becomes `independent` only when another agent or model, not told your verdict, looked at every final image and the reference and listed the defects it saw (any defect it lists fails the image, by the same line between a defect and a matter of degree), and `human` only when the user or another person says they checked. If the host can start a separate reviewer without extra permissions, use one for the final images; if it cannot, leave `self`.
+
 ## Pass checks
 
 - The aspect ratio matches the plan (16:9 unless the user asked for another).
@@ -11,7 +23,7 @@ Review only what you can see. If the host returns the image to you, inspect it. 
 - The actor performs the central action. Imagine the actor removed: if the idea still works, the actor is decoration.
 - The structure matches the planned type, and the type's name is not written on the image.
 - The focal point sits inside the frame, not against an edge, and at least a third of the canvas is quiet space.
-- Two to six short labels, spelled correctly, in the user's language.
+- Two to six short labels, spelled correctly, in the user's language, and no word on the picture that is not one of them.
 - No title, heading, caption bar, or paragraph.
 - The palette follows the archetype's style rules.
 - The composition is new, not a copy of a calibration or gallery image.
@@ -26,7 +38,7 @@ Regenerate or edit when you see:
 - too many nodes, arrows, or labels, or props piled on that the viewer has to decode;
 - a machine, press, chest, barrier, or stack of documents used because it is the usual metaphor and not because it fits the source;
 - a title in a corner or across the top;
-- misspelled, garbled, or translated labels;
+- misspelled, garbled, duplicated, or translated labels, or words nobody planned;
 - a passive actor, or an actor drawn as decoration in a corner;
 - anatomy errors: extra or missing limbs, fused hands, a melted face, or an identity marker in the wrong place;
 - realistic rendering, 3D, glossy vector polish, or a stock-illustration look;
@@ -38,19 +50,19 @@ Regenerate or edit when you see:
 
 Run it after the last image of a series of two or more images of the same archetype, and again for any image that was repaired. The series is the images this run generated and nothing else: earlier output in the archetype's folder is not part of it, and you do not open it, rate it, or let it carry the result. A series can drift while every image looks acceptable alone, and "identity preserved" is easy to write and hard to see, so the gate asks for observations, not conclusions.
 
-1. Open every image of this run with the host's image viewer. Open the identity reference too when the pack has one and it was attached. With no reference, the first image that passed its own checks is the yardstick, and you say so.
+1. Open every final image of this run with the host's image viewer, and list them in `series_review`. Open the identity reference too when the pack has one and it was attached. With no reference, the first image that passed its own checks is the yardstick, and you say so.
 2. For each image, answer the pack's identity checks (the "Identity checks" in its `prompts.md`, or the markers in its `identity.md`) with what you see, one line per check: "ears: none, the top is one smooth dome", never "ok". A check you cannot answer from the image has failed.
-3. Compare the images with each other, two at a time: the body's silhouette and proportions, the eyes, the number and weight of the limbs, the ink weight, the page color, the roles of the palette (an image may use a different accent when its idea needs one, as long as the roles stay the same), and how large the character is in the frame.
+3. Compare the images with each other, two at a time: the body's silhouette and proportions, the eyes, the number and weight of the limbs, the ink weight, the page color, the roles of the palette (an image may use a different accent when its idea needs one, as long as the roles stay the same), and how large the character is in the frame. Record the pairs in `series_review`.
 4. Confirm that the character does the planned action.
 
-An image is approved only when every line is a positive observation. One material identity violation fails it, however good the picture is. Material means the character is no longer the same one: a different kind of figure, a changed face (pupils, extra or missing eyes, a mouth, brows), ears, horns, a tail, or a snout, a limb count that differs, or limbs that are thick, doubled, fused, or hollow, a body that is not the locked shape, a different fill or drawing style, or a size jump of more than about two times between images. A wobble in the outline, a slightly longer leg, or a different lean is not.
+An image is approved only when every line says what you see and none of them shows a material violation. One material identity violation fails it, however good the picture is. Material means the character is no longer the same one: a different kind of figure, a changed face (pupils, extra or missing eyes, a mouth, brows), ears, horns, a tail, or a snout, a limb count that differs, or limbs that are thick, doubled, fused, or hollow, a body that is not the locked shape, any line, stroke, mark, or texture on a solid body that the reference does not have (a white band where an arm crosses it, scribbles in the fill), a different fill or drawing style, or a size jump of more than about two times between images. A wobble in the outline, a slightly longer leg, a smaller eye, a figure a little larger than planned, or a different lean is not: write it in the check, and let it pass.
 
 Approve conservatively. You are a model looking at a picture, and a model tends to see what it expects.
 
 - **Clearly wrong: reject it.** If any observation, anywhere in your notes or your reasoning, names a locked feature as present or changed (points or tufts that read as ears, a mouth, a third arm, a different body), the image fails. You cannot approve it afterwards with a caveat.
 - **Material doubt: hold it.** A hedged observation ("seems", "probably", "slightly different"), or a feature you cannot make out at the size you see, is a check that did not pass. The verdict is "needs human review", with what the picture left unsettled.
 - **Cannot view it: "unable to verify".**
-- The verdict is one of the four phrases in `references/workflow/delivery.md`, with no qualifier after it. A series with a rejected, held, or unverified image is never reported as a passed consistency check: the report says how many images passed and how many did not.
+- The verdict is one of the four phrases in `references/workflow/delivery.md`, with no qualifier after it. A series whose final image for any scene was rejected, held, or unverified is never reported as a passed consistency check: the report says how many scenes passed and how many did not, and lists every rejected attempt with its defect.
 
 When you cannot view the images, no check can pass: every image is "unable to verify". Never infer a result from the prompt, and never offer file checks or pixel statistics as evidence about anatomy. The review is yours: do not call it independent, external, or a second opinion unless another agent or a person looked at the images.
 
@@ -68,7 +80,7 @@ A failing image goes through the repair in `references/workflow/character-lock.m
 | Copied composition | Keep the idea; change the main object and the action. |
 | Title appeared | Use "Remove a title". |
 
-The edit prompts are in `references/workflow/editing.md`. After three attempts on the same image, stop and report the remaining problem instead of looping.
+The edit prompts are in `references/workflow/editing.md`. After three attempts on the same image (the first and two repairs), stop and report the remaining problem instead of looping.
 
 ## Delivery judgment
 

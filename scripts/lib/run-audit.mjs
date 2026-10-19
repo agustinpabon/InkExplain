@@ -4,25 +4,33 @@
 // host's log of image calls are the evidence. This reads them and checks the rules of references/workflow/delivery.md
 // that they can show: the run has its own folder, every image in it is a row of the record, a new image was made by a
 // call of this run and is not a copy of an image that was already in the archetype's folder, a reused image is
-// labeled as reused, no image is "identity consistent" without having been inspected, and the counts add up. With a
-// log of the host's calls it also checks that the run did not claim more calls than were made. It cannot say whether
-// an image is right: that is for a person, or an agent looking at the image.
+// labeled as reused, no image is "identity consistent" without having been inspected, and the counts add up. An
+// approved image must also have its observations on record (what was seen, one entry for each identity check of its
+// pack, and the defects found, none for an approved image), repairs must stay within two for one image and six for the
+// run, every call must be an image or a failed call, and a series must have its gate recorded. With a log of the
+// host's calls it also checks that the run did not claim more calls than were made. It cannot say whether an image is
+// right: that is for a person, or an agent looking at the image. It can say that nobody wrote down what they saw.
 //
 // Offline, like every script here. The CLI is scripts/audit-run.mjs.
 
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { IMAGE_VERDICTS, RUN_COUNT_FIELDS, RUN_FOLDER_PATTERN, RUN_MANIFEST } from "./config.mjs";
+import { IMAGE_VERDICTS, PATHS, REPAIR_LIMITS, REVIEWERS, RUN_COUNT_FIELDS, RUN_FOLDER_PATTERN, RUN_MANIFEST } from "./config.mjs";
 import { auditSeries } from "./series-audit.mjs";
 
+const REPO_ROOT = path.resolve(import.meta.dirname, "..", "..");
 const IMAGE_FILE = /\.(?:png|jpe?g|webp)$/i;
 // A copy of the packaged reference that was made for a tool that cannot read the skill folder: not one of the run's images.
 const REFERENCE_COPY = /^identity-reference\.(?:png|jpe?g|webp)$/i;
 const ORIGINS = ["generated", "edited", "reused"];
 const REFERENCE_STATES = ["attached", "not supplied"];
 const MAX_FILES = 5000;
+// What a check says when it does not say what was seen: a bare approval. The method asks for "ears: none, the top is
+// one smooth dome", never "ok".
+const NOT_AN_OBSERVATION = new Set(["ok", "okay", "fine", "good", "pass", "passed", "yes", "true", "correct", "consistent", "matches", "match", "same", "none", "n/a", "na", "no issues", "no issue", "as expected", "as specified"]);
 
+const bare = (value) => String(value).trim().toLowerCase().replace(/[\s.!]+$/g, "");
 const isObject = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
 const hashOf = (file) => crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
 const isRegularFile = (file) => {
@@ -74,6 +82,39 @@ export function snapshotFolder(archetypeFolder, workspace = null) {
     .sort((a, b) => (a.path < b.path ? -1 : 1));
 }
 
+/**
+ * The names of the rows of an archetype's "Identity checks" table in its prompts.md, as the pack words them, or [] when
+ * its pack has no such table. An approved image has to answer each of them in its record.
+ */
+export function packIdentityChecks(archetype, root = REPO_ROOT) {
+  if (typeof archetype !== "string" || !/^[a-z0-9-]+$/.test(archetype)) return [];
+  let text;
+  try {
+    text = fs.readFileSync(path.join(root, PATHS.archetypesDir, archetype, "prompts.md"), "utf8");
+  } catch {
+    return [];
+  }
+  const start = text.indexOf("### Identity checks");
+  if (start === -1) return [];
+  const names = [];
+  let inTable = false;
+  for (const line of text.slice(start).split("\n").slice(1)) {
+    if (/^#{1,3} /.test(line)) break;
+    if (!line.trim().startsWith("|")) {
+      if (inTable) break;
+      continue;
+    }
+    const cells = line.split("|").map((cell) => cell.trim());
+    if (!inTable) {
+      inTable = cells[1]?.toLowerCase() === "check";
+      continue;
+    }
+    if (/^:?-+:?$/.test(cells[1] ?? "")) continue;
+    if (cells[1]) names.push(cells[1]);
+  }
+  return names;
+}
+
 /** What is wrong with the shape of a run record, as a list of plain sentences. */
 export function manifestProblems(manifest, folderName) {
   if (!isObject(manifest)) return ["the record is not a JSON object"];
@@ -87,6 +128,17 @@ export function manifestProblems(manifest, folderName) {
     problems.push('"reference.attached_to_every_call" must be true or false');
   } else if (manifest.reference.attached_to_every_call && (typeof manifest.reference.file !== "string" || typeof manifest.reference.input !== "string")) {
     problems.push('an attached reference names its "file" and its "input"');
+  }
+  if (!Number.isInteger(manifest.planned_images) || manifest.planned_images < 1) problems.push('"planned_images" must be the whole number of pictures the plan asked for');
+  if (!isObject(manifest.repairs) || !Number.isInteger(manifest.repairs.used) || manifest.repairs.used < 0) problems.push('"repairs.used" must be a whole number');
+  else {
+    if (manifest.repairs.per_image_limit !== undefined && manifest.repairs.per_image_limit !== REPAIR_LIMITS.perImage) problems.push(`"repairs.per_image_limit" is ${manifest.repairs.per_image_limit}, and the limit is ${REPAIR_LIMITS.perImage}`);
+    if (manifest.repairs.series_limit !== undefined && manifest.repairs.series_limit !== REPAIR_LIMITS.perSeries) problems.push(`"repairs.series_limit" is ${manifest.repairs.series_limit}, and the limit is ${REPAIR_LIMITS.perSeries}`);
+  }
+  if (!REVIEWERS.includes(manifest.reviewed_by)) problems.push(`"reviewed_by" must be ${REVIEWERS.map((name) => `"${name}"`).join(", ")}`);
+  if (!Array.isArray(manifest.failed_calls)) problems.push('"failed_calls" must be a list, empty when every call returned an image');
+  else if (manifest.failed_calls.some((entry) => !isObject(entry) || !Number.isInteger(entry.call) || entry.call < 1 || typeof entry.error !== "string" || entry.error.trim() === "")) {
+    problems.push('each failed call is { "call": its number, "error": "the tool\'s own words" }');
   }
   if (!Array.isArray(manifest.images)) problems.push('"images" must be a list');
   if (!isObject(manifest.counts)) problems.push('"counts" is missing');
@@ -102,10 +154,11 @@ export function manifestProblems(manifest, folderName) {
  * Check one run folder. Options: `calls` (the image-tool calls found in the host's log, from imageToolCalls), `exact`
  * (the log covers this run alone, so the numbers of calls must be equal), `reference` (the packaged file every call
  * must attach, as for auditSeries), `workspace` (the project folder, when the run folder is not under its assets/),
- * and `before` (snapshotFolder of the archetype's folder, taken before the run).
+ * `before` (snapshotFolder of the archetype's folder, taken before the run), and `identityChecks` (the names an
+ * approved image must answer, by default the rows of its pack's "Identity checks", from packIdentityChecks).
  * Returns { results, ok, manifest }, each result being { id, title, status: "pass" | "fail" | "skip" | "note", detail }.
  */
-export function auditRun(runFolder, { calls = null, exact = false, reference = null, workspace = null, before = null } = {}) {
+export function auditRun(runFolder, { calls = null, exact = false, reference = null, workspace = null, before = null, identityChecks = null } = {}) {
   const results = [];
   const add = (id, title, status, detail = "") => results.push({ id, title, status, detail });
   const finish = (manifest = null) => ({ results, ok: results.every((result) => result.status !== "fail"), manifest });
@@ -193,8 +246,13 @@ export function auditRun(runFolder, { calls = null, exact = false, reference = n
     }
     if (row.origin === "generated" && row.from !== undefined) origin.push(`${label}: a generated image has no "from"`);
     if (row.origin === "edited") {
-      const from = typeof row.from === "string" && !path.isAbsolute(row.from) && !row.from.split("/").includes("..") ? path.join(root, ...row.from.split("/")) : null;
-      if (from === null || !isRegularFile(from)) origin.push(`${label}: an edited image names the earlier image it came from, and it must exist`);
+      // The image it was edited from: by its path from the workspace, or in full when it is a file inside the workspace.
+      let from = null;
+      if (typeof row.from === "string" && row.from !== "") {
+        if (path.isAbsolute(row.from)) from = path.resolve(row.from);
+        else if (!row.from.split(/[\\/]/).includes("..")) from = path.join(root, ...row.from.split(/[\\/]/));
+      }
+      if (from === null || !isInside(from, root) || !isRegularFile(from)) origin.push(`${label}: an edited image names the earlier image it came from, and it must be a file of the workspace`);
     }
   }
   add("ORIGINS", "each row is generated by a call of this run, edited from a named image, or reused and labeled", origin.length === 0 ? "pass" : "fail", origin.length === 0 ? `${fresh.length} made by calls, ${reused.length} reused` : shown(origin, 8));
@@ -223,6 +281,41 @@ export function auditRun(runFolder, { calls = null, exact = false, reference = n
   }
   add("VERDICTS", "a verdict is one of four phrases, and nothing unseen is approved", verdicts.length === 0 ? "pass" : "fail", verdicts.length === 0 ? `${rows.length} verdicts` : shown(verdicts));
 
+  // The review: what was seen is on record, and an image with a defect on record is not approved. A verdict with
+  // nothing behind it, which is what an agent writes when it confirms an image instead of looking at it, fails here.
+  const required = identityChecks ?? packIdentityChecks(manifest.archetype);
+  const review = [];
+  let looked = 0;
+  for (const row of fresh) {
+    if (row.inspected !== true) continue;
+    looked += 1;
+    const label = String(row.file);
+    const entries = isObject(row.checks) ? Object.entries(row.checks) : [];
+    if (entries.length === 0) review.push(`${label}: no "checks", so nothing on record says what was seen`);
+    for (const [key, value] of entries) {
+      if (typeof value !== "string" || NOT_AN_OBSERVATION.has(bare(value))) review.push(`${label}: the check "${key}" says ${JSON.stringify(value)}, which is not an observation`);
+    }
+    if (!Array.isArray(row.defects) || row.defects.some((defect) => typeof defect !== "string" || defect.trim() === "")) {
+      review.push(`${label}: "defects" must be a list of plain sentences, empty when none was found`);
+    } else if (row.verdict === "identity consistent" && row.defects.length > 0) {
+      review.push(`${label}: "identity consistent" with a defect on record: ${shown(row.defects, 2)}`);
+    } else if ((row.verdict === "needs repair" || row.verdict === "needs human review") && row.defects.length === 0) {
+      review.push(`${label}: "${row.verdict}" names no defect`);
+    }
+    if (row.verdict === "identity consistent" && required.length > 0) {
+      const answered = new Set(entries.map(([key]) => key.trim().toLowerCase()));
+      const lacking = required.filter((name) => !answered.has(name.toLowerCase()));
+      if (lacking.length > 0) review.push(`${label}: no answer to the pack's identity checks: ${lacking.join(", ")}`);
+    }
+  }
+  const selfReviewed = manifest.reviewed_by === "self";
+  add(
+    "REVIEW",
+    "every inspected image has what was seen on record, and an approved image has no defect on record",
+    review.length === 0 ? "pass" : "fail",
+    review.length === 0 ? `${looked} inspected images, each with its checks and defects on record; reviewed by ${manifest.reviewed_by}${selfReviewed ? ": a self-assessment by the agent that made the images, not an independent or human review" : ""}` : shown(review, 6),
+  );
+
   // The reference.
   const states = fresh.map((row) => row.reference);
   const badState = fresh.filter((row) => !REFERENCE_STATES.includes(row.reference)).map((row) => String(row.file));
@@ -244,10 +337,91 @@ export function auditRun(runFolder, { calls = null, exact = false, reference = n
     accepted_images: count((row) => row.verdict === "identity consistent"),
   };
   const countProblems = Object.entries(computed).filter(([key, value]) => manifest.counts?.[key] !== value).map(([key, value]) => `${key} is ${manifest.counts?.[key]} and the rows say ${value}`);
-  const calledAtLeast = Math.max(fresh.length, ...callNumbers.keys(), 0);
-  if (Number.isInteger(manifest.counts?.generator_calls) && manifest.counts.generator_calls < calledAtLeast) countProblems.push(`generator_calls is ${manifest.counts.generator_calls} and the rows need at least ${calledAtLeast}`);
+  // Every call is an image of the record or a failed call of the record, so a call that made an image nobody kept
+  // cannot hide from the count of repairs.
+  const failedCalls = (Array.isArray(manifest.failed_calls) ? manifest.failed_calls : []).filter((entry) => isObject(entry) && Number.isInteger(entry.call));
+  const calledTotal = manifest.counts?.generator_calls;
+  if (Number.isInteger(calledTotal)) {
+    if (calledTotal !== fresh.length + failedCalls.length) countProblems.push(`generator_calls is ${calledTotal}, and ${fresh.length} images plus ${failedCalls.length} failed calls make ${fresh.length + failedCalls.length}`);
+    const accounted = [...callNumbers.keys(), ...failedCalls.map((entry) => entry.call)];
+    const repeated = [...new Set(accounted.filter((number, index) => accounted.indexOf(number) !== index))];
+    const missing = Array.from({ length: Math.max(calledTotal, 0) }, (_, index) => index + 1).filter((number) => !accounted.includes(number));
+    if (repeated.length > 0) countProblems.push(`call ${repeated.join(", ")} is recorded twice`);
+    if (missing.length > 0) countProblems.push(`call ${missing.join(", ")} is neither an image of the record nor a failed call`);
+  }
   if (computed.new_images + computed.reused_images !== computed.accepted_images + computed.failed_images + computed.held_images) countProblems.push("new plus reused is not accepted plus failed plus held");
-  add("COUNTS", "the counts are the rows' counts, and new images never exceed calls", countProblems.length === 0 ? "pass" : "fail", countProblems.length === 0 ? `${manifest.counts.generator_calls} calls, ${computed.new_images} new, ${computed.reused_images} reused, ${computed.failed_images} failed, ${computed.held_images} held, ${computed.accepted_images} accepted` : shown(countProblems));
+  add("COUNTS", "the counts are the rows' counts, and every call is an image or a failed call", countProblems.length === 0 ? "pass" : "fail", countProblems.length === 0 ? `${manifest.counts.generator_calls} calls, ${computed.new_images} new, ${computed.reused_images} reused, ${computed.failed_images} failed, ${computed.held_images} held, ${computed.accepted_images} accepted` : shown(countProblems));
+
+  // Repairs and the series gate. A scene's final image is the last attempt of its chain of repair_of, and earlier
+  // attempts stay in the folder and in the counts.
+  const repairRows = fresh.filter((row) => row.repair_of !== undefined && row.repair_of !== null);
+  const repairedFiles = new Set(repairRows.map((row) => String(row.repair_of)));
+  const finals = fresh.filter((row) => !repairedFiles.has(String(row.file)));
+  if (manifest.mode !== "generate") {
+    add("REPAIRS", "repairs stay within the limits: two for one image, six for the run", "skip", "an edit run has no series plan");
+    add("SERIES", "the series gate was run and recorded", "skip", "an edit run has no series plan");
+  } else {
+    const repairProblems = [];
+    const byFile = new Map(fresh.map((row) => [String(row.file), row]));
+    const parentOf = new Map();
+    for (const row of repairRows) {
+      const target = byFile.get(String(row.repair_of));
+      if (typeof row.repair_of !== "string" || target === undefined || target === row) repairProblems.push(`${row.file}: "repair_of" names no other image of this run`);
+      else if (Number.isInteger(row.call) && Number.isInteger(target.call) && target.call >= row.call) repairProblems.push(`${row.file}: it repairs ${row.repair_of}, which a later call made`);
+      else parentOf.set(String(row.file), String(row.repair_of));
+    }
+    const repairsOf = new Map();
+    for (const file of parentOf.keys()) {
+      let root = file;
+      for (let hops = 0; parentOf.has(root) && hops <= fresh.length; hops += 1) root = parentOf.get(root);
+      repairsOf.set(root, (repairsOf.get(root) ?? 0) + 1);
+    }
+    for (const [root, made] of repairsOf) {
+      if (made > REPAIR_LIMITS.perImage) repairProblems.push(`${root} was repaired ${made} times, and the limit for one image is ${REPAIR_LIMITS.perImage}`);
+    }
+    if (repairRows.length > REPAIR_LIMITS.perSeries) repairProblems.push(`the run made ${repairRows.length} repairs, and the limit for a series is ${REPAIR_LIMITS.perSeries}`);
+    if (Number.isInteger(manifest.repairs?.used) && manifest.repairs.used !== repairRows.length) repairProblems.push(`repairs.used is ${manifest.repairs.used}, and ${repairRows.length} rows have repair_of`);
+    const planned = manifest.planned_images;
+    if (Number.isInteger(planned)) {
+      const firstAttempts = fresh.length - repairRows.length;
+      if (firstAttempts > planned) repairProblems.push(`${firstAttempts} images are first attempts, and the plan asked for ${planned}: a repair that does not say it is one, or a picture nobody planned`);
+      if (fresh.length > planned + REPAIR_LIMITS.perSeries) repairProblems.push(`${fresh.length} images were made, and ${planned} planned plus ${REPAIR_LIMITS.perSeries} repairs allow ${planned + REPAIR_LIMITS.perSeries}`);
+    } else {
+      repairProblems.push('"planned_images" is missing, so nothing says how many pictures were planned and the limit on repairs cannot be checked');
+    }
+    add(
+      "REPAIRS",
+      "repairs stay within the limits: two for one image, six for the run",
+      repairProblems.length === 0 ? "pass" : "fail",
+      repairProblems.length === 0 ? `${repairRows.length} repairs of the ${REPAIR_LIMITS.perSeries} allowed, ${fresh.length} images for ${planned} planned` : shown(repairProblems, 6),
+    );
+
+    if (finals.length < 2) {
+      add("SERIES", "the series gate was run and recorded", "skip", "a single picture has no series to compare");
+    } else {
+      const seriesProblems = [];
+      const gate = manifest.series_review;
+      if (!isObject(gate)) {
+        seriesProblems.push('no "series_review": the series gate was not run, or was not recorded');
+      } else {
+        const finalFiles = finals.map((row) => String(row.file));
+        const opened = new Set(Array.isArray(gate.images_opened) ? gate.images_opened.map(String) : []);
+        const notOpened = finalFiles.filter((file) => !opened.has(file));
+        if (notOpened.length > 0) seriesProblems.push(`the gate did not open every final image: ${shown(notOpened)}`);
+        if (manifest.reference?.attached_to_every_call === true && gate.reference_opened !== true) seriesProblems.push("the reference was attached, and the gate does not say it was opened beside the images");
+        const pairs = Array.isArray(gate.pairs_compared) ? gate.pairs_compared.filter((pair) => Array.isArray(pair) && pair.length === 2 && pair.every((file) => finalFiles.includes(String(file)))) : [];
+        if (pairs.length < finals.length - 1) seriesProblems.push(`the gate compared ${pairs.length} pairs of final images, and ${finals.length} images need at least ${finals.length - 1}`);
+        if (typeof gate.observations !== "string" || gate.observations.trim() === "" || NOT_AN_OBSERVATION.has(bare(gate.observations))) seriesProblems.push('"series_review.observations" says nothing about what was seen across the images');
+        if (typeof gate.passed !== "boolean") {
+          seriesProblems.push('"series_review.passed" must be true or false');
+        } else if (gate.passed === true) {
+          const notApproved = finals.filter((row) => row.verdict !== "identity consistent" || row.accepted !== true).map((row) => String(row.file));
+          if (notApproved.length > 0) seriesProblems.push(`the gate says the series passed, and ${notApproved.length} final images were not approved: ${shown(notApproved)}`);
+        }
+      }
+      add("SERIES", "the series gate was run and recorded", seriesProblems.length === 0 ? "pass" : "fail", seriesProblems.length === 0 ? `${finals.length} final images opened and compared${gate.passed === true ? ", and the series passed" : ", and the gate says the series did not pass"}` : shown(seriesProblems, 6));
+    }
+  }
 
   // Earlier output, when it was listed before the run.
   if (before === null) {

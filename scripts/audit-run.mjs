@@ -7,7 +7,9 @@
 //
 // The log is a Codex session rollout, an Antigravity transcript (transcript.jsonl in the conversation's
 // .system_generated/logs folder), or a JSON list of image-tool calls. A report that says "five images generated" is a
-// claim; this reads what the folder, the run record, and the log show. It cannot say whether an image is right: look at it.
+// claim; this reads what the folder, the run record, and the log show. It also fails a record whose approved images
+// carry no observations, whose repairs pass two for one image or six for the run, or whose series gate is missing.
+// It cannot say whether an image is right: look at it.
 //
 // Offline and read-only, like every script here. Exit codes: 0 no check failed, 1 some check failed, 2 usage error.
 

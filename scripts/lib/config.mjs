@@ -50,11 +50,17 @@ export const WORKFLOW_MODULES = Object.freeze([
 
 // A Generate request writes into its own run folder, assets/<slug>-<suffix>/run-<id>/, where <id> is the date, the
 // time, and four hex digits, and records the run in manifest.json (references/workflow/delivery.md). These are the
-// words that record and the audit script share: the four verdicts, and the counts a run reports.
+// words that record and the audit script share: the four verdicts, the counts a run reports, the repair limits, and
+// the reviewers.
 export const RUN_FOLDER_PATTERN = /^run-\d{8}-\d{6}-[0-9a-f]{4}$/;
 export const RUN_MANIFEST = "manifest.json";
 export const IMAGE_VERDICTS = Object.freeze(["identity consistent", "needs repair", "needs human review", "unable to verify"]);
 export const RUN_COUNT_FIELDS = Object.freeze(["generator_calls", "new_images", "reused_images", "failed_images", "held_images", "accepted_images"]);
+// The most repairs a run may make, for one image and for the whole series (references/workflow/character-lock.md), and
+// who may be named as having reviewed its images (references/workflow/qa-checklist.md): the agent that made them, another
+// agent or model that was not told its verdict, or a person.
+export const REPAIR_LIMITS = Object.freeze({ perImage: 2, perSeries: 6 });
+export const REVIEWERS = Object.freeze(["self", "independent", "human"]);
 
 // Every archetype pack contains exactly these five Markdown files, listed in the
 // order agents load them: rights first, so boundaries are known before drawing.

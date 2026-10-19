@@ -236,7 +236,7 @@ test("the series gate asks for observations, rejects on one material violation, 
   const section = gate.slice(gate.indexOf("## Series gate"), gate.indexOf("## Iteration moves"));
   assert.match(section, /with what you see, one line per check: "ears: none, the top is one smooth dome", never "ok"/);
   assert.match(section, /A check you cannot answer from the image has failed/);
-  assert.match(section, /An image is approved only when every line is a positive observation\. One material identity violation fails it, however good the picture is/);
+  assert.match(section, /An image is approved only when every line says what you see and none of them shows a material violation\. One material identity violation fails it, however good the picture is/);
   for (const material of ["a different kind of figure", "pupils, extra or missing eyes, a mouth, brows", "ears, horns, a tail, or a snout", "thick, doubled, fused, or hollow", "a size jump of more than about two times"]) {
     assert.ok(section.includes(material), material);
   }

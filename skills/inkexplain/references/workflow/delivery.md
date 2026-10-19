@@ -32,7 +32,7 @@ Confirm that a file exists before you report its path: list the folder after wri
 
 ## The run record
 
-`manifest.json` in the run folder says what this run did, so that anyone can tell a new image from an old one. Create it before the first image call, add each call's row as soon as the call returns, complete it after the review, and keep it short:
+`manifest.json` in the run folder says what this run did, so that anyone can tell a new image from an old one. Create it before the first image call, add each call's row as soon as the call returns, complete it after the review, and keep each entry short:
 
 ```json
 {
@@ -42,6 +42,9 @@ Confirm that a file exists before you report its path: list the folder after wri
   "tool": "<the image tool's name>",
   "host_call_records": "none visible to the agent",
   "reference": { "file": "<path of the packaged identity reference>", "input": "<name of the tool's image input>", "attached_to_every_call": true },
+  "planned_images": 1,
+  "repairs": { "used": 0, "per_image_limit": 2, "series_limit": 6 },
+  "reviewed_by": "self",
   "images": [
     {
       "file": "01-system-overview.png",
@@ -53,19 +56,28 @@ Confirm that a file exists before you report its path: list the folder after wri
       "sha256": "<64 hex digits, or null>",
       "reference": "attached",
       "inspected": true,
+      "checks": { "Body": "<what you see inside the outline besides the flat fill>", "Top of the head": "<what you see>", "Eyes": "<what you see>", "Face": "<what you see>", "Legs": "<what you see>", "Arms": "<where each leaves the body, and whether it crosses the body>", "Line and fill": "<what you see>", "Size": "<what you see>", "Page and accents": "<what you see>" },
+      "defects": [],
       "verdict": "identity consistent",
       "accepted": true
     }
   ],
+  "failed_calls": [],
+  "series_review": { "reference_opened": true, "images_opened": ["01-system-overview.png"], "pairs_compared": [], "observations": "<what you saw across the images>", "passed": true },
   "counts": { "generator_calls": 1, "new_images": 1, "reused_images": 0, "failed_images": 0, "held_images": 0, "accepted_images": 1 }
 }
 ```
 
-- `origin` is `generated`, `edited`, or `reused`. `call` is the number of the image-tool call in this run (1, 2, 3, and so on), and `null` for a reused image. An edited row also has `from`, the path of the image it was edited from. A reused image has no copy in the run folder, so its `file` is the earlier image's path from the workspace.
+- `origin` is `generated`, `edited`, or `reused`. `call` is the number of the image-tool call in this run (1, 2, 3, and so on), and `null` for a reused image. An edited row also has `from`, the path of the image it was edited from. A repair row also has `repair_of`, the file of the attempt it replaces (`03-flow-v2.png` repairs `03-flow.png`). A reused image has no copy in the run folder, so its `file` is the earlier image's path from the workspace.
 - `tool_result` and `source` are copied from the tool's own answer to that call, and `destination` is where you saved the file, from the workspace, inside the run folder. A file that is merely in a folder, however recent its date or whatever its hash, is not evidence of a call. If you cannot quote what the tool returned for an image, the image is not "generated".
 - `sha256` is the hash of the saved file, from the host's shell (`sha256sum`, `shasum -a 256`, or PowerShell `Get-FileHash`), or `null` when the host cannot compute one. It identifies a file. It never shows that a tool made it.
 - `reference` is `attached` only when that call passed the packaged identity reference through the tool's image input (`references/workflow/character-lock.md`), and `not supplied` otherwise. The run's `reference` block says the same for the whole run.
-- `verdict` is one of the four phrases under "Status of each image", and `accepted` is true only for "identity consistent" after an inspection.
+- `checks` is what you saw, written before the verdict: one entry for each row of the pack's "Identity checks" (or each marker in its `identity.md`), named as the pack names it, in your own words and with a count or a position ("two white dots in the upper third, nothing else white on the body"), never "ok" and never the pack's own sentence. `defects` lists each rule the picture breaks, including what the plan never asked for: a mark, stroke, texture, shape, or word that the reference and the plan do not have. A matter of degree (a leg a little shorter, a figure a little larger than planned) is written in its check and is not a defect, until the character stops reading as the reference's. An empty list says that you looked for defects and found none.
+- `verdict` is one of the four phrases under "Status of each image", and it follows from `defects`: any listed defect makes it "needs repair", a doubt the picture does not settle makes it "needs human review" (name the doubt in `defects`), and "identity consistent" needs `defects` empty and every check answered. `accepted` is true only for "identity consistent" after an inspection. A final image whose record lists a defect is not accepted.
+- `reviewed_by` is `self` when only the agent that made the images looked at them, `independent` when another agent or model that was not told your verdict looked at every final image and the reference, and `human` when the user or another person says they checked. Write `self` unless the others really happened.
+- `planned_images` is the number of pictures the shot list asks for, fixed before the first call. `repairs.used` is the number of rows that have `repair_of`, and the limits are two repairs for one image and six for the run: write the new number before a repair call, and make the call only if both limits hold (`references/workflow/character-lock.md`). The most image-tool calls a run may make is `planned_images` plus six repairs plus one retry for each call that returns no image.
+- `failed_calls` lists each call that returned no image (refused, blocked, timed out) as `{ "call": 5, "error": "<the tool's own words>" }`. It is retried once, and a retry is a new call, not a repair.
+- `series_review` records the series gate for two or more images (`references/workflow/qa-checklist.md`): whether you opened the reference, the files you opened, the pairs you compared, what you saw across the images, and whether the final image of every scene passed. A scene's final image is the last attempt of its chain of `repair_of`; earlier attempts stay in the run folder and in the counts.
 - `host_call_records` says whether the host keeps a record of the image calls that the user can open (name it: a transcript or a log) or that none is visible to you. With none, the counts are your own, and the report says so.
 
 The counts, which the report repeats:
@@ -79,7 +91,7 @@ The counts, which the report repeats:
 | `held_images` | images that are "needs human review" or "unable to verify" |
 | `accepted_images` | images that are "identity consistent" |
 
-`new_images` plus `reused_images` always equals `accepted_images` plus `failed_images` plus `held_images`, and `new_images` never exceeds `generator_calls`. Count your calls as you make them. If the host lets you read its own record of the calls (a transcript or a log), compare it with your count and report any difference. Never fill the counts in from the files you find in a folder.
+`new_images` plus `reused_images` always equals `accepted_images` plus `failed_images` plus `held_images`, and `new_images` never exceeds `generator_calls`. `generator_calls` is `new_images` plus the calls listed in `failed_calls`: the calls are numbered 1 to `generator_calls`, each is an image row or a failed call, and none is missing or repeated. Count your calls as you make them. If the host lets you read its own record of the calls (a transcript or a log), compare it with your count and report any difference. Never fill the counts in from the files you find in a folder.
 
 ## Repository explanations
 
@@ -97,7 +109,7 @@ In Generate mode, every image in the report states these facts, each yes or no, 
 |---|---|
 | Generated | a call you made in this run returned this image, and the run record quotes the tool's answer |
 | File verified | you listed the run folder, and the saved file exists, is not empty, and is a PNG, JPEG, or WebP of plausible size |
-| Visually inspected | you opened the saved image, and the reference when one was attached, with the host's image viewer and wrote down what you saw |
+| Visually inspected | you opened the saved image, and the reference when one was attached, with the host's image viewer and recorded what you saw in `checks` and `defects` |
 
 | Verdict | It means |
 |---|---|
@@ -106,13 +118,15 @@ In Generate mode, every image in the report states these facts, each yes or no, 
 | Needs human review | the image was visually inspected and a material doubt remains that the picture does not settle |
 | Unable to verify | you could not view the image, so no visual claim is made about it |
 
-Judge conservatively (the series gate in `references/workflow/qa-checklist.md` has the detail). If any note of yours names a locked feature as present or changed (ear-like points or tufts, a mouth, a third arm, a different body), the image is "needs repair" and cannot be consistent, whatever follows the note. A hedged check ("seems", "probably", "slightly") makes it "needs human review". Say the verdict as one of these four phrases, with no qualifier: "identity consistent (slight variation)" is not a verdict, and an image that needs a qualifier is not consistent. A file check never makes an image consistent. An image you did not inspect is "unable to verify", whatever the file check says. An image you did not generate in this run is "reused", never "generated". When a series has a reference, say how it ran: "identity reference attached to every call (`<file>`, through `<input>`)" or "reference not supplied: <why>".
+Judge conservatively (the series gate in `references/workflow/qa-checklist.md` has the detail). A defect you can see (a white line, stripe, or scribble on a solid body, a mouth, ears, a tail, an extra or fused limb) makes the image "needs repair" however good the rest is. If any note of yours names a locked feature as present or changed (ear-like points or tufts, a mouth, a third arm, a different body), the image is "needs repair" and cannot be consistent, whatever follows the note. A hedged check ("seems", "probably", "slightly") makes it "needs human review". Say the verdict as one of these four phrases, with no qualifier: "identity consistent (slight variation)" is not a verdict, and an image that needs a qualifier is not consistent. A file check never makes an image consistent. An image you did not inspect is "unable to verify", whatever the file check says. An image you did not generate in this run is "reused", never "generated". When a series has a reference, say how it ran: "identity reference attached to every call (`<file>`, through `<input>`)" or "reference not supplied: <why>".
 
 ## Delivery report
 
 The report goes in your reply. A file may repeat it and never replaces it: the run, its counts, the reference mode, and every image's facts and verdict are what the user reads first. Keep it short:
 
 - the run folder and its counts in one line, for example "run-20261019-143502-7f3a: 6 image-tool calls, 6 new images, 0 reused, 2 failed, 0 held, 4 accepted", and whether the host keeps a record of the calls that can be opened, or the counts are your own;
+- the repairs used (`repairs.used` of six) and, for every image that still fails, the defect you saw and whether the repair limit was reached;
+- who reviewed the images (`reviewed_by`) and what that means: a review by the agent that made them is a self-assessment that can miss a defect, so say so, and when the archetype has a reference, tell the user to compare the images with it;
 - the archetype, plus its status when it is not `active`;
 - for each image: file name, placement, the idea it carries, and its facts and verdict (above), grouped as accepted, failed, held, and reused;
 - the reference mode of a series, as above;
@@ -122,7 +136,7 @@ The report goes in your reply. A file may repeat it and never replaces it: the r
 - for a repository: where the source came from, how much of it you read, and what to ask for next;
 - when the archetype's folder held earlier output: one line saying that it was left untouched and is not part of this delivery.
 
-Call a series consistent only when every image of the run is accepted. Otherwise say how many passed and how many did not, and never describe the run as a successful consistency check. The counts you give must agree with the calls you made.
+Call a series consistent only when the final image of every scene is accepted. Otherwise say how many scenes passed and how many did not, name the defect of each that did not, list the rejected attempts, and never describe the run as a successful consistency check. The counts you give must agree with the calls you made.
 
 For a third-party archetype, add the rights note from its `prompts.md`: credit and restrictions. For gated archetypes, also state that the images are for use within the user's own authorization and must not be published without it. For experimental archetypes, say that the pack is experimental.
 
