@@ -6,8 +6,8 @@ Archetype `xiaohei` (Xiaohei), status `active`. Output folder: `assets/<article-
 
 Use the shared shot list from `references/workflow/concept-extraction.md`. The actor is always Xiaohei. Add:
 
-- **Xiaohei action**: the physical job Xiaohei performs, such as "pulls the judgment lever" or "presses a stack into one sheet".
-- **Pattern**: one from `motion-and-acting.md`.
+- **Xiaohei's part**: what Xiaohei does in this picture. It acts on an object ("pulls the judgment lever", "presses a stack into one sheet"), or it guides (stands beside the flow and points at the step to read), observes (watches the hand-off), or accompanies (walks beside the card). A picture of how something works needs no machine: the labeled places carry the idea.
+- **Pattern**: one from `motion-and-acting.md`, or the plain scene.
 - **Accents**: which of red, orange, and blue the image needs; often only one.
 - **Reference image**: whether `xiaohei.png` is attached (the image tool takes images) or not, decided once for the whole series.
 - **Series contract**: for two or more images, the Character paragraph below is copied word for word into every prompt, `xiaohei.png` is attached to every call, and the reference sentence is kept in every prompt (or deleted from every prompt when no image can be attached).
@@ -15,7 +15,7 @@ Use the shared shot list from `references/workflow/concept-extraction.md`. The a
 
 ## Generation prompt
 
-Replace every bracketed field; one prompt per image. The prompt is plain English and tool-agnostic, so it works as written in DALL-E 3, GPT image models, Flux, and Midjourney. When the image tool accepts reference images, attach `references/archetypes/xiaohei/xiaohei.png` as the identity and style reference and keep the reference sentence; otherwise delete that sentence.
+Replace every bracketed field; one prompt per image. The prompt is plain English and tool-agnostic, so it works as written in DALL-E 3, GPT image models, Flux, and Midjourney. When the image tool accepts reference images, attach `references/archetypes/xiaohei/xiaohei.png` as the identity and style reference and keep the reference sentence; otherwise delete that sentence. Say each object, label, and accent once, in the field where it belongs (`references/workflow/prompt-assembly.md`).
 
 ```text
 Generate one standalone [16:9] horizontal article illustration.
@@ -24,13 +24,11 @@ Style: minimalist hand-drawn explainer sketch on a pure white background. Thin b
 
 Character: Xiaohei, one small figure drawn exactly the same way in every image. [Reference sentence: Image 1 is Xiaohei's identity and style reference: draw this exact character in a new pose and scene, and do not copy the reference's pose, props, or layout.] Body: a single solid black body shaped like a smooth rounded dome or bean, a little taller than wide, filled with perfectly flat, uniform black ink (no hatching, scribbles, texture, or fur inside it) and a slightly irregular hand-drawn outline, with nothing sticking out of the top or the sides except the limbs. Face: two small round plain white dot eyes set side by side in the upper third of the body, each about one eighth as wide as the body, with no pupils, highlights, eyelashes, or eyebrows, and no nose or mouth; a deadpan expression: blank, calm, completely serious. The two eyes are the only white on the body: no white lines, outlines, or marks. Legs: exactly two thin legs, each one single black ink stroke about a third as long as the body is tall, with a tiny foot tick. Arms: only if the action needs them, at most two, each one thin single black ink stroke that leaves the body at its side outline and never crosses the front of the black fill, with no hands, fingers, gloves, or mittens. Xiaohei is not a cat or any other animal: no ears, no horns, no tufts or bumps on the head, no tail, no snout or whiskers, no fur, no clothes, no shoes, no accessories. Never thick, doubled, fused, hollow, or extra limbs. Not cute, not a mascot sticker, not a children's cartoon.
 
-Action: Xiaohei performs the core conceptual action: [physical job], caught at its decisive moment. Xiaohei's body and gaze point at the object it is changing. The metaphor must lose its meaning if Xiaohei is removed.
+Action: Xiaohei [its part: acts on an object, or guides, observes, or accompanies the flow], caught at its decisive moment. Xiaohei's body and gaze point at what the reader should look at.
 
 Scene: [core idea in one sentence].
 
-Composition: [pattern]. [Positions of Xiaohei and two to four supporting objects, and what Xiaohei does with which.] Spread elements across the canvas horizontally and vertically.
-
-Supporting objects: [two to four low-tech objects in thin line art].
+Composition: [pattern or plain scene]. [Where Xiaohei and the two to four low-tech objects sit, in the order of the flow, and what Xiaohei does with which.] Spread elements across the canvas horizontally and vertically, with every object beside or behind Xiaohei so that nothing crosses its black body.
 
 Visible handwritten labels, copied exactly in the user's language: ["label 1", "label 2", "label 3"]. Short, separated, thin handwritten black strokes that match the linework. Copy non-Latin scripts exactly; do not translate them.
 
@@ -46,7 +44,7 @@ Rights note: [append the rights note from this file].
 For tools with a negative-prompt field, or Midjourney's `--no` parameter, pass this list as well. Tools without one, such as DALL-E 3, rely on the Constraints line above and the Character paragraph.
 
 ```text
-cat, cat ears, animal ears, ears, horns, antennae, tufts, bumps on the head, tail, whiskers, snout, muzzle, nose, mouth, fur, hatching, texture, grey fill, pupils, iris, sparkling eyes, eyelashes, eyebrows, smile, blush, extra limbs, thick limbs, doubled limbs, fused limbs, hollow limbs, white outline on an arm, white line across the body, arm drawn over the front of the body, fingers, gloves, mittens, shoes, costume, hat, cute mascot, kawaii, chibi, sticker, emoji, children's book, cartoon poster, glossy, 3D render, shading, gradient, drop shadow, paper texture, beige background, grey background, vector art, thick outlines, logo, title text, infographic, flowchart, slide, UI screenshot, watermark, signature
+cat, cat ears, animal ears, ears, horns, antennae, tufts, bumps on the head, tail, whiskers, snout, muzzle, nose, mouth, fur, hatching, texture, grey fill, pupils, iris, sparkling eyes, eyelashes, eyebrows, smile, blush, extra limbs, thick limbs, doubled limbs, fused limbs, hollow limbs, white outline on an arm, white line across the body, arm drawn over the front of the body, object or belt across the body, fingers, gloves, mittens, shoes, costume, hat, cute mascot, kawaii, chibi, sticker, emoji, children's book, cartoon poster, glossy, 3D render, shading, gradient, drop shadow, paper texture, beige background, grey background, vector art, thick outlines, logo, title text, infographic, flowchart, slide, UI screenshot, watermark, signature
 ```
 
 ### Tool notes
@@ -68,10 +66,10 @@ Add this paragraph directly after the Action paragraph of the same prompt, with 
 Correction: Xiaohei must match Image 1 exactly. [Fix one fault per sentence, for example: The top of the body is one smooth dome with nothing on it, no ears. Xiaohei has exactly two thin legs, each a single stroke. The eyes are two plain white dots with no pupils. The body is flat solid black with no hatching.]
 ```
 
-### Make Xiaohei the actor
+### Give Xiaohei a part
 
 ```text
-Regenerate the image with the same core idea, labels, pure white background, and thin black hand-drawn style, but make Xiaohei perform the central action: [physical job, for example pulling the judgment lever, weighing two options on a scale, or pressing a stack into one sheet]. Keep Xiaohei's solid black body, white dot eyes, thin legs, and deadpan expression. The metaphor must depend on Xiaohei's action, not on arrows or labels beside it.
+Regenerate the image with the same core idea, labels, pure white background, and thin black hand-drawn style, but give Xiaohei a part at the point of the idea: [its part, for example pulling the judgment lever, pointing at the step that matters, or watching the hand-off]. Keep Xiaohei's solid black body, white dot eyes, thin legs, and deadpan expression. The picture must depend on Xiaohei's part, not on arrows or labels beside it.
 
 Rights note: [append the rights note from this file].
 ```
@@ -90,7 +88,8 @@ Check every image against `references/workflow/qa-checklist.md`, then:
 
 - Pure white background with thin black hand-drawn linework; at least 35% empty.
 - Xiaohei is recognizable: solid black body, white dot eyes, thin legs, and deadpan expression, all present.
-- Xiaohei performs the central action; removing it breaks the metaphor.
+- Xiaohei has a part at the point of the idea: it acts on an object, or guides, observes, or accompanies the flow. It is not parked in a corner, and it need not operate a machine in every picture.
+- No object, belt, bar, or surface crosses Xiaohei's body: a solid body that reads as two shapes fails the Body check.
 - Accents are sparing: red only for key notes or results, orange only for the main flow, blue only for secondary or system-state notes.
 - At most five to eight short handwritten labels in the user's language, and no title.
 - The plan, every prompt, and the delivery report carry the rights note.
@@ -103,7 +102,7 @@ Open the saved image next to `xiaohei.png` and answer each row with what you see
 
 | Check | A pass looks like | Reject when |
 |---|---|---|
-| Body | one flat black dome or bean, a smooth top, a little taller than wide, with no white on it but the two eyes | corners, points, ears, horns, tufts, bumps, a funnel, hole, box, or shadow shape, hatching, grey, a gradient, fur, a white line, outline, or halo on the black |
+| Body | one flat black dome or bean, a smooth top, a little taller than wide, with no white on it but the two eyes | corners, points, ears, horns, tufts, bumps, a funnel, hole, box, or shadow shape, hatching, grey, a gradient, fur, a white line, outline, or halo on the black, an object, belt, bar, or surface drawn across it so that it reads as two shapes |
 | Top of the head | one smooth curve with nothing on it | anything on top: ears, antennae, a hat, an arm that reads as an ear |
 | Eyes | two small round plain white dots, side by side in the upper third, each about one eighth as wide as the body | pupils, irises, highlights, colored or sparkling eyes, one or three eyes, eyebrows, pinpoint eyes far smaller than the reference's |
 | Face | no mouth, nose, or whiskers; blank and serious | a smile, a mouth, a nose, a snout, blush, an animal face |
@@ -116,7 +115,7 @@ Open the saved image next to `xiaohei.png` and answer each row with what you see
 | Failure | Repair |
 |---|---|
 | Any row of the identity checks fails | Generate the image again with `xiaohei.png` attached and the "Correction for a series" paragraph, as `references/workflow/character-lock.md` says; never edit or attach the failed image |
-| Xiaohei is passive or decorative | "Make Xiaohei the actor", with a more physical job |
+| Xiaohei is passive or decorative | "Give Xiaohei a part", at the point of the idea |
 | Cute, glossy, or cartoon drift | "Remove cuteness" |
 | Too complex or diagram-like | Delete objects until Xiaohei and two to four supports remain; replace arrows with one loose orange path |
 | Beige, textured, shaded, or gradient background | Regenerate with the Style block, stressing the pure white background |

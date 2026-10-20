@@ -111,7 +111,7 @@ test("the review is recorded before the verdict: what was seen, every defect, an
   const section = gate.slice(gate.indexOf("## Review one image"), gate.indexOf("## Pass checks"));
   assert.match(section, /A verdict with nothing recorded behind it is not a review/);
   assert.match(section, /The tool's text \(its echo of your prompt, the path it saved\) is not the image, and what you asked for is not what was drawn/);
-  assert.match(section, /\*\*Look at the body first\.\*\* Everything inside the character's outline that is not the flat fill \(a line, a stroke, a mark, a texture, a second color\)/);
+  assert.match(section, /\*\*Look at the body first\.\*\* Everything inside the character's outline that is not the flat fill \(a line, a stroke, a mark, a texture, a second color, an object or surface drawn across it so that it reads as two shapes\)/);
   assert.match(section, /then each limb where it meets the body, and whether it crosses the body/);
   assert.match(section, /Never "ok", and never the pack's own sentence: a check that repeats the specification describes the specification, not the picture/);
   assert.match(section, /\*\*List the defects\.\*\* A defect is a rule the picture breaks: a locked feature, or a rule of the pack's style or labels, including what the plan never asked for/);

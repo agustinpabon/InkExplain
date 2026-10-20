@@ -54,13 +54,13 @@ An image earns its place when it carries a cognitive anchor, a structure the rea
 
 ## Turn the anchor into an action
 
-Every planned image needs one physical verb that *is* the idea: weigh, filter, bridge, unpack, patch, sort, hold back, hand over. Write the core idea as "[actor] [verb] [object] so that [result]". If no verb fits, the passage is a candidate for no image at all.
+Every planned image needs one physical verb that *is* the idea: weigh, filter, bridge, unpack, patch, sort, hold back, hand over. Write the core idea as "[actor] [verb] [object] so that [result]". If no verb fits, the passage is a candidate for no image at all. The verb may be the character's own (weigh, carry, stamp) or its way of leading the reader through what others do: point at the step, follow the card, watch the hand-off. In a picture of how something works, the labeled places and the card moving through them do the explaining, and the character does not have to operate a machine.
 
 ## Make the idea plain
 
 Before an image is planned, say its idea the way you would to a newcomer, and test it. This matters most when the source is technical, where a picture of unrelated objects makes the viewer decode both the objects and the jargon.
 
-1. **One idea, in plain words.** No term the reader must decode. When a technical word is the point, the picture shows what it does.
+1. **One idea, in plain words.** No term the reader must decode. When a technical word is the point, the picture shows what it does. If the sentence needs "and" between two rules or mechanisms (who may open a record, and how a total is stored), it is two ideas: draw one.
 2. **One metaphor that fits the mechanism, not only the topic.** Say "X is like Y because ...": the "because" must be true of the source. A gate for validation, a mailroom for a queue, a scale for a trade-off, a sieve for a filter. If the source does not do what the object does (there is no lock, no queue), choose another object. Then read the picture literally, as a stranger would: if the object says something the source does not (a balance says "equal", a stamp says "approved", a lock says "secure"), draw the plain scene instead.
 3. **The decisive action is visible.** A viewer can say what the actor is doing, and why it matters, without reading the labels.
 4. **The fewest props.** Usually two to four, each standing for one real thing. Nothing is there to fill space.
@@ -76,7 +76,7 @@ The check: someone who has not read the source can say the idea in one sentence 
 - A single idea: one image.
 - A short post: one to three images.
 - A long article: usually four to eight; rarely more than nine.
-- Never illustrate a passage just to fill space. Fewer, stronger images beat even coverage.
+- Never illustrate a passage just to fill space. Fewer, stronger images beat even coverage. The count comes from the ideas worth drawing, never the other way: do not add a picture to reach a number, to cover a section, or to close a series.
 
 ## Shot list
 
@@ -86,7 +86,7 @@ Plan before generating. For each image, give:
 2. **Core idea**: one sentence the image must make obvious.
 3. **Facts that must hold**: one to three things the picture could get wrong and a reader would take away: a number or an equality, who does what, the order of stages, what a label names, a limit that must not be overstated. State each so that the picture can contradict it, write them before the prompt, and give the prompt each one in plain words. No picture of a technical concept is planned without them.
 4. **Structure type**: one type from `references/workflow/composition-grid.md`.
-5. **Actor and action**: who or what performs the central action, and the physical action itself.
+5. **Actor and action**: who or what performs the central action, and the action itself; and the character's part in it: it performs the action, or guides, observes, or accompanies it.
 6. **Supporting objects**: one to four low-tech objects that carry the metaphor (a pack's own count wins).
 7. **Visible labels**: two to six short labels in the user's language. Take them from the source's own words; for a single idea, choose one to three words each from its key nouns, and tell the user which you chose. Use the fewest words and numbers the facts need: each one is another chance to say something false, and a number is on the picture only when it is the point, written exactly in the prompt, with its arithmetic true.
 8. **File name**: `NN-topic-slug.png`.

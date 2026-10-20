@@ -1,6 +1,6 @@
 # Xiaohei Identity
 
-Xiaohei is a small, serious, slightly absurd worker: a solid-black figure that runs part of the system the image explains. It is not decoration or a cute sticker. It appears in every image of this archetype and performs the central action.
+Xiaohei is a small, serious, slightly absurd worker: a solid-black figure that runs part of the system the image explains. It is not decoration or a cute sticker. It appears in every image of this archetype and has a part in the idea: it acts on the object, or guides, observes, or accompanies the flow.
 
 `references/archetypes/xiaohei/xiaohei.png` is the bundled identity reference: a crop of one of its creator's own drawings (the source and the license are in `rights.md`). It defines who Xiaohei is, never a pose, a prop, or a layout. It also shows things that are not identity: a faint ink texture in the lower body (the fill is flat black), the sign and its pole, and a short stroke at its lower left, which is the second arm hanging at rest.
 
@@ -27,7 +27,7 @@ Markers: solid black body, white dot eyes, thin legs, deadpan expression, and th
 
 - All four registry markers (solid black body, white dot eyes, thin legs, deadpan expression) are required in every image.
 - Xiaohei keeps the same body shape, eye design, limb weight, and size class across a set. Only its pose and what it handles change.
-- Removing Xiaohei must break the metaphor. If the idea still reads without it, Xiaohei is decoration; rewrite the action so Xiaohei performs it.
+- Xiaohei has a part in the idea. If the picture reads the same with Xiaohei moved to another scene, Xiaohei is decoration: give it a part at the point of the idea (it acts on the object, or guides, observes, or accompanies the flow).
 
 ## Failure modes
 
@@ -37,8 +37,9 @@ Markers: solid black body, white dot eyes, thin legs, deadpan expression, and th
 - Face drift: pupils, highlights, or colored or sparkling eyes instead of plain white dot eyes; a mouth, nose, or eyebrows.
 - Texture: hatching, scribbles, fur, grey, or a gradient inside the body, including copying faint ink marks from the reference. The fill is one flat black.
 - White on the body: a white line, outline, or halo where an arm crosses the black fill. Draw the arm from the side outline instead, so the only white on the body is the two eyes.
+- Split body: a belt, bar, rail, pipe, or desk edge drawn across the front of the body, so that the black fill reads as two shapes. Draw each object beside Xiaohei or behind it.
 - Proportion drift: pinpoint eyes, stubby legs, or a body that shrinks to a small figure in a big scene, against the reference's eyes about one eighth of the body wide and legs about a third as long as the body is tall.
 - Cute drift: a rounded, glossy, big-eyed mascot, a smile, blush, a costume, or a sticker or emoji look.
 - Children's-cartoon or commercial-illustration rendering, or a body so polished it reads as a brand character.
-- Passive placement: Xiaohei stands in a corner watching while arrows, props, or labels carry the idea.
+- Passive placement: Xiaohei stands in a corner, looking at nothing the picture explains, while arrows, props, or labels carry the idea. A Xiaohei beside the step that matters, turned toward it or pointing at it, is guiding, not passive.
 - Xiaohei crowds the structure: so large or detailed that the idea it explains is lost.

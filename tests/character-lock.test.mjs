@@ -157,6 +157,30 @@ test("a series of prompts shares one Character paragraph, whatever the scenes, a
   assert.ok(xiaoheiPrompts.includes("Correction: Xiaohei must match Image 1 exactly."), "the pack ships the correction form");
 });
 
+// A repository run on this pack had Xiaohei operate something in three of four pictures, a belt crossed its body, and
+// each prompt named the same objects and labels in five fields (docs/evaluation.md). The template now says less and
+// allows more, and the identity paragraph does not move.
+test("the Xiaohei template lets Xiaohei guide or observe, keeps objects off its body, places the objects once, and leaves the identity paragraph as it was", () => {
+  const character = paragraphOf(template, "Character");
+  assert.equal(crypto.createHash("sha256").update(character).digest("hex"), "4e497b967480e0e901783367a81022ebfa90fef78d6885007e3d2d959f414dcf", "the Character paragraph is invariant: change it only to change who Xiaohei is");
+  assert.match(paragraphOf(template, "Action"), /^Action: Xiaohei \[its part: acts on an object, or guides, observes, or accompanies the flow\], caught at its decisive moment\. Xiaohei's body and gaze point at what the reader should look at\.$/);
+  assert.doesNotMatch(template, /performs the core conceptual action|must lose its meaning if Xiaohei is removed/);
+  assert.equal(paragraphOf(template, "Supporting objects"), undefined, "the objects are placed once, in the composition");
+  assert.match(paragraphOf(template, "Composition"), /with every object beside or behind Xiaohei so that nothing crosses its black body\.$/);
+  // The helper still finds the action slot of the new line.
+  const { prompt } = assemblePrompt(repo, xiaohei, { concept: "A request passes through two places in order.", action: "points at the second place", labels: ["one", "two"] });
+  assert.ok(prompt.includes("Action: Xiaohei points at the second place, caught at its decisive moment. Xiaohei's body and gaze point at what the reader should look at."));
+  assert.equal(paragraphOf(prompt, "Character"), character);
+  // A body that reads as two shapes is a defect wherever the agent looks first.
+  assert.match(xiaoheiPrompts, /an object, belt, bar, or surface drawn across it so that it reads as two shapes/);
+  assert.match(gate, /an object or surface drawn across it so that it reads as two shapes/);
+  assert.match(lock, /a belt, bar, rail, pipe, or desk edge drawn in front of the body cuts the black fill in two/);
+  assert.match(xiaoheiIdentity, /Split body: a belt, bar, rail, pipe, or desk edge drawn across the front of the body/);
+  // What the agent writes into the fields says each thing once, and the skill says it where it is always read.
+  assert.match(workflow("prompt-assembly.md"), /What you write into the fields says each thing once\. Name an object where it is placed \(the composition\), a label in the labels field, and an accent where it is used/);
+  assert.match(skill, /each object, label, and accent is named once/);
+});
+
 test("the pack's identity checks cover each thing the real series got wrong, and an unanswerable row fails", () => {
   const checks = xiaoheiPrompts.slice(xiaoheiPrompts.indexOf("### Identity checks"), xiaoheiPrompts.indexOf("## Delivery notes"));
   for (const row of ["| Body |", "| Top of the head |", "| Eyes |", "| Face |", "| Legs |", "| Arms |", "| Line and fill |", "| Size |", "| Page and accents |"]) {

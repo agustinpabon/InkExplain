@@ -11,7 +11,8 @@ Character-independent rules for turning one idea into one readable picture: fram
 
 ## Focal point and flow
 
-- One focal point per image: the place where the actor touches the object that carries the idea.
+- One focal point per image: the place where the actor touches, points at, or watches the object that carries the idea.
+- Keep the character's outline whole. Objects sit beside it or behind it, and a table, belt, rail, or line passes behind the body, never across it, so that a solid body never reads as two shapes.
 - Flow reads in one direction, usually left to right, along one main arrow, path, or row of objects that runs through the focal point.
 - Inputs enter from the left third, results leave through the right third; problems and warnings sit where the flow breaks.
 - Labels sit next to what they name, outside the actor's face and hands, and never across the top as a title.

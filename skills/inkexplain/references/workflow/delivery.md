@@ -138,7 +138,7 @@ The report goes in your reply. A file may repeat it and never replaces it: the r
 - what was saved (in prompt mode, `prompts.md` and the folder the images will go in) and, for images that do not exist, "not generated: prompt mode" with the reason;
 - stability notes: the strongest images and the optional ones;
 - open issues: anything review could not fix or could not verify. In prompt mode nothing was reviewed, so say that, and list what the user should check in the renders (for example the identity markers, the label spelling, and any rule the pack asks you to confirm);
-- for a repository: where the source came from, how much of it you read, and what to ask for next;
+- for a repository: where the source came from, how much of it you read ("an overview from N of about M files", never "all the code" unless you read all of it), and what to ask for next;
 - when the archetype's folder held earlier output: one line saying that it was left untouched and is not part of this delivery.
 
 Call a series consistent only when the final image of every scene is accepted. Otherwise say how many scenes passed and how many did not, name the defect of each that did not, list the rejected attempts, and never describe the run as a successful consistency check. The counts you give must agree with the calls you made.

@@ -128,12 +128,39 @@ test("the pictures are planned from the explanation: each answers a plain questi
   assert.match(workflow("qa-checklist.md"), /For a repository: the picture answers the plain question in its shot list with the application's own things and words, and says nothing that the explanation does not support/);
 });
 
+// The same request, run again on that text, gave four pictures that were each hard to read: one gathered three
+// unrelated rules, the figure that stamps stood beside a barrier with no second person, a belt crossed its body, and the
+// fourth picture existed because "three to six is typical" (docs/evaluation.md).
+test("a picture is one idea, a workflow keeps its stages apart, the character may guide or observe, and the count follows the questions", () => {
+  const plan = method.slice(method.indexOf("## 7. Plan the pictures from the explanation"), method.indexOf("## 8. Pair every picture"));
+  assert.match(plan, /\*\*One idea per picture\.\*\* Each picture answers one question about one flow or one rule, and every object and label in it belongs to that one thing/);
+  assert.match(plan, /Rules that sit in the same file, or in the same paragraph of your explanation, are still separate ideas[^\n]*Never gather several principles into one scene/);
+  assert.match(plan, /Keep apart every stage the code keeps apart \(submit, review by someone else, approve, carry out, receive, check against the records\): one gesture or one arrow never stands for two of them/);
+  assert.match(plan, /the other people shown by the places they work at, not by more characters/);
+  assert.match(plan, /It \*\*guides\*\*[^\n]*It \*\*accompanies\*\*[^\n]*It does not have to operate a machine or handle an object in every picture/);
+  assert.match(plan, /Do not draw a picture to reach a count, to cover a module, or to close the series/);
+  assert.match(plan, /make the pictures that earn their place, say which question each missing one would have answered, and offer it/);
+  assert.doesNotMatch(plan, /Three to six pictures is typical/, "a typical count is a quota in disguise");
+  assert.match(extraction, /do not add a picture to reach a number, to cover a section, or to close a series/);
+  assert.match(skill, /Plan as many pictures as there are distinct questions and no more: fewer is fine, and a picture is never made to fill a count or to gather unrelated rules/);
+});
+
+test("an overview is not coverage: only the files that were read are called read, and the folders that were only listed are kept apart", () => {
+  const covered = method.slice(method.indexOf("## 6. Say how much you covered"), method.indexOf("## 7. Plan the pictures"));
+  assert.match(covered, /Keep two lists apart: the files you read, and the folders you only listed or counted\. Only the first may be called read, analyzed, explored, or covered/);
+  assert.match(covered, /a folder you only listed is "listed, N files", and its size is not coverage\. Opening the first lines of a file is skimming it/);
+  assert.match(covered, /"an architectural overview, from <N> of about <M> files", not "how all the code works"/);
+  assert.match(method, /A request for "all the code" is answered with an architectural overview of the files you read, called that in the first lines of the explanation and of the reply/);
+  assert.match(method, /A module whose files you only listed is Inferred at best, never Read/);
+  assert.match(skill, /A request for all the code gets an architectural overview of the files you read, named as one, with the folders you only listed kept apart from the files you read/);
+});
+
 test("every picture is paired with an explanation file that says the source, the scope as a list, the references, and where to go next", () => {
   assert.match(method, /Save `explanation\.md` in the run folder[^\n]*in the user's language, and give the same content, shortened, in the reply, starting with what the project is and what a person can do with it/);
   const template = /```text\n([\s\S]*?)\n```/.exec(method.slice(method.indexOf("## 8. Pair every picture")))[1];
   assert.deepEqual([...template.matchAll(/^## (.+)$/gm)].map((match) => match[1].split(" (")[0]), ["What it is", "What you can do with it", "How it works: <flow>", "How the code is organized", "Principles and boundaries", "Where to go next"]);
   assert.match(template, /^Source: <URL or folder>, branch <branch>, commit <short hash>, read on <date>\.$/m);
-  assert.match(template, /^Scope: Read <N> files: <path:lines, path:lines, \.\.\.>\. Only listed: <folders>\. Not read: <modules, kinds of file>\. Not checked: <running it, its tests, its deployed settings>\.$/m);
+  assert.match(template, /^Scope: An architectural overview from <N> of about <M> source files\. Read: <path:lines, path:lines, \.\.\.>\. Only listed: <folders>\. Not read: <modules, kinds of file>\. Not checked: <running it, its tests, its deployed settings>\.$/m);
   assert.match(template, /Question: the one question the picture answers\./);
   assert.match(template, /Steps: numbered, each with `path:line`\./);
   assert.match(template, /Basis: read, documented, or inferred/);
@@ -141,7 +168,7 @@ test("every picture is paired with an explanation file that says the source, the
   assert.match(delivery, /A repository explanation also saves `explanation\.md` in the run folder/);
   assert.match(delivery, /The reply opens with a shortened version of what the project is and what a person can do with it, then the pictures, then the delivery report/);
   assert.match(delivery, /The run folder holds the images, `prompts\.md`, `manifest\.json`, and, for a repository, `explanation\.md`/);
-  assert.match(delivery, /for a repository: where the source came from, how much of it you read, and what to ask for next/);
+  assert.match(delivery, /for a repository: where the source came from, how much of it you read \("an overview from N of about M files", never "all the code" unless you read all of it\), and what to ask for next/);
   assert.match(skill, /A repository also gets `assets\/<article-slug>-<suffix>\/run-<id>\/explanation\.md`, and its reply opens with what the project is and what a person can do with it/);
 });
 

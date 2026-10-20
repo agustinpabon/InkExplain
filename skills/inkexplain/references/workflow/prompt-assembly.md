@@ -25,6 +25,8 @@ Start from the archetype's generation prompt in its `prompts.md` and fill every 
 
 Keep prompts specific and compact. Describe the picture; do not explain the article to the model. Never edit the style, character, or rights-note blocks; change only the bracketed fields. Every word of the template outside a bracket stays as written: the words before and after each field, and every fixed sentence that follows one, such as the sentence about how much of the canvas the action fills and the sentence after the label list, even when it seems redundant for this image; delete only a sentence the pack marks as optional. For example, with the template line `Action: the actor performs the central action: [action], caught at its decisive moment.`, write `Action: the actor performs the central action: pours coins into the tray, caught at its decisive moment.` and neither `Action: the actor pours coins into the tray, caught at its decisive moment.` (the lead-in is gone) nor `Action: the actor performs the central action: pours coins into the tray, caught mid-pour.` (the tail is rewritten). A bracketed field can hold several sentences; the composition field usually does. Keep the template's paragraph breaks too: a line that starts a paragraph in the template (`Action:`, `Scene:`) starts one in the prompt, with a blank line before it, and the same text is sent to the image tool that is saved in `prompts.md`.
 
+What you write into the fields says each thing once. Name an object where it is placed (the composition), a label in the labels field, and an accent where it is used; the action, the scene, and the color point at them and do not list them again. All that you write into the fields is about a hundred words. The fixed blocks are never shortened: the repeats to cut are yours.
+
 The pack's template is the authority on structure. It may state a part inside another paragraph (a Style paragraph that already carries the color use and the constraints, for example); then add no separate paragraph for that part. Where the shared workflow files and a pack's own rules differ on a detail, such as how many objects to draw or how widely to spread them, the pack is the more specific and wins.
 
 ## Generating
@@ -54,7 +56,8 @@ When working inside a project, also save the prompts as `prompts.md`, so they ca
 Before generating or delivering, confirm that:
 
 - the core idea is one sentence and the scene shows it;
-- the actor performs the action;
+- the character acts, guides, observes, or accompanies, at the point where the idea is;
+- each object, label, and accent is named once;
 - labels are short, quoted, and in the user's language;
 - there is no title, structure-type text, or paragraph text;
 - the archetype's style and character blocks are intact;

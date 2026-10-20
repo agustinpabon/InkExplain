@@ -13,7 +13,7 @@ Each pack's `identity.md` lists what never changes in a series and what may.
 
 The character may lean, reach, crouch, or carry. It never becomes the prop, gains a part, loses a part, or changes style to suit a scene. If a scene seems to need that, change the scene.
 
-Pose it so that no limb has to cross the front of a solid body: a limb drawn over a solid fill shows as a white line, and that breaks the lock. Put the object on the side of the arm that reaches it, turn the figure toward it, and use one arm when one is enough.
+Pose it so that no limb has to cross the front of a solid body: a limb drawn over a solid fill shows as a white line, and that breaks the lock. Put the object on the side of the arm that reaches it, turn the figure toward it, and use one arm when one is enough. The same goes for objects: a belt, bar, rail, pipe, or desk edge drawn in front of the body cuts the black fill in two, and the body then reads as two shapes. Place each object beside the figure or behind it, and let a surface run behind the body, never across it.
 
 ## The three parts
 

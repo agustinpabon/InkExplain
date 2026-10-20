@@ -15,11 +15,13 @@ Xiaohei treats a cognitive operation as manual labor and does it with complete s
 - carrying: Xiaohei hauls raw material from one place to the next;
 - stamping: Xiaohei stamps the approved version, or the handoff note.
 
+Not every picture needs labor. When a picture shows how something works (a flow, a hand-off, what an application does), Xiaohei may guide (stand beside the flow, turned toward the step to read, one thin arm pointing at it), observe (watch the hand-off from beside the place where it happens), or accompany (walk beside the card from one place to the next). The labeled places carry the explanation, and Xiaohei leads the eye to the step that matters. Vary its part across a set: not every picture a hand on an object.
+
 ### Poses and acting
 
 - Effort lives in the whole black body and the thin legs: leaning into a lever, braced under a load, mid-step along a path.
 - Deadpan acting: the white dot eyes stay blank and calm whatever happens. The humor is a small serious creature doing a slightly absurd job.
-- Point Xiaohei's body and gaze at the object it is changing, so the eye travels from Xiaohei to the action.
+- Point Xiaohei's body and gaze at the object it is changing, or at the step it is guiding to, so the eye travels from Xiaohei to the action.
 - Xiaohei's body keeps its shape however hard it works: it tilts, crouches, or stretches, and the dome stays a dome.
 - Keep the head clear. Arms reach forward or out to the side at or below the eyes; two arms raised on either side of the head read as ears, so lift overhead only when the action needs it, with each arm one thin stroke clearly attached to the body.
 
@@ -37,6 +39,7 @@ Xiaohei treats a cognitive operation as manual labor and does it with complete s
 - **Slice the material** (repurposing, one source many uses): Xiaohei cuts one large object into useful parts for different jobs.
 - **Warning sign** (pitfalls, common mistakes): Xiaohei holds up a red warning sign beside the hole others are about to fall into.
 - **Reach and miss** (lost attention, dropped content): Xiaohei reaches out of a hole for content that slips past.
+- **Guide the flow** (workflows, hand-offs, what an application does): the places of the flow are labeled and in order, one place per stage, and Xiaohei stands beside them turned toward the step to read, or walks beside the card. The card moving through the places does the explaining.
 - **Mini comic** (failure-to-fix sequences, dry operational humor): two or three loose panels, one action each.
 
 ### Metaphor invention
@@ -53,7 +56,7 @@ Not every idea is a machine. Prefer the plainest object that does the job (a doo
 
 ## Supporting objects
 
-Xiaohei plus two to four supporting elements, drawn in thin line art with minimal fill. Add a low-tech object only when it clarifies the idea: lever, scale, press, funnel, rope, cable, bin, stamp, sign, gate, bridge, hole, conveyor, or small machine.
+Xiaohei plus two to four supporting elements, drawn in thin line art with minimal fill. Add a low-tech object only when it clarifies the idea: lever, scale, press, funnel, rope, cable, bin, stamp, sign, gate, bridge, hole, conveyor, or small machine. Place each one beside Xiaohei or behind it: a belt, rail, bar, or desk edge runs behind the body and never across it.
 
 ## Originality
 
