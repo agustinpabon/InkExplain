@@ -5,7 +5,7 @@ InkExplain makes complex ideas understandable through visual thinking. This page
 ## Principles shared by every archetype
 
 1. **One idea per image.** An illustration that explains two things explains neither.
-2. **An actor performs the idea.** A character, a hand, or a machine does something physical that *is* the idea: weighing, filtering, bridging, unpacking. If the actor could be removed without losing the meaning, it was decoration.
+2. **An actor performs the idea.** A character, a hand, or a machine does something physical that *is* the idea: weighing, filtering, bridging, unpacking. If the actor could be removed without losing the meaning, it was decoration. In a picture of how something works (a flow, a hand-off), the character may instead guide, observe, or accompany it, as long as it stands at the point of the idea.
 3. **Everyday metaphors over technical icons.** Pipes, funnels, scales, ladders, and mailboxes explain systems better than servers, dashboards, and screenshots.
 4. **Whitespace is structure.** The main action fills about half the canvas, and at least a third stays empty.
 5. **Few words, in the reader's language.** Two to six short handwritten labels; no titles, no paragraphs.
